@@ -15,7 +15,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: handycalcs-publicacion
+  group: cozypaws-redes
   cancel-in-progress: false
 jobs:
   redes:
