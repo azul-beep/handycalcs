@@ -77,7 +77,7 @@ def load_products(today):
                 links[m.group(1)] = m.group(2)
     out = []
     for r in csv.DictReader(open(os.path.join(DATA, 'productos.csv'), encoding='utf-8')):
-        live = dt.date.fromisoformat(r['dia']) + dt.timedelta(days=1)
+        live = dt.date.fromisoformat(r['dia'])  # sale el mismo día que en Etsy (la web se arma a las 2 PM de Utah)
         st = short_title(r['titulo'])
         p = dict(r, live=live, short=st, kind=kind_of(r['titulo']), slug=slug(st) + '-' + slug(r['sku']),
                  tags=[t.strip() for t in r['etiquetas'].split(',') if t.strip()],

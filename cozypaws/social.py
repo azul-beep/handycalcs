@@ -88,6 +88,8 @@ def publicar(prueba):
     state = json.load(open(STATE)) if os.path.exists(STATE) else {}
     hoy = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=7)).date()
     prods, _ = build.load_products(hoy)
+    # solo productos cuya página ya está en la web publicada (el post lleva ese link)
+    prods = [p for p in prods if os.path.exists(os.path.join(HERE, 'site', 'p', p['slug'], 'index.html'))]
     prods = sorted(prods, key=lambda p: (p['live'], p['sku']))
     redes = {
         'threads': (lambda p, img: post_threads(p, img, os.environ['THREADS_TOKEN'])) if os.environ.get('THREADS_TOKEN') else None,
