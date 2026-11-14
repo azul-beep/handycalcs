@@ -28,7 +28,7 @@ def links_de_html(carpetas):
             txt = open(f, encoding="utf-8").read()
             for u in re.findall(r'href="(https?://[^"]+)"', txt):
                 u = html.unescape(u)
-                if "handycalcs.pages.dev" in u and ("rss.xml" in u or u.endswith((".html", "/"))) and "/herramientas-gratis/" in u:
+                if "gethandycalcs.pages.dev" in u and ("rss.xml" in u or u.endswith((".html", "/"))) and "/herramientas-gratis/" in u:
                     continue  # links propios (canonical, rss): se publican de a poco
                 urls.setdefault(u, set()).add(os.path.basename(f))
     return urls

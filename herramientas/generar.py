@@ -21,7 +21,7 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
 import contenido as C  # noqa: E402
 
-URL_BASE = "https://handycalcs.pages.dev/herramientas-gratis/"
+URL_BASE = "https://gethandycalcs.pages.dev/herramientas-gratis/"
 GOTEO_DEF = os.path.normpath(os.path.join(AQUI, "..", "tools", "goteo.py"))
 
 
@@ -338,7 +338,7 @@ def main():
     ap.add_argument("--inicio", help="día 1 del goteo (AAAA-MM-DD)")
     ap.add_argument("--hoy", default=dt.date.today().isoformat())
     ap.add_argument("--goteo", default=GOTEO_DEF)
-    ap.add_argument("--pie", default="handycalcs.pages.dev")
+    ap.add_argument("--pie", default="gethandycalcs.pages.dev")
     ap.add_argument("--sin-pins", action="store_true")
     ap.add_argument("--ga4", default="", help="ID de GA4 (G-...)")
     ap.add_argument("--pixel", default="", help="ID del Pixel de Meta")

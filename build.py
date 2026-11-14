@@ -6,12 +6,12 @@ from calcs import CALCS, CATS
 
 # ============================== CONFIG (edit here) ==============================
 CONFIG = dict(
-    site_url="https://handycalcs.pages.dev",   # change if Cloudflare gives another name or a domain is bought
+    site_url="https://gethandycalcs.pages.dev",   # change if Cloudflare gives another name or a domain is bought
     name="Handy Calcs",
     name_es="Handy Calcs",
     owner="Skye Solutions AI LLC",
     email="support@skyesolutionsai.com",
-    ga4="",            # e.g. G-XXXXXXXXXX
+    ga4="G-794S7HWQJS",
     pixel="",          # Meta Pixel ID, digits only
     adsense="",        # e.g. ca-pub-1234567890123456  (Auto ads, no slots needed)
     gsc_verify="",     # Google Search Console HTML-tag token (optional)
@@ -19,6 +19,7 @@ CONFIG = dict(
 )
 # Affiliate boxes. A link with an empty url is not shown.
 AMAZON_TAG = "cruxreport-20"
+INDEXNOW_KEY = "fa73deeb0b15a8fbbf4e7d3b06044329"  # public key for IndexNow (Bing, Yandex, Seznam); file served at /<key>.txt
 AMAZON_ON = False      # turn on after adding this site to the Amazon Associates account
 AFFILIATES = {
     "restaurant": [
@@ -567,6 +568,7 @@ document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('
         sm.append("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (loc, TODAY))
     sm.append("</urlset>")
     write("/sitemap.xml", "\n".join(sm) + "\n")
+    write("/%s.txt" % INDEXNOW_KEY, INDEXNOW_KEY + "\n")
     write("/robots.txt", "User-agent: *\nAllow: /\n\nSitemap: %s\n" % abs_url("/sitemap.xml"))
     if CONFIG["adsense"]:
         write("/ads.txt", "google.com, %s, DIRECT, f08c47fec0942fa0\n" % CONFIG["adsense"].replace("ca-", ""))

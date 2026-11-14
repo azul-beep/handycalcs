@@ -10,7 +10,7 @@ Free bilingual (EN/ES) calculators site. Static, no build tools needed except Py
 
 - `calendarios/calendarios-AAAA/` is made by `calendarios/regenerar.py`; `build.py` copies it into `site/`, fills GA4/AdSense/privacy and adds it to the menu, footer and sitemap.
 - Drip rule (Azu): pins go out 2 or 3 a day. `rss-completo.xml` is the queue, `tools/goteo.py` writes `rss.xml` with what is already out; start days in `calendarios/goteo.json`.
-- Pinterest reads the stable feed `https://handycalcs.pages.dev/calendarios-rss.xml` (always the newest year).
+- Pinterest reads the stable feed `https://gethandycalcs.pages.dev/calendarios-rss.xml` (always the newest year).
 - GitHub Actions: `imprimibles-diario.yml` (daily at 8 AM Utah: printables + drip, file imprimibles-diario.yml) and `calendarios.yml` (every Oct 1, next year's pack). They need this folder to be a GitHub repo connected to Cloudflare Pages (build command empty, output `site`).
 
 ## Free tools guide (herramientas/) and printables (imprimibles/)
