@@ -201,15 +201,17 @@ def build_app(slug, out, config, all_prods, today):
                f'<a href="/tools/">{"Pet tools" if en else "Calculadoras (en inglés)"}</a> · <a href="/gifts/">{"Gift guides" if en else "Guías de regalos (en inglés)"}</a> · '
                f'<a href="{config["shop"]}" data-etsy="{slug}-seo" rel="noopener">Cozy Paws Etsy shop</a></p></section>')
         cfg = {'lang': lang, 'stamps': stamps, 'host': host, 'company': config['company'], 'shop': config['shop'],
-               'ads': config['adsense'] if config.get('adsense_on') else ''}
+               'ads': config['adsense'] if config.get('adsense_on') else '', 'firebase': config.get('firebase') or None}
         doc = (tpl.replace('__LANG__', lang).replace('<!--HEAD-->', head).replace('<!--SEO-->', seo)
                .replace('<!--ANALYTICS-->', analytics_js(config)).replace('/*CFG*/', 'var CFG=' + json.dumps(cfg, ensure_ascii=False) + ';')
                .replace('__OTHER_URL__', other).replace('__OTHER_LABEL__', s['other_label']))
+        if config.get('firebase'):  # cuentas (apps/cuenta.js): solo si hay proyecto Firebase cargado en build.py
+            doc = doc.replace('</body>', '<script>' + open(os.path.join(HERE, 'cuenta.js'), encoding='utf-8').read() + '</script>\n</body>')
         open(os.path.join(out, path.strip('/'), 'index.html'), 'w', encoding='utf-8').write(doc)
         open(os.path.join(out, path.strip('/'), 'manifest.webmanifest'), 'w', encoding='utf-8').write(json.dumps(manifest(slug, lang), ensure_ascii=False, indent=1))
 
     # service worker: la versión cambia solo si cambia el código de la app o las imágenes (no todos los días)
-    h = hashlib.sha1(tpl.encode())
+    h = hashlib.sha1(tpl.encode() + json.dumps(config.get('firebase')).encode() + open(os.path.join(HERE, 'cuenta.js'), 'rb').read())
     if slug == 'fun':
         for f in sorted(os.listdir(os.path.join(ASSETS, 'stamps'))):
             h.update(f.encode())
