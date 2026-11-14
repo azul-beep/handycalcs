@@ -203,7 +203,7 @@ HUB = dict(
     h1='Christmas Gift Guide for Dog Owners',
     title='Christmas Gift Guide for Dog Owners {y}: Ideas by Owner and Breed',
     desc='The {y} Christmas gift guide for dog people: gifts for dog moms, dog dads, new puppy owners, breed lovers and the dog itself, from stocking stuffers to cozy blankets.',
-    intro="Shopping for someone whose dog gets their own stocking? This guide sorts our holiday gifts by the kind of dog person you are shopping for: the proud dog mom, the outdoorsy dog dad, the brand new puppy parent, the breed superfan and the friend who just said goodbye to a good dog. Every design is original, drawn in Salt Lake City and printed on demand in the USA, and new gifts are added every day until Christmas.",
+    intro="Shopping for someone whose dog gets their own stocking? This guide sorts our holiday gifts by the kind of dog person you are shopping for: the proud dog mom, the outdoorsy dog dad, the brand new puppy parent, the breed superfan and the friend who just said goodbye to a good dog. Every design is original, designed in Salt Lake City and printed on demand in the USA by our production partners, and new gifts are added every day until Christmas.",
     dog=r'\bdogs?\b|puppy|paw|woofmas|good boy|doodle|frenchie|golden retriever|labrador|dachshund|german shepherd',
     sections=[
         dict(id='dog-mom', h2='For the dog mom', match=r'dog mom|dog mama|fur mama', guide='dog-mom-gifts',
@@ -593,7 +593,7 @@ def trust_pages(today, prods):
     ph = author_photos()
     main_img = ph[0] if ph else '/img/logo-ilustrado.png'
     gal = (f'<h2>Life with dogs</h2><div class="gal">' + ''.join(f'<img src="{p}" alt="{E(CONFIG["maker"])} with a dog" loading="lazy" width="300" height="300">' for p in ph[1:]) + '</div>') if len(ph) > 1 else ''
-    vals = ('<div class="vals"><div><b>Original designs</b>Every design is created for Cozy Paws and checked by hand. Nothing is copied from other shops.</div>'
+    vals = ('<div class="vals"><div><b>Original designs</b>Every design is created for Cozy Paws by the maker. Nothing is copied from other shops.</div>'
             '<div><b>Made to order</b>Nothing sits in a warehouse. Each piece is printed when you order it, which means less waste.</div>'
             '<div><b>Printed in the USA</b>Our production partners print and ship from the US, so gifts arrive in days, not weeks.</div>'
             '<div><b>A real person</b>Cozy Paws is a one-person shop. When you write to us, the maker answers.</div></div>')
@@ -798,7 +798,7 @@ def build(today):
                  '<div class="grid">' + ''.join(card(p, soon=f'{p["live"].strftime("%b")} {p["live"].day}') for p in upcoming) + '</div>')
     body = ('<section class="hero"><div><span class="script">Cozy Paws</span>'
             '<p class="tag">Vintage club gifts for dogs, cats &amp; the people who love them</p>'
-            '<p>Mugs, ornaments, cozy sweatshirts, blankets and goodies for the pets themselves. Original designs drawn in Salt Lake City and printed on demand in the USA.</p>'
+            '<p>Mugs, ornaments, cozy sweatshirts, blankets and goodies for the pets themselves. Original designs from Salt Lake City, printed on demand in the USA by our production partners.</p>'
             f'<a class="btn" href="{CONFIG["shop"]}" data-etsy="hero">Shop on Etsy</a><a class="btn ghost" href="/gifts/">Gift guides</a></div>'
             '<img src="/img/logo-ilustrado.png" alt="Cozy Paws Social Club logo: a sleeping dog and cat" width="340" height="340"></section>'
             + shop
