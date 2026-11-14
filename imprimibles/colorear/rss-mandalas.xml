@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>Mandalas para colorear – SITE_NAME</title>
+<link>https://SITE_URL/mandalas/</link>
+<description>Mandalas para colorear gratis en PDF tamaño carta: diseños relajantes para adultos y niños, listos para imprimir.</description>
+<language>es</language>
+<atom:link href="https://SITE_URL/rss-mandalas.xml" rel="self" type="application/rss+xml"/>
+</channel>
+</rss>

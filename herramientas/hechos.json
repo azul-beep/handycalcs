@@ -1,0 +1,23 @@
+{
+  "_como_usar": "Páginas oficiales de donde salen los datos de la guía. revisar_links.py baja cada una, guarda un hash del texto y busca las frases clave. Si una frase deja de aparecer, puede que el dato haya cambiado: revisar la página y corregir contenido.py.",
+  "paginas": [
+    {"id": "payhip_precios", "url": "https://payhip.com/pricing", "frases": ["5%", "$29", "$99"], "usa": ["payhip-gratis", "mejores-herramientas-gratis-vender-productos-digitales-2027"]},
+    {"id": "payhip_partner", "url": "https://payhip.com/partner-program", "frases": ["50%", "PayPal", "$50"], "usa": ["payhip-gratis"]},
+    {"id": "ml_free", "url": "https://blog.groupmail.io/mailerlite-free-plan-limits/", "frases": ["500", "12,000"], "usa": ["mailerlite-gratis"]},
+    {"id": "ml_aff", "url": "https://www.mailerlite.com/affiliate", "frases": ["30%", "45"], "usa": ["mailerlite-gratis"]},
+    {"id": "canva_free", "url": "https://www.stylefactoryproductions.com/blog/canva-pro-vs-free", "frases": ["5GB", "$18"], "usa": ["canva-gratis"]},
+    {"id": "canva_aff", "url": "https://www.canva.com/affiliates/", "frases": ["$36", "30 days"], "usa": ["canva-gratis"]},
+    {"id": "printify_precios", "url": "https://printify.com/pricing/", "frases": ["$24.99", "$39", "5 stores"], "usa": ["printify-gratis"]},
+    {"id": "printify_aff", "url": "https://printify.com/affiliate/", "frases": ["5%", "12", "90"], "usa": ["printify-gratis"]},
+    {"id": "etsy_fees", "url": "https://www.etsy.com/legal/fees/", "frases": ["0.20", "6.5%", "15%", "12%"], "usa": ["etsy-productos-digitales"]},
+    {"id": "etsy_aff", "url": "https://help.etsy.com/hc/en-us/articles/360000335987", "frases": ["Rakuten", "30 days"], "usa": ["etsy-productos-digitales"]},
+    {"id": "pin_rss", "url": "https://help.pinterest.com/en/business/article/auto-publish-pins-from-your-rss-feed", "frases": ["200", "24 hours"], "usa": ["pinterest-gratis"]},
+    {"id": "pin_biz", "url": "https://help.pinterest.com/en/business/article/get-a-business-account", "frases": ["free"], "usa": ["pinterest-gratis"]},
+    {"id": "ga4_ret", "url": "https://support.google.com/analytics/answer/7667196?hl=en", "frases": ["14 months", "2 months"], "usa": ["google-analytics-4-gratis"]},
+    {"id": "netlify_precios", "url": "https://www.netlify.com/pricing/", "frases": ["300"], "usa": ["hosting-gratis-cloudflare-netlify-github"]},
+    {"id": "cf_limites", "url": "https://developers.cloudflare.com/pages/platform/limits/", "frases": ["500", "20,000", "25 MiB"], "usa": ["hosting-gratis-cloudflare-netlify-github"]},
+    {"id": "gh_limites", "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits", "frases": ["1 GB", "100 GB"], "usa": ["hosting-gratis-cloudflare-netlify-github"]},
+    {"id": "kdp_regalias", "url": "https://kdp.amazon.com/en_US/help/topic/G200644210", "frases": ["35%", "70%"], "usa": ["amazon-kdp-gratis"]},
+    {"id": "amz_politicas", "url": "https://affiliate-program.amazon.com/help/operating/policies", "frases": ["24 hours"], "usa": ["amazon-kdp-gratis"]}
+  ]
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu Price Calculator: Price a Dish from Food Cost</title>
+<meta name="description" content="Price any dish from its plate cost and your target food cost percentage. Shows menu price, .99 price, gross profit and markup.">
+<link rel="canonical" href="https://handycalcs.pages.dev/menu-price-calculator/">
+<link rel="alternate" hreflang="en" href="https://handycalcs.pages.dev/menu-price-calculator/"><link rel="alternate" hreflang="es" href="https://handycalcs.pages.dev/es/calculadora-precio-de-menu/"><link rel="alternate" hreflang="x-default" href="https://handycalcs.pages.dev/menu-price-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Menu Price Calculator: Price a Dish from Food Cost">
+<meta property="og:description" content="Price any dish from its plate cost and your target food cost percentage. Shows menu price, .99 price, gross profit and markup.">
+<meta property="og:url" content="https://handycalcs.pages.dev/menu-price-calculator/">
+<meta property="og:site_name" content="Handy Calcs">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://handycalcs.pages.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f766e">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css?v=2">
+
+<script>window.HC={"ga4": "", "pixel": ""};</script>
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Menu Price Calculator", "url": "https://handycalcs.pages.dev/menu-price-calculator/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "inLanguage": "en", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Price any dish from its plate cost and your target food cost percentage. Shows menu price, .99 price, gross profit and markup."}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is a good food cost percentage?", "acceptedAnswer": {"@type": "Answer", "text": "Most restaurants aim for 28% to 35% overall. Fast casual is often lower, fine dining with expensive proteins can be higher."}}, {"@type": "Question", "name": "What is the difference between markup and food cost?", "acceptedAnswer": {"@type": "Answer", "text": "Food cost is cost divided by price (30%). Markup is how much you add on top of cost (233% in the same example)."}}, {"@type": "Question", "name": "Should prices end in .99?", "acceptedAnswer": {"@type": "Answer", "text": "Charm pricing (.99 or .95) is common in casual places. Upscale menus often use whole numbers without the dollar sign."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Handy Calcs", "item": "https://handycalcs.pages.dev/"}, {"@type": "ListItem", "position": 2, "name": "Menu Price Calculator", "item": "https://handycalcs.pages.dev/menu-price-calculator/"}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="/"><span class="mark">=</span> Handy Calcs</a>
+<nav><a href="/#all">All calculators</a><a href="/calendarios-2027/free-printable-2027-calendars.html">2027 Calendars</a><a href="/es/calculadora-precio-de-menu/" hreflang="es" lang="es">Español</a></nav>
+</div></header>
+<main class="wrap">
+<nav class="crumbs"><a href="/">Home</a> › <a href="/#restaurant">Restaurant &amp; tips</a></nav>
+<h1>Menu Price Calculator</h1>
+<p class="lead">Set the right price for a dish from what its ingredients cost and the food cost percentage you want.</p>
+<section class="card calc"><form data-calc="menuprice" novalidate><div class="f"><label for="menuprice-cost">Cost of the plate (ingredients)</label><div class="inp hp"><span class="pre">$</span><input id="menuprice-cost" data-in="cost" type="number" inputmode="decimal" step="0.01" min="0" value="4.2"></div></div><div class="f"><label for="menuprice-target">Target food cost percentage</label><div class="inp hs"><input id="menuprice-target" data-in="target" type="number" inputmode="decimal" step="0.5" min="0" value="30"><span class="post">%</span></div></div><div class="chips" role="group"><button type="button" class="chip" data-set="menuprice-target" data-val="25">25%</button><button type="button" class="chip" data-set="menuprice-target" data-val="28">28%</button><button type="button" class="chip" data-set="menuprice-target" data-val="30">30%</button><button type="button" class="chip" data-set="menuprice-target" data-val="32">32%</button><button type="button" class="chip" data-set="menuprice-target" data-val="35">35%</button></div>
+<button class="btn wide" type="submit">Calculate</button></form>
+<div class="results"><h2 class="sr">Results</h2><div class="out big"><span>Menu price</span><strong data-out="price" aria-live="polite">—</strong></div><div class="out"><span>Price ending in .99</span><strong data-out="rounded" aria-live="polite">—</strong></div><div class="out"><span>Gross profit per plate</span><strong data-out="profit" aria-live="polite">—</strong></div><div class="out"><span>Markup</span><strong data-out="markup" aria-live="polite">—</strong></div><p class="small priv">🔒 Private: everything is calculated on your device.</p></div></section>
+<article class="content"><h2>The menu pricing formula</h2>
+<p><strong>Menu price = plate cost ÷ target food cost %</strong>. A plate that costs $4.20 in ingredients with a 30% target sells for $4.20 ÷ 0.30 = <strong>$14.00</strong>. Your gross profit on that plate is $9.80 before labor and rent.</p>
+<h2>How to get the plate cost</h2>
+<p>List every ingredient in the recipe with the amount used and its purchase price, and add them up. Include small things (oil, garnish, sauce, bread) and divide batch recipes by the number of portions. Update it when suppliers change prices.</p>
+<h2>What food cost percentage to use</h2>
+<ul><li><strong>25%–28%</strong>: pizza, pasta, breakfast and other cheap-ingredient dishes.</li>
+<li><strong>28%–32%</strong>: typical full-service restaurant target.</li>
+<li><strong>32%–40%</strong>: steaks and seafood, where a higher cost is accepted for a higher dollar profit.</li></ul>
+<p>Look at the whole menu: a low-cost appetizer can balance a premium main course.</p></article>
+
+
+<section class="content"><h2>Frequently asked questions</h2><details><summary>What is a good food cost percentage?</summary><p>Most restaurants aim for 28% to 35% overall. Fast casual is often lower, fine dining with expensive proteins can be higher.</p></details><details><summary>What is the difference between markup and food cost?</summary><p>Food cost is cost divided by price (30%). Markup is how much you add on top of cost (233% in the same example).</p></details><details><summary>Should prices end in .99?</summary><p>Charm pricing (.99 or .95) is common in casual places. Upscale menus often use whole numbers without the dollar sign.</p></details></section>
+<section class="content"><h2>Related calculators</h2><div class="rels"><a class="rel" href="/food-cost-percentage-calculator/">Food Cost Percentage Calculator</a><a class="rel" href="/recipe-scaler/">Recipe Scaler</a><a class="rel" href="/percentage-calculator/">Percentage Calculator</a></div></section>
+<section class="content embed"><details><summary>Embed this calculator on your site</summary><p class="small">Free for blogs and websites. Copy this code and paste it into your page:</p><textarea readonly rows="4" onclick="this.select()" style="width:100%;font-size:13px">&lt;iframe src=&quot;https://handycalcs.pages.dev/embed/menu-price-calculator/&quot; title=&quot;Menu Price Calculator&quot; width=&quot;100%&quot; height=&quot;720&quot; style=&quot;border:0;max-width:640px&quot; loading=&quot;lazy&quot;&gt;&lt;/iframe&gt;&lt;p style=&quot;font-size:13px&quot;&gt;&lt;a href=&quot;https://handycalcs.pages.dev/menu-price-calculator/&quot;&gt;Menu Price Calculator&lt;/a&gt; by &lt;a href=&quot;https://handycalcs.pages.dev/&quot;&gt;Handy Calcs&lt;/a&gt;&lt;/p&gt;</textarea></details></section>
+<p class="small upd">Updated: 2026-11-14</p>
+</main>
+<footer class="foot"><div class="wrap">
+<div class="fcols"><div><h3>Restaurant & tips</h3><ul><li><a href="/tip-calculator/">Tip Calculator</a></li><li><a href="/split-the-bill-calculator/">Split the Bill Calculator</a></li><li><a href="/tip-pool-calculator/">Tip Pool Calculator (by hours)</a></li><li><a href="/menu-price-calculator/">Menu Price Calculator</a></li><li><a href="/food-cost-percentage-calculator/">Food Cost Percentage Calculator</a></li></ul></div><div><h3>Kitchen & recipes</h3><ul><li><a href="/recipe-scaler/">Recipe Scaler</a></li><li><a href="/cooking-measurement-converter/">Cooking Measurement Converter</a></li><li><a href="/oven-temperature-converter/">Oven Temperature Converter</a></li></ul></div><div><h3>Work & pay</h3><ul><li><a href="/hourly-to-salary-calculator/">Hourly to Salary Calculator</a></li><li><a href="/salary-to-hourly-calculator/">Salary to Hourly Calculator</a></li><li><a href="/overtime-pay-calculator/">Overtime Pay Calculator</a></li></ul></div><div><h3>Budget & money</h3><ul><li><a href="/50-30-20-budget-calculator/">50/30/20 Budget Calculator</a></li><li><a href="/family-budget-calculator/">Family Budget Calculator</a></li><li><a href="/savings-goal-calculator/">Savings Goal Calculator</a></li><li><a href="/loan-payment-calculator/">Loan Payment Calculator</a></li></ul></div><div><h3>Everyday math</h3><ul><li><a href="/percentage-calculator/">Percentage Calculator</a></li><li><a href="/discount-calculator/">Discount Calculator</a></li><li><a href="/sales-tax-calculator/">Sales Tax Calculator</a></li><li><a href="/gas-trip-cost-calculator/">Gas Trip Cost Calculator</a></li></ul></div></div>
+<p class="small">Results are estimates for information only, not financial, legal or tax advice.</p>
+<p class="links"><a href="/calendarios-2027/free-printable-2027-calendars.html">2027 Calendars</a> · <a href="/about/">About</a> · <a href="/privacy/">Privacy policy</a> · <a href="/cookies/">Cookie policy</a> · <a href="/terms/">Terms of use</a> · <a href="/advertise/">Advertise</a> · <a href="#" data-reset-cookies>Cookie settings</a></p>
+<p class="small">© 2026 Handy Calcs · Skye Solutions AI LLC. All rights reserved.</p>
+</div></footer>
+<script src="/site.js?v=2" defer></script>
+<script src="/calc.js?v=2" defer></script>
+</body></html>

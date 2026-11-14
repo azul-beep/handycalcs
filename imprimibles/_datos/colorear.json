@@ -1,0 +1,230 @@
+{
+ "items": [
+  {
+   "cat": "animales",
+   "k": 2,
+   "seed": 47527,
+   "tipo": "animal",
+   "clave": "buho",
+   "titulo": "Dibujo de búho para colorear",
+   "slug": "buho-para-colorear",
+   "alt": "Dibujo de el búho para colorear para niños, con el nombre en letras grandes",
+   "n": 6,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "animales",
+   "k": 6,
+   "seed": 150474,
+   "tipo": "animal",
+   "clave": "conejo",
+   "titulo": "Dibujo de conejo para colorear",
+   "slug": "conejo-para-colorear",
+   "alt": "Dibujo de el conejo para colorear para niños, con el nombre en letras grandes",
+   "n": 19,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "animales",
+   "k": 1,
+   "seed": 15851,
+   "tipo": "animal",
+   "clave": "gato",
+   "titulo": "Dibujo de gato para colorear",
+   "slug": "gato-para-colorear",
+   "alt": "Dibujo de el gato para colorear para niños, con el nombre en letras grandes",
+   "n": 2,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "animales",
+   "k": 4,
+   "seed": 95041,
+   "tipo": "animal",
+   "clave": "leon",
+   "titulo": "Dibujo de león para colorear",
+   "slug": "leon-para-colorear",
+   "alt": "Dibujo de el león para colorear para niños, con el nombre en letras grandes",
+   "n": 12,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "mandalas",
+   "k": 1,
+   "seed": 7932,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 1",
+   "slug": "mandala-para-colorear-001",
+   "alt": "Mandala para colorear número 1, dibujo de líneas en blanco y negro para imprimir",
+   "n": 1,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "mandalas",
+   "k": 2,
+   "seed": 31689,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 2",
+   "slug": "mandala-para-colorear-002",
+   "alt": "Mandala para colorear número 2, dibujo de líneas en blanco y negro para imprimir",
+   "n": 4,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "mandalas",
+   "k": 3,
+   "seed": 63365,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 3",
+   "slug": "mandala-para-colorear-003",
+   "alt": "Mandala para colorear número 3, dibujo de líneas en blanco y negro para imprimir",
+   "n": 8,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "mandalas",
+   "k": 4,
+   "seed": 87122,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 4",
+   "slug": "mandala-para-colorear-004",
+   "alt": "Mandala para colorear número 4, dibujo de líneas en blanco y negro para imprimir",
+   "n": 11,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "mandalas",
+   "k": 5,
+   "seed": 110879,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 5",
+   "slug": "mandala-para-colorear-005",
+   "alt": "Mandala para colorear número 5, dibujo de líneas en blanco y negro para imprimir",
+   "n": 14,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "mandalas",
+   "k": 6,
+   "seed": 142555,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 6",
+   "slug": "mandala-para-colorear-006",
+   "alt": "Mandala para colorear número 6, dibujo de líneas en blanco y negro para imprimir",
+   "n": 18,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "paisajes",
+   "k": 1,
+   "seed": 39608,
+   "tipo": "paisaje",
+   "titulo": "Paisaje de montaña para colorear n.º 1",
+   "slug": "paisaje-montana-001",
+   "alt": "Paisaje de montañas con pinos y sol para colorear, número 1",
+   "n": 5,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "paisajes",
+   "k": 2,
+   "seed": 79203,
+   "tipo": "paisaje",
+   "titulo": "Paisaje de montaña para colorear n.º 2",
+   "slug": "paisaje-montana-002",
+   "alt": "Paisaje de montañas con pinos y sol para colorear, número 2",
+   "n": 10,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "paisajes",
+   "k": 3,
+   "seed": 118798,
+   "tipo": "paisaje",
+   "titulo": "Paisaje de montaña para colorear n.º 3",
+   "slug": "paisaje-montana-003",
+   "alt": "Paisaje de montañas con pinos y sol para colorear, número 3",
+   "n": 15,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "paisajes",
+   "k": 4,
+   "seed": 158393,
+   "tipo": "paisaje",
+   "titulo": "Paisaje de montaña para colorear n.º 4",
+   "slug": "paisaje-montana-004",
+   "alt": "Paisaje de montañas con pinos y sol para colorear, número 4",
+   "n": 20,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "geometricos",
+   "k": 1,
+   "seed": 23770,
+   "tipo": "geo_hexagonos",
+   "titulo": "Patrón geométrico para colorear: Hexágonos (1)",
+   "slug": "patron-geometrico-001",
+   "alt": "Patrón geométrico de hexágonos para colorear, lámina antiestrés en blanco y negro",
+   "n": 3,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "geometricos",
+   "k": 2,
+   "seed": 55446,
+   "tipo": "geo_flor_de_vida",
+   "titulo": "Patrón geométrico para colorear: Flor de la vida (2)",
+   "slug": "patron-geometrico-002",
+   "alt": "Patrón geométrico de flor de la vida para colorear, lámina antiestrés en blanco y negro",
+   "n": 7,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "geometricos",
+   "k": 3,
+   "seed": 102960,
+   "tipo": "geo_truchet",
+   "titulo": "Patrón geométrico para colorear: Laberinto de curvas (3)",
+   "slug": "patron-geometrico-003",
+   "alt": "Patrón geométrico de laberinto de curvas para colorear, lámina antiestrés en blanco y negro",
+   "n": 13,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "geometricos",
+   "k": 4,
+   "seed": 134636,
+   "tipo": "geo_estrellas8",
+   "titulo": "Patrón geométrico para colorear: Estrellas de mosaico (4)",
+   "slug": "patron-geometrico-004",
+   "alt": "Patrón geométrico de estrellas de mosaico para colorear, lámina antiestrés en blanco y negro",
+   "n": 17,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "animales",
+   "k": 3,
+   "seed": 71284,
+   "tipo": "animal",
+   "clave": "pez",
+   "titulo": "Dibujo de pez para colorear",
+   "slug": "pez-para-colorear",
+   "alt": "Dibujo de el pez para colorear para niños, con el nombre en letras grandes",
+   "n": 9,
+   "fecha": "2026-11-17"
+  },
+  {
+   "cat": "animales",
+   "k": 5,
+   "seed": 126717,
+   "tipo": "animal",
+   "clave": "tortuga",
+   "titulo": "Dibujo de tortuga para colorear",
+   "slug": "tortuga-para-colorear",
+   "alt": "Dibujo de la tortuga para colorear para niños, con el nombre en letras grandes",
+   "n": 16,
+   "fecha": "2026-11-17"
+  }
+ ]
+}

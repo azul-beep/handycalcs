@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /rss-completo.xml
+
+Sitemap: https://SITE_URL/sitemap.xml

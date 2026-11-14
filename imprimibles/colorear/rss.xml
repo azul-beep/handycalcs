@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+<channel>
+<title>SITE_NAME – páginas para colorear gratis</title>
+<link>https://SITE_URL/</link>
+<description>Páginas para colorear gratis en PDF: mandalas, animales, patrones y paisajes.</description>
+<language>es</language>
+<atom:link href="https://SITE_URL/rss.xml" rel="self" type="application/rss+xml" />
+</channel>
+</rss>

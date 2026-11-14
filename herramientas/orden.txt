@@ -1,0 +1,13 @@
+# Orden de salida (goteo: 2 el primer día, 3 el segundo, 2, 3...). El hub va primero.
+# Una página por línea (nombre sin .html). Para agregar páginas nuevas, ponerlas al final.
+index
+mejores-herramientas-gratis-vender-productos-digitales-2027
+payhip-gratis
+mailerlite-gratis
+canva-gratis
+pinterest-gratis
+printify-gratis
+etsy-productos-digitales
+amazon-kdp-gratis
+hosting-gratis-cloudflare-netlify-github
+google-analytics-4-gratis

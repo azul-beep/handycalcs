@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora de presupuesto familiar mensual</title>
+<meta name="description" content="Arma el presupuesto mensual de tu casa. Pon ingresos y gastos por categoría y mira cuánto te queda, cuánto gastas y cuánto va a vivienda.">
+<link rel="canonical" href="https://handycalcs.pages.dev/es/presupuesto-familiar/">
+<link rel="alternate" hreflang="en" href="https://handycalcs.pages.dev/family-budget-calculator/"><link rel="alternate" hreflang="es" href="https://handycalcs.pages.dev/es/presupuesto-familiar/"><link rel="alternate" hreflang="x-default" href="https://handycalcs.pages.dev/family-budget-calculator/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Calculadora de presupuesto familiar mensual">
+<meta property="og:description" content="Arma el presupuesto mensual de tu casa. Pon ingresos y gastos por categoría y mira cuánto te queda, cuánto gastas y cuánto va a vivienda.">
+<meta property="og:url" content="https://handycalcs.pages.dev/es/presupuesto-familiar/">
+<meta property="og:site_name" content="Handy Calcs">
+<meta property="og:locale" content="es_US">
+<meta property="og:image" content="https://handycalcs.pages.dev/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f766e">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css?v=2">
+
+<script>window.HC={"ga4": "", "pixel": ""};</script>
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Presupuesto familiar", "url": "https://handycalcs.pages.dev/es/presupuesto-familiar/", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "inLanguage": "es", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": "Arma el presupuesto mensual de tu casa. Pon ingresos y gastos por categoría y mira cuánto te queda, cuánto gastas y cuánto va a vivienda."}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Cuánto gasta una familia en supermercado?", "acceptedAnswer": {"@type": "Answer", "text": "Depende del tamaño y la ciudad; una familia de cuatro en EE. UU. suele gastar entre $900 y $1.300 por mes con un plan moderado."}}, {"@type": "Question", "name": "¿Qué porcentaje del ingreso debería ir al alquiler?", "acceptedAnswer": {"@type": "Answer", "text": "Una referencia común es 30% del ingreso neto o menos."}}, {"@type": "Question", "name": "¿Se guardan mis datos?", "acceptedAnswer": {"@type": "Answer", "text": "No. Los números quedan en tu navegador y se borran al cerrar la página."}}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Handy Calcs", "item": "https://handycalcs.pages.dev/es/"}, {"@type": "ListItem", "position": 2, "name": "Presupuesto familiar", "item": "https://handycalcs.pages.dev/es/presupuesto-familiar/"}]}</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+<a class="logo" href="/es/"><span class="mark">=</span> Handy Calcs</a>
+<nav><a href="/es/#all">Todas las calculadoras</a><a href="/calendarios-2027/">Calendarios 2027</a><a href="/imprimibles/">Imprimibles</a><a href="/family-budget-calculator/" hreflang="en" lang="en">English</a></nav>
+</div></header>
+<main class="wrap">
+<nav class="crumbs"><a href="/es/">Inicio</a> › <a href="/es/#money">Presupuesto y dinero</a></nav>
+<h1>Presupuesto familiar</h1>
+<p class="lead">Pon tus ingresos y tus gastos del mes uno al lado del otro y mira exactamente cuánto te queda.</p>
+<section class="card calc"><form data-calc="budget" novalidate><div class="f"><label for="budget-income">Ingreso mensual neto</label><div class="inp hp"><span class="pre">$</span><input id="budget-income" data-in="income" type="number" inputmode="decimal" step="10" min="0" value="5200"></div></div><div class="f"><label for="budget-housing">Alquiler o hipoteca</label><div class="inp hp"><span class="pre">$</span><input id="budget-housing" data-in="housing" type="number" inputmode="decimal" step="10" min="0" value="1600"></div></div><div class="f"><label for="budget-utilities">Servicios, teléfono, internet</label><div class="inp hp"><span class="pre">$</span><input id="budget-utilities" data-in="utilities" type="number" inputmode="decimal" step="10" min="0" value="320"></div></div><div class="f"><label for="budget-groceries">Supermercado</label><div class="inp hp"><span class="pre">$</span><input id="budget-groceries" data-in="groceries" type="number" inputmode="decimal" step="10" min="0" value="750"></div></div><div class="f"><label for="budget-transport">Auto, gasolina, transporte</label><div class="inp hp"><span class="pre">$</span><input id="budget-transport" data-in="transport" type="number" inputmode="decimal" step="10" min="0" value="450"></div></div><div class="f"><label for="budget-insurance">Seguros y salud</label><div class="inp hp"><span class="pre">$</span><input id="budget-insurance" data-in="insurance" type="number" inputmode="decimal" step="10" min="0" value="380"></div></div><div class="f"><label for="budget-debt">Pagos de deudas</label><div class="inp hp"><span class="pre">$</span><input id="budget-debt" data-in="debt" type="number" inputmode="decimal" step="10" min="0" value="250"></div></div><div class="f"><label for="budget-childcare">Cuidado de niños y escuela</label><div class="inp hp"><span class="pre">$</span><input id="budget-childcare" data-in="childcare" type="number" inputmode="decimal" step="10" min="0" value="400"></div></div><div class="f"><label for="budget-other">Todo lo demás</label><div class="inp hp"><span class="pre">$</span><input id="budget-other" data-in="other" type="number" inputmode="decimal" step="10" min="0" value="500"></div></div>
+<button class="btn wide" type="submit">Calcular</button></form>
+<div class="results"><h2 class="sr">Resultados</h2><div class="out big"><span>Te queda por mes</span><strong data-out="left" aria-live="polite">—</strong></div><div class="out"><span>Gastos totales</span><strong data-out="spent" aria-live="polite">—</strong></div><div class="out"><span>Porcentaje del ingreso gastado</span><strong data-out="spentPct" aria-live="polite">—</strong></div><div class="out"><span>Porcentaje en vivienda</span><strong data-out="housingPct" aria-live="polite">—</strong></div><p class="small priv">🔒 Privado: todo se calcula en tu dispositivo.</p></div></section>
+<article class="content"><h2>Cómo armar un presupuesto familiar en 4 pasos</h2>
+<ol><li><strong>Ingresos</strong>: suma todos los sueldos netos de la casa en un mes.</li>
+<li><strong>Gastos fijos</strong>: alquiler, seguros, cuota del auto, teléfono. Mira el resumen del banco del mes pasado.</li>
+<li><strong>Gastos variables</strong>: supermercado, gasolina, salidas. Promedia los últimos tres meses.</li>
+<li><strong>Compara</strong>: si lo que queda es negativo, recorta primero los gustos; si es positivo, dale un destino (fondo de emergencia, deudas, una meta de ahorro).</li></ol>
+<h2>Referencias sanas</h2>
+<ul><li>Vivienda en <strong>30%</strong> o menos del ingreso neto.</li>
+<li>Fondo de emergencia de <strong>3 a 6 meses</strong> de gastos.</li>
+<li>Pagos de deudas (sin hipoteca) por debajo del <strong>15%</strong>.</li></ul>
+<h2>No te olvides de los gastos irregulares</h2>
+<p>La registro del auto, cumpleaños, fiestas y la vuelta a clases aparecen todos los años. Divide el total anual por 12 y súmalo a "Todo lo demás".</p></article>
+
+
+<section class="content"><h2>Preguntas frecuentes</h2><details><summary>¿Cuánto gasta una familia en supermercado?</summary><p>Depende del tamaño y la ciudad; una familia de cuatro en EE. UU. suele gastar entre $900 y $1.300 por mes con un plan moderado.</p></details><details><summary>¿Qué porcentaje del ingreso debería ir al alquiler?</summary><p>Una referencia común es 30% del ingreso neto o menos.</p></details><details><summary>¿Se guardan mis datos?</summary><p>No. Los números quedan en tu navegador y se borran al cerrar la página.</p></details></section>
+<section class="content"><h2>Otras calculadoras</h2><div class="rels"><a class="rel" href="/es/presupuesto-50-30-20/">Presupuesto 50/30/20</a><a class="rel" href="/es/calculadora-meta-de-ahorro/">Meta de ahorro</a><a class="rel" href="/es/calculadora-cuota-prestamo/">Cuota de préstamo</a></div></section>
+<section class="content embed"><details><summary>Pon esta calculadora en tu sitio</summary><p class="small">Gratis para blogs y sitios web. Copia este código y pégalo en tu página:</p><textarea readonly rows="4" onclick="this.select()" style="width:100%;font-size:13px">&lt;iframe src=&quot;https://handycalcs.pages.dev/es/embed/presupuesto-familiar/&quot; title=&quot;Presupuesto familiar&quot; width=&quot;100%&quot; height=&quot;720&quot; style=&quot;border:0;max-width:640px&quot; loading=&quot;lazy&quot;&gt;&lt;/iframe&gt;&lt;p style=&quot;font-size:13px&quot;&gt;&lt;a href=&quot;https://handycalcs.pages.dev/es/presupuesto-familiar/&quot;&gt;Presupuesto familiar&lt;/a&gt; de &lt;a href=&quot;https://handycalcs.pages.dev/es/&quot;&gt;Handy Calcs&lt;/a&gt;&lt;/p&gt;</textarea></details></section>
+<p class="small upd">Actualizado: 2026-11-14</p>
+</main>
+<footer class="foot"><div class="wrap">
+<div class="fcols"><div><h3>Restaurante y propinas</h3><ul><li><a href="/es/calculadora-de-propinas/">Calculadora de propinas</a></li><li><a href="/es/calculadora-dividir-la-cuenta/">Dividir la cuenta</a></li><li><a href="/es/calculadora-pozo-de-propinas/">Repartir propinas por horas</a></li><li><a href="/es/calculadora-precio-de-menu/">Calculadora de precio de menú</a></li><li><a href="/es/calculadora-costo-de-comida/">Porcentaje de costo de comida</a></li></ul></div><div><h3>Cocina y recetas</h3><ul><li><a href="/es/ajustar-porciones-receta/">Ajustar porciones de una receta</a></li><li><a href="/es/conversor-medidas-de-cocina/">Conversor de medidas de cocina</a></li><li><a href="/es/conversor-temperatura-horno/">Temperatura del horno: °F a °C</a></li></ul></div><div><h3>Trabajo y sueldo</h3><ul><li><a href="/es/sueldo-por-hora-a-anual/">Sueldo por hora a anual</a></li><li><a href="/es/sueldo-anual-a-por-hora/">Sueldo anual a pago por hora</a></li><li><a href="/es/calculadora-horas-extra/">Calculadora de horas extra</a></li></ul></div><div><h3>Presupuesto y dinero</h3><ul><li><a href="/es/presupuesto-50-30-20/">Presupuesto 50/30/20</a></li><li><a href="/es/presupuesto-familiar/">Presupuesto familiar</a></li><li><a href="/es/calculadora-meta-de-ahorro/">Meta de ahorro</a></li><li><a href="/es/calculadora-cuota-prestamo/">Cuota de préstamo</a></li></ul></div><div><h3>Cuentas de todos los días</h3><ul><li><a href="/es/calculadora-de-porcentajes/">Calculadora de porcentajes</a></li><li><a href="/es/calculadora-de-descuentos/">Calculadora de descuentos</a></li><li><a href="/es/calculadora-impuesto-de-venta/">Calculadora de sales tax</a></li><li><a href="/es/calculadora-costo-gasolina-viaje/">Costo de gasolina del viaje</a></li></ul></div></div>
+<p class="small">Los resultados son estimaciones a modo informativo, no asesoramiento financiero, legal ni impositivo.</p>
+<p class="links"><a href="/calendarios-2027/">Calendarios 2027</a> · <a href="/imprimibles/">Sudoku del día y fichas bilingües</a> · <a href="/es/about/">Quiénes somos</a> · <a href="/es/privacy/">Política de privacidad</a> · <a href="/es/cookies/">Política de cookies</a> · <a href="/es/terms/">Términos de uso</a> · <a href="/es/advertise/">Publicidad</a> · <a href="#" data-reset-cookies>Configurar cookies</a></p>
+<p class="small">© 2026 Handy Calcs · Skye Solutions AI LLC. Todos los derechos reservados.</p>
+</div></footer>
+<script src="/site.js?v=2" defer></script>
+<script src="/calc.js?v=2" defer></script>
+</body></html>

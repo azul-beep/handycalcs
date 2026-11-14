@@ -1,0 +1,42 @@
+# Publicación diaria de Handy Calcs, gratis y sin Claude (regla de Azu: 2 o 3 cosas por día, nunca todo junto).
+# Todos los días a las 8 AM de Utah (15:00 UTC en invierno):
+#   1. imprimibles/generar.py diario: juego del día (sudoku + sopa de letras) y cola de fichas bilingües
+#   2. build.py: rearma la web; calendarios y guía de herramientas sueltan sus pins/páginas del día (tools/goteo.py)
+#   3. commit si cambió algo publicable -> Cloudflare Pages publica solo (proyecto conectado a este repo)
+name: Publicación diaria (imprimibles y goteo)
+on:
+  schedule:
+    - cron: "0 15 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: handycalcs-publicacion
+  cancel-in-progress: false
+jobs:
+  diario:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fuentes y librerías del sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2 fonts-inter fonts-dejavu-core fontconfig
+          fc-cache -f
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r imprimibles/requirements.txt
+      - name: Juego del día y fichas
+        run: python3 imprimibles/generar.py diario
+      - name: Rearmar la web (con goteo)
+        run: python3 build.py
+      - name: Commit si hay algo nuevo para publicar
+        run: |
+          if git diff --quiet -- site imprimibles calendarios herramientas pines ':(exclude)site/sitemap.xml' && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+            echo "Hoy no sale nada nuevo"; exit 0
+          fi
+          git config user.name "publicacion-bot"
+          git config user.email "publicacion-bot@users.noreply.github.com"
+          git add -A
+          git commit -m "Publicación diaria $(date -u +%F)"
+          git push

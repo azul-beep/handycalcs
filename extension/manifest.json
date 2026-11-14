@@ -1,0 +1,9 @@
+{
+  "manifest_version": 3,
+  "name": "Handy Calcs: Tip & Split Calculator",
+  "short_name": "Handy Calcs",
+  "version": "1.0.0",
+  "description": "Quick tip and split-the-bill calculator in your toolbar. English and Spanish. No data collected.",
+  "action": { "default_popup": "popup.html", "default_title": "Tip calculator" },
+  "icons": { "16": "icon-16.png", "48": "icon-48.png", "128": "icon-128.png" }
+}

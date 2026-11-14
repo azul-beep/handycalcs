@@ -1,0 +1,10 @@
+/archivos/*
+  Cache-Control: public, max-age=2592000
+/miniaturas/*
+  Cache-Control: public, max-age=2592000
+/*.xml
+  Cache-Control: public, max-age=3600
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN

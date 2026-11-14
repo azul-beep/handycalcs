@@ -1,0 +1,30 @@
+# Cada 1 de octubre arma los calendarios del año que viene (PDFs, pins, páginas, RSS)
+# y rearma la web. Los pins del año nuevo salen de a 2 o 3 por día desde el día siguiente.
+name: Calendarios del año que viene
+on:
+  schedule:
+    - cron: "0 15 1 10 *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: handycalcs-publicacion
+  cancel-in-progress: false
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install reportlab pillow pypdfium2
+      - run: |
+          ANIO=$(( $(date +%Y) + 1 ))
+          python3 calendarios/regenerar.py $ANIO --url https://handycalcs.pages.dev/calendarios-$ANIO/ --pie handycalcs.pages.dev --salida calendarios/calendarios-$ANIO
+          python3 build.py
+      - run: |
+          git config user.name "calendarios-bot"
+          git config user.email "calendarios-bot@users.noreply.github.com"
+          git add -A
+          git commit -m "Calendarios del año que viene" || echo "sin cambios"
+          git push

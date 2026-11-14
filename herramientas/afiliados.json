@@ -1,0 +1,15 @@
+{
+  "_como_usar": "Cuando te aprueben en un programa, pegá tu link en url_afiliado y corré generar.py. Si url_afiliado está vacío se usa url_oficial. programa=false: no hay programa de afiliados (el link sale sin rel=sponsored).",
+  "AFF_PAYHIP":     {"nombre": "Payhip",            "programa": true,  "url_afiliado": "", "url_oficial": "https://payhip.com/"},
+  "AFF_MAILERLITE": {"nombre": "MailerLite",        "programa": true,  "url_afiliado": "", "url_oficial": "https://www.mailerlite.com/"},
+  "AFF_CANVA":      {"nombre": "Canva",             "programa": true,  "url_afiliado": "", "url_oficial": "https://www.canva.com/"},
+  "AFF_PRINTIFY":   {"nombre": "Printify",          "programa": true,  "url_afiliado": "", "url_oficial": "https://printify.com/"},
+  "AFF_ETSY":       {"nombre": "Etsy",              "programa": true,  "url_afiliado": "", "url_oficial": "https://www.etsy.com/sell"},
+  "AFF_KDP":        {"nombre": "Amazon KDP",        "programa": false, "url_afiliado": "", "url_oficial": "https://kdp.amazon.com/"},
+  "AFF_NETLIFY":    {"nombre": "Netlify",           "programa": true,  "url_afiliado": "", "url_oficial": "https://www.netlify.com/"},
+  "AFF_HOSTINGER":  {"nombre": "Hostinger",         "programa": true,  "url_afiliado": "", "url_oficial": "https://www.hostinger.com/"},
+  "AFF_PINTEREST":  {"nombre": "Pinterest Business","programa": false, "url_afiliado": "", "url_oficial": "https://business.pinterest.com/"},
+  "AFF_GA4":        {"nombre": "Google Analytics",  "programa": false, "url_afiliado": "", "url_oficial": "https://analytics.google.com/"},
+  "AFF_CLOUDFLARE": {"nombre": "Cloudflare Pages",  "programa": false, "url_afiliado": "", "url_oficial": "https://pages.cloudflare.com/"},
+  "AFF_GITHUB":     {"nombre": "GitHub",            "programa": false, "url_afiliado": "", "url_oficial": "https://github.com/"}
+}
