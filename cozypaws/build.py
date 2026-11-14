@@ -28,6 +28,9 @@ CONFIG = dict(
     pinterest='https://www.pinterest.com/cozypawsgifts/',          # https://www.pinterest.com/<usuario>/ cuando exista
     ga4='G-1RSXP3PFR4',                # G-XXXXXXX (GA4 de esta web)
     pixel='',              # ID del Pixel de Meta
+    instagram='https://www.instagram.com/cozypawsgifts/',
+    facebook='https://www.facebook.com/profile.php?id=61596427566616',
+    maker='Azu',                   # nombre de la autora en la página About
     pinterest_verify='c84a6e3acb398fb108d0538381e88517',   # contenido de la etiqueta meta "p:domain_verify" para reclamar la web en Pinterest
     google_verify='snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk',      # contenido de la meta "google-site-verification" (Search Console), si se usa
     contact='support@skyesolutionsai.com',
@@ -365,6 +368,13 @@ h2:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--gol
 .calc button{font-family:Abril,Georgia,serif}.result{font-size:20px;background:#fff;border:2px dashed var(--gold);border-radius:16px;padding:16px;margin-top:10px}.names{columns:2;margin:0;padding-left:20px}
 table{border-collapse:collapse;background:var(--cream2);border-radius:12px;overflow:hidden}td,th{border:1px solid var(--line);padding:7px 14px;text-align:center}th{background:var(--blue);color:var(--cream);font-weight:600}
 .note{color:#7b6b62;font-size:14px}.tips li{margin:6px 0}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;margin-top:20px}.about .ph img{width:100%;border-radius:26px;border:6px solid var(--cream2);box-shadow:0 10px 30px rgba(59,36,51,.12)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:10px 0}.gal img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:20px;border:5px solid var(--cream2)}
+.vals{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}.vals div{background:var(--cream2);border:1px solid var(--line);border-radius:20px;padding:18px 20px}.vals b{font-family:Abril,Georgia,serif;font-weight:400;font-size:20px;color:var(--plum);display:block;margin-bottom:4px}
+.maker{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:center;background:var(--cream2);border:2px solid var(--line);border-radius:26px;padding:24px 30px;margin-top:46px}.maker img{width:200px;height:200px;object-fit:cover;border-radius:50%;border:5px solid var(--cream)}
+.contact{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}.contact a{display:block;background:var(--blue);color:var(--cream);border-radius:20px;padding:20px;text-decoration:none}.contact b{font-family:Abril,Georgia,serif;font-weight:400;font-size:21px;display:block}
+footer .links a{margin-right:12px}
+@media(max-width:760px){.about,.maker{grid-template-columns:1fr;text-align:center}.maker img{margin:0 auto;width:150px;height:150px}}
 .toc{background:var(--cream2);border:2px dashed var(--gold);border-radius:20px;padding:16px 22px;margin:22px 0}.toc b{font-family:Abril,Georgia,serif;font-weight:400;color:var(--plum)}
 .toc a{display:inline-block;margin:4px 6px 4px 0;padding:6px 13px;border-radius:99px;background:#fff;border:1.5px solid var(--line);text-decoration:none;color:var(--blue);font-size:15px}
 .ship{background:var(--blue);color:var(--cream);border-radius:20px;padding:16px 22px;margin:18px 0}.ship b{font-family:Abril,Georgia,serif;font-weight:400}
@@ -427,10 +437,11 @@ def page(path, title, desc, body, today, image=None, jsonld=None, canonical=True
 <meta name="theme-color" content="#4E7F86"><style>{CSS}</style>{ld}{analytics()}</head><body>
 <div class="bar">{bar}</div>
 <header><div class="in"><a class="brand" href="/"><img src="/img/logo-160.png" alt="" width="58" height="58"><span>Cozy Paws</span></a>
-<nav><a href="/gifts/">Gift guides</a><a href="/tools/">Pet tools</a><a class="shop" href="{CONFIG['shop']}" data-etsy="shop">Shop on Etsy</a></nav></div></header>
+<nav><a href="/gifts/">Gift guides</a><a href="/tools/">Pet tools</a><a href="/about/">About</a><a class="shop" href="{CONFIG['shop']}" data-etsy="shop">Shop on Etsy</a></nav></div></header>
 <main>{body}</main>
 <footer><div class="in"><div class="fb"><img src="/img/sello-claro.png" alt="" width="64" height="64" loading="lazy"><div><span class="script">Cozy Paws</span><br>Vintage club gifts for dogs, cats &amp; the people who love them. Designed in Salt Lake City, Utah.</div></div>
-<div><a href="{CONFIG['shop']}" data-etsy="footer">Etsy shop</a>{pin}<a href="/privacy/">Privacy</a><a href="mailto:{CONFIG['contact']}">Contact</a><br><small>© {today.year} Cozy Paws</small></div></div></footer>
+<div class="links"><a href="{CONFIG['shop']}" data-etsy="footer">Etsy shop</a>{pin}<a href="{CONFIG['instagram']}" rel="me">Instagram</a><a href="{CONFIG['facebook']}" rel="me">Facebook</a><br>
+<a href="/about/">About</a><a href="/shipping-returns/">Shipping &amp; returns</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><br><small>© {today.year} Cozy Paws</small></div></div></footer>
 <div id="cc">We use cookies for anonymous stats (Google Analytics) and ads measurement (Meta). <a href="/privacy/">Privacy</a><br><button class="y">OK</button><button class="n">No thanks</button></div>
 </body></html>"""
     if path.endswith('.html'):
@@ -519,6 +530,134 @@ def hub_page(prods, guides_live, today):
     page(f'/gifts/{HUB["id"]}/', HUB['title'].format(y=y) + ' | Cozy Paws', HUB['desc'].format(y=y)[:158], body, today,
          image=f'/img/pin/g-{HUB["id"]}.jpg', jsonld=ld)
     return dps
+
+
+# ---------------------------------------------------------------- páginas de confianza (about, envíos, preguntas, contacto)
+PAGES_UPDATED = dt.date(2026, 11, 14)
+AUTORA = os.path.join(DATA, 'autora')  # fotos de Azu con perros (jpg/png). Si no hay, se usa el logo ilustrado.
+
+
+def author_photos():
+    """Copia y achica las fotos de la autora a site/img/autora/. Devuelve las rutas web (la primera es la principal)."""
+    if not os.path.isdir(AUTORA):
+        return []
+    from PIL import Image, ImageOps
+    out = os.path.join(OUT, 'img', 'autora')
+    os.makedirs(out, exist_ok=True)
+    res = []
+    for f in sorted(os.listdir(AUTORA)):
+        if not re.search(r'\.(jpe?g|png|webp)$', f, re.I):
+            continue
+        name = re.sub(r'\.\w+$', '.jpg', slug(f.rsplit('.', 1)[0]) + '.x')
+        dst = os.path.join(out, name)
+        im = ImageOps.exif_transpose(Image.open(os.path.join(AUTORA, f))).convert('RGB')
+        im.thumbnail((1200, 1200))
+        im.save(dst, 'JPEG', quality=84, optimize=True, progressive=True)
+        res.append('/img/autora/' + name)
+    return res
+
+
+def maker_block():
+    ph = author_photos()
+    img = ph[0] if ph else '/img/logo-ilustrado.png'
+    return (f'<section class="maker"><img src="{img}" alt="{E(CONFIG["maker"])}, the maker behind Cozy Paws" loading="lazy" width="200" height="200">'
+            f'<div><span class="script" style="font-size:44px">Meet the maker</span><p>Hi, I\'m {E(CONFIG["maker"])}. I design every Cozy Paws gift in Salt Lake City, '
+            'surrounded by mountains, trail dogs and very spoiled couch potatoes. This is a one-person shop: each gift is made to order and I answer every message myself.</p>'
+            '<p><a href="/about/">Read our story →</a></p></div></section>')
+
+
+SHOP_FAQ = [
+    ('Where do I buy Cozy Paws gifts?', 'All our gifts are sold in the Cozy Paws shop on Etsy, so you check out with Etsy\'s secure payments and Etsy Purchase Protection. This website is our gift guide and catalog.'),
+    ('How long does shipping take?', 'Every item is printed when you order it. Production takes about 2 to 5 business days, and US shipping usually takes 3 to 7 business days more. Each Etsy listing shows the estimated delivery date for your address.'),
+    ('When should I order for Christmas?', 'Order physical gifts by December 10 for Christmas delivery in the US. Printables are instant downloads, so you can buy them up to Christmas Eve.'),
+    ('Do you ship outside the US?', 'International shipping depends on the product. Etsy shows the shipping options and costs for your country at checkout.'),
+    ('What if my order arrives damaged or with a print error?', 'Message us through Etsy within 30 days of delivery with a photo, and we will send a free replacement or a refund. You do not need to send the item back.'),
+    ('Can I return an item if I change my mind?', 'Because every piece is made to order just for you, we cannot accept returns or exchanges for change of mind or the wrong size. Please check the size chart in each listing before ordering.'),
+    ('How do printables work?', 'After paying on Etsy you get a download link right away. Print at home or at any print shop. Since they are digital files, printables cannot be refunded, but if a file does not open, write to us and we will fix it.'),
+    ('Can I personalize a gift with my pet\'s name?', 'Some listings have a personalization box on Etsy. If you want something different, send us a message on Etsy and we will tell you what we can do.'),
+    ('How do I care for my mug, sweatshirt or blanket?', 'Ceramic mugs are dishwasher and microwave safe. Wash sweatshirts, tees and blankets inside out in cold water and tumble dry on low so the print lasts.'),
+    ('Who makes Cozy Paws?', 'Cozy Paws is a small independent brand designed in Salt Lake City, Utah, and run by ' + CONFIG['maker'] + ' under Skye Solutions AI. Our products are printed on demand by trusted US production partners.'),
+]
+
+
+def faq_ld(faq):
+    return {'@context': 'https://schema.org', '@type': 'FAQPage',
+            'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in faq]}
+
+
+def faq_html(faq):
+    return '<div class="faq">' + ''.join(f'<details><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q, a in faq) + '</div>'
+
+
+def trust_pages(today, prods):
+    ph = author_photos()
+    main_img = ph[0] if ph else '/img/logo-ilustrado.png'
+    gal = (f'<h2>Life with dogs</h2><div class="gal">' + ''.join(f'<img src="{p}" alt="{E(CONFIG["maker"])} with a dog" loading="lazy" width="300" height="300">' for p in ph[1:]) + '</div>') if len(ph) > 1 else ''
+    vals = ('<div class="vals"><div><b>Original designs</b>Every design is created for Cozy Paws and checked by hand. Nothing is copied from other shops.</div>'
+            '<div><b>Made to order</b>Nothing sits in a warehouse. Each piece is printed when you order it, which means less waste.</div>'
+            '<div><b>Printed in the USA</b>Our production partners print and ship from the US, so gifts arrive in days, not weeks.</div>'
+            '<div><b>A real person</b>Cozy Paws is a one-person shop. When you write to us, the maker answers.</div></div>')
+    news = grid(prods[:4]) if prods else ''
+    body = (f'<p class="note"><a href="/">Home</a> › About</p><div class="about"><div><h1>Hi, I\'m {E(CONFIG["maker"])}</h1>'
+            '<p class="lead">I started Cozy Paws for people like me: the ones who plan weekends around the dog, take more photos of the cat than of themselves, and think a pet is family, full stop.</p>'
+            '<p>I live in Salt Lake City, Utah, where the mountains are ten minutes away and every trailhead is full of happy dogs. '
+            'Cozy Paws mixes two things I love: the charm of old social clubs and vintage naturalist guides, and the very real, very silly life we share with our pets. '
+            'That is where designs like the Dog Mom Club and Merry Woofmas come from.</p>'
+            '<p>Every design is made for this shop and printed on demand in the USA, so nothing is mass produced and nothing goes to waste. '
+            'I pick every product, check every mockup and answer every message myself.</p>'
+            f'<p><a class="btn" href="{CONFIG["shop"]}" data-etsy="about">Visit the shop</a><a class="btn ghost" href="/contact/">Say hi</a></p></div>'
+            f'<div class="ph"><img src="{main_img}" alt="{E(CONFIG["maker"])}, the maker behind Cozy Paws" width="520" height="520"></div></div>'
+            + gal + '<h2>What we care about</h2>' + vals
+            + (f'<h2>New in the shop</h2>{news}' if news else '')
+            + '<p class="note" style="margin-top:30px">Cozy Paws is a brand of Skye Solutions AI, a sole proprietorship based in Salt Lake City, Utah.</p>')
+    ld = {'@context': 'https://schema.org', '@type': 'AboutPage', 'name': 'About Cozy Paws', 'url': CONFIG['url'] + '/about/',
+          'mainEntity': {'@type': 'Person', 'name': CONFIG['maker'], 'image': CONFIG['url'] + main_img, 'jobTitle': 'Designer and founder',
+                         'worksFor': {'@type': 'Organization', 'name': 'Cozy Paws', 'url': CONFIG['url']}, 'homeLocation': 'Salt Lake City, Utah'}}
+    page('/about/', 'About Cozy Paws: Pet Gifts Designed in Salt Lake City', f'Meet {CONFIG["maker"]}, the maker behind Cozy Paws: original gifts for dog and cat people, designed in Salt Lake City and printed on demand in the USA.',
+         body, today, image=main_img if ph else None, jsonld=ld)
+
+    ship_faq = SHOP_FAQ[1:7]
+    body = ('<p class="note"><a href="/">Home</a> › Shipping &amp; returns</p><h1>Shipping &amp; returns</h1>'
+            '<p class="lead">All orders are placed and protected on Etsy. Here is what to expect after you order.</p>'
+            '<h2>Shipping</h2><table><tr><th>Step</th><th>Time</th></tr><tr><td>Production (made to order)</td><td>2 to 5 business days</td></tr>'
+            '<tr><td>Shipping inside the US</td><td>3 to 7 business days</td></tr><tr><td>Printables (instant download)</td><td>Right after payment</td></tr></table>'
+            '<p>Each Etsy listing shows the exact estimated delivery date for your address. You get a tracking number by email when your order ships.</p>'
+            '<div class="ship"><b>Christmas:</b> order physical gifts by December 10 for delivery in the US before Christmas.</div>'
+            '<h2>Damaged or misprinted items</h2><p>If anything arrives damaged or with a print error, message us on Etsy within 30 days of delivery with a photo. We send a free replacement or refund your order. No need to send the item back.</p>'
+            '<h2>Returns and exchanges</h2><p>Every piece is printed just for you, so we cannot accept returns or exchanges for change of mind or the wrong size. Please check the size chart in each listing before ordering. Etsy Purchase Protection covers orders that never arrive or arrive not as described.</p>'
+            '<h2>Printables</h2><p>Digital files cannot be returned. If a file does not open or print correctly, write to us and we will help right away.</p>'
+            f'<h2>Common questions</h2>{faq_html(ship_faq)}<p>More answers on the <a href="/faq/">FAQ page</a>, or <a href="/contact/">contact us</a>.</p>')
+    page('/shipping-returns/', 'Shipping and Returns | Cozy Paws', 'Cozy Paws shipping times, Christmas order deadline, damaged item replacements and return policy. All orders are protected by Etsy.',
+         body, today, jsonld=faq_ld(ship_faq))
+
+    body = (f'<p class="note"><a href="/">Home</a> › FAQ</p><h1>Frequently asked questions</h1><p class="lead">Everything about ordering, shipping and caring for your Cozy Paws gifts.</p>{faq_html(SHOP_FAQ)}'
+            '<p style="margin-top:24px">Still have a question? <a href="/contact/">Write to us</a>, we answer within one business day.</p>')
+    page('/faq/', 'FAQ: Orders, Shipping and Gifts | Cozy Paws', 'Answers about Cozy Paws orders on Etsy, shipping times, Christmas deadlines, returns, printables and product care.',
+         body, today, jsonld=faq_ld(SHOP_FAQ))
+
+    body = ('<p class="note"><a href="/">Home</a> › Contact</p><h1>Contact us</h1><p class="lead">A real person answers, usually within one business day (Monday to Friday, Mountain Time).</p>'
+            '<div class="contact">'
+            f'<a href="{CONFIG["shop"]}" data-etsy="contact"><b>Etsy messages</b>Best for questions about an order. Open the shop and tap "Message".</a>'
+            f'<a href="mailto:{CONFIG["contact"]}"><b>Email</b>{E(CONFIG["contact"])}</a>'
+            f'<a href="{CONFIG["instagram"]}" rel="me"><b>Instagram</b>@cozypawsgifts</a>'
+            f'<a href="{CONFIG["facebook"]}" rel="me"><b>Facebook</b>Cozy Paws</a>'
+            + (f'<a href="{CONFIG["pinterest"]}" rel="me"><b>Pinterest</b>Gift ideas and pins</a>' if CONFIG['pinterest'] else '')
+            + '</div><h2>Before you write</h2><p>Many answers are already in the <a href="/faq/">FAQ</a> and on the <a href="/shipping-returns/">shipping &amp; returns</a> page. '
+            'For an order, please include your Etsy order number.</p>'
+            '<p class="note">Cozy Paws, a brand of Skye Solutions AI. Salt Lake City, Utah, USA.</p>')
+    ld = {'@context': 'https://schema.org', '@type': 'ContactPage', 'name': 'Contact Cozy Paws', 'url': CONFIG['url'] + '/contact/',
+          'mainEntity': {'@type': 'Organization', 'name': 'Cozy Paws', 'email': CONFIG['contact'],
+                         'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer support', 'email': CONFIG['contact'], 'availableLanguage': ['English', 'Spanish']}}}
+    page('/contact/', 'Contact Cozy Paws', 'Questions about a gift or an order? Contact Cozy Paws by Etsy message, email, Instagram or Facebook.', body, today, jsonld=ld)
+
+    body = (f"""<p class="note"><a href="/">Home</a> › Terms</p><h1>Terms of use</h1>
+<p>This website is run by {CONFIG['company']}, a sole proprietorship in Salt Lake City, Utah (Cozy Paws brand). By using it you agree to these terms.</p>
+<p><b>Purchases.</b> We do not sell on this site. All purchases happen on Etsy and follow Etsy's terms, our Etsy shop policies and our <a href="/shipping-returns/">shipping &amp; returns</a> page. Prices on this site are for reference; the price on Etsy is the one that applies.</p>
+<p><b>Designs.</b> All Cozy Paws designs, text and images on this site are our original work and are protected by copyright. You may share links and pins, but please do not copy or resell the designs.</p>
+<p><b>Pet tools.</b> The calculators are for fun and general information only. They are not veterinary advice; ask your vet about your pet's health and diet.</p>
+<p><b>Links.</b> Links to Etsy, Pinterest, Instagram and Facebook go to sites we do not control.</p>
+<p><b>Contact.</b> <a href="mailto:{CONFIG['contact']}">{CONFIG['contact']}</a></p><p class="note">Last updated: {PAGES_UPDATED.strftime('%B')} {PAGES_UPDATED.day}, {PAGES_UPDATED.year}.</p>""")
+    page('/terms/', 'Terms of Use | Cozy Paws', 'Terms of use for the Cozy Paws website.', body, today)
 
 
 # ---------------------------------------------------------------- imágenes
@@ -664,13 +803,16 @@ def build(today):
             + shop
             + (f'<h2>Gift guides</h2><div class="stamps">{stamps}</div>' if guides_live else '')
             + (f'<h2>Free pet tools</h2><div class="tools">{tl}</div>' if tl else '')
+            + maker_block()
             + '<section class="club"><img src="/img/sello-claro.png" alt="" width="150" height="150" loading="lazy"><div><span class="script">Join the club</span>'
             '<p>Every design is made for people who let the dog on the couch and the cat on the keyboard. New gifts drop all season long.</p>'
             f'<p style="margin-top:14px"><a class="btn" style="background:var(--gold);box-shadow:0 4px 0 #8f6a1f" href="{CONFIG["shop"]}" data-etsy="club">Visit the shop</a></p></div></section>')
     page('/', 'Cozy Paws: Dog Mom and Cat Lover Gifts, Pet Christmas Gifts',
          'Original gifts for dog moms, cat lovers and their pets: mugs, ornaments, sweatshirts, blankets and pet accessories. Gift guides and free pet tools.',
          body, today, jsonld={'@context': 'https://schema.org', '@type': 'Organization', 'name': 'Cozy Paws', 'url': CONFIG['url'],
-                              'sameAs': [x for x in (CONFIG['shop'], CONFIG['pinterest']) if x]})
+                              'logo': CONFIG['url'] + '/img/logo-ilustrado.png', 'email': CONFIG['contact'],
+                              'founder': {'@type': 'Person', 'name': CONFIG['maker']},
+                              'sameAs': [x for x in (CONFIG['shop'], CONFIG['pinterest'], CONFIG['instagram'], CONFIG['facebook']) if x]})
     urls.append(('/', today))
 
     # guías
@@ -730,9 +872,13 @@ def build(today):
         page(f'/tools/{t["id"]}/', f'{t["h1"]} | Cozy Paws', t['desc'], body, today, image=f'/img/pin/t-{t["id"]}.jpg', jsonld=ld)
         urls.append((f'/tools/{t["id"]}/', t['live']))
 
+    # páginas de confianza: about, envíos y devoluciones, preguntas, contacto, términos
+    trust_pages(today, prods)
+    urls += [(u, PAGES_UPDATED) for u in ('/about/', '/shipping-returns/', '/faq/', '/contact/', '/terms/', '/privacy/')]
+
     # privacidad y 404
     page('/privacy/', 'Privacy Policy | Cozy Paws', 'How Cozy Paws uses cookies and data.', f"""<h1>Privacy policy</h1>
-<p>This website is run by {CONFIG['company']} (Cozy Paws brand). We do not sell products on this site: purchases happen on Etsy, under Etsy's own privacy policy.</p>
+<p>This website is run by {CONFIG['company']}, a sole proprietorship in Salt Lake City, Utah (Cozy Paws brand). We do not sell products on this site: purchases happen on Etsy, under Etsy's own privacy policy.</p>
 <p><b>Cookies and stats.</b> Only if you click OK in the cookie notice, we load Google Analytics (anonymous visit statistics) and the Meta Pixel (to measure ads and visits). If you click "No thanks", nothing is loaded. You can change your choice by clearing this site's data in your browser.</p>
 <p><b>Calculators.</b> The pet tools run in your browser. We do not store what you type.</p>
 <p><b>Contact.</b> <a href="mailto:{CONFIG['contact']}">{CONFIG['contact']}</a></p><p class="note">Last updated: November 14, 2026.</p>""", today)
