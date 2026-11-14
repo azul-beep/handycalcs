@@ -35,6 +35,7 @@ CONFIG = dict(
     christmas_cutoff=dt.date(2026, 12, 10),
 )
 E = html.escape
+INDEXNOW_KEY = "92ad20c14927840aeb27fd01e77c8677"  # clave pública de IndexNow (Bing y otros); cozypaws/indexnow.py avisa las páginas nuevas
 
 # ---------------------------------------------------------------- productos
 KINDS = [  # (palabra en el título, tipo en inglés)
@@ -83,6 +84,7 @@ def load_products(today):
                  tags=[t.strip() for t in r['etiquetas'].split(',') if t.strip()],
                  etsy=links.get(r['sku']) or f"{CONFIG['shop']}?search_query={quote_plus(st)}")
         p['hay'] = (r['titulo'] + ' ' + r['etiquetas']).lower()
+        p['titulo_lower'] = r['titulo'].lower()
         if not p['texto']:
             p['texto'] = f"An original Cozy Paws design on a {p['kind'].lower()}. A cozy gift for people who love their pets like family, and an easy pick for Christmas, birthdays and new pet parents."
         out.append(p)
@@ -153,6 +155,19 @@ GUIDES = [
     dict(id='pet-mugs', h1='Dog and Cat Mugs', match=r'mug|tumbler',
          intro='Coffee tastes better with a dog (or cat) on the mug. Classic white mugs, colored accent mugs, latte mugs, camping mugs and tumblers.',
          tips=['All ceramic mugs are dishwasher and microwave safe.']),
+    # guías por tipo de dueño de perro (14 nov): 'desde' las pone después de la última guía ya programada, así no corren ninguna fecha
+    dict(id='new-puppy-owner-gifts', h1='Gifts for New Puppy Owners', match=r"puppy's first|new puppy|puppy gift|puppy clothes|good dog pet bowl", desde=dt.date(2026, 12, 2),
+         intro="A new puppy changes everything: the sleep, the floors, the camera roll. Celebrate the first Christmas together with a dated keepsake ornament, a bowl with personality and something soft for the crate.",
+         tips=["A Puppy's First Christmas ornament with the year on it becomes a keepsake they hang every December.", 'Pair a gift for the owner with a gift for the puppy: it always lands.']),
+    dict(id='funny-dog-lover-gifts', h1='Funny Gifts for Dog Lovers', match=r"sorry i.m late|dog sibling|santa.s favorite|card from the dog|from the dog", desde=dt.date(2026, 12, 3),
+         intro="For the friend who is always late because the dog was comfy. Funny, kind designs that make dog people laugh at themselves, from sweatshirts to cards signed by the dog.",
+         tips=['Funny tees and sweatshirts are perfect for white elephant and Secret Santa swaps.', 'A card "from the dog" is the cheapest way to make someone cry happy tears.']),
+    dict(id='outdoorsy-dog-owner-gifts', solo_titulo=True, h1='Gifts for Outdoorsy Dog Owners', match=r'(camping|enamel|beanie|embroidered hat|baseball cap|tumbler|socks).*(dog|paw)|(dog|paw).*(camping|enamel|beanie|embroidered hat|baseball cap|tumbler|socks)', desde=dt.date(2026, 12, 4),
+         intro="For the dog owner who hikes in the snow, camps with the pup and never skips the morning walk. Camping mugs, warm beanies, caps and travel tumblers built for the trail and the trailhead.",
+         tips=['An enamel camping mug is light, tough and ready for the campfire.', 'Embroidered beanies and caps are one size fits most.']),
+    dict(id='dog-lover-stocking-stuffers', solo_titulo=True, h1='Stocking Stuffers for Dog Lovers', match=r'dog|puppy|paw|woofmas', max_dog_price=20, desde=dt.date(2026, 12, 5),
+         intro="Small gifts with big dog energy, all $20 or less: ornaments, socks, cards, stickers, gift tags and printables that fit in a stocking (or under a paw).",
+         tips=['Printables are digital: buy them on Christmas Eve and print at home.', 'Ornaments and socks are the classic stocking stuffers.']),
     dict(id='pet-stationery-and-gift-wrap', h1='Pet Stationery, Cards and Gift Wrap', match=r'wrapping|gift wrap|sticker|journal|notebook|calendar|card',
          intro='Paper goods for pet people: wrapping paper with paw prints, sticker sheets, journals, notebooks, a 2027 calendar and holiday cards.',
          tips=['The 2027 calendar is a great gift for planners.']),
@@ -160,15 +175,69 @@ GUIDES = [
 
 
 def guide_products(g, prods):
+    key = 'titulo_lower' if g.get('solo_titulo') else 'hay'  # solo_titulo: las etiquetas de gatos a veces dicen "dog lover"
+    if g.get('max_dog_price'):
+        rx = re.compile(g['match'])
+        return [p for p in prods if float(p['precio'] or 0) <= g['max_dog_price'] and rx.search(p[key])]
     if g.get('max_price'):
         return [p for p in prods if float(p['precio'] or 0) < g['max_price']]
     rx = re.compile(g['match'])
-    return [p for p in prods if rx.search(p['hay'])]
+    return [p for p in prods if rx.search(p[key])]
 
 
 def guide_live_date(g, all_prods):
     ps = sorted(guide_products(g, all_prods), key=lambda p: p['live'])
-    return ps[1]['live'] if len(ps) >= 2 else None
+    if len(ps) < 2:
+        return None
+    return max(ps[1]['live'], g.get('desde', dt.date.min))
+
+
+# ---------------------------------------------------------------- guía navideña principal para dueños de perros
+# Una sola página grande que junta todo lo de perros por tipo de dueño, raza y presupuesto. Se arma sola cada día
+# con los productos que ya están en Etsy (los que todavía no salieron no aparecen). Cada sección aparece cuando tiene productos.
+HUB = dict(
+    id='christmas-gift-guide-dog-owners', live=dt.date(2026, 11, 14),
+    h1='Christmas Gift Guide for Dog Owners',
+    title='Christmas Gift Guide for Dog Owners {y}: Ideas by Owner and Breed',
+    desc='The {y} Christmas gift guide for dog people: gifts for dog moms, dog dads, new puppy owners, breed lovers and the dog itself, from stocking stuffers to cozy blankets.',
+    intro="Shopping for someone whose dog gets their own stocking? This guide sorts our holiday gifts by the kind of dog person you are shopping for: the proud dog mom, the outdoorsy dog dad, the brand new puppy parent, the breed superfan and the friend who just said goodbye to a good dog. Every design is original, drawn in Salt Lake City and printed on demand in the USA, and new gifts are added every day until Christmas.",
+    dog=r'\bdogs?\b|puppy|paw|woofmas|good boy|doodle|frenchie|golden retriever|labrador|dachshund|german shepherd',
+    sections=[
+        dict(id='dog-mom', h2='For the dog mom', match=r'dog mom|dog mama|fur mama', guide='dog-mom-gifts',
+             text="She talks about her dog the way other people talk about their kids. Mugs for the first coffee of the day, a dated ornament, a soft sweatshirt for the 6 AM walk and a blanket for the couch the dog took over."),
+        dict(id='dog-dad', h2='For the dog dad', match=r'dog dad|gift for him|for him', guide='dog-dad-gifts',
+             text="Dog dads are hard to shop for until you remember the only thing they never stop talking about. Tees, beanies, caps and a camping mug he will actually use."),
+        dict(id='breeds', h2='By breed', match=r'golden retriever|labrador|frenchie|french bulldog|german shepherd|dachshund|doodle', breeds=True,
+             text="Breed people are a club of their own. Golden, Lab, Frenchie, German Shepherd, Dachshund or Doodle: a gift with their breed on it says you pay attention."),
+        dict(id='for-the-dog', h2='Gifts for the dog itself', match=r'bandana|dog hoodie|dog sweater|pet blanket|dog blanket|pet bowl|food bowl|tank top|puppy clothes', guide='dog-clothes-and-accessories',
+             text="Yes, the dog gets a present too. A holiday bandana for the photo, a warm hoodie for winter walks, a bowl with personality or a blanket of their own."),
+        dict(id='matching', h2='Matching outfits for the family photo', match=r'matching|dog sibling', guide='matching-dog-and-owner-outfits',
+             text="The holiday card is better when the dog matches. Dog hoodies, kids tees, tank tops and plaid pajamas designed to be worn together."),
+        dict(id='new-puppy', h2='For new puppy owners', match=r"puppy's first|new puppy|puppy gift|puppy clothes|good dog pet bowl", guide='new-puppy-owner-gifts',
+             text="The first Christmas with a new puppy only happens once. A dated keepsake ornament and a few practical things for a house that just got a lot louder."),
+        dict(id='memorial', h2='For someone who lost a dog this year', match=r'memorial|pet loss|sympathy', guide='first-christmas-and-memorial-ornaments',
+             text="The first Christmas without a dog is hard. A memorial ornament is a gentle way to say you remember, and it gets a spot on the tree every year."),
+        dict(id='outdoors', h2='For outdoorsy dog people', match=r'camping|enamel|beanie|embroidered hat|baseball cap|tumbler|socks', guide='outdoorsy-dog-owner-gifts',
+             text="For the dog owner who hikes in the snow and never skips a walk: camping mugs, warm beanies, caps and travel tumblers."),
+        dict(id='cozy', h2='Cozy gifts for nights on the couch', match=r'blanket|throw|slippers|candle|pajama|sweatshirt|crewneck', guide='cozy-winter-gifts-pet-lovers',
+             text="Couch, blanket, dog on the feet. Plush throws, slippers, plaid pajamas and candles for the coldest weeks of the year."),
+        dict(id='funny', h2='Funny gifts for dog lovers', match=r"sorry i.m late|dog sibling|santa.s favorite|from the dog|funny", guide='funny-dog-lover-gifts',
+             text="For white elephant swaps and the friend who is always late because the dog was comfy."),
+        dict(id='stocking', h2='Stocking stuffers under $20', max_price=20, guide='dog-lover-stocking-stuffers',
+             text="Small gifts with big dog energy: ornaments, socks, stickers, cards and gift tags."),
+        dict(id='last-minute', h2='Last-minute printables', match=r'printable|instant download', guide='printable-pet-gifts',
+             text="Out of time? Printables download right after purchase, so they work even on Christmas Eve."),
+    ],
+    faq=[
+        ("What is a good Christmas gift for a dog owner?", "Pick something tied to their dog: a mug or ornament with their breed, a sweatshirt that says dog mom or dog dad, or a gift for the dog itself like a holiday bandana or a pet blanket. Personal beats expensive."),
+        ("What do you get a dog mom who has everything?", "A dated keepsake ornament, a cozy plush blanket or a funny sweatshirt. They are things she would not buy for herself, and the ornament comes back every December."),
+        ("What is a good gift for someone with a new puppy?", "A Puppy's First Christmas ornament with the year on it, plus something practical for the puppy like a bowl or a warm hoodie."),
+        ("What can I give a friend whose dog passed away?", "A memorial ornament is a gentle, lasting gift. Add a short handwritten note with a memory of their dog."),
+        ("When should I order to get it before Christmas?", "Physical gifts are printed on demand in the USA: order by December 10 for Christmas delivery in the US. Printables download instantly, so they work up to Christmas Eve."),
+        ("Where do I buy these gifts?", "Every gift is sold in the Cozy Paws shop on Etsy, with Etsy's secure checkout and purchase protection. The links on this page take you straight to each listing."),
+    ],
+)
+BREED_GUIDES = ['golden-retriever-gifts', 'labrador-gifts', 'frenchie-gifts', 'german-shepherd-gifts', 'dachshund-gifts', 'doodle-gifts']
 
 
 # ---------------------------------------------------------------- herramientas (tráfico de Google todo el año)
@@ -296,6 +365,13 @@ h2:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--gol
 .calc button{font-family:Abril,Georgia,serif}.result{font-size:20px;background:#fff;border:2px dashed var(--gold);border-radius:16px;padding:16px;margin-top:10px}.names{columns:2;margin:0;padding-left:20px}
 table{border-collapse:collapse;background:var(--cream2);border-radius:12px;overflow:hidden}td,th{border:1px solid var(--line);padding:7px 14px;text-align:center}th{background:var(--blue);color:var(--cream);font-weight:600}
 .note{color:#7b6b62;font-size:14px}.tips li{margin:6px 0}
+.toc{background:var(--cream2);border:2px dashed var(--gold);border-radius:20px;padding:16px 22px;margin:22px 0}.toc b{font-family:Abril,Georgia,serif;font-weight:400;color:var(--plum)}
+.toc a{display:inline-block;margin:4px 6px 4px 0;padding:6px 13px;border-radius:99px;background:#fff;border:1.5px solid var(--line);text-decoration:none;color:var(--blue);font-size:15px}
+.ship{background:var(--blue);color:var(--cream);border-radius:20px;padding:16px 22px;margin:18px 0}.ship b{font-family:Abril,Georgia,serif;font-weight:400}
+.more{margin-top:14px}.faq details{background:var(--cream2);border:1px solid var(--line);border-radius:14px;padding:12px 18px;margin:10px 0}.faq summary{cursor:pointer;font-weight:600;color:var(--plum)}
+.feature{display:grid;grid-template-columns:1fr 220px;gap:22px;align-items:center;background:var(--plum);color:var(--cream);border-radius:24px;padding:24px 30px;margin:24px 0;text-decoration:none}
+.feature b{font-family:Abril,Georgia,serif;font-weight:400;font-size:28px;display:block;line-height:1.15;margin-bottom:6px}.feature img{border-radius:18px;width:100%}
+@media(max-width:760px){.feature{grid-template-columns:1fr}.feature img{max-width:220px}}
 .tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}.tool{background:var(--blue);color:var(--cream);border-radius:22px;padding:22px;text-decoration:none}
 .tool b{font-family:Abril,Georgia,serif;font-weight:400;font-size:22px;display:block;margin-bottom:6px;line-height:1.2}.tool span{font-size:15px;opacity:.92}.tool:hover{background:#436f75}
 .club{display:grid;grid-template-columns:150px 1fr;gap:26px;align-items:center;background:var(--plum);color:var(--cream);border-radius:28px;padding:28px 34px;margin-top:50px}
@@ -379,6 +455,72 @@ def grid(ps):
     return '<div class="grid">' + ''.join(card(p) for p in ps) + '</div>'
 
 
+def hub_sections(prods):
+    """Secciones de la guía principal con los productos de perro ya publicados (vacías no se muestran)."""
+    dog, cat = re.compile(HUB['dog']), re.compile(r'\bcats?\b|kitty|kitten|meow')
+    # solo el título (las etiquetas de productos de gatos a veces dicen "dog lover")
+    dps = [dict(p, hay=p['titulo'].lower()) for p in prods if dog.search(p['titulo'].lower())
+           and not (cat.search(p['titulo'].lower()) and 'dog' not in p['titulo'].lower())]
+    out = []
+    for sec in HUB['sections']:
+        if sec.get('max_price'):
+            ps = [p for p in dps if float(p['precio'] or 0) <= sec['max_price']]
+        else:
+            rx = re.compile(sec['match'])
+            ps = [p for p in dps if rx.search(p['hay'])]
+        if ps:
+            out.append((sec, ps))
+    return dps, out
+
+
+def hub_page(prods, guides_live, today):
+    dps, secs = hub_sections(prods)
+    if len(dps) < 2:
+        return None
+    live_ids = {g['id'] for g, _ in guides_live}
+    y = today.year
+    toc = ''.join(f'<a href="#{s["id"]}">{E(s["h2"])}</a>' for s, _ in secs)
+    days = (CONFIG['christmas_cutoff'] - today).days
+    ship = (f'<div class="ship"><b>Shipping:</b> order physical gifts by December 10 for Christmas delivery in the US'
+            + (f' ({days} days left)' if days >= 0 else '') + '. Printables download instantly, even on Christmas Eve.</div>'
+            if today <= dt.date(today.year, 12, 24) else '')
+    body = (f'<p class="note"><a href="/">Home</a> › <a href="/gifts/">Gift guides</a> › Christmas gift guide for dog owners</p>'
+            f'<h1>{E(HUB["h1"])} ({y})</h1><p class="lead">{E(HUB["intro"])}</p>{ship}'
+            f'<nav class="toc" aria-label="Jump to"><b>Jump to:</b><br>{toc}<a href="#faq">Questions</a></nav>')
+    for sec, ps in secs:
+        body += f'<h2 id="{sec["id"]}">{E(sec["h2"])}</h2><p>{E(sec["text"])}</p>{grid(ps[:8])}'
+        if sec.get('breeds'):
+            bl = ''.join(f'<a href="/gifts/{g["id"]}/">{E(g["h1"])}</a>' for g, _ in guides_live if g['id'] in BREED_GUIDES)
+            if bl:
+                body += f'<p class="more pills">{bl}</p>'
+        elif sec.get('guide') in live_ids:
+            g = next(g for g, _ in guides_live if g['id'] == sec['guide'])
+            body += f'<p class="more pills"><a href="/gifts/{g["id"]}/">See all: {E(g["h1"])} →</a></p>'
+    faq = ''.join(f'<details><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q, a in HUB['faq'])
+    others = ''.join(f'<a href="/gifts/{g["id"]}/">{E(g["h1"])}</a>' for g, _ in guides_live)
+    body += (f'<p style="margin-top:34px"><a class="btn" href="{CONFIG["shop"]}" data-etsy="hub">See every gift on Etsy</a></p>'
+             f'<h2 id="faq">Questions dog people ask</h2><div class="faq">{faq}</div>'
+             + (f'<h2>More gift guides</h2><div class="pills">{others}</div>' if others else ''))
+    url = f'{CONFIG["url"]}/gifts/{HUB["id"]}/'
+    seen, items = set(), []
+    for _, ps in secs:
+        for p in ps:
+            if p['sku'] not in seen:
+                seen.add(p['sku']); items.append(p)
+    ld = {'@context': 'https://schema.org', '@graph': [
+        {'@type': 'BreadcrumbList', 'itemListElement': [
+            {'@type': 'ListItem', 'position': 1, 'name': 'Home', 'item': CONFIG['url'] + '/'},
+            {'@type': 'ListItem', 'position': 2, 'name': 'Gift guides', 'item': CONFIG['url'] + '/gifts/'},
+            {'@type': 'ListItem', 'position': 3, 'name': HUB['h1'], 'item': url}]},
+        {'@type': 'ItemList', 'name': f'{HUB["h1"]} {y}', 'url': url, 'numberOfItems': len(items),
+         'itemListElement': [{'@type': 'ListItem', 'position': i + 1, 'url': f'{CONFIG["url"]}/p/{p["slug"]}/', 'name': p['short']} for i, p in enumerate(items)]},
+        {'@type': 'FAQPage', 'mainEntity': [{'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in HUB['faq']]},
+    ]}
+    page(f'/gifts/{HUB["id"]}/', HUB['title'].format(y=y) + ' | Cozy Paws', HUB['desc'].format(y=y)[:158], body, today,
+         image=f'/img/pin/g-{HUB["id"]}.jpg', jsonld=ld)
+    return dps
+
+
 # ---------------------------------------------------------------- imágenes
 def make_images(all_prods, guides_live, tools_live):
     from PIL import Image, ImageDraw, ImageFont
@@ -459,6 +601,9 @@ def make_images(all_prods, guides_live, tools_live):
     for g, ps in guides_live:
         pin(os.path.join(pins_cache, 'g-' + g['id'] + '.jpg'), g['h1'], 'Original gift ideas, printed in the USA',
             [os.path.join(DATA, 'img', p['imagen']) for p in ps[:4]])
+    dps = hub_sections([p for p in all_prods if p['live'] <= HUB['live'] + dt.timedelta(days=1)])[0]
+    pin(os.path.join(pins_cache, 'g-' + HUB['id'] + '.jpg'), HUB['h1'], 'Gifts for dog moms, dog dads, new puppies and every breed',
+        [os.path.join(DATA, 'img', p['imagen']) for p in dps[:4]])
     for t in TOOLS:
         pin(os.path.join(pins_cache, 't-' + t['id'] + '.jpg'), t['h1'].split(':')[0], 'Free and instant at ' + CONFIG['url'].split('//')[1], [])
     for f in os.listdir(pins_cache):
@@ -530,11 +675,19 @@ def build(today):
 
     # guías
     gl = ''.join(f'<a class="card" href="/gifts/{g["id"]}/"><img src="/img/p/{ps[0]["sku"]}.jpg" alt="" loading="lazy" width="450" height="450"><div class="t">{E(g["h1"])}</div><div class="m"><span>{len(ps)} gift ideas</span><span class="price">→</span></div></a>' for g, ps in guides_live)
+    hub_dps = hub_sections(prods)[0] if HUB['live'] <= today else []
+    feat = (f'<a class="feature" href="/gifts/{HUB["id"]}/"><div><b>{E(HUB["h1"])} ({today.year})</b>'
+            'Ideas for dog moms, dog dads, new puppy owners, breed fans and the dog itself, sorted by owner and budget. →</div>'
+            f'<img src="/img/pin/g-{HUB["id"]}.jpg" alt="" loading="lazy" width="220" height="330"></a>') if len(hub_dps) >= 2 else ''
     page('/gifts/', 'Gift Guides for Pet Lovers | Cozy Paws', 'Gift ideas for dog moms, dog dads, cat lovers and every breed fan.',
-         f'<h1>Gift guides for pet lovers</h1><p class="lead">Ideas for every dog mom, cat dad and breed fan on your list.</p><div class="grid">{gl}</div>' if gl else '<h1>Gift guides</h1><p class="lead">The first guides open on November 17, with five new gifts a day. Meanwhile, try our <a href="/tools/">free pet tools</a>.</p>', today)
+         f'<h1>Gift guides for pet lovers</h1><p class="lead">Ideas for every dog mom, cat dad and breed fan on your list.</p>{feat}<div class="grid">{gl}</div>' if gl else '<h1>Gift guides</h1><p class="lead">The first guides open on November 17, with five new gifts a day. Meanwhile, try our <a href="/tools/">free pet tools</a>.</p>', today)
     urls.append(('/gifts/', today))
+    if feat and hub_page(prods, guides_live, today):
+        urls.append((f'/gifts/{HUB["id"]}/', today))
     for g, ps in guides_live:
         others = ''.join(f'<a href="/gifts/{o["id"]}/">{E(o["h1"])}</a>' for o, _ in guides_live if o is not g)
+        if feat and re.search(HUB['dog'], g['h1'].lower() + ' ' + (g['match'] or '')):
+            others = f'<a href="/gifts/{HUB["id"]}/"><b>{E(HUB["h1"])}</b></a>' + others
         tips = ''.join(f'<li>{E(t)}</li>' for t in g['tips'])
         body = (f'<h1>{E(g["h1"])}</h1><p class="lead">{E(g["intro"])}</p>{grid(ps)}<h2>Tips</h2><ul class="tips">{tips}</ul>'
                 f'<p><a class="btn" href="{CONFIG["shop"]}" data-etsy="guide-{g["id"]}">See everything on Etsy</a></p><h2>More gift guides</h2><div class="pills">{others}</div>')
@@ -588,6 +741,7 @@ def build(today):
     # sitemap, robots, feed
     sm = ''.join(f'<url><loc>{CONFIG["url"]}{u}</loc><lastmod>{d.isoformat()}</lastmod></url>' for u, d in urls)
     open(os.path.join(OUT, 'sitemap.xml'), 'w').write(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sm}</urlset>')
+    open(os.path.join(OUT, INDEXNOW_KEY + '.txt'), 'w').write(INDEXNOW_KEY)
     open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {CONFIG["url"]}/sitemap.xml\n')
     open(os.path.join(OUT, '_headers'), 'w').write('/img/*\n  Cache-Control: public, max-age=604800\n')
 
@@ -597,6 +751,8 @@ def build(today):
                       f'{p["texto"]} {p["kind"]} from ${p["precio"]}. Shop Cozy Paws on Etsy.', p['sku']))
     for g, ps in guides_live:
         items.append((g['live'], f'{g["h1"]}: {len(ps)} gift ideas', f'/gifts/{g["id"]}/', f'/img/pin/g-{g["id"]}.jpg', g['intro'][:300], 'g-' + g['id']))
+    if feat:
+        items.append((HUB['live'], f'{HUB["h1"]} {today.year}', f'/gifts/{HUB["id"]}/', f'/img/pin/g-{HUB["id"]}.jpg', HUB['intro'][:300], 'g-' + HUB['id']))
     for t in tools_live:
         items.append((t['live'], t['h1'], f'/tools/{t["id"]}/', f'/img/pin/t-{t["id"]}.jpg', t['desc'], 't-' + t['id']))
     items.sort(key=lambda x: x[0], reverse=True)
