@@ -1,0 +1,45 @@
+{
+ "id": "/fun/",
+ "name": "Paw Party by Cozy Paws",
+ "short_name": "Paw Party",
+ "description": "Free pet app: dog and cat age in human years, a pet name generator, a personality quiz, pet zodiac and birthday cards with cute stamps. Use it on the web or install it on your phone.",
+ "lang": "en",
+ "start_url": "/fun/?source=pwa",
+ "scope": "/fun/",
+ "display": "standalone",
+ "background_color": "#F3E9D7",
+ "theme_color": "#4E7F86",
+ "orientation": "portrait",
+ "categories": [
+  "entertainment",
+  "lifestyle"
+ ],
+ "icons": [
+  {
+   "src": "/fun/icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/fun/icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "/fun/icons/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "shortcuts": [
+  {
+   "name": "Cards",
+   "url": "/fun/#card"
+  },
+  {
+   "name": "Human years",
+   "url": "/fun/#age"
+  }
+ ]
+}

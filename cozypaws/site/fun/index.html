@@ -1,0 +1,432 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Paw Party: Free Fun App for Dogs and Cats (Human Years, Names, Quiz, Cards)</title><meta name="description" content="Free pet app: dog and cat age in human years, a pet name generator, a personality quiz, pet zodiac and birthday cards with cute stamps. Use it on the web or install it on your phone."><link rel="canonical" href="https://cozypawsgifts.pages.dev/fun/"><link rel="alternate" hreflang="en" href="https://cozypawsgifts.pages.dev/fun/"><link rel="alternate" hreflang="es" href="https://cozypawsgifts.pages.dev/fun/es/"><link rel="alternate" hreflang="x-default" href="https://cozypawsgifts.pages.dev/fun/"><link rel="manifest" href="/fun/manifest.webmanifest"><meta property="og:title" content="Paw Party: Free Fun App for Dogs and Cats (Human Years, Names, Quiz, Cards)"><meta property="og:description" content="Free pet app: dog and cat age in human years, a pet name generator, a personality quiz, pet zodiac and birthday cards with cute stamps. Use it on the web or install it on your phone."><meta property="og:image" content="https://cozypawsgifts.pages.dev/img/pin/app-fun.jpg"><meta property="og:url" content="https://cozypawsgifts.pages.dev/fun/"><meta property="og:type" content="website"><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk"><meta name="p:domain_verify" content="c84a6e3acb398fb108d0538381e88517"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Paw Party", "url": "https://cozypawsgifts.pages.dev/fun/", "inLanguage": "en-US", "applicationCategory": "EntertainmentApplication", "operatingSystem": "Any (web, Android, iPhone)", "description": "Free pet app: dog and cat age in human years, a pet name generator, a personality quiz, pet zodiac and birthday cards with cute stamps. Use it on the web or install it on your phone.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "image": "https://cozypawsgifts.pages.dev/fun/icons/icon-512.png", "publisher": {"@type": "Organization", "name": "Cozy Paws", "url": "https://cozypawsgifts.pages.dev"}}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is Paw Party free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every tool is free, with no sign up and no in-app purchases."}}, {"@type": "Question", "name": "How do I install the app on my phone?", "acceptedAnswer": {"@type": "Answer", "text": "On Android, tap \"Install app\" at the top (Chrome). On iPhone, open this page in Safari, tap Share and then \"Add to Home Screen\". It opens like a normal app and works offline."}}, {"@type": "Question", "name": "Where are my pet's name and photo saved?", "acceptedAnswer": {"@type": "Answer", "text": "Only on your device, in your browser. We do not upload them. If you clear your browser data, they are deleted."}}, {"@type": "Question", "name": "How do you calculate dog years?", "acceptedAnswer": {"@type": "Answer", "text": "We use the vet chart by size: the first year equals about 15 human years, the second about 9 more, and after that 4 to 7 years each depending on size. Cats add about 4 years per year after age 2."}}, {"@type": "Question", "name": "Can I print the cards?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Download the card as a PNG image (1080 x 1350) and print it at home or share it on Instagram, WhatsApp or Facebook."}}]}</script>
+<meta name="theme-color" content="#4E7F86">
+<link rel="icon" href="/img/icon.png"><link rel="apple-touch-icon" href="/fun/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Paw Party">
+<link rel="preload" href="/fonts/Yesteryear-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/AbrilFatface-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:Yesteryear;src:url(/fonts/Yesteryear-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:Abril;src:url(/fonts/AbrilFatface-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:Lora;src:url(/fonts/Lora.woff2) format('woff2');font-weight:400 700;font-display:swap}
+:root{--cream:#F3E9D7;--cream2:#FAF4E8;--plum:#3B2433;--blue:#4E7F86;--gold:#C8962E;--rose:#B5525C;--ink:#3a2f2a;--line:#E2D3B8;--muted:#7b6b62}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:Lora,Georgia,serif;background:var(--cream);color:var(--ink);line-height:1.55;font-size:17px;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+a{color:var(--blue)}img{max-width:100%}button,input,select,textarea{font:inherit;color:inherit}
+.top{position:sticky;top:0;z-index:5;background:var(--cream2);border-bottom:3px double var(--gold);padding:8px 14px;padding-top:calc(8px + env(safe-area-inset-top));display:flex;align-items:center;gap:10px}
+.top .b{display:flex;align-items:center;gap:8px;text-decoration:none;flex:1;min-width:0}.top .b img{width:40px;height:40px}
+.top .b span{font-family:Yesteryear,cursive;font-size:30px;color:var(--plum);line-height:1;white-space:nowrap}.top .b small{font-family:Lora;font-size:12px;color:var(--muted);display:block}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:6px 12px;font-size:14px;cursor:pointer;text-decoration:none;color:var(--plum);white-space:nowrap}
+.chip.on{background:var(--plum);color:var(--cream);border-color:var(--plum)}
+#inst{display:none;background:var(--gold);border-color:var(--gold);color:#fff;font-weight:600}
+.wrap{max-width:760px;margin:0 auto;padding:14px 14px 30px}
+.view{display:none}.view.on{display:block;animation:fade .25s}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+h1,h2,h3{font-family:Abril,Georgia,serif;font-weight:400;color:var(--plum);line-height:1.15;margin:14px 0 10px}h1{font-size:30px}h2{font-size:24px}h3{font-size:20px}
+.script{font-family:Yesteryear,cursive;color:var(--plum)}
+.box{background:var(--cream2);border:2px solid var(--line);border-radius:22px;padding:18px;margin:14px 0}
+.hello{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center}.hello img{width:96px;height:96px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tile{background:var(--blue);color:var(--cream);border:0;border-radius:20px;padding:16px;text-align:left;cursor:pointer;min-height:110px;display:flex;flex-direction:column;gap:4px}
+.tile b{font-family:Abril,Georgia,serif;font-weight:400;font-size:20px;line-height:1.15}.tile span{font-size:14px;opacity:.92}.tile i{font-style:normal;font-size:26px}
+.tile.p{background:var(--plum)}.tile.r{background:var(--rose)}.tile.g{background:var(--gold)}
+label{display:block;margin:0 0 12px;font-weight:600}label small{font-weight:400;color:var(--muted)}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:#fff;font-size:16px;margin-top:4px}
+textarea{min-height:70px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--plum);color:var(--cream);padding:12px 20px;border-radius:99px;border:0;cursor:pointer;font-family:Abril,Georgia,serif;font-size:17px;letter-spacing:.3px;box-shadow:0 4px 0 #24151f;text-decoration:none}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 #24151f}.btn.alt{background:var(--blue);box-shadow:0 4px 0 #34585d}.btn.ghost{background:#fff;color:var(--plum);border:2px solid var(--plum);box-shadow:none}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.result{background:#fff;border:2px dashed var(--gold);border-radius:18px;padding:16px;margin-top:12px;font-size:18px}
+.big{font-family:Abril,Georgia,serif;font-size:44px;color:var(--plum);line-height:1}
+.muted{color:var(--muted);font-size:14px}
+.names{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.names li{background:var(--cream2);border:1.5px solid var(--line);border-radius:14px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.heart{border:0;background:none;font-size:20px;cursor:pointer;color:var(--rose);padding:0 4px}
+.q{margin:12px 0}.q p{font-weight:600;margin:0 0 6px}.opts{display:grid;gap:8px}
+.opt{text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:11px 14px;cursor:pointer;font-size:16px}.opt.on{border-color:var(--blue);background:#e8f0f0;font-weight:600}
+.bar{height:10px;background:var(--line);border-radius:99px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--gold);transition:width .3s}
+.stamps{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.st{background:#fff;border:2px solid var(--line);border-radius:14px;padding:6px;cursor:pointer;aspect-ratio:1;display:flex;align-items:center;justify-content:center}
+.st img{max-height:100%;object-fit:contain}.st.on{border-color:var(--blue);box-shadow:0 0 0 3px #4e7f8633}
+.sw{width:38px;height:38px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1.5px var(--line);cursor:pointer}.sw.on{box-shadow:0 0 0 3px var(--blue)}
+canvas{width:100%;max-width:420px;height:auto;border-radius:18px;box-shadow:0 10px 30px rgba(59,36,51,.15);display:block;margin:10px auto;background:#fff}
+.shop{display:flex;gap:12px;align-items:center;background:#fff;border:1.5px dashed var(--line);border-radius:16px;padding:10px 14px;margin:14px 0;font-size:14px;color:var(--muted);text-decoration:none}
+.shop img{width:52px;height:52px;object-fit:contain;flex:none}.shop b{color:var(--plum)}
+.pets{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.pet{display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid var(--line);border-radius:99px;padding:4px 12px 4px 4px;cursor:pointer}
+.pet img,.pet .ph{width:34px;height:34px;border-radius:50%;object-fit:cover;background:var(--cream);display:flex;align-items:center;justify-content:center}
+.pet.on{border-color:var(--plum);background:var(--plum);color:var(--cream)}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--plum);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+nav.tabs button{background:none;border:0;color:#d9c8cf;display:flex;flex-direction:column;align-items:center;font-size:12px;gap:1px;cursor:pointer;padding:4px 6px;min-width:56px;border-radius:12px}
+nav.tabs button i{font-style:normal;font-size:22px;line-height:1.1}nav.tabs button.on{color:#fff;background:#ffffff1a}
+.ad{margin:16px 0;min-height:0}
+dialog{border:0;border-radius:22px;padding:20px;max-width:440px;width:calc(100% - 28px);background:var(--cream2);color:var(--ink)}dialog::backdrop{background:#3b243399}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--plum);color:var(--cream);padding:10px 18px;border-radius:99px;z-index:20;font-size:15px;opacity:0;transition:opacity .2s;pointer-events:none}.toast.on{opacity:1}
+.seo{max-width:760px;margin:10px auto 0;padding:0 16px 40px;font-size:16px}.seo h2{font-size:22px}.seo details{background:var(--cream2);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:8px 0}.seo summary{cursor:pointer;font-weight:600;color:var(--plum)}
+.foot{font-size:13px;color:var(--muted);text-align:center;padding:10px 16px 20px}.foot a{color:var(--muted)}
+#cc{position:fixed;bottom:84px;left:12px;right:12px;max-width:520px;background:var(--plum);color:var(--cream);padding:12px 14px;border-radius:16px;font-size:14px;display:none;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+#cc button{margin:8px 8px 0 0;padding:6px 15px;border-radius:99px;border:0;cursor:pointer}#cc .y{background:var(--gold);color:#fff}#cc a{color:#f3c9a0}
+@media (display-mode:standalone){.seo,.web-only{display:none}}
+@media(min-width:700px){.tiles{grid-template-columns:repeat(3,1fr)}h1{font-size:36px}}
+</style>
+<script>function wwLoad(){var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id=G-1RSXP3PFR4';document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-1RSXP3PFR4');}</script>
+</head><body>
+<header class="top"><a class="b" href="./"><img src="/img/logo-160.png" alt="" width="40" height="40"><span>Paw Party<small>by Cozy Paws</small></span></a>
+<button class="chip" id="inst" type="button"></button><a class="chip" id="lang" href="/fun/es/">Español</a></header>
+
+<main class="wrap">
+<!-- INICIO -->
+<section class="view" id="v-home"></section>
+<!-- EDAD -->
+<section class="view" id="v-age"></section>
+<!-- NOMBRES -->
+<section class="view" id="v-names"></section>
+<!-- QUIZ + ZODIACO -->
+<section class="view" id="v-quiz"></section>
+<!-- TARJETA -->
+<section class="view" id="v-card"></section>
+</main>
+
+<div class="foot"></div>
+<section class="seo"><h1>Paw Party: a free fun app for dogs and cats</h1><p>Paw Party is a free app for pet people. Find out your dog or cat&#x27;s age in human years, get name ideas, take the personality quiz, read their zodiac sign and make a birthday or gotcha day card to share. No sign up and nothing to download: it works right here in your browser, and you can install it on your phone in one tap.</p><h2>What you can do</h2><ul><li><b>Human years calculator.</b> Dog age by size (small, medium, large, giant) and cat age, with life stage and the DNA-based formula from UC San Diego.</li><li><b>Pet name generator.</b> Hundreds of dog and cat names by style: cute, classic, foodie, tough, funny, Christmas, Spanish, nature and legends. Filter by first letter and save favorites.</li><li><b>Pet personality quiz.</b> Eight quick questions to find out if your pet is a Couch Potato, an Explorer, a Class Clown, a Velcro Buddy, a Diva or a Little Genius.</li><li><b>Pet zodiac.</b> Enter the birthday or adoption day to see your pet&#x27;s star sign and what it says about them.</li><li><b>Card maker.</b> Birthday, gotcha day, Christmas and best friend cards with original Cozy Paws stamps and your pet&#x27;s photo. Download or share in one tap.</li></ul><h2>Questions</h2><details><summary>Is Paw Party free?</summary><p>Yes. Every tool is free, with no sign up and no in-app purchases.</p></details><details><summary>How do I install the app on my phone?</summary><p>On Android, tap &quot;Install app&quot; at the top (Chrome). On iPhone, open this page in Safari, tap Share and then &quot;Add to Home Screen&quot;. It opens like a normal app and works offline.</p></details><details><summary>Where are my pet&#x27;s name and photo saved?</summary><p>Only on your device, in your browser. We do not upload them. If you clear your browser data, they are deleted.</p></details><details><summary>How do you calculate dog years?</summary><p>We use the vet chart by size: the first year equals about 15 human years, the second about 9 more, and after that 4 to 7 years each depending on size. Cats add about 4 years per year after age 2.</p></details><details><summary>Can I print the cards?</summary><p>Yes. Download the card as a PNG image (1080 x 1350) and print it at home or share it on Instagram, WhatsApp or Facebook.</p></details><p>More free tools: <a href="/tools/">Pet tools</a> · <a href="/gifts/">Gift guides</a> · <a href="https://www.etsy.com/shop/ShopCozyPaws" data-etsy="fun-seo" rel="noopener">Cozy Paws Etsy shop</a></p></section>
+
+<nav class="tabs" id="tabs">
+<button data-tab="home"><i>🏠</i><span data-t="tHome"></span></button>
+<button data-tab="age"><i>🎂</i><span data-t="tAge"></span></button>
+<button data-tab="names"><i>🏷️</i><span data-t="tNames"></span></button>
+<button data-tab="quiz"><i>✨</i><span data-t="tQuiz"></span></button>
+<button data-tab="card"><i>💌</i><span data-t="tCard"></span></button>
+</nav>
+<dialog id="dlg"></dialog>
+<div class="toast" id="toast"></div>
+<div id="cc"><span data-t="cookie"></span> <a href="/privacy/" data-t="privacy"></a><br><button class="y" data-t="ok"></button><button class="n" data-t="no"></button></div>
+
+<script>
+var CFG={"lang": "en", "stamps": [{"id": "dog-mom", "url": "https://www.etsy.com/listing/4617329944"}, {"id": "dog-dad", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=dog+dad"}, {"id": "cat-mom", "url": "https://www.etsy.com/listing/4617322589"}, {"id": "cat-dad", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=cat+dad"}, {"id": "golden", "url": "https://www.etsy.com/listing/4617314977"}, {"id": "frenchie", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=frenchie"}, {"id": "doodle", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=doodle"}, {"id": "labrador", "url": "https://www.etsy.com/listing/4617316609"}, {"id": "german-shepherd", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=german+shepherd"}, {"id": "dachshund", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=dachshund"}, {"id": "cozy-pup", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=cozy+pup"}, {"id": "dog-mom-club", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=dog+mom+club"}, {"id": "cat-mom-club", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=cat+mom+club"}, {"id": "comfy", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=my+dog+was+comfy"}, {"id": "woofmas", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=woofmas"}, {"id": "meowy", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=meowy+christmas"}, {"id": "good-boy", "url": "https://www.etsy.com/shop/ShopCozyPaws?search_query=good+boy"}], "host": "cozypawsgifts.pages.dev", "company": "Skye Solutions AI", "ads": ""};
+(function(){
+'use strict';
+var L=CFG.lang, $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function track(n,p){try{if(window.gtag)gtag('event',n,p||{})}catch(e){}}
+
+/* ------------------------------------------------------------ textos */
+var T={en:{
+tHome:'Home',tAge:'Age',tNames:'Names',tQuiz:'Quiz',tCard:'Cards',install:'Install app',
+cookie:'We use cookies for anonymous stats (Google Analytics) only if you say OK.',privacy:'Privacy',ok:'OK',no:'No thanks',
+hi:'Free fun for dogs, cats & the people who love them',hiSub:'Human years, name ideas, a personality quiz, pet zodiac and cute cards you can share. Works on the web or installed on your phone.',
+myPets:'My pets',addPet:'+ Add a pet',noPets:'Add your pet once and every tool fills in by itself. Optional: everything works without it.',
+editPet:'Edit pet',newPet:'New pet',name:'Name',species:'Dog or cat?',dog:'Dog',cat:'Cat',bday:'Birthday',bdayHint:'(or adoption day, if you are not sure)',
+size:'Size',small:'Small (under 20 lb / 9 kg)',medium:'Medium (21-50 lb / 10-23 kg)',large:'Large (51-90 lb / 24-41 kg)',giant:'Giant (over 90 lb / 41 kg)',
+photo:'Photo',photoHint:'(optional, stays on this device)',save:'Save',cancel:'Cancel',del:'Delete',
+localNote:'Saved only on this device, no sign up. Accounts to keep it on all your devices are coming soon.',
+tileAge:'Human years',tileAgeS:'How old is your pet really?',tileNames:'Name ideas',tileNamesS:'Hundreds of dog and cat names',
+tileQuiz:'Personality quiz',tileQuizS:'Couch potato or explorer?',tileZod:'Pet zodiac',tileZodS:'What their stars say',
+tileCard:'Birthday cards',tileCardS:'With Cozy Paws stamps',tileShare:'Share the fun',tileShareS:'Send this app to a friend',
+bdayIn:'Birthday in {n} days',bdayToday:'Happy birthday, {name}! 🎉',makeCard:'Make a card',
+ageH:'Pet age in human years',ageL:'Dog or cat age calculator, by size. Based on vet charts.',years:'Years',months:'Months',orBday:'Or use the birthday',
+human:'human years',stage:'Life stage',dna:'DNA formula (UC San Diego, 2019): about {n} human years',
+stages:{puppy:'Puppy',kitten:'Kitten',junior:'Junior',adult:'Adult',mature:'Mature adult',senior:'Senior',geriatric:'Super senior'},
+ageLine:'{name} is like a {n}-year-old person.',ageCard:'Make an age card',vet:'For fun and general info. Your vet knows your pet best.',
+namesH:'Pet name generator',namesL:'Tap for 12 new ideas. Save the ones you love.',style:'Style',letter:'Starts with',any:'Any',more:'Give me names',favs:'Saved names',noFavs:'Tap ♥ to save a name.',
+styles:{cute:'Cute',classic:'Classic',foodie:'Foodie',tough:'Tough',funny:'Funny',holiday:'Christmas',latino:'Spanish',nature:'Nature',myth:'Legends'},
+quizH:'What\'s your pet\'s personality?',quizL:'8 quick questions. Answer for your dog or cat.',next:'Next',back:'Back',seeRes:'See result',again:'Take it again',resCard:'Make it a card',
+yourPet:'your pet',isA:'{name} is',zodH:'Pet zodiac',zodL:'Pick the birthday (or adoption day) to see their sign.',zodSee:'See the sign',
+cardH:'Card maker',cardL:'Birthday, gotcha day or Christmas card with a Cozy Paws stamp. Download it or share it.',
+occasion:'Occasion',occ:{bday:'Birthday',gotcha:'Gotcha day',xmas:'Christmas',love:'Best friend'},
+heads:{bday:'Happy Birthday',gotcha:'Happy Gotcha Day',xmas:'Merry Christmas',love:'Best Friend Ever'},
+turns:'Age (optional)',msg:'Message',msgDef:{bday:'Treats, naps and belly rubs all day long!',gotcha:'The best day ever was the day you came home.',xmas:'Wishing you the coziest season!',love:'Thanks for all the love and the fur on the couch.'},
+stamp:'Stamp',colors:'Colors',addPhoto:'Add a photo',usePhoto:'Use {name}\'s photo',noPhoto:'No photo',download:'Download',share:'Share',
+turnsN:'turns {n}!',yearsN:'{n} years together',onShirt:'Love this stamp? It is also on mugs, sweatshirts and ornaments.',seeEtsy:'See it on Etsy →',
+saved:'Saved ✓',copied:'Link copied ✓',shareText:'Free fun app for dogs and cats: human years, names, quiz and cards',
+iosH:'Install on iPhone',iosB:'Tap the Share button <b>⬆︎</b> in Safari, then <b>Add to Home Screen</b>. The app opens like any other app, even offline.',
+done:'Got it',dogOrCat:'Dog or cat',size2:'Size (dogs)',petName:'Pet name',
+foot:'Designs by Azu in Salt Lake City, printed on demand by our production partners. Paw Party is a free app by Cozy Paws ({co}).'
+},es:{
+tHome:'Inicio',tAge:'Edad',tNames:'Nombres',tQuiz:'Test',tCard:'Tarjetas',install:'Instalar app',
+cookie:'Usamos cookies para estadísticas anónimas (Google Analytics) solo si dices que sí.',privacy:'Privacidad',ok:'Sí, OK',no:'No, gracias',
+hi:'Diversión gratis para perros, gatos y sus humanos',hiSub:'Edad en años humanos, nombres, test de personalidad, horóscopo y tarjetas lindas para compartir. Funciona en la web o instalada en tu celular.',
+myPets:'Mis mascotas',addPet:'+ Agregar mascota',noPets:'Agrega a tu mascota una vez y todo se completa solo. Es opcional: todo funciona sin esto.',
+editPet:'Editar mascota',newPet:'Nueva mascota',name:'Nombre',species:'¿Perro o gato?',dog:'Perro',cat:'Gato',bday:'Cumpleaños',bdayHint:'(o día de adopción, si no lo sabes)',
+size:'Tamaño',small:'Chico (menos de 9 kg / 20 lb)',medium:'Mediano (10 a 23 kg / 21-50 lb)',large:'Grande (24 a 41 kg / 51-90 lb)',giant:'Gigante (más de 41 kg / 90 lb)',
+photo:'Foto',photoHint:'(opcional, queda solo en este equipo)',save:'Guardar',cancel:'Cancelar',del:'Borrar',
+localNote:'Se guarda solo en este equipo, sin registrarte. Pronto vas a poder crear una cuenta para tenerlo en todos tus equipos.',
+tileAge:'Años humanos',tileAgeS:'¿Cuántos años tiene de verdad?',tileNames:'Ideas de nombres',tileNamesS:'Cientos de nombres para perros y gatos',
+tileQuiz:'Test de personalidad',tileQuizS:'¿Dormilón o explorador?',tileZod:'Horóscopo',tileZodS:'Lo que dicen sus estrellas',
+tileCard:'Tarjetas de cumpleaños',tileCardS:'Con estampas de Cozy Paws',tileShare:'Compartir',tileShareS:'Mándale la app a alguien',
+bdayIn:'Cumple en {n} días',bdayToday:'¡Feliz cumpleaños, {name}! 🎉',makeCard:'Hacer tarjeta',
+ageH:'Edad de tu mascota en años humanos',ageL:'Calculadora de edad para perros y gatos, por tamaño. Basada en tablas veterinarias.',years:'Años',months:'Meses',orBday:'O usa el cumpleaños',
+human:'años humanos',stage:'Etapa',dna:'Fórmula del ADN (UC San Diego, 2019): unos {n} años humanos',
+stages:{puppy:'Cachorro',kitten:'Gatito',junior:'Joven',adult:'Adulto',mature:'Adulto maduro',senior:'Senior',geriatric:'Súper senior'},
+ageLine:'{name} es como una persona de {n} años.',ageCard:'Hacer tarjeta de edad',vet:'Para divertirse e informarse. Tu veterinario conoce mejor a tu mascota.',
+namesH:'Generador de nombres para mascotas',namesL:'Toca para ver 12 ideas nuevas. Guarda las que te gusten.',style:'Estilo',letter:'Empieza con',any:'Cualquiera',more:'Dame nombres',favs:'Nombres guardados',noFavs:'Toca ♥ para guardar un nombre.',
+styles:{cute:'Tiernos',classic:'Clásicos',foodie:'De comida',tough:'Fuertes',funny:'Graciosos',holiday:'Navideños',latino:'En español',nature:'Naturaleza',myth:'Leyendas'},
+quizH:'¿Qué personalidad tiene tu mascota?',quizL:'8 preguntas rápidas. Responde por tu perro o tu gato.',next:'Siguiente',back:'Atrás',seeRes:'Ver resultado',again:'Hacerlo otra vez',resCard:'Hacer tarjeta',
+yourPet:'tu mascota',isA:'{name} es',zodH:'Horóscopo de mascotas',zodL:'Elige el cumpleaños (o día de adopción) para ver su signo.',zodSee:'Ver el signo',
+cardH:'Hacer tarjetas',cardL:'Tarjeta de cumpleaños, de aniversario de adopción o de Navidad con una estampa de Cozy Paws. Descárgala o compártela.',
+occasion:'Ocasión',occ:{bday:'Cumpleaños',gotcha:'Adopción',xmas:'Navidad',love:'Mejor amigo'},
+heads:{bday:'Feliz Cumpleaños',gotcha:'Feliz Día de Adopción',xmas:'Feliz Navidad',love:'Mi Mejor Amigo'},
+turns:'Edad (opcional)',msg:'Mensaje',msgDef:{bday:'¡Premios, siestas y mimos todo el día!',gotcha:'El mejor día fue el día que llegaste a casa.',xmas:'¡Que tengas las fiestas más calentitas!',love:'Gracias por tanto amor y por los pelos en el sillón.'},
+stamp:'Estampa',colors:'Colores',addPhoto:'Agregar foto',usePhoto:'Usar la foto de {name}',noPhoto:'Sin foto',download:'Descargar',share:'Compartir',
+turnsN:'¡cumple {n}!',yearsN:'{n} años juntos',onShirt:'¿Te gusta esta estampa? También está en tazas, sudaderas y adornos.',seeEtsy:'Verla en Etsy →',
+saved:'Guardado ✓',copied:'Link copiado ✓',shareText:'App gratis para perros y gatos: edad humana, nombres, test y tarjetas',
+iosH:'Instalar en iPhone',iosB:'En Safari, toca el botón Compartir <b>⬆︎</b> y después <b>Agregar a inicio</b>. La app se abre como cualquier otra, incluso sin internet.',
+done:'Listo',dogOrCat:'Perro o gato',size2:'Tamaño (perros)',petName:'Nombre de la mascota',
+foot:'Diseños de Azu en Salt Lake City, impresos a pedido por nuestros socios de producción. Paw Party es una app gratis de Cozy Paws ({co}).'
+}};
+var t=function(k,v){var s=T[L][k];if(s==null)s=T.en[k];if(typeof s==='string'&&v)s=s.replace(/\{(\w+)\}/g,function(_,x){return v[x]!=null?v[x]:''});return s};
+
+/* ------------------------------------------------------------ datos guardados (compartidos con la app del diario: mismo sitio) */
+var KEY='cozypaws-pets', FKEY='cozypaws-fun';
+function load(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('⚠️ '+(L=='es'?'No hay espacio para guardar':'Not enough space to save'));return false}}
+var P=load(KEY,{pets:[],cur:null}); var F=load(FKEY,{favs:[]});
+function pets(){return P.pets||[]}function cur(){return pets().filter(function(p){return p.id===P.cur})[0]||pets()[0]||null}
+function saveP(){return store(KEY,P)}function saveF(){store(FKEY,F)}
+if(navigator.storage&&navigator.storage.persist)try{navigator.storage.persist()}catch(e){}
+
+function today(){var d=new Date();d.setHours(0,0,0,0);return d}
+function pd(s){if(!s)return null;var a=s.split('-');return new Date(+a[0],a[1]-1,+a[2])}
+function ageYM(b){var n=today(),y=n.getFullYear()-b.getFullYear(),m=n.getMonth()-b.getMonth();if(n.getDate()<b.getDate())m--;if(m<0){y--;m+=12}return {y:Math.max(0,y),m:Math.max(0,y<0?0:m)}}
+function nextBday(b){var n=today(),x=new Date(n.getFullYear(),b.getMonth(),b.getDate());if(x<n)x.setFullYear(n.getFullYear()+1);return {d:x,days:Math.round((x-n)/864e5),turns:x.getFullYear()-b.getFullYear()}}
+
+/* ------------------------------------------------------------ cálculos */
+var SIZE_F={small:4,medium:5,large:6,giant:7};
+function humanYears(sp,y,size){if(sp==='cat'){return y<=1?y*15:y<=2?15+(y-1)*9:24+(y-2)*4}
+ return y<=1?y*15:y<=2?15+(y-1)*9:24+(y-2)*SIZE_F[size||'medium']}
+function lifeStage(sp,y,size){if(sp==='cat')return y<0.5?'kitten':y<2?'junior':y<7?'adult':y<11?'mature':y<15?'senior':'geriatric';
+ var s={small:[1,8,11],medium:[1,7,10],large:[1.25,6,9],giant:[1.5,5,8]}[size||'medium'];return y<s[0]?'puppy':y<3?'junior':y<s[1]?'adult':y<s[2]?'senior':'geriatric'}
+
+/* ------------------------------------------------------------ toasts, diálogo */
+function toast(s){var e=$('#toast');e.textContent=s;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('on')},1800)}
+var dlg=$('#dlg');function openDlg(h){dlg.innerHTML=h;if(dlg.showModal)dlg.showModal();else dlg.setAttribute('open','')}
+function closeDlg(){if(dlg.close)dlg.close();else dlg.removeAttribute('open')}
+
+/* ------------------------------------------------------------ fotos (se achican para que entren en el equipo) */
+function readPhoto(file,max,cb){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.82))};im.src=r.result};r.readAsDataURL(file)}
+
+/* ------------------------------------------------------------ pestañas */
+var VIEWS={home:renderHome,age:renderAge,names:renderNames,quiz:renderQuiz,card:renderCard};
+function go(tab,opt){if(!VIEWS[tab])tab='home';$$('.view').forEach(function(v){v.classList.toggle('on',v.id==='v-'+tab)});$$('#tabs button').forEach(function(b){b.classList.toggle('on',b.dataset.tab===tab)});
+ VIEWS[tab](opt||{});if(location.hash!=='#'+tab)history.replaceState(null,'','#'+tab);window.scrollTo(0,0);track('screen_view',{screen_name:tab})}
+$('#tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(b)go(b.dataset.tab)});
+
+function petChips(){var ps=pets();if(!ps.length)return '';return '<div class="pets">'+ps.map(function(p){return '<button class="pet'+(cur()&&cur().id===p.id?' on':'')+'" data-pet="'+p.id+'">'+(p.photo?'<img src="'+p.photo+'" alt="">':'<span class="ph">'+(p.species==='cat'?'🐱':'🐶')+'</span>')+esc(p.name)+'</button>'}).join('')+'</div>'}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-pet]');if(b){P.cur=b.dataset.pet;saveP();var v=$('.view.on');go(v?v.id.slice(2):'home')}});
+
+/* ------------------------------------------------------------ INICIO */
+function renderHome(){var p=cur(),h='<div class="box hello"><img src="/img/logo-ilustrado.png" alt="Cozy Paws"><div><h1 style="margin:0 0 6px;font-size:26px">'+t('hi')+'</h1><div class="muted">'+t('hiSub')+'</div></div></div>';
+ h+='<h2>'+t('myPets')+'</h2>'+petChips();
+ if(p){var b=pd(p.bday),info='';if(b){var a=ageYM(b),hy=Math.round(humanYears(p.species,a.y+a.m/12,p.size)),nb=nextBday(b);
+   info='<div class="result"><b>'+esc(p.name)+'</b>: '+a.y+' '+(L=='es'?'años':'yrs')+' '+a.m+' '+(L=='es'?'meses':'mo')+' · <b>'+hy+' '+t('human')+'</b><br>'+
+   (nb.days===0?'<b>'+t('bdayToday',{name:esc(p.name)})+'</b>':t('bdayIn',{n:nb.days}))+' <button class="chip" data-go="card">'+t('makeCard')+'</button></div>'}
+  h+=info+'<div class="btns"><button class="btn ghost" data-edit="'+p.id+'">✎ '+t('editPet')+'</button><button class="btn ghost" data-edit="">'+t('addPet')+'</button></div>'}
+ else h+='<p class="muted">'+t('noPets')+'</p><button class="btn" data-edit="">'+t('addPet')+'</button>';
+ h+='<p class="muted" style="margin-top:10px">🔒 '+t('localNote')+'</p>';
+ h+='<div class="tiles" style="margin-top:16px">'+
+ '<button class="tile" data-go="age"><i>🎂</i><b>'+t('tileAge')+'</b><span>'+t('tileAgeS')+'</span></button>'+
+ '<button class="tile p" data-go="names"><i>🏷️</i><b>'+t('tileNames')+'</b><span>'+t('tileNamesS')+'</span></button>'+
+ '<button class="tile r" data-go="quiz"><i>✨</i><b>'+t('tileQuiz')+'</b><span>'+t('tileQuizS')+'</span></button>'+
+ '<button class="tile g" data-go="quiz" data-opt="zod"><i>🔮</i><b>'+t('tileZod')+'</b><span>'+t('tileZodS')+'</span></button>'+
+ '<button class="tile" data-go="card"><i>💌</i><b>'+t('tileCard')+'</b><span>'+t('tileCardS')+'</span></button>'+
+ '<button class="tile p" id="shareApp"><i>📣</i><b>'+t('tileShare')+'</b><span>'+t('tileShareS')+'</span></button></div>';
+ h+=adSlot('home')+shopLink(p&&p.species==='cat'?'cat-mom':'dog-mom');
+ $('#v-home').innerHTML=h}
+document.addEventListener('click',function(e){var g=e.target.closest('[data-go]');if(g){go(g.dataset.go,{opt:g.dataset.opt});return}
+ var ed=e.target.closest('[data-edit]');if(ed){petForm(ed.dataset.edit);return}
+ if(e.target.closest('#shareApp')){var u=location.origin+location.pathname;if(navigator.share)navigator.share({title:'Paw Party',text:t('shareText'),url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(u).then(function(){toast(t('copied'))});track('share_app')}});
+
+function petForm(id){var p=pets().filter(function(x){return x.id===id})[0]||{species:'dog',size:'medium'},ph=p.photo||'';
+ openDlg('<h2 style="margin-top:0">'+(id?t('editPet'):t('newPet'))+'</h2><form id="pf"><label>'+t('name')+'<input type="text" name="name" required maxlength="30" value="'+esc(p.name||'')+'"></label>'+
+ '<label>'+t('species')+'<select name="species"><option value="dog"'+(p.species==='dog'?' selected':'')+'>🐶 '+t('dog')+'</option><option value="cat"'+(p.species==='cat'?' selected':'')+'>🐱 '+t('cat')+'</option></select></label>'+
+ '<label>'+t('bday')+' <small>'+t('bdayHint')+'</small><input type="date" name="bday" max="'+iso(today())+'" value="'+esc(p.bday||'')+'"></label>'+
+ '<label class="sz">'+t('size')+'<select name="size">'+['small','medium','large','giant'].map(function(s){return '<option value="'+s+'"'+(p.size===s?' selected':'')+'>'+t(s)+'</option>'}).join('')+'</select></label>'+
+ '<label>'+t('photo')+' <small>'+t('photoHint')+'</small><input type="file" name="photo" accept="image/*"></label><div id="pfph">'+(ph?'<img src="'+ph+'" style="width:80px;height:80px;border-radius:50%;object-fit:cover">':'')+'</div>'+
+ '<div class="btns"><button class="btn" type="submit">'+t('save')+'</button><button class="btn ghost" type="button" id="pfc">'+t('cancel')+'</button>'+(id?'<button class="btn ghost" type="button" id="pfd">'+t('del')+'</button>':'')+'</div></form>');
+ var f=$('#pf');function sz(){$('.sz',f).style.display=f.species.value==='cat'?'none':''}sz();f.species.onchange=sz;
+ f.photo.onchange=function(){if(f.photo.files[0])readPhoto(f.photo.files[0],320,function(u){ph=u;$('#pfph').innerHTML='<img src="'+u+'" style="width:80px;height:80px;border-radius:50%;object-fit:cover">'})};
+ $('#pfc').onclick=closeDlg;if($('#pfd'))$('#pfd').onclick=function(){if(!confirm(t('del')+'?'))return;P.pets=pets().filter(function(x){return x.id!==id});P.cur=null;saveP();closeDlg();go('home')};
+ f.onsubmit=function(e){e.preventDefault();var o={id:id||('p'+Date.now().toString(36)),name:f.name.value.trim().slice(0,30),species:f.species.value,bday:f.bday.value,size:f.size.value,photo:ph};
+  if(!o.name)return;var i=pets().findIndex(function(x){return x.id===o.id});if(i>=0)P.pets[i]=Object.assign({},P.pets[i],o);else{P.pets=pets().concat([o])}P.cur=o.id;
+  if(saveP()){closeDlg();toast(t('saved'));track('pet_saved',{species:o.species});var v=$('.view.on');go(v?v.id.slice(2):'home')}}}
+function iso(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+
+/* ------------------------------------------------------------ EDAD */
+function renderAge(){var p=cur()||{},b=pd(p.bday),a=b?ageYM(b):{y:3,m:0};
+ var h='<h1>'+t('ageH')+'</h1><p class="muted">'+t('ageL')+'</p>'+petChips()+'<div class="box"><label>'+t('dogOrCat')+'<div class="seg" id="asp"><button class="chip" data-v="dog">🐶 '+t('dog')+'</button><button class="chip" data-v="cat">🐱 '+t('cat')+'</button></div></label>'+
+ '<label id="asz">'+t('size2')+'<select id="asize">'+['small','medium','large','giant'].map(function(s){return '<option value="'+s+'">'+t(s)+'</option>'}).join('')+'</select></label>'+
+ '<div class="row"><label>'+t('years')+'<input type="number" id="ay" min="0" max="30" value="'+a.y+'"></label><label>'+t('months')+'<input type="number" id="am" min="0" max="11" value="'+a.m+'"></label></div>'+
+ '<label>'+t('orBday')+'<input type="date" id="ab" max="'+iso(today())+'" value="'+esc(p.bday||'')+'"></label><div class="result" id="ares"></div>'+
+ '<div class="btns"><button class="btn alt" id="acard">💌 '+t('ageCard')+'</button></div><p class="muted">'+t('vet')+'</p></div>'+adSlot('age')+ageTable()+shopLink(p.species==='cat'?'cat-dad':'dog-dad');
+ $('#v-age').innerHTML=h;var sp=p.species||'dog';$('#asize').value=p.size||'medium';
+ function setSp(v){sp=v;$$('#asp .chip').forEach(function(c){c.classList.toggle('on',c.dataset.v===v)});$('#asz').style.display=v==='cat'?'none':'';calc()}
+ function calc(){var y=(parseFloat($('#ay').value)||0)+(parseFloat($('#am').value)||0)/12,sz=$('#asize').value,hy=Math.round(humanYears(sp,y,sz)),st=t('stages')[lifeStage(sp,y,sz)];
+  var nm=p.name||t('yourPet');$('#ares').innerHTML='<div class="big">'+hy+'</div>'+t('human')+'<br><b>'+t('stage')+':</b> '+st+'<br>'+esc(t('ageLine',{name:nm,n:hy}))+(sp==='dog'&&y>=1?'<br><small class="muted">'+t('dna',{n:Math.round(16*Math.log(y)+31)})+'</small>':'');
+  $('#acard').onclick=function(){go('card',{head:'age',name:p.name||'',big:hy,line:t('human'),stamp:sp==='cat'?'cat-mom':'cozy-pup'})};}
+ $('#asp').onclick=function(e){var c=e.target.closest('.chip');if(c)setSp(c.dataset.v)};
+ ['#ay','#am','#asize'].forEach(function(s){$(s).addEventListener('input',calc)});
+ $('#ab').addEventListener('input',function(){var d=pd(this.value);if(d){var x=ageYM(d);$('#ay').value=x.y;$('#am').value=x.m;calc()}});
+ setSp(sp)}
+function ageTable(){var r=[1,2,3,5,8,10,12,15];return '<h2>'+(L=='es'?'Tabla de edad':'Age chart')+'</h2><div style="overflow-x:auto"><table style="border-collapse:collapse;width:100%;background:var(--cream2);font-size:15px"><tr style="background:var(--blue);color:var(--cream)"><th style="padding:6px">'+t('years')+'</th><th>🐱</th><th>🐶 S</th><th>🐶 M</th><th>🐶 L</th><th>🐶 XL</th></tr>'+
+ r.map(function(y){return '<tr style="text-align:center;border-top:1px solid var(--line)"><td style="padding:6px">'+y+'</td><td>'+Math.round(humanYears('cat',y))+'</td><td>'+Math.round(humanYears('dog',y,'small'))+'</td><td>'+Math.round(humanYears('dog',y,'medium'))+'</td><td>'+Math.round(humanYears('dog',y,'large'))+'</td><td>'+Math.round(humanYears('dog',y,'giant'))+'</td></tr>'}).join('')+'</table></div>'}
+
+/* ------------------------------------------------------------ NOMBRES */
+var NAMES={
+cute:{d:'Biscuit Peanut Muffin Pebble Button Daisy Pickles Noodle Teddy Pumpkin Bean Sprout Clover Poppy Waffles Nugget Bubbles Honey Maple Pip Dot Tink Lulu Gizmo Rolo Bambi Bunny Fudge Sunny Ziggy Buttons Peaches Cupcake Pudding Lolly Twix Pippin Dottie Frankie Goose',c:'Whiskers Mittens Kitty Luna Smokey Mochi Pixie Ziggy Cleo Willow Pebbles Socks Boots Nala Fern Pearl Sugar Velvet Tiny Purrcy Mimi Kiki Tofu Bean Fluff Snowy Patches Squeak Puff Sprinkles Bubbles Mittens Pipsqueak'},
+classic:{d:'Max Bella Charlie Lucy Cooper Daisy Buddy Molly Jack Sadie Rocky Maggie Duke Rosie Bear Stella Oscar Ruby Henry Lily Sam Grace Leo Penny Jake Lola Bentley Zoe Tucker Sophie Murphy Chloe Winston Roxy Louie Gracie Baxter Ellie Gus Nellie',c:'Oliver Leo Milo Charlie Simba Max Jack Loki Tiger Jasper Luna Bella Lily Lucy Nala Kitty Chloe Stella Zoe Lola Felix Oscar Sam Sophie Gracie Shadow Smokey Tom Sylvester Garfield Coco Ginger Misty Molly Daisy Sasha'},
+foodie:{d:'Nacho Pretzel Oreo Tofu Waffle Pepper Ginger Mango Kiwi Bagel Cookie Olive Churro Taco Sushi Brownie Nutmeg Cinnamon Dumpling Toast Biscotti Fig Pistachio Sesame Gnocchi Meatball Pancake Cheddar Brisket Hash Brown Nugget Ramen Wasabi Bacon Jellybean',c:'Mochi Sushi Tofu Miso Oreo Cookie Muffin Cupcake Peaches Butterscotch Caramel Cocoa Latte Mocha Nutella Pumpkin Ginger Pepper Olive Noodle Dumpling Bao Kimchi Wasabi Cheeto Tater Toast Biscuit Waffles Marshmallow Pistachio'},
+tough:{d:'Tank Diesel Bruno Thor Rex Axel Blaze Titan Brutus Ranger Maverick Ace Rocco Zeus Gunner Hunter Bolt Storm Kodiak Atlas Bandit Duke Moose Rambo Kong Rebel Sarge Major Boss Rocky Odin Ragnar Fang Rogue',c:'Tiger Panther Shadow Bandit Ninja Rogue Zeus Thor Loki Jaguar Onyx Raven Storm Blaze Ghost Spike Tank Bruiser Rocky Titan Kong Ace Viper Rebel Hunter'},
+funny:{d:'Sir Barksalot|Chewbacca|Bark Twain|Droolius Caesar|Mr. Pickles|Sherlock Bones|Fluffernutter|Professor Paws|Notorious D.O.G.|Furrdinand|Count Pawcula|Hairy Pawter|Pupcake|Baron von Snuggles|Tater Tot|Winnie the Poodle|Jimmy Chew|Bark Obama|Snoop Doggo|Woofgang|Chewie|Biscuit Boy|Waggy McWagface|Dogtor Who',c:'Meowzart|Purrlock|Catrick Swayze|Kitty Purry|Captain Whiskers|Cat Damon|Leonardo DiCatprio|Pablo Picatso|Purrince|Catsanova|Meowly Cyrus|Clawdia|Fuzz Aldrin|Chairman Meow|Hairy Pawter|Sir Purrcival|Whisker Biscuit|Tuna Turner|Furrnando|Mewlan'},
+holiday:{d:'Jingle Holly Noel Tinsel Rudy Ivy Comet Cocoa Snowball Merry Joy Gingerbread Frosty Twinkle Mistletoe Blitzen Cookie Candy Star Belle Nick Pinecone Sugarplum Winter Evergreen Dasher Cupid Kringle Elf Garland',c:'Tinsel Holly Noel Jingle Ivy Cocoa Snowflake Merry Joy Frosty Twinkle Mistletoe Pepper Ginger Candy Star Belle Nicky Pinecone Sugarplum Winter Clove Cranberry Comet Eggnog Buttons Sparkle'},
+latino:{d:'Canela Chispa Lupita Pancho Paco Luna Nena Toby Coco Churro Pelusa Manchas Frida Diego Bolita Chiquita Tito Rayo Oso Chato Negra Pepe Lola Rocco Chula Dulce Cielo Tango Mate Alfajor Nacho Chimi Fideo Pochi Rulo',c:'Michi Pelusa Canela Mimi Luna Coco Nube Chispa Pancha Fiona Tita Frida Lucero Sombra Copito Bigotes Pantera Rayita Mostaza Garbanzo Pimienta Miel Chocolate Gordo Morena Rubia Sol Pochoclo Turrón'},
+nature:{d:'River Willow Aspen Sky Storm Juniper Cedar Maple Sage Fern Ivy Hazel Birch Rain Sunny Summit Canyon Ridge Moss Ember Brook Daisy Clover Rowan Echo Arrow Wren Basil Dune Sierra',c:'Willow Fern Ivy Sage Hazel Luna Star Storm Sky Misty Pebble Clover Daisy Poppy Lily Rose Violet Juniper Aspen Echo Moss Maple Ember Willow Cricket Robin Wren Comet Sunny Cloud'},
+myth:{d:'Zeus Apollo Athena Odin Thor Freya Loki Hercules Atlas Ares Artemis Juno Luna Orion Phoenix Titan Merlin Arthur Ragnar Valkyrie Achilles Hermes Nyx Osiris Anubis Kratos',c:'Cleo Bastet Isis Athena Luna Nyx Freya Loki Odin Selene Hera Juno Venus Minerva Apollo Zeus Osiris Ra Merlin Morgana Phoenix Pandora Medusa Persephone Artemis Sphinx'}};
+function renderNames(){var p=cur()||{},sp=p.species||'dog',style='cute',letter='';
+ var h='<h1>'+t('namesH')+'</h1><p class="muted">'+t('namesL')+'</p><div class="box"><label>'+t('dogOrCat')+'<div class="seg" id="nsp"><button class="chip" data-v="dog">🐶 '+t('dog')+'</button><button class="chip" data-v="cat">🐱 '+t('cat')+'</button></div></label>'+
+ '<label>'+t('style')+'<div class="seg" id="nst">'+Object.keys(NAMES).map(function(k){return '<button class="chip" data-v="'+k+'">'+t('styles')[k]+'</button>'}).join('')+'</div></label>'+
+ '<label>'+t('letter')+'<select id="nl"><option value="">'+t('any')+'</option>'+'ABCDEFGHIJKLMNOPRSTVWZ'.split('').map(function(c){return '<option>'+c+'</option>'}).join('')+'</select></label>'+
+ '<button class="btn" id="ngo">🎲 '+t('more')+'</button><div id="nres" style="margin-top:14px"></div></div>'+adSlot('names')+'<h2>♥ '+t('favs')+'</h2><div id="nfav"></div>'+shopLink(sp==='cat'?'cat-mom-club':'dog-mom-club');
+ $('#v-names').innerHTML=h;
+ function mark(){$$('#nsp .chip').forEach(function(c){c.classList.toggle('on',c.dataset.v===sp)});$$('#nst .chip').forEach(function(c){c.classList.toggle('on',c.dataset.v===style)})}
+ function roll(){var src=NAMES[style][sp==='cat'?'c':'d'],a=(src.indexOf('|')>=0?src.split('|'):src.split(' ')).filter(function(n,i,s){return s.indexOf(n)===i&&(!letter||n.toUpperCase().indexOf(letter)===0)}),o=[];
+  while(o.length<12&&a.length)o.push(a.splice(Math.floor(Math.random()*a.length),1)[0]);
+  $('#nres').innerHTML=o.length?'<ul class="names">'+o.map(function(n){return '<li><span>'+esc(n)+'</span><button class="heart" data-fav="'+esc(n)+'" aria-label="save">'+(F.favs.indexOf(n)>=0?'♥':'♡')+'</button></li>'}).join('')+'</ul>':'<p class="muted">—</p>';track('names_roll',{style:style})}
+ function favs(){$('#nfav').innerHTML=F.favs.length?'<ul class="names">'+F.favs.map(function(n){return '<li><span>'+esc(n)+'</span><button class="heart" data-fav="'+esc(n)+'">♥</button></li>'}).join('')+'</ul>':'<p class="muted">'+t('noFavs')+'</p>'}
+ $('#nsp').onclick=function(e){var c=e.target.closest('.chip');if(c){sp=c.dataset.v;mark();roll()}};
+ $('#nst').onclick=function(e){var c=e.target.closest('.chip');if(c){style=c.dataset.v;mark();roll()}};
+ $('#nl').onchange=function(){letter=this.value;roll()};$('#ngo').onclick=roll;
+ $('#v-names').onclick=function(e){var b=e.target.closest('[data-fav]');if(!b)return;var n=b.dataset.fav,i=F.favs.indexOf(n);if(i>=0)F.favs.splice(i,1);else F.favs.unshift(n);saveF();
+  $$('[data-fav]').forEach(function(x){if(x.dataset.fav===n)x.textContent=i>=0?'♡':'♥'});favs()};
+ if(L==='es')style='latino';mark();roll();favs()}
+
+/* ------------------------------------------------------------ TEST DE PERSONALIDAD */
+var TYPES={
+couch:{e:'🛋️',stamp:'comfy',en:['The Couch Potato','Professional napper and blanket expert. Your pet knows the warmest spot in the house and has no plans to leave it. Life motto: why stand when you can lie down?'],es:['El rey del sillón','Experto en siestas y mantas. Conoce el lugar más calentito de la casa y no piensa moverse. Su lema: ¿para qué pararse si se puede estar acostado?']},
+explorer:{e:'🧭',stamp:'cozy-pup',en:['The Explorer','Curious nose, brave heart. Every walk is an adventure and every bag must be inspected. Your pet was born to discover new smells and new places.'],es:['El explorador','Nariz curiosa y corazón valiente. Cada paseo es una aventura y cada bolsa hay que revisarla. Nació para descubrir olores y lugares nuevos.']},
+clown:{e:'🤡',stamp:'good-boy',en:['The Class Clown','Zoomies, silly faces and perfect comedic timing. Your pet lives to make you laugh, and it works every single time.'],es:['El payasito','Corridas locas, caras graciosas y un timing perfecto. Vive para hacerte reír, y lo logra siempre.']},
+velcro:{e:'🧲',stamp:'dog-mom-club',en:['The Velcro Buddy','Your shadow, your sidekick, your bathroom guard. Wherever you go, your pet goes too, because you are their favorite person in the world.'],es:['El inseparable','Tu sombra, tu compañero y tu guardia del baño. A donde vayas, va. Porque eres su persona favorita del mundo.']},
+diva:{e:'👑',stamp:'cat-mom-club',en:['The Diva','Elegant, picky and fully aware they run the house. Your pet accepts love on their own terms, and only the best treats will do.'],es:['La diva','Elegante, exigente y sabe que manda en la casa. Acepta mimos cuando quiere, y solo los mejores premios.']},
+genius:{e:'🧠',stamp:'frenchie',en:['The Little Genius','Opens doors, solves puzzles and always finds the snacks. Your pet is three steps ahead of you, so keep that pantry closed.'],es:['El pequeño genio','Abre puertas, resuelve juegos y siempre encuentra la comida. Va tres pasos adelante tuyo: cierra bien la alacena.']}};
+var QS=[
+{en:'Saturday morning, your pet is...',es:'Sábado a la mañana, tu mascota está...',o:[['still in bed, obviously','todavía en la cama, obvio','couch'],['at the door, ready to go out','en la puerta, lista para salir','explorer'],['following you everywhere','siguiéndote a todos lados','velcro'],['trying to open the treat drawer','intentando abrir el cajón de los premios','genius']]},
+{en:'A new toy arrives. Your pet...',es:'Llega un juguete nuevo. Tu mascota...',o:[['ignores it unless it is yours','lo ignora, salvo que sea tuyo','diva'],['destroys it in 5 minutes, happily','lo destruye feliz en 5 minutos','clown'],['brings it to you to play together','te lo trae para jugar juntos','velcro'],['figures out how to get the treat inside','descubre cómo sacar el premio de adentro','genius']]},
+{en:'Someone new visits. Your pet...',es:'Viene alguien nuevo. Tu mascota...',o:[['judges them from a distance','lo juzga desde lejos','diva'],['greets them like a long-lost friend','lo recibe como a un viejo amigo','clown'],['sniffs every bag and shoe','huele cada bolsa y cada zapato','explorer'],['stays glued to you','se queda pegada a ti','velcro']]},
+{en:'Favorite spot in the house?',es:'¿Su lugar favorito de la casa?',o:[['the warmest blanket','la manta más calentita','couch'],['the window, watching the world','la ventana, mirando el mundo','explorer'],['your lap, always','tu falda, siempre','velcro'],['exactly where they are not allowed','justo donde no tiene permiso','genius']]},
+{en:'Bath time is...',es:'La hora del baño es...',o:[['a dramatic tragedy','una tragedia dramática','diva'],['impossible: they hide somewhere clever','imposible: se esconde en un lugar ingenioso','genius'],['a splash party','una fiesta de salpicones','clown'],['fine, as long as there is a towel nap after','tolerable, si después hay siesta en la toalla','couch']]},
+{en:'The perfect afternoon is...',es:'La tarde perfecta es...',o:[['a long adventure outside','una aventura larga al aire libre','explorer'],['a short walk and a long nap','un paseo corto y una siesta larga','couch'],['a puzzle or a new trick','un juego de ingenio o un truco nuevo','genius'],['any game, as long as it is with you','cualquier juego, mientras sea contigo','velcro']]},
+{en:'When you come home...',es:'Cuando llegas a casa...',o:[['zoomies! zoomies everywhere!','¡corre como loca por toda la casa!','clown'],['they come over... eventually','viene a saludarte... cuando quiere','diva'],['they were already waiting at the door','ya estaba esperando en la puerta','velcro'],['one eye opens, then closes','abre un ojo, y lo vuelve a cerrar','couch']]},
+{en:'Their secret talent?',es:'¿Su talento secreto?',o:[['opening doors and cabinets','abrir puertas y cajones','genius'],['finding every crumb in a 5 mile radius','encontrar cada miga en 10 cuadras','explorer'],['making everyone laugh','hacer reír a todos','clown'],['getting their way with one look','conseguir lo que quiere con una mirada','diva']]}];
+var quiz={i:0,a:[]};
+var ZOD=[['capricorn','♑',[12,22],{en:['Capricorn','Disciplined and loyal. Loves routines, dinner on time and being the responsible one.'],es:['Capricornio','Disciplinado y leal. Ama las rutinas, la cena a horario y ser el responsable.']}],
+['aquarius','♒',[1,20],{en:['Aquarius','Quirky and independent. Has unique habits nobody can explain, and that is part of the charm.'],es:['Acuario','Original e independiente. Tiene costumbres únicas que nadie entiende, y ahí está su encanto.']}],
+['pisces','♓',[2,19],{en:['Pisces','Sweet, dreamy and sensitive. Knows when you are sad and comes over for a cuddle.'],es:['Piscis','Dulce, soñador y sensible. Sabe cuando estás triste y viene a acurrucarse.']}],
+['aries','♈',[3,21],{en:['Aries','Brave, energetic and always first out the door. Never backs down from a squirrel.'],es:['Aries','Valiente, enérgico y siempre el primero en salir. Nunca se rinde ante una ardilla.']}],
+['taurus','♉',[4,20],{en:['Taurus','Loves comfort, good food and a soft bed. Stubborn when it comes to walks in the rain.'],es:['Tauro','Ama la comodidad, la buena comida y la cama blandita. Terco si el paseo es bajo la lluvia.']}],
+['gemini','♊',[5,21],{en:['Gemini','Chatty and playful, with two moods: wild zoomies and total nap mode.'],es:['Géminis','Charlatán y juguetón, con dos modos: corridas locas y siesta total.']}],
+['cancer','♋',[6,21],{en:['Cancer','A homebody with a huge heart. Protective of the family and the favorite blanket.'],es:['Cáncer','Casero y con un corazón enorme. Protege a su familia y a su manta favorita.']}],
+['leo','♌',[7,23],{en:['Leo','A natural star. Loves attention, compliments and being in every photo.'],es:['Leo','Una estrella nata. Ama la atención, los halagos y salir en todas las fotos.']}],
+['virgo','♍',[8,23],{en:['Virgo','Tidy and observant. Notices when a single thing in the house moved.'],es:['Virgo','Ordenado y observador. Se da cuenta si se movió una sola cosa de la casa.']}],
+['libra','♎',[9,23],{en:['Libra','Charming peacemaker. Gets along with everyone, humans, dogs and even the cat.'],es:['Libra','Encantador y pacífico. Se lleva bien con todos: personas, perros y hasta el gato.']}],
+['scorpio','♏',[10,23],{en:['Scorpio','Mysterious and intense. Their stare can open the fridge.'],es:['Escorpio','Misterioso e intenso. Con la mirada es capaz de abrir el refrigerador.']}],
+['sagittarius','♐',[11,22],{en:['Sagittarius','Adventurous and optimistic. Every car ride is the best day ever.'],es:['Sagitario','Aventurero y optimista. Cada viaje en auto es el mejor día de su vida.']}]];
+function sign(d){var m=d.getMonth()+1,day=d.getDate(),r=ZOD[0];ZOD.slice(1).forEach(function(z){var s=z[2];if(m>s[0]||(m===s[0]&&day>=s[1]))r=z});if(m===12&&day>=22)r=ZOD[0];return r}
+function renderQuiz(o){var p=cur()||{},nm=p.name||t('yourPet');
+ var h='<h1>'+t('quizH')+'</h1><p class="muted">'+t('quizL')+'</p>'+petChips()+'<div class="box" id="qz"></div>'+adSlot('quiz')+
+ '<h2 id="zod">🔮 '+t('zodH')+'</h2><div class="box"><p class="muted" style="margin-top:0">'+t('zodL')+'</p><label>'+t('bday')+'<input type="date" id="zb" max="'+iso(today())+'" value="'+esc(p.bday||'')+'"></label><div id="zres"></div></div>';
+ $('#v-quiz').innerHTML=h;
+ function zshow(){var d=pd($('#zb').value);if(!d){$('#zres').innerHTML='';return}var z=sign(d),x=z[3][L];
+  $('#zres').innerHTML='<div class="result"><div class="big">'+z[1]+' '+x[0]+'</div><p style="margin:8px 0 0">'+esc(x[1])+'</p><div class="btns"><button class="btn alt" id="zcard">💌 '+t('resCard')+'</button></div></div>';
+  $('#zcard').onclick=function(){go('card',{head:'zod',name:p.name||'',big:z[1]+' '+x[0],line:x[1],stamp:p.species==='cat'?'cat-dad':'dog-dad'})};track('zodiac',{sign:z[0]})}
+ $('#zb').addEventListener('input',zshow);zshow();
+ function q(){var box=$('#qz');if(quiz.i>=QS.length){var sc={};quiz.a.forEach(function(k){sc[k]=(sc[k]||0)+1});var best=Object.keys(TYPES).sort(function(a,b){return (sc[b]||0)-(sc[a]||0)})[0],ty=TYPES[best],x=ty[L];
+   box.innerHTML='<p class="muted" style="margin:0">'+esc(t('isA',{name:nm}))+'</p><div class="big" style="font-size:34px;margin:6px 0">'+ty.e+' '+x[0]+'</div><p>'+esc(x[1])+'</p>'+
+   '<div class="btns"><button class="btn alt" id="qcard">💌 '+t('resCard')+'</button><button class="btn ghost" id="qre">↺ '+t('again')+'</button></div>'+shopLink(ty.stamp);
+   $('#qcard').onclick=function(){go('card',{head:'quiz',name:p.name||'',big:ty.e+' '+x[0],line:x[1],stamp:ty.stamp})};
+   $('#qre').onclick=function(){quiz={i:0,a:[]};q()};track('quiz_done',{type:best});return}
+  var Q=QS[quiz.i];box.innerHTML='<div class="bar"><i style="width:'+(quiz.i/QS.length*100)+'%"></i></div><p class="muted" style="margin:0">'+(quiz.i+1)+' / '+QS.length+'</p><div class="q"><p>'+Q[L]+'</p><div class="opts">'+
+   Q.o.map(function(o,j){return '<button class="opt'+(quiz.a[quiz.i]===o[2]&&quiz.sel===j?' on':'')+'" data-j="'+j+'">'+o[L==='es'?1:0]+'</button>'}).join('')+'</div></div>'+(quiz.i?'<button class="chip" id="qb">← '+t('back')+'</button>':'');
+  $$('.opt',box).forEach(function(b){b.onclick=function(){quiz.a[quiz.i]=Q.o[+b.dataset.j][2];quiz.i++;q()}});if($('#qb'))$('#qb').onclick=function(){quiz.i--;q()}}
+ q();if(o&&o.opt==='zod')setTimeout(function(){$('#zod').scrollIntoView({behavior:'smooth'})},50)}
+
+/* ------------------------------------------------------------ TARJETAS */
+var THEMES=[{bg:'#F3E9D7',card:'#FAF4E8',ink:'#3B2433',acc:'#B5525C',sub:'#4E7F86',paw:'#e6d6b8'},{bg:'#3B2433',card:'#4a2f41',ink:'#F3E9D7',acc:'#E2B65C',sub:'#f3c9a0',paw:'#563a4c'},
+ {bg:'#4E7F86',card:'#F3E9D7',ink:'#3B2433',acc:'#B5525C',sub:'#4E7F86',paw:'#5f9097'},{bg:'#B5525C',card:'#FAF4E8',ink:'#3B2433',acc:'#B5525C',sub:'#4E7F86',paw:'#c46670'},{bg:'#1f4d3a',card:'#F3E9D7',ink:'#1f4d3a',acc:'#B5525C',sub:'#C8962E',paw:'#2b5e49'}];
+var card={occ:'bday',theme:0,stamp:null,photo:null,usePet:true,custom:null};
+var imgCache={};function img(src){if(!imgCache[src]){var i=new Image();i.src=src;imgCache[src]=new Promise(function(ok){i.onload=function(){ok(i)};i.onerror=function(){ok(null)}})}return imgCache[src]}
+function renderCard(o){var p=cur()||{};o=o||{};if(o.head){card.custom=o;card.stamp=o.stamp||card.stamp;card.occ='custom'}else if(card.occ==='custom'){card.occ='bday';card.custom=null}
+ if(!card.stamp)card.stamp=p.species==='cat'?'cat-mom':'dog-mom';var nb=p.bday?nextBday(pd(p.bday)):null;
+ var h='<h1>'+t('cardH')+'</h1><p class="muted">'+t('cardL')+'</p>'+petChips()+'<canvas id="cv" width="1080" height="1350" aria-label="card preview"></canvas>'+
+ '<div class="btns" style="justify-content:center"><button class="btn" id="cdl">⬇ '+t('download')+'</button><button class="btn alt" id="csh">📤 '+t('share')+'</button></div>'+
+ '<div class="box">'+(card.custom?'':'<label>'+t('occasion')+'<div class="seg" id="cocc">'+Object.keys(T.en.occ).map(function(k){return '<button class="chip'+(card.occ===k?' on':'')+'" data-v="'+k+'">'+t('occ')[k]+'</button>'}).join('')+'</div></label>')+
+ '<div class="row"><label>'+t('petName')+'<input type="text" id="cn" maxlength="22" value="'+esc(o.name!=null?o.name:(p.name||''))+'"></label>'+(card.custom?'':'<label>'+t('turns')+'<input type="number" id="ca" min="0" max="30" value="'+(nb?nb.turns:'')+'"></label>')+'</div>'+
+ (card.custom?'':'<label>'+t('msg')+'<textarea id="cm" maxlength="90">'+esc(t('msgDef')[card.occ]||'')+'</textarea></label>')+
+ '<label>'+t('photo')+'<div class="seg">'+(p.photo?'<button class="chip'+(card.usePet&&!card.photo?' on':'')+'" id="cpp">'+esc(t('usePhoto',{name:p.name}))+'</button>':'')+'<label class="chip" style="margin:0;font-weight:400">📷 '+t('addPhoto')+'<input type="file" id="cph" accept="image/*" hidden></label><button class="chip" id="cnp">'+t('noPhoto')+'</button></div></label>'+
+ '<label>'+t('colors')+'<div class="seg" id="cth">'+THEMES.map(function(x,i){return '<button class="sw'+(card.theme===i?' on':'')+'" data-i="'+i+'" style="background:'+x.bg+'" aria-label="color '+(i+1)+'"></button>'}).join('')+'</div></label>'+
+ '<label>'+t('stamp')+'</label><div class="stamps" id="cst">'+CFG.stamps.map(function(s){return '<button class="st'+(card.stamp===s.id?' on':'')+'" data-s="'+s.id+'"><img src="/fun/stamps/'+s.id+'.png" alt="'+esc(s.id)+'" loading="lazy"></button>'}).join('')+'</div></div>'+
+ '<div id="cshop"></div>'+adSlot('card');
+ $('#v-card').innerHTML=h;
+ function draw(){var cv=$('#cv'),x=cv.getContext('2d'),th=THEMES[card.theme],W=1080,H=1350,nm=($('#cn').value||'').trim();
+  var ph=card.photo||(card.usePet&&p.photo)||null,st=CFG.stamps.filter(function(s){return s.id===card.stamp})[0];
+  Promise.all([document.fonts?document.fonts.load('80px Yesteryear'):0,document.fonts?document.fonts.load('80px Abril'):0,img('/fun/stamps/'+card.stamp+'.png'),ph?img(ph):null,img('/img/logo-160.png')]).then(function(r){
+   var si=r[2],pi=r[3],lg=r[4];x.fillStyle=th.bg;x.fillRect(0,0,W,H);
+   x.fillStyle=th.paw;for(var yy=40;yy<H;yy+=150)for(var xx=((yy/150)%2?40:115);xx<W;xx+=150)paw(x,xx,yy,14);
+   rr(x,50,50,W-100,H-100,46);x.fillStyle=th.card;x.fill();x.lineWidth=6;x.strokeStyle=th.acc;rr(x,72,72,W-144,H-144,34);x.stroke();
+   x.textAlign='center';x.fillStyle=th.card===th.bg?th.ink:(card.theme===1?th.ink:th.ink);
+   var head,big='',line='',msg='';
+   if(card.custom){var c=card.custom;head=c.head==='age'?(nm||t('yourPet')):c.head==='zod'?t('zodH'):(nm?t('isA',{name:nm}):t('quizH'));big=String(c.big);line=c.line||'';if(c.head==='age'){big=c.big+'';line=t('human')}}
+   else{head=t('heads')[card.occ];var a=$('#ca')?$('#ca').value:'';msg=$('#cm')?$('#cm').value:'';big=nm;line=a?(card.occ==='gotcha'?t('yearsN',{n:a}):card.occ==='bday'?t('turnsN',{n:a}):''):''}
+   var y=150;x.fillStyle=th.acc;x.font='96px Yesteryear, cursive';fitText(x,head,W-220,96,'Yesteryear, cursive');x.fillText(head,W/2,y+60);y+=110;
+   var ps=ph&&pi?380:0;if(ps){x.save();x.beginPath();x.arc(W/2,y+ps/2+10,ps/2,0,7);x.closePath();x.clip();var s=Math.max(ps/pi.width,ps/pi.height);x.drawImage(pi,W/2-pi.width*s/2,y+10+ps/2-pi.height*s/2,pi.width*s,pi.height*s);x.restore();
+    x.lineWidth=10;x.strokeStyle=th.sub;x.beginPath();x.arc(W/2,y+ps/2+10,ps/2+4,0,7);x.stroke();y+=ps+40}
+   else if(si){var sw=Math.min(560,si.width*1.4),sh=si.height*sw/si.width;if(sh>440){sh=440;sw=si.width*sh/si.height}x.drawImage(si,W/2-sw/2,y,sw,sh);y+=sh+40}
+   x.fillStyle=th.ink;var bs=card.custom&&card.custom.head==='age'?170:96;fitText(x,big,W-220,bs,'Abril, Georgia, serif');if(big){x.fillText(big,W/2,y+bs*.8);y+=bs+10}
+   x.fillStyle=th.sub;var lf=line.length>70?38:44,lh=lf+12;x.font='italic '+lf+'px Lora, Georgia, serif';var nl=wrapText(x,line,W/2,y+40,W-240,lh,5).length;y+=line?40+nl*lh:0;
+   if(msg){x.fillStyle=th.ink;x.font='40px Lora, Georgia, serif';wrapText(x,msg,W/2,y+30,W-260,52,3)}
+   if(ps&&si){var sw2=220,sh2=si.height*sw2/si.width;if(sh2>170){sh2=170;sw2=si.width*sh2/si.height}x.drawImage(si,W-120-sw2,H-120-sh2-50,sw2,sh2)}
+   if(lg)x.drawImage(lg,110,H-200,72,73);x.textAlign='left';x.fillStyle=th.ink;x.font='44px Yesteryear, cursive';x.fillText('Cozy Paws',192,H-150);x.font='22px Lora, Georgia, serif';x.fillStyle=th.sub;x.fillText(CFG.host+(L==='es'?'/fun/es/':'/fun/'),192,H-118)});
+  var sh=CFG.stamps.filter(function(s){return s.id===card.stamp})[0];$('#cshop').innerHTML=sh?shopLink(sh.id):''}
+ function blob(cb){$('#cv').toBlob(cb,'image/png')}
+ $('#cdl').onclick=function(){blob(function(b){var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='cozy-paws-card.png';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},4000)});track('card_download',{stamp:card.stamp,occ:card.occ})};
+ $('#csh').onclick=function(){blob(function(b){var f=new File([b],'cozy-paws-card.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],title:'Paw Party',text:t('shareText')+' '+location.origin+location.pathname}).catch(function(){});else $('#cdl').click()});track('card_share',{stamp:card.stamp})};
+ $('#v-card').oninput=function(e){if(e.target.id!=='cph')draw()};
+ if($('#cocc'))$('#cocc').onclick=function(e){var c=e.target.closest('.chip');if(!c)return;card.occ=c.dataset.v;renderCard({name:$('#cn').value})};
+ $('#cth').onclick=function(e){var c=e.target.closest('.sw');if(!c)return;card.theme=+c.dataset.i;$$('#cth .sw').forEach(function(s){s.classList.toggle('on',s===c)});draw()};
+ $('#cst').onclick=function(e){var c=e.target.closest('.st');if(!c)return;card.stamp=c.dataset.s;$$('#cst .st').forEach(function(s){s.classList.toggle('on',s===c)});draw()};
+ $('#cph').onchange=function(){if(this.files[0])readPhoto(this.files[0],900,function(u){card.photo=u;draw()})};
+ $('#cnp').onclick=function(){card.photo=null;card.usePet=false;draw()};if($('#cpp'))$('#cpp').onclick=function(){card.photo=null;card.usePet=true;draw()};
+ draw()}
+function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
+function paw(x,cx,cy,r){x.beginPath();x.ellipse(cx,cy+r*.6,r*1.1,r*.9,0,0,7);x.fill();[[-1.2,-.6],[-.45,-1.25],[.45,-1.25],[1.2,-.6]].forEach(function(o){x.beginPath();x.arc(cx+o[0]*r,cy+o[1]*r,r*.42,0,7);x.fill()})}
+function fitText(x,s,max,size,fam){var z=size;x.font=z+'px '+fam;while(z>30&&x.measureText(s).width>max){z-=4;x.font=z+'px '+fam}}
+function wrapCalc(x,s,max){var w=String(s||'').split(' '),o=[],c='';w.forEach(function(v){var tt=c?c+' '+v:v;if(x.measureText(tt).width>max&&c){o.push(c);c=v}else c=tt});if(c)o.push(c);return o}
+function wrapText(x,s,cx,y,max,lh,n){var a=wrapCalc(x,s,max),o=a.slice(0,n);if(a.length>n)o[n-1]=o[n-1].replace(/\s*\S+$/,'')+'…';o.forEach(function(l,i){x.fillText(l,cx,y+i*lh)});return o}
+
+/* ------------------------------------------------------------ Etsy (discreto) y anuncios */
+function shopLink(id){var s=CFG.stamps.filter(function(x){return x.id===id})[0];if(!s)return '';
+ return '<a class="shop" href="'+esc(s.url)+'" target="_blank" rel="noopener" data-etsy="fun-'+id+'"><img src="/fun/stamps/'+id+'.png" alt="" loading="lazy"><span>'+t('onShirt')+' <b>'+t('seeEtsy')+'</b></span></a>'}
+document.addEventListener('click',function(e){var a=e.target.closest('a[data-etsy]');if(a)track('etsy_click',{item_id:a.dataset.etsy})});
+function adSlot(name){if(!CFG.ads)return '';return '<div class="ad web-only"><ins class="adsbygoogle" style="display:block" data-ad-client="'+CFG.ads+'" data-ad-format="auto" data-full-width-responsive="true"></ins></div>'}
+function pushAds(){if(!CFG.ads||!window.adsbygoogle)return;$$('ins.adsbygoogle:not([data-adsbygoogle-status])').forEach(function(){try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){}})}
+new MutationObserver(function(){if(window.adsbygoogle)pushAds()}).observe($('main'),{childList:true,subtree:true});
+
+/* ------------------------------------------------------------ instalar (PWA) */
+var deferred=null,isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream,standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+var ib=$('#inst');ib.textContent='📲 '+t('install');
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;if(!standalone)ib.style.display='inline-block'});
+if(isIOS&&!standalone)ib.style.display='inline-block';
+ib.onclick=function(){if(deferred){deferred.prompt();deferred.userChoice.then(function(c){track('app_install_prompt',{outcome:c.outcome});deferred=null;ib.style.display='none'})}
+ else openDlg('<h2 style="margin-top:0">'+t('iosH')+'</h2><p>'+t('iosB')+'</p><button class="btn" onclick="this.closest(\'dialog\').close()">'+t('done')+'</button>')};
+window.addEventListener('appinstalled',function(){ib.style.display='none';track('app_installed')});
+if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('/fun/sw.js',{scope:'/fun/'}).catch(function(){})});
+
+/* ------------------------------------------------------------ cookies (GA4 y anuncios solo si aceptan) */
+$$('[data-t]').forEach(function(e){e.textContent=t(e.dataset.t)});
+(function(){var c=localStorage.getItem('ww_cc');if(c==='y')wwLoad();else if(c!=='n'){var b=$('#cc');b.style.display='block';$('.y',b).onclick=function(){localStorage.setItem('ww_cc','y');b.style.display='none';wwLoad()};$('.n',b).onclick=function(){localStorage.setItem('ww_cc','n');b.style.display='none'}}})();
+$('.foot')&&($('.foot').innerHTML=t('foot',{co:esc(CFG.company)})+' · <a href="/privacy/">'+t('privacy')+'</a> · <a href="/terms/">'+(L=='es'?'Términos':'Terms')+'</a> · <a href="/">cozypawsgifts</a>');
+go((location.hash||'#home').slice(1));
+})();
+</script>
+</body></html>
