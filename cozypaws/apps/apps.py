@@ -86,88 +86,153 @@ def analytics_js(config):
     return f'<script>{js}}}</script>'
 
 
-def manifest(config, lang):
-    es = lang == 'es'
+DIARY_SEO = {
+    'en': dict(
+        title='Paw Diary: Free Pet Diary, Vet Reminders and Weight Tracker App for Dogs and Cats',
+        desc='Free app for dog and cat owners: log walks, meals and meds, get vaccine and flea pill reminders, track weight with a chart and see how much to feed. Works offline, no sign up.',
+        h1='Paw Diary: a free pet diary and reminder app',
+        intro='Paw Diary keeps your dog or cat\'s daily life and health in one place. Log walks, meals, meds and moods with one tap, set reminders for vaccines, flea and tick pills, heartworm, grooming and vet visits, track weight with a chart and get a daily food plan. It is free, works in your browser and offline, and installs on your phone like a normal app.',
+        feats=[('One tap daily log', 'Walk, meal, meds, potty, play, treat, grooming and vet buttons, with a walk counter for the day and the week.'),
+               ('Pet diary', 'Notes with date, time, mood, tags, weight and a photo, grouped by day.'),
+               ('Vet and care reminders', 'Vaccines, flea and tick, heartworm, deworming, grooming, nail trims, baths and checkups, repeating weekly, monthly, every 3 or 6 months or yearly. Add them to your phone calendar in one tap.'),
+               ('Weight tracker', 'A weight chart plus the healthy weight range for 70 dog breeds and 10 cat breeds.'),
+               ('Food calculator', 'Daily calories with the RER formula vets use, in cups or grams for your food, plus water and treat limits.'),
+               ('Private backup', 'Everything stays on your device. Download a backup file and restore it on a new phone.')],
+        faq=[('Is Paw Diary free?', 'Yes, completely free, with no sign up and no in-app purchases.'),
+             ('Will it remind me when the app is closed?', 'The app shows what is due every time you open it, and can show an alert. To get a phone alert even when the app is closed, tap the calendar button and the reminder goes to your phone\'s calendar with an alarm.'),
+             ('Where is my data saved?', 'Only on your device, in your browser. Nothing is sent to us. Use "Download a backup" from time to time, especially before changing phones.'),
+             ('How do I install it on my phone?', 'On Android, tap "Install app" at the top (Chrome). On iPhone, open the page in Safari, tap Share and then "Add to Home Screen".'),
+             ('Is the food calculator veterinary advice?', 'No. It is a starting point based on the standard RER formula. Ask your vet before changing your pet\'s diet.')],
+        other_label='Español', in_lang='en-US'),
+    'es': dict(
+        title='Paw Diary: app gratis de diario, recordatorios del veterinario y peso para perros y gatos',
+        desc='App gratis para dueños de perros y gatos: anota paseos, comidas y remedios, recibe recordatorios de vacunas y pastillas para pulgas, sigue el peso con un gráfico y mira cuánto darle de comer. Funciona sin internet y sin registrarte.',
+        h1='Paw Diary: diario y recordatorios gratis para tu mascota',
+        intro='Paw Diary junta el día a día y la salud de tu perro o gato en un solo lugar. Anota paseos, comidas, remedios y cómo está con un toque, pon recordatorios de vacunas, pulgas y garrapatas, pastilla del corazón, peluquería y veterinario, sigue su peso con un gráfico y mira cuánto darle de comer. Es gratis, funciona en el navegador y sin internet, y se instala en tu celular como una app normal.',
+        feats=[('Anotar con un toque', 'Botones de paseo, comida, remedio, baño, juego, premio, aseo y veterinario, con contador de paseos del día y de la semana.'),
+               ('Diario', 'Notas con fecha, hora, ánimo, etiquetas, peso y foto, ordenadas por día.'),
+               ('Recordatorios', 'Vacunas, pulgas y garrapatas, pastilla del corazón, desparasitar, peluquería, uñas, baño y controles, cada semana, mes, 3 o 6 meses o año. Agrégalos al calendario de tu celular con un toque.'),
+               ('Control de peso', 'Gráfico de peso y el rango sano para 70 razas de perro y 10 de gato.'),
+               ('Calculadora de comida', 'Calorías diarias con la fórmula RER que usan los veterinarios, en tazas o gramos de su alimento, más agua y premios.'),
+               ('Copia privada', 'Todo queda en tu equipo. Descarga una copia y restáurala en un celular nuevo.')],
+        faq=[('¿Paw Diary es gratis?', 'Sí, totalmente gratis, sin registrarte y sin compras dentro de la app.'),
+             ('¿Me avisa si la app está cerrada?', 'La app te muestra lo pendiente cada vez que la abres, y puede mostrar un aviso. Para que te avise el celular aunque esté cerrada, toca el botón de calendario y el recordatorio se guarda en el calendario de tu celular con alarma.'),
+             ('¿Dónde se guardan mis datos?', 'Solo en tu equipo, en tu navegador. No nos llega nada. Usa "Descargar una copia" de vez en cuando, sobre todo antes de cambiar de celular.'),
+             ('¿Cómo la instalo en el celular?', 'En Android, toca "Instalar app" arriba (Chrome). En iPhone, abre la página en Safari, toca Compartir y después "Agregar a inicio".'),
+             ('¿La calculadora de comida es un consejo veterinario?', 'No. Es un punto de partida con la fórmula RER. Consulta a tu veterinario antes de cambiar su alimentación.')],
+        other_label='English', in_lang='es-US'),
+}
+
+APPS = {
+    'fun': dict(tpl='fun.html', seo=SEO, name='Paw Party by Cozy Paws', short='Paw Party', cat='EntertainmentApplication', cats=['entertainment', 'lifestyle'],
+                theme='#4E7F86', pin='/img/pin/app-fun.jpg', cache='pawparty',
+                shortcuts={'en': [('Cards', '#card'), ('Human years', '#age')], 'es': [('Tarjetas', '#card'), ('Años humanos', '#age')]}),
+    'diary': dict(tpl='diary.html', seo=DIARY_SEO, name='Paw Diary by Cozy Paws', short='Paw Diary', cat='LifestyleApplication', cats=['lifestyle', 'health', 'productivity'],
+                  theme='#3B2433', pin='/img/pin/app-diary.jpg', cache='pawdiary',
+                  shortcuts={'en': [('Reminders', '#rem'), ('Diary', '#log')], 'es': [('Recordatorios', '#rem'), ('Diario', '#log')]}),
+}
+
+
+def manifest(slug, lang):
+    a, es = APPS[slug], lang == 'es'
+    base = f'/{slug}/' + ('es/' if es else '')
     return {
-        'id': '/fun/' + ('es/' if es else ''), 'name': 'Paw Party by Cozy Paws', 'short_name': 'Paw Party',
-        'description': SEO[lang]['desc'], 'lang': 'es' if es else 'en',
-        'start_url': '/fun/' + ('es/' if es else '') + '?source=pwa', 'scope': '/fun/', 'display': 'standalone',
-        'background_color': '#F3E9D7', 'theme_color': '#4E7F86', 'orientation': 'portrait',
-        'categories': ['entertainment', 'lifestyle'],
-        'icons': [{'src': '/fun/icons/icon-192.png', 'sizes': '192x192', 'type': 'image/png'},
-                  {'src': '/fun/icons/icon-512.png', 'sizes': '512x512', 'type': 'image/png'},
-                  {'src': '/fun/icons/icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'}],
-        'shortcuts': [{'name': 'Cards' if not es else 'Tarjetas', 'url': '/fun/' + ('es/' if es else '') + '#card'},
-                      {'name': 'Human years' if not es else 'Años humanos', 'url': '/fun/' + ('es/' if es else '') + '#age'}],
+        'id': base, 'name': a['name'], 'short_name': a['short'], 'description': a['seo'][lang]['desc'], 'lang': lang,
+        'start_url': base + '?source=pwa', 'scope': f'/{slug}/', 'display': 'standalone',
+        'background_color': '#F3E9D7', 'theme_color': a['theme'], 'orientation': 'portrait', 'categories': a['cats'],
+        'icons': [{'src': f'/{slug}/icons/icon-192.png', 'sizes': '192x192', 'type': 'image/png'},
+                  {'src': f'/{slug}/icons/icon-512.png', 'sizes': '512x512', 'type': 'image/png'},
+                  {'src': f'/{slug}/icons/icon-maskable-512.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable'}],
+        'shortcuts': [{'name': n, 'url': base + h} for n, h in a['shortcuts'][lang]],
     }
 
 
-def build_fun(out, config, all_prods, today):
-    """Escribe /fun/ y /fun/es/. Devuelve [(ruta, fecha)] para el sitemap."""
-    d = os.path.join(out, 'fun')
+def shared_style():
+    s = open(os.path.join(HERE, 'fun.html'), encoding='utf-8').read()
+    return s[s.index('<style>'):s.index('</style>') + 8]
+
+
+def build_app(slug, out, config, all_prods, today):
+    """Escribe /<slug>/ y /<slug>/es/. Devuelve [(ruta, fecha)] para el sitemap."""
+    a = APPS[slug]
+    d = os.path.join(out, slug)
     for sub in ('icons', 'stamps', 'es'):
         os.makedirs(os.path.join(d, sub), exist_ok=True)
     for f in os.listdir(ASSETS):
         if f.endswith('.png'):
             shutil.copy(os.path.join(ASSETS, f), os.path.join(d, 'icons', f))
-    for f in os.listdir(os.path.join(ASSETS, 'stamps')):
-        shutil.copy(os.path.join(ASSETS, 'stamps', f), os.path.join(d, 'stamps', f))
-    tpl = open(os.path.join(HERE, 'fun.html'), encoding='utf-8').read()
-    url = config['url']
     stamps = stamp_links(config, all_prods, today)
-    host = url.split('//')[1]
-    pages = {}
+    if slug == 'fun':
+        for f in os.listdir(os.path.join(ASSETS, 'stamps')):
+            shutil.copy(os.path.join(ASSETS, 'stamps', f), os.path.join(d, 'stamps', f))
+    else:
+        os.rmdir(os.path.join(d, 'stamps'))
+    tpl = open(os.path.join(HERE, a['tpl']), encoding='utf-8').read().replace('<!--SHARED_STYLE-->', shared_style())
+    url, host = config['url'], config['url'].split('//')[1]
     for lang in ('en', 'es'):
-        s = SEO[lang]
-        path = '/fun/' + ('es/' if lang == 'es' else '')
-        other = '/fun/es/' if lang == 'en' else '/fun/'
-        ld = [{'@context': 'https://schema.org', '@type': 'WebApplication', 'name': 'Paw Party', 'url': url + path, 'inLanguage': s['in_lang'],
-               'applicationCategory': 'EntertainmentApplication', 'operatingSystem': 'Any (web, Android, iPhone)', 'description': s['desc'],
-               'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'}, 'image': url + '/fun/icons/icon-512.png',
+        s = a['seo'][lang]
+        path = f'/{slug}/' + ('es/' if lang == 'es' else '')
+        other = f'/{slug}/es/' if lang == 'en' else f'/{slug}/'
+        ld = [{'@context': 'https://schema.org', '@type': 'WebApplication', 'name': a['short'], 'url': url + path, 'inLanguage': s['in_lang'],
+               'applicationCategory': a['cat'], 'operatingSystem': 'Any (web, Android, iPhone)', 'description': s['desc'],
+               'offers': {'@type': 'Offer', 'price': '0', 'priceCurrency': 'USD'}, 'image': url + f'/{slug}/icons/icon-512.png',
                'publisher': {'@type': 'Organization', 'name': 'Cozy Paws', 'url': url}},
               {'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
-                  {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in s['faq']]}]
+                  {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': ans}} for q, ans in s['faq']]}]
         head = (f'<title>{E(s["title"])}</title><meta name="description" content="{E(s["desc"])}">'
-                f'<link rel="canonical" href="{url}{path}"><link rel="alternate" hreflang="en" href="{url}/fun/">'
-                f'<link rel="alternate" hreflang="es" href="{url}/fun/es/"><link rel="alternate" hreflang="x-default" href="{url}/fun/">'
+                f'<link rel="canonical" href="{url}{path}"><link rel="alternate" hreflang="en" href="{url}/{slug}/">'
+                f'<link rel="alternate" hreflang="es" href="{url}/{slug}/es/"><link rel="alternate" hreflang="x-default" href="{url}/{slug}/">'
                 f'<link rel="manifest" href="{path}manifest.webmanifest">'
                 f'<meta property="og:title" content="{E(s["title"])}"><meta property="og:description" content="{E(s["desc"])}">'
-                f'<meta property="og:image" content="{url}/img/pin/app-fun.jpg"><meta property="og:url" content="{url}{path}"><meta property="og:type" content="website">'
+                f'<meta property="og:image" content="{url}{a["pin"]}"><meta property="og:url" content="{url}{path}"><meta property="og:type" content="website">'
                 f'<meta name="twitter:card" content="summary_large_image">'
                 + (f'<meta name="google-site-verification" content="{E(config["google_verify"])}">' if config.get('google_verify') else '')
                 + (f'<meta name="p:domain_verify" content="{E(config["pinterest_verify"])}">' if config.get('pinterest_verify') else '')
                 + ''.join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in ld))
-        feats = ''.join(f'<li><b>{E(a)}.</b> {E(b)}</li>' for a, b in s['feats'])
-        faq = ''.join(f'<details><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q, a in s['faq'])
-        more = ('More free tools' if lang == 'en' else 'Más herramientas gratis')
-        seo = (f'<section class="seo"><h1>{E(s["h1"])}</h1><p>{E(s["intro"])}</p><h2>{"What you can do" if lang == "en" else "Qué puedes hacer"}</h2><ul>{feats}</ul>'
-               f'<h2>{"Questions" if lang == "en" else "Preguntas frecuentes"}</h2>{faq}'
-               f'<p>{more}: <a href="/tools/">{"Pet tools" if lang == "en" else "Calculadoras (en inglés)"}</a> · <a href="/gifts/">{"Gift guides" if lang == "en" else "Guías de regalos (en inglés)"}</a> · '
-               f'<a href="{config["shop"]}" data-etsy="fun-seo" rel="noopener">Cozy Paws Etsy shop</a></p></section>')
-        cfg = {'lang': lang, 'stamps': stamps, 'host': host, 'company': config['company'],
+        feats = ''.join(f'<li><b>{E(x)}.</b> {E(y)}</li>' for x, y in s['feats'])
+        faq = ''.join(f'<details><summary>{E(q)}</summary><p>{E(ans)}</p></details>' for q, ans in s['faq'])
+        en = lang == 'en'
+        sib = 'diary' if slug == 'fun' else 'fun'
+        sib_txt = (('Paw Diary: diary, reminders and weight' if en else 'Paw Diary: diario, recordatorios y peso') if sib == 'diary'
+                   else ('Paw Party: human years, names, quiz and cards' if en else 'Paw Party: edad humana, nombres, test y tarjetas'))
+        seo = (f'<section class="seo"><h1>{E(s["h1"])}</h1><p>{E(s["intro"])}</p><h2>{"What you can do" if en else "Qué puedes hacer"}</h2><ul>{feats}</ul>'
+               f'<h2>{"Questions" if en else "Preguntas frecuentes"}</h2>{faq}'
+               f'<p>{"More free apps and tools" if en else "Más apps y herramientas gratis"}: <a href="/{sib}/{"" if en else "es/"}">{E(sib_txt)}</a> · '
+               f'<a href="/tools/">{"Pet tools" if en else "Calculadoras (en inglés)"}</a> · <a href="/gifts/">{"Gift guides" if en else "Guías de regalos (en inglés)"}</a> · '
+               f'<a href="{config["shop"]}" data-etsy="{slug}-seo" rel="noopener">Cozy Paws Etsy shop</a></p></section>')
+        cfg = {'lang': lang, 'stamps': stamps, 'host': host, 'company': config['company'], 'shop': config['shop'],
                'ads': config['adsense'] if config.get('adsense_on') else ''}
         doc = (tpl.replace('__LANG__', lang).replace('<!--HEAD-->', head).replace('<!--SEO-->', seo)
                .replace('<!--ANALYTICS-->', analytics_js(config)).replace('/*CFG*/', 'var CFG=' + json.dumps(cfg, ensure_ascii=False) + ';')
                .replace('__OTHER_URL__', other).replace('__OTHER_LABEL__', s['other_label']))
-        pages[lang] = doc
         open(os.path.join(out, path.strip('/'), 'index.html'), 'w', encoding='utf-8').write(doc)
-        open(os.path.join(out, path.strip('/'), 'manifest.webmanifest'), 'w', encoding='utf-8').write(json.dumps(manifest(config, lang), ensure_ascii=False, indent=1))
+        open(os.path.join(out, path.strip('/'), 'manifest.webmanifest'), 'w', encoding='utf-8').write(json.dumps(manifest(slug, lang), ensure_ascii=False, indent=1))
 
     # service worker: la versión cambia solo si cambia el código de la app o las imágenes (no todos los días)
     h = hashlib.sha1(tpl.encode())
-    for f in sorted(os.listdir(os.path.join(ASSETS, 'stamps'))):
-        h.update(f.encode())
-    ver = h.hexdigest()[:10]
-    pre = ['/fun/', '/fun/es/', '/fun/manifest.webmanifest', '/fun/es/manifest.webmanifest', '/img/logo-160.png', '/img/logo-ilustrado.png', '/img/icon.png',
+    if slug == 'fun':
+        for f in sorted(os.listdir(os.path.join(ASSETS, 'stamps'))):
+            h.update(f.encode())
+    ver, c = h.hexdigest()[:10], a['cache']
+    pre = [f'/{slug}/', f'/{slug}/es/', f'/{slug}/manifest.webmanifest', f'/{slug}/es/manifest.webmanifest', '/img/logo-160.png', '/img/logo-ilustrado.png', '/img/icon.png',
            '/fonts/Yesteryear-Regular.woff2', '/fonts/AbrilFatface-Regular.woff2', '/fonts/Lora.woff2',
-           '/fun/icons/icon-192.png', '/fun/icons/icon-512.png'] + [f'/fun/stamps/{x["id"]}.png' for x in stamps]
-    sw = f"""// Paw Party (Cozy Paws): funciona sin internet. Versión {ver} (cambia sola cuando cambia la app).
-const C='pawparty-{ver}',PRE={json.dumps(pre)};
+           f'/{slug}/icons/icon-192.png', f'/{slug}/icons/icon-512.png'] + ([f'/fun/stamps/{x["id"]}.png' for x in stamps] if slug == 'fun' else [])
+    sw = f"""// {a['short']} (Cozy Paws): funciona sin internet. Versión {ver} (cambia sola cuando cambia la app).
+const C='{c}-{ver}',PRE={json.dumps(pre)};
 self.addEventListener('install',e=>{{e.waitUntil(caches.open(C).then(c=>c.addAll(PRE)).then(()=>self.skipWaiting()))}});
-self.addEventListener('activate',e=>{{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith('pawparty-')&&x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))}});
+self.addEventListener('activate',e=>{{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith('{c}-')&&x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))}});
+self.addEventListener('notificationclick',e=>{{e.notification.close();e.waitUntil(clients.openWindow('/{slug}/#rem'))}});
 self.addEventListener('fetch',e=>{{const r=e.request,u=new URL(r.url);if(r.method!=='GET'||u.origin!==location.origin)return;
- if(r.mode==='navigate'){{e.respondWith(fetch(r).then(x=>{{const y=x.clone();caches.open(C).then(c=>c.put(u.pathname,y));return x}}).catch(()=>caches.match(u.pathname).then(m=>m||caches.match('/fun/'))));return}}
+ if(r.mode==='navigate'){{e.respondWith(fetch(r).then(x=>{{const y=x.clone();caches.open(C).then(c=>c.put(u.pathname,y));return x}}).catch(()=>caches.match(u.pathname).then(m=>m||caches.match('/{slug}/'))));return}}
  e.respondWith(caches.match(r).then(m=>{{const f=fetch(r).then(x=>{{if(x.ok){{const y=x.clone();caches.open(C).then(c=>c.put(r,y))}}return x}}).catch(()=>m);return m||f}}));}});
 """
     open(os.path.join(d, 'sw.js'), 'w', encoding='utf-8').write(sw)
-    return [('/fun/', today), ('/fun/es/', today)]
+    return [(f'/{slug}/', today), (f'/{slug}/es/', today)]
+
+
+def build_fun(out, config, all_prods, today):
+    return build_app('fun', out, config, all_prods, today)
+
+
+def build_diary(out, config, all_prods, today):
+    return build_app('diary', out, config, all_prods, today)

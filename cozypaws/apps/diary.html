@@ -1,0 +1,340 @@
+<!DOCTYPE html><html lang="__LANG__"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!--HEAD-->
+<meta name="theme-color" content="#3B2433">
+<link rel="icon" href="/img/icon.png"><link rel="apple-touch-icon" href="/diary/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Paw Diary">
+<link rel="preload" href="/fonts/AbrilFatface-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<!--SHARED_STYLE-->
+<style>
+.top{border-bottom-color:var(--blue)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.kpi{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:10px;text-align:center}.kpi b{font-family:Abril,Georgia,serif;font-weight:400;font-size:24px;color:var(--plum);display:block;line-height:1.1}.kpi span{font-size:13px;color:var(--muted)}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.quick button{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:10px 4px;cursor:pointer;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:2px}.quick button i{font-style:normal;font-size:24px}
+.quick button.done{background:#e8f0f0;border-color:var(--blue)}
+.item{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}
+.item .ic{font-size:26px;line-height:1}.item .tx{flex:1;min-width:0}.item .tx b{color:var(--plum)}.item .tx small{color:var(--muted);display:block}
+.item .acts{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.ib{border:1.5px solid var(--line);background:var(--cream2);border-radius:10px;padding:5px 9px;cursor:pointer;font-size:14px}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:99px;background:var(--cream);margin:2px 4px 0 0}
+.due{font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--cream);color:var(--plum)}.due.late{background:var(--rose);color:#fff}.due.today{background:var(--gold);color:#fff}
+.thumb{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:none;cursor:pointer}
+.chart{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:8px}
+.meter{position:relative;height:14px;border-radius:99px;background:linear-gradient(90deg,#e7c27a 0 25%,#9cc5a1 25% 75%,#e09a8f 75%);margin:14px 0 4px}.meter i{position:absolute;top:-5px;width:6px;height:24px;border-radius:3px;background:var(--plum);transform:translateX(-3px)}
+.legend{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.empty{text-align:center;color:var(--muted);padding:20px 10px}
+.togs{display:flex;flex-wrap:wrap;gap:6px}.togs .chip{font-size:13px}
+details.more{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:10px 14px;margin:10px 0}details.more summary{cursor:pointer;font-weight:600;color:var(--plum)}
+</style>
+<!--ANALYTICS-->
+</head><body>
+<header class="top"><a class="b" href="./"><img src="/img/logo-160.png" alt="" width="40" height="40"><span>Paw Diary<small>by Cozy Paws</small></span></a>
+<button class="chip" id="inst" type="button"></button><a class="chip" id="lang" href="__OTHER_URL__">__OTHER_LABEL__</a></header>
+<main class="wrap">
+<section class="view" id="v-home"></section>
+<section class="view" id="v-log"></section>
+<section class="view" id="v-rem"></section>
+<section class="view" id="v-health"></section>
+<section class="view" id="v-more"></section>
+</main>
+<div class="foot"></div>
+<!--SEO-->
+<nav class="tabs" id="tabs">
+<button data-tab="home"><i>🏠</i><span data-t="tHome"></span></button>
+<button data-tab="log"><i>📔</i><span data-t="tLog"></span></button>
+<button data-tab="rem"><i>⏰</i><span data-t="tRem"></span></button>
+<button data-tab="health"><i>⚖️</i><span data-t="tHealth"></span></button>
+<button data-tab="more"><i>⚙️</i><span data-t="tMore"></span></button>
+</nav>
+<dialog id="dlg"></dialog>
+<div class="toast" id="toast"></div>
+<div id="cc"><span data-t="cookie"></span> <a href="/privacy/" data-t="privacy"></a><br><button class="y" data-t="ok"></button><button class="n" data-t="no"></button></div>
+<script>
+/*CFG*/
+(function(){
+'use strict';
+var L=CFG.lang,$=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function track(n,p){try{if(window.gtag)gtag('event',n,p||{})}catch(e){}}
+
+/* ------------------------------------------------------------ textos */
+var T={en:{
+tHome:'Today',tLog:'Diary',tRem:'Reminders',tHealth:'Health',tMore:'More',install:'Install app',
+cookie:'We use cookies for anonymous stats (Google Analytics) only if you say OK.',privacy:'Privacy',ok:'OK',no:'No thanks',
+welcomeH:'Your pet\'s diary, reminders and health in one place',welcomeB:'Log walks, meals, meds and moods, never miss a vaccine or flea pill, and track weight with a chart. Free, no sign up, and it works offline.',
+addPet:'+ Add a pet',editPet:'Edit pet',newPet:'New pet',name:'Name',species:'Dog or cat?',dog:'Dog',cat:'Cat',bday:'Birthday',bdayHint:'(or adoption day)',
+breed:'Breed',mixed:'Mixed or not sure',weight:'Weight',neutered:'Spayed or neutered',activity:'Activity',act:{low:'Low',normal:'Normal',high:'High',work:'Working dog'},
+photo:'Photo',photoHint:'(optional, stays on this device)',save:'Save',cancel:'Cancel',del:'Delete',sure:'Delete this?',
+quickH:'Quick log for today',q:{walk:'Walk',meal:'Meal',meds:'Meds',potty:'Potty',play:'Play',treat:'Treat',groom:'Groom',vet:'Vet'},
+walksToday:'walks today',walksWeek:'walks this week',lastW:'last weight',nextRem:'Coming up',noRem:'No reminders yet.',addRem:'+ New reminder',
+logH:'Diary',newEntry:'+ New entry',noLog:'Nothing here yet. Use the quick buttons or add an entry.',date:'Date',time:'Time',mood:'Mood',tags:'What happened',note:'Notes',
+remH:'Reminders',remL:'The app reminds you when you open it. For an alert on your phone even when the app is closed, tap 📅 to add it to your calendar.',
+title:'What',when:'Next date',repeat:'Repeats',rep:{none:'Does not repeat',w:'Every week',m:'Every month',m3:'Every 3 months',m6:'Every 6 months',y:'Every year'},
+presets:'Quick add',pre:{vacc:'Vaccines',flea:'Flea & tick',heart:'Heartworm pill',worm:'Deworming',groom:'Grooming',nails:'Nail trim',bath:'Bath',vet:'Vet checkup',food:'Buy food',other:'Other'},
+doneBtn:'Done',calBtn:'Calendar',allCal:'Add all to calendar',late:'{n} days late',today:'Today',tomorrow:'Tomorrow',inDays:'in {n} days',
+notifOn:'Turn on alerts when I open the app',notifOk:'Alerts are on',
+healthH:'Health',weightH:'Weight',addWeight:'+ Add weight',ideal:'Healthy range for {breed}: {a} to {b} {u}',idealMixed:'For mixed breeds, check the body: you should feel the ribs easily and see a waist from above.',
+under:'Below the usual range',inRange:'In the healthy range',over:'Above the usual range',
+foodH:'How much to feed',foodL:'Daily calories with the RER formula vets use. A starting point: weigh every 2 to 4 weeks and adjust 10%.',
+goal:'Goal',goals:{keep:'Keep weight',lose:'Lose weight'},kcalCup:'Calories in your food',perCup:'kcal per cup',perKg:'kcal per kg',
+perDay:'About {k} calories a day',cups:'≈ {c} cups a day',grams:'≈ {g} g a day',water:'Water: about {w} a day',treats:'Treats: keep them under {t} calories a day (10%).',
+noWeight:'Add your pet\'s weight to see the food plan.',vetNote:'General information only, not veterinary advice. Ask your vet before changing your pet\'s diet.',
+moreH:'More',pets:'Pets',units:'Units',lb:'lb',kg:'kg',backup:'Backup',exp:'Download a backup',imp:'Restore a backup',impOk:'Backup restored ✓',impBad:'That file is not a Paw Diary backup.',
+wipe:'Delete all my data',wipeQ:'This deletes all pets, diary entries, photos and reminders on this device. Continue?',
+storeNote:'Everything is saved only on this device. No account needed. Download a backup from time to time, or before you change phones. Accounts to sync across devices are coming soon.',
+fun:'Fun stuff: human years, names, quiz and cards',saved:'Saved ✓',
+iosH:'Install on iPhone',iosB:'Tap the Share button <b>⬆︎</b> in Safari, then <b>Add to Home Screen</b>. The app opens like any other app, even offline.',gotIt:'Got it',
+shop:'Cozy Paws mugs, ornaments and sweatshirts for pet people',shopB:'See the shop on Etsy →',
+foot:'Paw Diary is a free app by Cozy Paws ({co}). Cozy Paws designs are by Azu in Salt Lake City, printed on demand by our production partners.'
+},es:{
+tHome:'Hoy',tLog:'Diario',tRem:'Recordatorios',tHealth:'Salud',tMore:'Más',install:'Instalar app',
+cookie:'Usamos cookies para estadísticas anónimas (Google Analytics) solo si dices que sí.',privacy:'Privacidad',ok:'Sí, OK',no:'No, gracias',
+welcomeH:'El diario, los recordatorios y la salud de tu mascota en un solo lugar',welcomeB:'Anota paseos, comidas, remedios y cómo está, no te olvides nunca de una vacuna o pastilla para pulgas, y sigue su peso con un gráfico. Gratis, sin registrarte y funciona sin internet.',
+addPet:'+ Agregar mascota',editPet:'Editar mascota',newPet:'Nueva mascota',name:'Nombre',species:'¿Perro o gato?',dog:'Perro',cat:'Gato',bday:'Cumpleaños',bdayHint:'(o día de adopción)',
+breed:'Raza',mixed:'Mestizo o no sé',weight:'Peso',neutered:'Castrado o esterilizado',activity:'Actividad',act:{low:'Poca',normal:'Normal',high:'Mucha',work:'Perro de trabajo'},
+photo:'Foto',photoHint:'(opcional, queda solo en este equipo)',save:'Guardar',cancel:'Cancelar',del:'Borrar',sure:'¿Borrar esto?',
+quickH:'Anotar rápido hoy',q:{walk:'Paseo',meal:'Comida',meds:'Remedio',potty:'Baño',play:'Juego',treat:'Premio',groom:'Aseo',vet:'Veterinario'},
+walksToday:'paseos hoy',walksWeek:'paseos esta semana',lastW:'último peso',nextRem:'Lo que viene',noRem:'Todavía no hay recordatorios.',addRem:'+ Nuevo recordatorio',
+logH:'Diario',newEntry:'+ Nueva nota',noLog:'Todavía no hay nada. Usa los botones rápidos o agrega una nota.',date:'Fecha',time:'Hora',mood:'Ánimo',tags:'Qué pasó',note:'Notas',
+remH:'Recordatorios',remL:'La app te avisa cuando la abres. Para que te avise el celular aunque la app esté cerrada, toca 📅 y agrégalo a tu calendario.',
+title:'Qué',when:'Próxima fecha',repeat:'Se repite',rep:{none:'No se repite',w:'Cada semana',m:'Cada mes',m3:'Cada 3 meses',m6:'Cada 6 meses',y:'Cada año'},
+presets:'Agregar rápido',pre:{vacc:'Vacunas',flea:'Pulgas y garrapatas',heart:'Pastilla del corazón',worm:'Desparasitar',groom:'Peluquería',nails:'Cortar uñas',bath:'Baño',vet:'Control veterinario',food:'Comprar comida',other:'Otro'},
+doneBtn:'Hecho',calBtn:'Calendario',allCal:'Agregar todo al calendario',late:'{n} días tarde',today:'Hoy',tomorrow:'Mañana',inDays:'en {n} días',
+notifOn:'Avisarme cuando abro la app',notifOk:'Los avisos están activados',
+healthH:'Salud',weightH:'Peso',addWeight:'+ Anotar peso',ideal:'Rango sano para {breed}: {a} a {b} {u}',idealMixed:'En mestizos, mira el cuerpo: tienes que sentir las costillas fácil y ver la cintura desde arriba.',
+under:'Por debajo de lo normal',inRange:'En el rango sano',over:'Por encima de lo normal',
+foodH:'Cuánto darle de comer',foodL:'Calorías diarias con la fórmula RER que usan los veterinarios. Es un punto de partida: pésalo cada 2 a 4 semanas y ajusta un 10%.',
+goal:'Objetivo',goals:{keep:'Mantener peso',lose:'Bajar de peso'},kcalCup:'Calorías de su alimento',perCup:'kcal por taza',perKg:'kcal por kg',
+perDay:'Unas {k} calorías por día',cups:'≈ {c} tazas por día',grams:'≈ {g} g por día',water:'Agua: unos {w} por día',treats:'Premios: menos de {t} calorías por día (10%).',
+noWeight:'Agrega el peso de tu mascota para ver cuánto darle.',vetNote:'Información general, no es consejo veterinario. Consulta a tu veterinario antes de cambiar su alimentación.',
+moreH:'Más',pets:'Mascotas',units:'Unidades',lb:'lb',kg:'kg',backup:'Copia de seguridad',exp:'Descargar una copia',imp:'Restaurar una copia',impOk:'Copia restaurada ✓',impBad:'Ese archivo no es una copia de Paw Diary.',
+wipe:'Borrar todos mis datos',wipeQ:'Esto borra todas las mascotas, notas, fotos y recordatorios de este equipo. ¿Seguir?',
+storeNote:'Todo se guarda solo en este equipo. No necesitas cuenta. Descarga una copia de vez en cuando, o antes de cambiar de celular. Pronto vas a poder crear una cuenta para tenerlo en todos tus equipos.',
+fun:'Lo divertido: edad humana, nombres, test y tarjetas',saved:'Guardado ✓',
+iosH:'Instalar en iPhone',iosB:'En Safari, toca el botón Compartir <b>⬆︎</b> y después <b>Agregar a inicio</b>. La app se abre como cualquier otra, incluso sin internet.',gotIt:'Listo',
+shop:'Tazas, adornos y sudaderas de Cozy Paws para los que aman a sus mascotas',shopB:'Ver la tienda en Etsy →',
+foot:'Paw Diary es una app gratis de Cozy Paws ({co}). Los diseños de Cozy Paws son de Azu en Salt Lake City, impresos a pedido por nuestros socios de producción.'
+}};
+var t=function(k,v){var s=T[L][k];if(s==null)s=T.en[k];if(typeof s==='string'&&v)s=s.replace(/\{(\w+)\}/g,function(_,x){return v[x]!=null?v[x]:''});return s};
+
+/* ------------------------------------------------------------ razas: [inglés, español, kg mín, kg máx] (estándares de raza, adultos) */
+var DOGS=[['Labrador Retriever','Labrador',25,36],['Golden Retriever','Golden Retriever',25,34],['German Shepherd','Pastor alemán',22,40],['French Bulldog','Bulldog francés',7,13],['Bulldog','Bulldog inglés',18,23],
+['Poodle (Standard)','Caniche estándar',18,32],['Poodle (Miniature)','Caniche miniatura',4.5,7],['Poodle (Toy)','Caniche toy',2,3],['Beagle','Beagle',9,14],['Rottweiler','Rottweiler',36,61],['Dachshund','Dachshund (salchicha)',7,14.5],
+['Dachshund (Miniature)','Dachshund miniatura',3.5,5],['German Shorthaired Pointer','Braco alemán',20,32],['Pembroke Welsh Corgi','Corgi galés',11,14],['Australian Shepherd','Pastor australiano',18,30],['Yorkshire Terrier','Yorkshire terrier',2,3.2],
+['Cavalier King Charles Spaniel','Cavalier King Charles',6,8],['Doberman Pinscher','Dóberman',27,45],['Boxer','Bóxer',25,36],['Miniature Schnauzer','Schnauzer miniatura',5,9],['Cane Corso','Cane Corso',40,54],['Great Dane','Gran danés',50,79],
+['Shih Tzu','Shih Tzu',4,7],['Siberian Husky','Husky siberiano',16,27],['Bernese Mountain Dog','Boyero de Berna',32,52],['Pomeranian','Pomerania',1.5,3],['Boston Terrier','Boston terrier',5,11],['Havanese','Bichón habanero',3,6],
+['Shetland Sheepdog','Pastor de Shetland',7,11],['Chihuahua','Chihuahua',1.5,3],['Border Collie','Border collie',14,25],['Maltese','Maltés',2,3.2],['Pug','Pug (carlino)',6,8],['Labradoodle','Labradoodle',23,30],['Goldendoodle','Goldendoodle',23,41],
+['Mini Goldendoodle','Goldendoodle mini',11,16],['Cocker Spaniel','Cocker spaniel',9,14],['English Springer Spaniel','Springer spaniel inglés',18,23],['Belgian Malinois','Pastor belga malinois',18,36],['American Pit Bull Terrier','Pitbull',14,27],
+['American Staffordshire Terrier','Amstaff',18,32],['Basset Hound','Basset hound',18,30],['Mastiff','Mastín inglés',54,104],['Saint Bernard','San Bernardo',54,82],['Newfoundland','Terranova',45,68],['Great Pyrenees','Pirineo',39,54],
+['Weimaraner','Braco de Weimar',25,41],['Vizsla','Vizsla',20,27],['Shiba Inu','Shiba inu',8,10],['Akita','Akita',32,59],['Bichon Frise','Bichón frisé',5,8],['Jack Russell Terrier','Jack Russell terrier',6,8],['Australian Cattle Dog','Pastor ganadero australiano',16,23],
+['Rhodesian Ridgeback','Rhodesian ridgeback',32,39],['Whippet','Whippet',11,18],['Greyhound','Galgo inglés',27,32],['Italian Greyhound','Galgo italiano',3,6.5],['Samoyed','Samoyedo',16,30],['Alaskan Malamute','Malamute de Alaska',34,39],
+['Collie','Collie',23,34],['Papillon','Papillón',2,4.5],['Lhasa Apso','Lhasa apso',5.5,8],['West Highland White Terrier','West highland terrier',7,9],['Bull Terrier','Bull terrier',23,32],['Brittany','Bretón',14,18],['Dalmatian','Dálmata',20,32],['Chow Chow','Chow chow',20,32],['Shar-Pei','Shar pei',18,27]];
+var CATS=[['Domestic cat','Gato común',3.6,5],['Maine Coon','Maine Coon',4.5,11],['Siamese','Siamés',2.7,5.4],['Persian','Persa',3.2,5.4],['Ragdoll','Ragdoll',4.5,9],['Bengal','Bengalí',3.6,6.8],['British Shorthair','Británico de pelo corto',3.2,7.7],['Sphynx','Esfinge',2.7,5.4],['Scottish Fold','Scottish fold',2.7,6],['Russian Blue','Azul ruso',3.2,5.4]];
+function breeds(sp){return (sp==='cat'?CATS:DOGS).slice().sort(function(a,b){return a[L==='es'?1:0].localeCompare(b[L==='es'?1:0])})}
+function breedRow(p){var list=p.species==='cat'?CATS:DOGS;return list.filter(function(b){return b[0]===p.breed})[0]||null}
+
+/* ------------------------------------------------------------ datos (mismo sitio que Paw Party: comparten las mascotas) */
+var KEY='cozypaws-pets',DKEY='cozypaws-diary';
+function load(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function store(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('⚠️ '+(L=='es'?'No hay espacio para guardar':'Not enough space to save'));return false}}
+var P=load(KEY,{pets:[],cur:null}),D=load(DKEY,{log:[],rem:[],unit:L==='es'?'kg':'lb'});D.log=D.log||[];D.rem=D.rem||[];if(!D.unit)D.unit=L==='es'?'kg':'lb';
+function pets(){return P.pets||[]}function cur(){return pets().filter(function(p){return p.id===P.cur})[0]||pets()[0]||null}
+function saveP(){return store(KEY,P)}function saveD(){return store(DKEY,D)}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+if(navigator.storage&&navigator.storage.persist)try{navigator.storage.persist()}catch(e){}
+// fotos del diario en IndexedDB (más espacio que localStorage)
+var idb=null;function db(){return idb||(idb=new Promise(function(ok,ko){var r=indexedDB.open('cozypaws-photos',1);r.onupgradeneeded=function(){r.result.createObjectStore('p')};r.onsuccess=function(){ok(r.result)};r.onerror=function(){ko(r.error)}}))}
+function pput(k,v){return db().then(function(d){return new Promise(function(ok){var x=d.transaction('p','readwrite');x.objectStore('p').put(v,k);x.oncomplete=ok})})}
+function pget(k){return db().then(function(d){return new Promise(function(ok){var r=d.transaction('p').objectStore('p').get(k);r.onsuccess=function(){ok(r.result)};r.onerror=function(){ok(null)}})})}
+function pdel(k){return db().then(function(d){d.transaction('p','readwrite').objectStore('p').delete(k)})}
+function pall(){return db().then(function(d){return new Promise(function(ok){var o={},r=d.transaction('p').objectStore('p').openCursor();r.onsuccess=function(){var c=r.result;if(c){o[c.key]=c.value;c.continue()}else ok(o)}})})}
+
+/* ------------------------------------------------------------ fechas y unidades */
+function today(){var d=new Date();d.setHours(0,0,0,0);return d}
+function pd(s){if(!s)return null;var a=s.split('-');return new Date(+a[0],a[1]-1,+a[2])}
+function iso(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2)}
+function fmt(s){var d=pd(s);return d?d.toLocaleDateString(L==='es'?'es-US':'en-US',{weekday:'short',month:'short',day:'numeric'}):''}
+function days(s){return Math.round((pd(s)-today())/864e5)}
+function ageY(p){var b=pd(p.bday);return b?(today()-b)/(365.25*864e5):null}
+function kg2u(k){return D.unit==='lb'?k*2.20462:k}function u2kg(v){return D.unit==='lb'?v/2.20462:v}
+function wfmt(k){return k==null?'—':(Math.round(kg2u(k)*10)/10)+' '+D.unit}
+function addRep(s,r){var d=pd(s);if(r==='w')d.setDate(d.getDate()+7);else if(r==='m')d.setMonth(d.getMonth()+1);else if(r==='m3')d.setMonth(d.getMonth()+3);else if(r==='m6')d.setMonth(d.getMonth()+6);else if(r==='y')d.setFullYear(d.getFullYear()+1);return iso(d)}
+
+/* ------------------------------------------------------------ UI básica */
+function toast(s){var e=$('#toast');e.textContent=s;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(function(){e.classList.remove('on')},1800)}
+var dlg=$('#dlg');function openDlg(h){dlg.innerHTML=h;if(dlg.showModal)dlg.showModal();else dlg.setAttribute('open','')}
+function closeDlg(){if(dlg.close)dlg.close();else dlg.removeAttribute('open')}
+function readPhoto(file,max,cb){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.8))};im.src=r.result};r.readAsDataURL(file)}
+var VIEWS={home:renderHome,log:renderLog,rem:renderRem,health:renderHealth,more:renderMore};
+function go(tab){if(!VIEWS[tab])tab='home';$$('.view').forEach(function(v){v.classList.toggle('on',v.id==='v-'+tab)});$$('#tabs button').forEach(function(b){b.classList.toggle('on',b.dataset.tab===tab)});VIEWS[tab]();if(location.hash!=='#'+tab)history.replaceState(null,'','#'+tab);window.scrollTo(0,0);track('screen_view',{screen_name:'diary-'+tab})}
+function refresh(){var v=$('.view.on');go(v?v.id.slice(2):'home')}
+$('#tabs').addEventListener('click',function(e){var b=e.target.closest('button');if(b)go(b.dataset.tab)});
+function petChips(){var ps=pets();if(!ps.length)return '';return '<div class="pets">'+ps.map(function(p){return '<button class="pet'+(cur()&&cur().id===p.id?' on':'')+'" data-pet="'+p.id+'">'+(p.photo?'<img src="'+p.photo+'" alt="">':'<span class="ph">'+(p.species==='cat'?'🐱':'🐶')+'</span>')+esc(p.name)+'</button>'}).join('')+'<button class="chip" data-edit="">'+t('addPet')+'</button></div>'}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-pet]');if(b){P.cur=b.dataset.pet;saveP();refresh();return}var ed=e.target.closest('[data-edit]');if(ed){petForm(ed.dataset.edit);return}var g=e.target.closest('[data-go]');if(g)go(g.dataset.go)});
+function needPet(){if(cur())return '';return '<div class="box"><h1 style="margin-top:0;font-size:26px">'+t('welcomeH')+'</h1><p class="muted">'+t('welcomeB')+'</p><button class="btn" data-edit="">'+t('addPet')+'</button><p class="muted">🔒 '+t('storeNote')+'</p></div>'}
+function lastWeight(p){var w=D.log.filter(function(x){return x.pet===p.id&&x.w}).sort(function(a,b){return a.d<b.d?1:-1})[0];return w?w.w:(p.w||null)}
+
+/* ------------------------------------------------------------ mascota */
+function petForm(id){var p=pets().filter(function(x){return x.id===id})[0]||{species:'dog',neut:true,act:'normal'},ph=p.photo||'';
+ function opts(sp,sel){return '<option value="">'+t('mixed')+'</option>'+breeds(sp).map(function(b){return '<option value="'+esc(b[0])+'"'+(b[0]===sel?' selected':'')+'>'+esc(b[L==='es'?1:0])+'</option>'}).join('')}
+ var w=lastWeight(p);
+ openDlg('<h2 style="margin-top:0">'+(id?t('editPet'):t('newPet'))+'</h2><form id="pf"><label>'+t('name')+'<input type="text" name="name" required maxlength="30" value="'+esc(p.name||'')+'"></label>'+
+ '<label>'+t('species')+'<select name="species"><option value="dog"'+(p.species==='dog'?' selected':'')+'>🐶 '+t('dog')+'</option><option value="cat"'+(p.species==='cat'?' selected':'')+'>🐱 '+t('cat')+'</option></select></label>'+
+ '<label>'+t('breed')+'<select name="breed">'+opts(p.species,p.breed)+'</select></label>'+
+ '<div class="row"><label>'+t('bday')+' <small>'+t('bdayHint')+'</small><input type="date" name="bday" max="'+iso(today())+'" value="'+esc(p.bday||'')+'"></label><label>'+t('weight')+' ('+D.unit+')<input type="number" name="w" min="0" max="350" step="0.1" value="'+(w?Math.round(kg2u(w)*10)/10:'')+'"></label></div>'+
+ '<label style="font-weight:400"><input type="checkbox" name="neut"'+(p.neut?' checked':'')+'> '+t('neutered')+'</label>'+
+ '<label>'+t('activity')+'<select name="act">'+Object.keys(T.en.act).map(function(k){return '<option value="'+k+'"'+(p.act===k?' selected':'')+'>'+t('act')[k]+'</option>'}).join('')+'</select></label>'+
+ '<label>'+t('photo')+' <small>'+t('photoHint')+'</small><input type="file" name="photo" accept="image/*"></label><div id="pfph">'+(ph?'<img src="'+ph+'" style="width:72px;height:72px;border-radius:50%;object-fit:cover">':'')+'</div>'+
+ '<div class="btns"><button class="btn" type="submit">'+t('save')+'</button><button class="btn ghost" type="button" id="pfc">'+t('cancel')+'</button>'+(id?'<button class="btn ghost" type="button" id="pfd">'+t('del')+'</button>':'')+'</div></form>');
+ var f=$('#pf');f.species.onchange=function(){f.breed.innerHTML=opts(f.species.value,'')};
+ f.photo.onchange=function(){if(f.photo.files[0])readPhoto(f.photo.files[0],320,function(u){ph=u;$('#pfph').innerHTML='<img src="'+u+'" style="width:72px;height:72px;border-radius:50%;object-fit:cover">'})};
+ $('#pfc').onclick=closeDlg;if($('#pfd'))$('#pfd').onclick=function(){if(!confirm(t('sure')))return;P.pets=pets().filter(function(x){return x.id!==id});P.cur=null;D.rem=D.rem.filter(function(r){return r.pet!==id});saveP();saveD();closeDlg();refresh()};
+ f.onsubmit=function(e){e.preventDefault();var nw=parseFloat(f.w.value),o={id:id||('p'+uid()),name:f.name.value.trim().slice(0,30),species:f.species.value,breed:f.breed.value,bday:f.bday.value,neut:f.neut.checked,act:f.act.value,photo:ph};
+  if(!o.name)return;var size=null,br=breedRow(o);if(o.species==='dog'){var k=nw?u2kg(nw):br?(br[2]+br[3])/2:null;size=k==null?'medium':k<9.1?'small':k<23?'medium':k<41?'large':'giant'}o.size=size||undefined;
+  var i=pets().findIndex(function(x){return x.id===o.id});if(i>=0)P.pets[i]=Object.assign({},P.pets[i],o);else P.pets=pets().concat([o]);P.cur=o.id;
+  if(nw&&(!w||Math.abs(u2kg(nw)-w)>0.05)){D.log.push({id:uid(),pet:o.id,d:iso(today()),tm:'',k:'weight',w:Math.round(u2kg(nw)*100)/100});saveD()}
+  if(saveP()){closeDlg();toast(t('saved'));track('pet_saved',{species:o.species,app:'diary'});refresh()}}}
+
+/* ------------------------------------------------------------ HOY */
+var QK={walk:'🦮',meal:'🍽️',meds:'💊',potty:'🌳',play:'🎾',treat:'🦴',groom:'🛁',vet:'🩺'};
+function renderHome(){var p=cur(),h=petChips()+needPet();if(!p){$('#v-home').innerHTML=h+shop();return}
+ var td=iso(today()),wk=iso(new Date(today()-6*864e5)),mine=D.log.filter(function(x){return x.pet===p.id}),tl=mine.filter(function(x){return x.d===td});
+ var walksT=tl.filter(function(x){return x.k==='walk'}).length,walksW=mine.filter(function(x){return x.k==='walk'&&x.d>=wk}).length,lw=lastWeight(p);
+ h+='<div class="kpis"><div class="kpi"><b>'+walksT+'</b><span>'+t('walksToday')+'</span></div><div class="kpi"><b>'+walksW+'</b><span>'+t('walksWeek')+'</span></div><div class="kpi"><b>'+wfmt(lw)+'</b><span>'+t('lastW')+'</span></div></div>';
+ h+='<h2>'+t('quickH')+'</h2><div class="quick">'+Object.keys(QK).map(function(k){var n=tl.filter(function(x){return x.k===k}).length;return '<button data-q="'+k+'" class="'+(n?'done':'')+'"><i>'+QK[k]+'</i>'+t('q')[k]+(n?' ×'+n:'')+'</button>'}).join('')+'</div>';
+ var rs=D.rem.filter(function(r){return r.pet===p.id}).sort(function(a,b){return a.d<b.d?-1:1}).slice(0,3);
+ h+='<h2>'+t('nextRem')+'</h2>'+(rs.length?rs.map(remItem).join(''):'<p class="muted">'+t('noRem')+'</p>')+'<button class="btn ghost" data-go="rem">'+t('addRem')+'</button>';
+ h+='<h2>'+t('logH')+'</h2>'+(tl.length?tl.slice().reverse().map(logItem).join(''):'<p class="muted">'+t('noLog')+'</p>');
+ h+=adSlot()+'<p style="margin-top:20px"><a class="chip" href="/fun/'+(L==='es'?'es/':'')+'">🎉 '+t('fun')+'</a></p>'+shop();
+ $('#v-home').innerHTML=h;fillThumbs()}
+document.addEventListener('click',function(e){var q=e.target.closest('[data-q]');if(!q)return;var p=cur();if(!p)return;var n=new Date();
+ D.log.push({id:uid(),pet:p.id,d:iso(today()),tm:('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2),k:q.dataset.q});if(saveD()){toast(QK[q.dataset.q]+' '+t('saved'));track('quick_log',{kind:q.dataset.q});refresh()}});
+
+/* ------------------------------------------------------------ DIARIO */
+var MOODS=['😄','🙂','😐','😴','🤒'];
+function logItem(x){var tags=(x.tags||[]).map(function(k){return '<span class="tag">'+(QK[k]||'')+' '+(t('q')[k]||esc(k))+'</span>'}).join('');
+ var main=x.k&&x.k!=='note'&&x.k!=='weight'?(QK[x.k]+' '+t('q')[x.k]):x.k==='weight'?'⚖️ '+wfmt(x.w):(x.mood||'📝');
+ return '<div class="item">'+(x.ph?'<img class="thumb" data-ph="'+x.ph+'" alt="">':'')+'<div class="tx"><b>'+main+'</b> '+(x.k==='note'&&x.w?'· ⚖️ '+wfmt(x.w):'')+'<small>'+fmt(x.d)+(x.tm?' · '+x.tm:'')+'</small>'+tags+(x.note?'<div>'+esc(x.note)+'</div>':'')+'</div><div class="acts"><button class="ib" data-le="'+x.id+'" aria-label="edit">✎</button><button class="ib" data-ld="'+x.id+'" aria-label="delete">🗑</button></div></div>'}
+function fillThumbs(){$$('img[data-ph]').forEach(function(i){pget(i.dataset.ph).then(function(u){if(u)i.src=u})})}
+function renderLog(){var p=cur(),h=petChips()+needPet();if(!p){$('#v-log').innerHTML=h;return}
+ var mine=D.log.filter(function(x){return x.pet===p.id}).sort(function(a,b){return (a.d+a.tm)<(b.d+b.tm)?1:-1}),out='',last='';
+ mine.slice(0,150).forEach(function(x){if(x.d!==last){out+='<h3>'+fmt(x.d)+'</h3>';last=x.d}out+=logItem(x).replace(/<small>[^<]*<\/small>/,x.tm?'<small>'+x.tm+'</small>':'')});
+ h+='<h1>'+t('logH')+'</h1><button class="btn" id="ln">'+t('newEntry')+'</button>'+(out||'<p class="empty">'+t('noLog')+'</p>');
+ $('#v-log').innerHTML=h;$('#ln').onclick=function(){entryForm(null)};fillThumbs()}
+document.addEventListener('click',function(e){var a=e.target.closest('[data-le]');if(a){entryForm(a.dataset.le);return}
+ var d=e.target.closest('[data-ld]');if(d){if(!confirm(t('sure')))return;var x=D.log.filter(function(y){return y.id===d.dataset.ld})[0];if(x&&x.ph)pdel(x.ph);D.log=D.log.filter(function(y){return y.id!==d.dataset.ld});saveD();refresh();return}
+ var th=e.target.closest('img[data-ph]');if(th&&th.src)openDlg('<img src="'+th.src+'" style="width:100%;border-radius:14px"><div class="btns"><button class="btn" onclick="this.closest(\'dialog\').close()">OK</button></div>')});
+function entryForm(id){var p=cur(),x=D.log.filter(function(y){return y.id===id})[0]||{d:iso(today()),tm:'',tags:[],k:'note'},sel=(x.tags||[]).slice(),ph=null;if(x.k&&QK[x.k]&&sel.indexOf(x.k)<0)sel.push(x.k);var n=new Date();
+ openDlg('<h2 style="margin-top:0">'+esc(p.name)+'</h2><form id="ef"><div class="row"><label>'+t('date')+'<input type="date" name="d" value="'+x.d+'" max="'+iso(today())+'"></label><label>'+t('time')+'<input type="time" name="tm" value="'+(x.tm||(id?'':('0'+n.getHours()).slice(-2)+':'+('0'+n.getMinutes()).slice(-2)))+'"></label></div>'+
+ '<label>'+t('mood')+'<div class="seg" id="emo">'+MOODS.map(function(m){return '<button type="button" class="chip'+(x.mood===m?' on':'')+'" data-m="'+m+'">'+m+'</button>'}).join('')+'</div></label>'+
+ '<label>'+t('tags')+'<div class="togs" id="etg">'+Object.keys(QK).map(function(k){return '<button type="button" class="chip'+(sel.indexOf(k)>=0?' on':'')+'" data-k="'+k+'">'+QK[k]+' '+t('q')[k]+'</button>'}).join('')+'</div></label>'+
+ '<label>'+t('weight')+' ('+D.unit+') <small>opt.</small><input type="number" name="w" step="0.1" min="0" value="'+(x.w?Math.round(kg2u(x.w)*10)/10:'')+'"></label>'+
+ '<label>'+t('note')+'<textarea name="note" maxlength="600">'+esc(x.note||'')+'</textarea></label><label>'+t('photo')+' <small>'+t('photoHint')+'</small><input type="file" name="ph" accept="image/*"></label>'+
+ '<div class="btns"><button class="btn" type="submit">'+t('save')+'</button><button class="btn ghost" type="button" id="efc">'+t('cancel')+'</button></div></form>');
+ var f=$('#ef'),mood=x.mood||'';$('#emo').onclick=function(e){var c=e.target.closest('.chip');if(!c)return;mood=mood===c.dataset.m?'':c.dataset.m;$$('#emo .chip').forEach(function(b){b.classList.toggle('on',b.dataset.m===mood)})};
+ $('#etg').onclick=function(e){var c=e.target.closest('.chip');if(!c)return;var k=c.dataset.k,i=sel.indexOf(k);if(i>=0)sel.splice(i,1);else sel.push(k);c.classList.toggle('on')};
+ f.ph.onchange=function(){if(f.ph.files[0])readPhoto(f.ph.files[0],1000,function(u){ph=u})};$('#efc').onclick=closeDlg;
+ f.onsubmit=function(e){e.preventDefault();var w=parseFloat(f.w.value),o=Object.assign({},x,{id:x.id||uid(),pet:x.pet||p.id,d:f.d.value||iso(today()),tm:f.tm.value,mood:mood,tags:sel,note:f.note.value.trim(),w:w?Math.round(u2kg(w)*100)/100:undefined});
+  if(o.k!=='weight')o.k=sel.length===1&&!o.note&&!mood&&!ph&&!o.w?sel[0]:'note';if(o.k!=='note'&&o.k!=='weight')o.tags=[];
+  var fin=function(){var i=D.log.findIndex(function(y){return y.id===o.id});if(i>=0)D.log[i]=o;else D.log.push(o);if(saveD()){closeDlg();toast(t('saved'));track('diary_entry');refresh()}};
+  if(ph){o.ph=o.ph||('ph'+uid());pput(o.ph,ph).then(fin)}else fin()}}
+
+/* ------------------------------------------------------------ RECORDATORIOS */
+var PRE={vacc:['💉','y'],flea:['🪲','m'],heart:['❤️','m'],worm:['🪱','m3'],groom:['✂️','m'],nails:['💅','m'],bath:['🛁','m'],vet:['🩺','y'],food:['🛒','m'],other:['📌','none']};
+function dueBadge(s){var n=days(s);return n<0?'<span class="due late">'+t('late',{n:-n})+'</span>':n===0?'<span class="due today">'+t('today')+'</span>':'<span class="due">'+(n===1?t('tomorrow'):t('inDays',{n:n}))+'</span>'}
+function remItem(r){var pre=PRE[r.type]||PRE.other,pet=pets().filter(function(p){return p.id===r.pet})[0];
+ return '<div class="item"><div class="ic">'+pre[0]+'</div><div class="tx"><b>'+esc(r.title)+'</b> '+dueBadge(r.d)+'<small>'+fmt(r.d)+' · '+t('rep')[r.rep||'none']+(pet&&pets().length>1?' · '+esc(pet.name):'')+'</small>'+(r.note?'<div class="muted">'+esc(r.note)+'</div>':'')+'</div>'+
+ '<div class="acts"><button class="ib" data-rd="'+r.id+'">✓ '+t('doneBtn')+'</button><button class="ib" data-rc="'+r.id+'" aria-label="calendar">📅</button><button class="ib" data-re="'+r.id+'" aria-label="edit">✎</button></div></div>'}
+function renderRem(){var p=cur(),h=petChips()+needPet();if(!p){$('#v-rem').innerHTML=h;return}
+ var rs=D.rem.filter(function(r){return r.pet===p.id}).sort(function(a,b){return a.d<b.d?-1:1});
+ h+='<h1>'+t('remH')+'</h1><p class="muted">'+t('remL')+'</p><h3>'+t('presets')+'</h3><div class="togs">'+Object.keys(PRE).map(function(k){return '<button class="chip" data-pre="'+k+'">'+PRE[k][0]+' '+t('pre')[k]+'</button>'}).join('')+'</div>'+
+ (rs.length?rs.map(remItem).join('')+'<div class="btns"><button class="btn alt" id="rall">📅 '+t('allCal')+'</button></div>':'<p class="empty">'+t('noRem')+'</p>');
+ if('Notification' in window)h+='<div class="btns"><button class="btn ghost" id="rnot">🔔 '+(Notification.permission==='granted'?t('notifOk'):t('notifOn'))+'</button></div>';
+ $('#v-rem').innerHTML=h;if($('#rall'))$('#rall').onclick=function(){ics(rs)};
+ if($('#rnot'))$('#rnot').onclick=function(){Notification.requestPermission().then(function(){renderRem();checkDue(true)})}}
+document.addEventListener('click',function(e){var b=e.target.closest('[data-pre]');if(b){remForm(null,b.dataset.pre);return}
+ var ed=e.target.closest('[data-re]');if(ed){remForm(ed.dataset.re);return}
+ var c=e.target.closest('[data-rc]');if(c){ics(D.rem.filter(function(r){return r.id===c.dataset.rc}));return}
+ var d=e.target.closest('[data-rd]');if(d){var r=D.rem.filter(function(x){return x.id===d.dataset.rd})[0];if(!r)return;
+  D.log.push({id:uid(),pet:r.pet,d:iso(today()),tm:'',k:'note',tags:r.type==='vet'?['vet']:r.type==='bath'||r.type==='groom'||r.type==='nails'?['groom']:['meds'].filter(function(){return ['flea','heart','worm','vacc'].indexOf(r.type)>=0}),note:'✓ '+r.title});
+  if(r.rep&&r.rep!=='none'){var nd=r.d;do{nd=addRep(nd,r.rep)}while(pd(nd)<=today());r.d=nd}else D.rem=D.rem.filter(function(x){return x.id!==r.id});
+  saveD();toast('✓ '+t('saved'));track('reminder_done',{type:r.type});refresh()}});
+function remForm(id,preset){var p=cur(),r=D.rem.filter(function(x){return x.id===id})[0]||{type:preset||'other',title:preset&&preset!=='other'?t('pre')[preset]:'',d:iso(today()),rep:(PRE[preset]||PRE.other)[1],pet:p.id};
+ openDlg('<h2 style="margin-top:0">'+(PRE[r.type]||PRE.other)[0]+' '+esc(p.name)+'</h2><form id="rf"><label>'+t('title')+'<input type="text" name="title" required maxlength="60" value="'+esc(r.title)+'"></label>'+
+ '<label>'+t('when')+'<input type="date" name="d" required value="'+r.d+'"></label><label>'+t('repeat')+'<select name="rep">'+Object.keys(T.en.rep).map(function(k){return '<option value="'+k+'"'+(r.rep===k?' selected':'')+'>'+t('rep')[k]+'</option>'}).join('')+'</select></label>'+
+ '<label>'+t('note')+'<input type="text" name="note" maxlength="120" value="'+esc(r.note||'')+'"></label>'+
+ '<div class="btns"><button class="btn" type="submit">'+t('save')+'</button><button class="btn ghost" type="button" id="rfc">'+t('cancel')+'</button>'+(id?'<button class="btn ghost" type="button" id="rfd">'+t('del')+'</button>':'')+'</div></form>');
+ var f=$('#rf');$('#rfc').onclick=closeDlg;if($('#rfd'))$('#rfd').onclick=function(){if(!confirm(t('sure')))return;D.rem=D.rem.filter(function(x){return x.id!==id});saveD();closeDlg();refresh()};
+ f.onsubmit=function(e){e.preventDefault();var o=Object.assign({},r,{id:r.id||uid(),title:f.title.value.trim(),d:f.d.value,rep:f.rep.value,note:f.note.value.trim()});var i=D.rem.findIndex(function(x){return x.id===o.id});if(i>=0)D.rem[i]=o;else D.rem.push(o);
+  if(saveD()){closeDlg();toast(t('saved'));track('reminder_saved',{type:o.type,rep:o.rep});refresh()}}}
+function ics(list){var R={w:'FREQ=WEEKLY',m:'FREQ=MONTHLY',m3:'FREQ=MONTHLY;INTERVAL=3',m6:'FREQ=MONTHLY;INTERVAL=6',y:'FREQ=YEARLY'},s=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Cozy Paws//Paw Diary//EN','CALSCALE:GREGORIAN'];
+ function e(v){return String(v).replace(/[\\,;]/g,function(c){return '\\'+c}).replace(/\n/g,'\\n')}
+ list.forEach(function(r){var pet=pets().filter(function(p){return p.id===r.pet})[0],d=r.d.replace(/-/g,''),nx=iso(new Date(pd(r.d).getTime()+864e5)).replace(/-/g,'');
+  s.push('BEGIN:VEVENT','UID:'+r.id+'@cozypaws','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z','DTSTART;VALUE=DATE:'+d,'DTEND;VALUE=DATE:'+nx,'SUMMARY:'+e((pet?pet.name+': ':'')+r.title));
+  if(R[r.rep])s.push('RRULE:'+R[r.rep]);if(r.note)s.push('DESCRIPTION:'+e(r.note));s.push('BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+e(r.title),'TRIGGER:PT9H','END:VALARM','END:VEVENT')});
+ s.push('END:VCALENDAR');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([s.join('\r\n')],{type:'text/calendar'}));a.download='paw-diary-reminders.ics';document.body.appendChild(a);a.click();a.remove();track('reminder_calendar',{n:list.length})}
+function checkDue(force){var due=D.rem.filter(function(r){return days(r.d)<=0});if(!due.length)return;var k='cozypaws-notified-'+iso(today());if(!force&&sessionStorage.getItem(k))return;sessionStorage.setItem(k,'1');
+ var body=due.map(function(r){var p=pets().filter(function(x){return x.id===r.pet})[0];return (p?p.name+': ':'')+r.title}).join('\n');
+ if('Notification' in window&&Notification.permission==='granted'&&navigator.serviceWorker)navigator.serviceWorker.ready.then(function(sw){sw.showNotification('Paw Diary ⏰',{body:body,icon:'/diary/icons/icon-192.png',tag:'due'})});
+ else toast('⏰ '+due.length+' '+t('tRem').toLowerCase())}
+
+/* ------------------------------------------------------------ SALUD */
+function renderHealth(){var p=cur(),h=petChips()+needPet();if(!p){$('#v-health').innerHTML=h;return}
+ var all=D.log.filter(function(x){return x.pet===p.id&&x.w}).sort(function(a,b){return (a.d+a.tm)<(b.d+b.tm)?-1:1}),byDay={};all.forEach(function(x){byDay[x.d]=x});var ws=Object.keys(byDay).sort().map(function(k){return byDay[k]}),lw=lastWeight(p),br=breedRow(p);
+ h+='<h1>'+t('healthH')+'</h1><h2>⚖️ '+t('weightH')+'</h2><div class="kpis" style="grid-template-columns:1fr 1fr"><div class="kpi"><b>'+wfmt(lw)+'</b><span>'+t('lastW')+'</span></div><div class="kpi"><b>'+(all.length)+'</b><span>'+(L==='es'?'registros':'entries')+'</span></div></div>';
+ if(ws.length>1)h+='<div class="chart">'+chart(ws)+'</div>';
+ if(br&&lw){var a=br[2],b=br[3],pos=Math.max(2,Math.min(98,25+(lw-a)/(b-a)*50)),st=lw<a*0.97?'under':lw>b*1.03?'over':'inRange';
+  h+='<div class="box"><b>'+t('ideal',{breed:esc(br[L==='es'?1:0]),a:Math.round(kg2u(a)),b:Math.round(kg2u(b)),u:D.unit})+'</b><div class="meter"><i style="left:'+pos+'%"></i></div><div class="legend"><span>'+t('under')+'</span><span>'+t('inRange')+'</span><span>'+t('over')+'</span></div><p style="margin-bottom:0"><b>'+wfmt(lw)+': '+t(st)+'</b></p><p class="muted">'+t('idealMixed')+'</p></div>'}
+ else h+='<p class="muted">'+t('idealMixed')+'</p>';
+ h+='<button class="btn ghost" id="hw">'+t('addWeight')+'</button>';
+ h+='<h2>🍽️ '+t('foodH')+'</h2><p class="muted">'+t('foodL')+'</p><div class="box">'+(lw?'<div class="row"><label>'+t('goal')+'<select id="fg"><option value="keep">'+t('goals').keep+'</option><option value="lose">'+t('goals').lose+'</option></select></label>'+
+  '<label>'+t('kcalCup')+'<div style="display:flex;gap:6px"><input type="number" id="fk" min="50" max="6000" value="'+(D.kcal||(p.species==='cat'?400:370))+'"><select id="fu" style="width:auto"><option value="cup">'+t('perCup')+'</option><option value="kg"'+(D.kcalU==='kg'?' selected':'')+'>'+t('perKg')+'</option></select></div></label></div><div class="result" id="fres"></div>':'<p>'+t('noWeight')+'</p>')+'<p class="muted">'+t('vetNote')+'</p></div>'+adSlot()+shop();
+ $('#v-health').innerHTML=h;$('#hw').onclick=function(){var v=prompt(t('weight')+' ('+D.unit+')');var n=parseFloat(String(v||'').replace(',','.'));if(n>0){D.log.push({id:uid(),pet:p.id,d:iso(today()),tm:'',k:'weight',w:Math.round(u2kg(n)*100)/100});saveD();track('weight_added');renderHealth()}};
+ if(!lw)return;
+ function food(){var goal=$('#fg').value,kc=parseFloat($('#fk').value)||370,unit=$('#fu').value;D.kcal=kc;D.kcalU=unit;saveD();var y=ageY(p),kgw=lw;
+  if(goal==='lose'&&br)kgw=Math.min(lw,(br[2]+br[3])/2);var rer=70*Math.pow(kgw,0.75),f;
+  if(p.species==='cat'){f=goal==='lose'?0.8:y!=null&&y<1?2.5:p.neut?1.2:1.4;if(p.act==='high'&&goal!=='lose')f+=0.2}
+  else{if(goal==='lose')f=1.0;else if(y!=null&&y<0.34)f=3;else if(y!=null&&y<1)f=2;else{f=p.neut?1.6:1.8;if(p.act==='low')f-=0.2;if(p.act==='high')f+=0.4;if(p.act==='work')f=3;if(y!=null&&y>=8&&p.act!=='high'&&p.act!=='work')f=Math.min(f,1.4)}}
+  var k=Math.round(rer*f),water=D.unit==='lb'?Math.round(lw*2.20462)+' oz':Math.round(lw*60)+' ml';
+  $('#fres').innerHTML='<div class="big" style="font-size:34px">'+t('perDay',{k:k})+'</div><b>'+(unit==='cup'?t('cups',{c:(k/kc).toFixed(1)}):t('grams',{g:Math.round(k/kc*1000)}))+'</b><br>💧 '+t('water',{w:water})+'<br>🦴 '+t('treats',{t:Math.round(k*.1)})+'<br><small class="muted">RER '+Math.round(rer)+' kcal × '+f.toFixed(1)+'</small>'}
+ ['#fg','#fk','#fu'].forEach(function(s){$(s).addEventListener('input',food)});food()}
+function chart(ws){var W=640,H=220,pad=36,xs=ws.map(function(x){return pd(x.d).getTime()}),ys=ws.map(function(x){return kg2u(x.w)}),x0=Math.min.apply(0,xs),x1=Math.max.apply(0,xs)||x0+1,y0=Math.min.apply(0,ys),y1=Math.max.apply(0,ys);
+ if(x1===x0)x1=x0+864e5;var m=(y1-y0)*.15||1;y0-=m;y1+=m;var X=function(v){return pad+(v-x0)/(x1-x0)*(W-pad*2)},Y=function(v){return H-pad+-(v-y0)/(y1-y0)*(H-pad*2)};
+ var pts=ws.map(function(x,i){return X(xs[i]).toFixed(1)+','+Y(ys[i]).toFixed(1)}).join(' ');
+ return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="weight chart"><line x1="'+pad+'" y1="'+(H-pad)+'" x2="'+(W-pad)+'" y2="'+(H-pad)+'" stroke="#E2D3B8"/><text x="'+pad+'" y="'+(pad-12)+'" font-size="14" fill="#7b6b62">'+y1.toFixed(1)+' '+D.unit+'</text><text x="'+pad+'" y="'+(H-pad+22)+'" font-size="14" fill="#7b6b62">'+fmt(ws[0].d)+'</text><text x="'+(W-pad)+'" y="'+(H-pad+22)+'" font-size="14" fill="#7b6b62" text-anchor="end">'+fmt(ws[ws.length-1].d)+'</text>'+
+ '<polyline points="'+pts+'" fill="none" stroke="#4E7F86" stroke-width="3" stroke-linejoin="round"/>'+ws.map(function(x,i){return '<circle cx="'+X(xs[i]).toFixed(1)+'" cy="'+Y(ys[i]).toFixed(1)+'" r="5" fill="#3B2433"><title>'+fmt(x.d)+': '+wfmt(x.w)+'</title></circle>'}).join('')+'</svg>'}
+
+/* ------------------------------------------------------------ MÁS */
+function renderMore(){var h='<h1>'+t('moreH')+'</h1><h2>'+t('pets')+'</h2>'+(petChips()||'<button class="btn" data-edit="">'+t('addPet')+'</button>')+(cur()?'<button class="btn ghost" data-edit="'+cur().id+'">✎ '+t('editPet')+'</button>':'')+
+ '<h2>'+t('units')+'</h2><div class="seg" id="mu"><button class="chip'+(D.unit==='lb'?' on':'')+'" data-u="lb">lb</button><button class="chip'+(D.unit==='kg'?' on':'')+'" data-u="kg">kg</button></div>'+
+ '<h2>'+t('backup')+'</h2><p class="muted">🔒 '+t('storeNote')+'</p><div class="btns"><button class="btn alt" id="mexp">⬇ '+t('exp')+'</button><label class="btn ghost" style="margin:0">⬆ '+t('imp')+'<input type="file" id="mimp" accept="application/json,.json" hidden></label></div>'+
+ '<details class="more"><summary>'+t('wipe')+'</summary><p>'+t('wipeQ')+'</p><button class="btn ghost" id="mwipe">🗑 '+t('wipe')+'</button></details>'+
+ '<p><a class="chip" href="/fun/'+(L==='es'?'es/':'')+'">🎉 '+t('fun')+'</a></p>'+shop();
+ $('#v-more').innerHTML=h;
+ $('#mu').onclick=function(e){var c=e.target.closest('.chip');if(c){D.unit=c.dataset.u;saveD();renderMore()}};
+ $('#mexp').onclick=function(){pall().then(function(ph){var data={app:'paw-diary',v:1,date:new Date().toISOString(),pets:P,diary:D,photos:ph},a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:'application/json'}));a.download='paw-diary-backup-'+iso(today())+'.json';document.body.appendChild(a);a.click();a.remove();track('backup_export')})};
+ $('#mimp').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);if(d.app!=='paw-diary'||!d.pets||!d.diary)throw 0;
+   P=d.pets;D=d.diary;saveP();saveD();Promise.all(Object.keys(d.photos||{}).map(function(k){return pput(k,d.photos[k])})).then(function(){toast(t('impOk'));track('backup_import');go('home')})}catch(e){alert(t('impBad'))}};r.readAsText(f)};
+ $('#mwipe').onclick=function(){if(!confirm(t('wipeQ')))return;localStorage.removeItem(KEY);localStorage.removeItem(DKEY);try{indexedDB.deleteDatabase('cozypaws-photos')}catch(e){}idb=null;P={pets:[],cur:null};D={log:[],rem:[],unit:D.unit};go('home')}}
+
+/* ------------------------------------------------------------ tienda (discreto) y anuncios */
+function shop(){return '<a class="shop" href="'+esc(CFG.shop)+'" target="_blank" rel="noopener" data-etsy="diary"><img src="/img/logo-160.png" alt="" loading="lazy"><span>'+t('shop')+' <b>'+t('shopB')+'</b></span></a>'}
+document.addEventListener('click',function(e){var a=e.target.closest('a[data-etsy]');if(a)track('etsy_click',{item_id:a.dataset.etsy})});
+function adSlot(){if(!CFG.ads)return '';return '<div class="ad web-only"><ins class="adsbygoogle" style="display:block" data-ad-client="'+CFG.ads+'" data-ad-format="auto" data-full-width-responsive="true"></ins></div>'}
+new MutationObserver(function(){if(window.adsbygoogle)$$('ins.adsbygoogle:not([data-adsbygoogle-status])').forEach(function(){try{window.adsbygoogle.push({})}catch(e){}})}).observe($('main'),{childList:true,subtree:true});
+
+/* ------------------------------------------------------------ instalar (PWA) y cookies */
+var deferred=null,isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent),standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone,ib=$('#inst');ib.textContent='📲 '+t('install');
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;if(!standalone)ib.style.display='inline-block'});if(isIOS&&!standalone)ib.style.display='inline-block';
+ib.onclick=function(){if(deferred){deferred.prompt();deferred.userChoice.then(function(c){track('app_install_prompt',{outcome:c.outcome,app:'diary'});deferred=null;ib.style.display='none'})}else openDlg('<h2 style="margin-top:0">'+t('iosH')+'</h2><p>'+t('iosB')+'</p><button class="btn" onclick="this.closest(\'dialog\').close()">'+t('gotIt')+'</button>')};
+window.addEventListener('appinstalled',function(){ib.style.display='none';track('app_installed',{app:'diary'})});
+if('serviceWorker' in navigator)window.addEventListener('load',function(){navigator.serviceWorker.register('/diary/sw.js',{scope:'/diary/'}).then(function(){setTimeout(checkDue,1500)}).catch(function(){})});
+$$('[data-t]').forEach(function(e){e.textContent=t(e.dataset.t)});
+(function(){var c=localStorage.getItem('ww_cc');if(c==='y')wwLoad();else if(c!=='n'){var b=$('#cc');b.style.display='block';$('.y',b).onclick=function(){localStorage.setItem('ww_cc','y');b.style.display='none';wwLoad()};$('.n',b).onclick=function(){localStorage.setItem('ww_cc','n');b.style.display='none'}}})();
+$('.foot').innerHTML=t('foot',{co:esc(CFG.company)})+' · <a href="/privacy/">'+t('privacy')+'</a> · <a href="/terms/">'+(L=='es'?'Términos':'Terms')+'</a> · <a href="/">cozypawsgifts</a>';
+go((location.hash||'#home').slice(1));
+})();
+</script>
+</body></html>
