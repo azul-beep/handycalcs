@@ -1,0 +1,40 @@
+# Cozy Paws (tienda de Etsy de mascotas): web de guías de regalos + calculadoras + RSS para Pinterest.
+# Corre sola todos los días, gratis y sin Claude:
+#   - 8:30 AM de Utah (15:30 UTC): build.py suelta los productos que ya están en Etsy (3 por día),
+#     una guía nueva como mucho por día y las herramientas en su fecha; rearma feed.xml y sitemap.
+#   - commit -> Cloudflare Pages (proyecto "cozypaws", carpeta cozypaws/site) publica solo
+#     -> Pinterest lee feed.xml y crea los pines solo.
+name: Cozy Paws (publicación diaria)
+on:
+  schedule:
+    - cron: "30 15 * * *"
+  push:
+    branches: [main]
+    paths: ["cozypaws/data/**", "cozypaws/build.py"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: handycalcs-publicacion
+  cancel-in-progress: false
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install -y fonts-dejavu-core
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pillow
+      - name: Rearmar la web de Cozy Paws
+        run: python3 cozypaws/build.py
+      - name: Commit si hay algo nuevo
+        run: |
+          if git diff --quiet -- cozypaws && [ -z "$(git ls-files --others --exclude-standard cozypaws)" ]; then
+            echo "Hoy no sale nada nuevo"; exit 0
+          fi
+          git config user.name "publicacion-bot"
+          git config user.email "publicacion-bot@users.noreply.github.com"
+          git add cozypaws
+          git commit -m "Cozy Paws: publicación diaria $(date -u +%F)"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 10; done; exit 1

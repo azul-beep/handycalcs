@@ -1,0 +1,1 @@
+# Links directos de Etsy: <sku> <url>  (ej: p01 https://www.etsy.com/listing/123456789)
