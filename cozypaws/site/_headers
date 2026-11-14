@@ -2,5 +2,7 @@
   Cache-Control: public, max-age=604800
 /fun/sw.js
   Cache-Control: no-cache
-/fun/*.webmanifest
+/diary/sw.js
+  Cache-Control: no-cache
+/*.webmanifest
   Content-Type: application/manifest+json
