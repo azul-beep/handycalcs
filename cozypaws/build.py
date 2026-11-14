@@ -392,6 +392,7 @@ h2:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--gol
 .calc button{font-family:Abril,Georgia,serif}.result{font-size:20px;background:#fff;border:2px dashed var(--gold);border-radius:16px;padding:16px;margin-top:10px}.names{columns:2;margin:0;padding-left:20px}
 table{border-collapse:collapse;background:var(--cream2);border-radius:12px;overflow:hidden}td,th{border:1px solid var(--line);padding:7px 14px;text-align:center}th{background:var(--blue);color:var(--cream);font-weight:600}
 .note{color:#7b6b62;font-size:14px}.tips li{margin:6px 0}
+.post{max-width:760px}.post p,.post li{font-size:17.5px;line-height:1.7}.post table{margin:12px 0;font-size:16px}.post h2{margin-top:28px}
 .toc{background:var(--cream2);border:2px dashed var(--gold);border-radius:20px;padding:16px 22px;margin:22px 0}.toc b{font-family:Abril,Georgia,serif;font-weight:400;color:var(--plum)}
 .toc a{display:inline-block;margin:4px 6px 4px 0;padding:6px 13px;border-radius:99px;background:#fff;border:1.5px solid var(--line);text-decoration:none;color:var(--blue);font-size:15px}
 .ship{background:var(--blue);color:var(--cream);border-radius:20px;padding:16px 22px;margin:18px 0}.ship b{font-family:Abril,Georgia,serif;font-weight:400}
@@ -454,7 +455,7 @@ def page(path, title, desc, body, today, image=None, jsonld=None, canonical=True
 <meta name="theme-color" content="#4E7F86"><style>{CSS}</style>{ld}{analytics()}</head><body>
 <div class="bar">{bar}</div>
 <header><div class="in"><a class="brand" href="/"><img src="/img/logo-160.png" alt="" width="58" height="58"><span>Cozy Paws</span></a>
-<nav><a href="/gifts/">Gift guides</a><a href="/tools/">Pet tools</a><a href="/fun/">Fun app</a><a href="/diary/">Pet diary</a><a class="shop" href="{CONFIG['shop']}" data-etsy="shop">Shop on Etsy</a></nav></div></header>
+<nav><a href="/gifts/">Gift guides</a><a href="/tools/">Pet tools</a><a href="/blog/">Pet tips</a><a href="/fun/">Fun app</a><a href="/diary/">Pet diary</a><a class="shop" href="{CONFIG['shop']}" data-etsy="shop">Shop on Etsy</a></nav></div></header>
 <main>{body}</main>
 <footer><div class="in"><div class="fb"><img src="/img/sello-claro.png" alt="" width="64" height="64" loading="lazy"><div><span class="script">Cozy Paws</span><br>Vintage club gifts for dogs, cats &amp; the people who love them. Designed in Salt Lake City, Utah.</div></div>
 <div><a href="{CONFIG['shop']}" data-etsy="footer">Etsy shop</a>{pin}<a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="mailto:{CONFIG['contact']}">Contact</a><br><small>© {today.year} Cozy Paws</small></div></div></footer>
@@ -769,6 +770,11 @@ def build(today):
     seo_urls, seo_items, nb, nn, tb, tn = seo_pages.build_seo(page, CONFIG, OUT, DATA, today, cpapps.stamp_links(CONFIG, all_prods, today))
     urls += seo_urls
     print(f'razas {nb}/{tb}, listas de nombres {nn}/{tn}')
+    # artículos (goteo 1 por día desde el 16 nov; textos ya escritos en cozypaws/articulos/; cada uno con pin en el feed): cozypaws/apps/articulos.py
+    from apps import articulos
+    blog_urls, blog_items, na = articulos.build_blog(page, CONFIG, OUT, DATA, today, seo_pages.pin_maker)
+    urls += blog_urls
+    print(f'artículos {na}/{len(articulos.load())}')
     items_apps = [(dt.date(2026, 11, 15), 'Paw Party: free fun app for dogs and cats', '/fun/', '/img/pin/app-fun.jpg',
                    'Dog and cat age in human years, pet name ideas, a personality quiz, pet zodiac and birthday cards. Free, no sign up, install it on your phone.', 'app-fun'),
                   (dt.date(2026, 11, 16), 'Paw Diary: free pet diary and vet reminder app', '/diary/', '/img/pin/app-diary.jpg',
@@ -819,7 +825,7 @@ def build(today):
         items.append((HUB['live'], f'{HUB["h1"]} {today.year}', f'/gifts/{HUB["id"]}/', f'/img/pin/g-{HUB["id"]}.jpg', HUB['intro'][:300], 'g-' + HUB['id']))
     for t in tools_live:
         items.append((t['live'], t['h1'], f'/tools/{t["id"]}/', f'/img/pin/t-{t["id"]}.jpg', t['desc'], 't-' + t['id']))
-    items += [x for x in items_apps if x[0] <= today] + seo_items
+    items += [x for x in items_apps if x[0] <= today] + seo_items + blog_items
     items.sort(key=lambda x: x[0], reverse=True)
     xi = ''
     for d, title, path, img, desc, gid in items[:60]:
