@@ -732,7 +732,8 @@ def build(today):
     # herramientas
     tli = FUN_TILE + ''.join(f'<a class="tool" href="/tools/{t["id"]}/"><b>{E(t["h1"].split(":")[0])}</b><span>{E(t["desc"])}</span></a>' for t in tools_live)
     page('/tools/', 'Free Pet Tools: Dog Age, Cat Age, Dog Food Calculator | Cozy Paws', 'Free calculators and generators for dog and cat owners.',
-         f'<h1>Free pet tools</h1><p class="lead">Quick, free calculators for dog and cat people. Nothing to sign up for.</p><div class="tools">{tli}</div>' if tli else '<h1>Free pet tools</h1><p>Coming soon.</p>', today)
+         f'<h1>Free pet tools</h1><p class="lead">Quick, free calculators for dog and cat people. Nothing to sign up for.</p><div class="tools">{tli}</div>'
+         '<p class="pills" style="margin-top:18px"><a href="/breeds/">Breed guides: weight, age and food</a><a href="/names/">Pet name lists</a></p>' if tli else '<h1>Free pet tools</h1><p>Coming soon.</p>', today)
     urls.append(('/tools/', today))
     for t in tools_live:
         pet_ps = [p for p in prods if t['pet'] == 'both' or t['pet'] in p['hay']][:4]
@@ -747,6 +748,11 @@ def build(today):
     import apps.apps as cpapps
     urls += cpapps.build_fun(OUT, CONFIG, all_prods, today)
     urls += cpapps.build_diary(OUT, CONFIG, all_prods, today)
+    # páginas por raza y listas de nombres (goteo 1+1 por día; cada una con pin en el feed): cozypaws/apps/seo_pages.py
+    from apps import seo_pages
+    seo_urls, seo_items, nb, nn, tb, tn = seo_pages.build_seo(page, CONFIG, OUT, DATA, today, cpapps.stamp_links(CONFIG, all_prods, today))
+    urls += seo_urls
+    print(f'razas {nb}/{tb}, listas de nombres {nn}/{tn}')
     items_apps = [(dt.date(2026, 11, 15), 'Paw Party: free fun app for dogs and cats', '/fun/', '/img/pin/app-fun.jpg',
                    'Dog and cat age in human years, pet name ideas, a personality quiz, pet zodiac and birthday cards. Free, no sign up, install it on your phone.', 'app-fun'),
                   (dt.date(2026, 11, 16), 'Paw Diary: free pet diary and vet reminder app', '/diary/', '/img/pin/app-diary.jpg',
@@ -792,7 +798,7 @@ def build(today):
         items.append((HUB['live'], f'{HUB["h1"]} {today.year}', f'/gifts/{HUB["id"]}/', f'/img/pin/g-{HUB["id"]}.jpg', HUB['intro'][:300], 'g-' + HUB['id']))
     for t in tools_live:
         items.append((t['live'], t['h1'], f'/tools/{t["id"]}/', f'/img/pin/t-{t["id"]}.jpg', t['desc'], 't-' + t['id']))
-    items += [x for x in items_apps if x[0] <= today]
+    items += [x for x in items_apps if x[0] <= today] + seo_items
     items.sort(key=lambda x: x[0], reverse=True)
     xi = ''
     for d, title, path, img, desc, gid in items[:60]:

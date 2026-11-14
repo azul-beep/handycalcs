@@ -22,6 +22,8 @@ Web estática (inglés, público de EE. UU.) que vive en https://cozypawsgifts.p
 **Paw Diary** (`/diary/` y `/diary/es/`): app utilitaria. Anotar con un toque (paseo, comida, remedio, etc.), diario con ánimo, etiquetas, peso y foto, recordatorios que se repiten (vacunas, pulgas, corazón, peluquería, veterinario) con botón para mandarlos al calendario del celular (.ics con alarma), gráfico de peso con rango sano por raza (70 perros, 10 gatos), calculadora de comida (RER), copia de seguridad descargable y "Borrar todos mis datos".
 - Código: `apps/diary.html`. Usa el mismo estilo que `fun.html`. Mascotas compartidas con Paw Party (`cozypaws-pets`); diario y recordatorios en `cozypaws-diary`; fotos en IndexedDB (`cozypaws-photos`).
 
+**Páginas para buscadores** (`apps/seo_pages.py`): `/breeds/<raza>/` (68 perros + 10 gatos: peso sano, edad humana, comida) y `/names/<lista>/` (18 listas de nombres). Salen solas 1 raza y 1 lista por día desde el 15 nov, cada una con su pin en `feed.xml` (Pinterest la publica sola) y en el sitemap (IndexNow avisa solo). Los datos salen de las apps: una raza nueva en `diary.html` o nombres nuevos en `fun.html` suman páginas al final de la cola.
+
 ## Cómo corre solo
 `.github/workflows/cozypaws.yml` corre todos los días a las 21:00 UTC (2 PM de Utah): `python3 cozypaws/build.py` y commit de `cozypaws/site`. Cloudflare Pages publica cada commit.
 
