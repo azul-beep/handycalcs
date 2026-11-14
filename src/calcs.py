@@ -13,6 +13,14 @@ def TA(key, en, es, default_en, default_es, rows=6):
 def TX(key, en, es, default):
     return dict(kind="text", key=key, en=en, es=es, default=default)
 
+def D(key, en, es, default):
+    """Date input (YYYY-MM-DD). default="today" uses the visitor's date."""
+    return dict(kind="date", key=key, en=en, es=es, default=default)
+
+def TR(key, en, es, start="", end="", brk=""):
+    """Time-card row: start time, end time, unpaid break in minutes."""
+    return dict(kind="timerow", key=key, en=en, es=es, default=(start, end, brk))
+
 def O(key, en, es, big=False, pre=False):
     return dict(key=key, en=en, es=es, big=big, pre=pre)
 
@@ -24,6 +32,8 @@ CATS = {
     "work": ("Work & pay", "Trabajo y sueldo"),
     "money": ("Budget & money", "Presupuesto y dinero"),
     "everyday": ("Everyday math", "Cuentas de todos los días"),
+    "health": ("Health & fitness", "Salud y ejercicio"),
+    "school": ("School & grades", "Escuela y notas"),
 }
 
 CALCS = [
@@ -735,4 +745,490 @@ dict(id="gas", cat="everyday", aff="money",
   faq=[("¿Cómo sé cuántas millas por galón hace mi auto?","Mira la etiqueta del auto o fueleconomy.gov, o divide las millas recorridas por los galones que cargas la próxima vez."),
        ("¿Incluye peajes y estacionamiento?","No, solo gasolina. Suma peajes y estacionamiento aparte."),
        ("¿Puedo usar kilómetros?","Pasa los kilómetros a millas primero: 1 km = 0,621 millas.")])),
+# ================================================================ ADDED NOV 2026 (high US search volume)
+# ---------------------------------------------------------------- MORTGAGE
+dict(id="mortgage", cat="money", aff="money",
+ inputs=[N("price","Home price","Precio de la casa",400000,"1000","$"),
+         N("down","Down payment","Enganche (pago inicial)",20,"1","%"),
+         N("rate","Interest rate","Tasa de interés",6.5,"0.01","%"),
+         S("years","Loan term","Plazo",[("30","30 years","30 años"),("20","20 years","20 años"),("15","15 years","15 años"),("10","10 years","10 años")],"30"),
+         N("taxrate","Property tax per year","Impuesto a la propiedad por año",1.1,"0.01","%"),
+         N("insurance","Home insurance per year","Seguro de la casa por año",1800,"10","$"),
+         N("pmi","PMI if down payment is under 20%","PMI si el enganche es menos del 20%",0.7,"0.05","%"),
+         N("hoa","HOA fees per month","Cuota de HOA por mes",0,"5","$")],
+ presets=("down",[3.5,5,10,20]),
+ outputs=[O("monthly","Monthly payment","Pago mensual",True),O("pi","Principal and interest","Capital e interés"),
+          O("taxes","Property tax / insurance per month","Impuesto / seguro por mes"),O("pmiOut","PMI per month","PMI por mes"),
+          O("loanAmt","Loan amount","Monto del préstamo"),O("interest","Total interest over the loan","Interés total del préstamo")],
+ related=["loan","budget","rule503020"],
+ en=dict(slug="mortgage-calculator", title="Mortgage Calculator with Taxes, Insurance and PMI",
+  h1="Mortgage Calculator", desc="Free mortgage calculator: monthly payment with principal, interest, property tax, home insurance, PMI and HOA. 30, 20, 15 or 10 years.",
+  intro="See the real monthly cost of a home, not just principal and interest: taxes, insurance, PMI and HOA included.",
+  body="""<h2>How the monthly payment is calculated</h2>
+<p>The loan part uses the standard amortization formula: <strong>M = P × r ÷ (1 − (1 + r)<sup>−n</sup>)</strong>, where P is the loan amount, r the monthly rate (annual rate ÷ 12) and n the number of payments. Then the calculator adds one twelfth of the yearly property tax and insurance, PMI when the down payment is under 20%, and HOA fees. That full number is often called PITI.</p>
+<h2>Example</h2>
+<p>A $400,000 home with 20% down is a $320,000 loan. At 6.5% for 30 years, principal and interest are about <strong>$2,023 a month</strong>. Add $367 of property tax (1.1% a year) and $150 of insurance and the payment is about $2,540.</p>
+<h2>What is PMI?</h2>
+<p>Private mortgage insurance protects the lender on conventional loans with less than 20% down. It usually costs 0.3% to 1.5% of the loan per year. You can ask to cancel it when you reach 20% equity, and it ends automatically at 22% equity (78% of the original value). FHA loans have their own mortgage insurance (MIP) with different rules.</p>
+<h2>How much house can I afford?</h2>
+<p>A common rule is to keep the full housing payment under 28% of your gross monthly income and all debts under 36%. Lenders may approve more, but a payment that fits your budget leaves room for repairs and savings. Try the family budget calculator to check.</p>
+<h2>15 or 30 years?</h2>
+<p>A 15-year loan has a higher payment but usually a lower rate and much less total interest. Switch the term above and compare the "Total interest" line.</p>""",
+  faq=[("Does this mortgage calculator include taxes and insurance?","Yes. Enter your yearly property tax rate and insurance premium and they are added to the monthly payment, along with PMI and HOA."),
+       ("What is a typical property tax rate?","The US average is around 1% of the home value per year, but it goes from about 0.3% to over 2% depending on the state and county. Check your county assessor's site."),
+       ("How can I avoid PMI?","Put 20% down, use a piggyback loan, or look at loan programs without PMI (such as VA loans). PMI can be removed later once you have 20% equity.")]),
+ es=dict(slug="calculadora-de-hipoteca", title="Calculadora de hipoteca con impuestos, seguro y PMI",
+  h1="Calculadora de hipoteca", desc="Calculadora de hipoteca gratis: pago mensual con capital, interés, impuesto a la propiedad, seguro, PMI y HOA. A 30, 20, 15 o 10 años.",
+  intro="Mira el costo mensual real de una casa, no solo capital e interés: impuestos, seguro, PMI y HOA incluidos.",
+  body="""<h2>Cómo se calcula el pago mensual</h2>
+<p>La parte del préstamo usa la fórmula de amortización: <strong>M = P × r ÷ (1 − (1 + r)<sup>−n</sup>)</strong>, donde P es el monto del préstamo, r la tasa mensual (tasa anual ÷ 12) y n la cantidad de pagos. Después la calculadora suma la doceava parte del impuesto a la propiedad y del seguro, el PMI si el enganche es menor al 20% y la cuota de HOA. A ese total se le suele llamar PITI.</p>
+<h2>Ejemplo</h2>
+<p>Una casa de $400.000 con 20% de enganche es un préstamo de $320.000. Al 6,5% a 30 años, capital e interés dan unos <strong>$2.023 por mes</strong>. Con $367 de impuesto (1,1% anual) y $150 de seguro, el pago queda en unos $2.540.</p>
+<h2>¿Qué es el PMI?</h2>
+<p>Es un seguro hipotecario privado que protege al banco en los préstamos convencionales con menos del 20% de enganche. Suele costar entre 0,3% y 1,5% del préstamo por año. Puedes pedir que lo quiten cuando llegas al 20% de capital propio, y se cancela solo al 22% (78% del valor original). Los préstamos FHA tienen su propio seguro (MIP) con otras reglas.</p>
+<h2>¿Cuánta casa me puedo permitir?</h2>
+<p>Una regla común es que el pago total de la vivienda no pase del 28% del ingreso bruto mensual y todas las deudas juntas no pasen del 36%. El banco puede aprobarte más, pero un pago que entra en tu presupuesto deja margen para arreglos y ahorro. Pruébalo con la calculadora de presupuesto familiar.</p>
+<h2>¿15 o 30 años?</h2>
+<p>A 15 años el pago es más alto, pero la tasa suele ser menor y el interés total mucho más bajo. Cambia el plazo arriba y compara la línea "Interés total".</p>""",
+  faq=[("¿La calculadora incluye impuestos y seguro?","Sí. Pon la tasa anual del impuesto a la propiedad y el costo del seguro y se suman al pago mensual, junto con el PMI y el HOA."),
+       ("¿Cuánto es el impuesto a la propiedad?","El promedio en EE. UU. ronda el 1% del valor de la casa por año, pero va de 0,3% a más de 2% según el estado y el condado. Fíjate en el sitio del tasador de tu condado."),
+       ("¿Cómo evito el PMI?","Dando 20% de enganche, con un segundo préstamo (piggyback) o con programas sin PMI, como los préstamos VA. También se puede quitar después, al llegar al 20% de capital propio.")])),
+
+# ---------------------------------------------------------------- COMPOUND INTEREST
+dict(id="compound", cat="money", aff="money",
+ inputs=[N("initial","Initial deposit","Depósito inicial",5000,"100","$"),
+         N("monthly","Monthly contribution","Aporte mensual",200,"10","$"),
+         N("rate","Annual interest rate","Tasa de interés anual",7,"0.1","%"),
+         N("years","Years","Años",20,"1"),
+         S("freq","Compounding","Capitalización",[("12","Monthly","Mensual"),("365","Daily","Diaria"),("4","Quarterly","Trimestral"),("1","Yearly","Anual")],"12")],
+ outputs=[O("fv","Future value","Valor final",True),O("contrib","Total you put in","Total que aportaste"),
+          O("earned","Interest earned","Intereses ganados"),O("doubling","Years to double (rule of 72)","Años para duplicar (regla del 72)")],
+ related=["savings","rule503020","percent"],
+ en=dict(slug="compound-interest-calculator", title="Compound Interest Calculator with Monthly Contributions",
+  h1="Compound Interest Calculator", desc="Free compound interest calculator. See how your savings or investments grow with monthly contributions and daily, monthly, quarterly or yearly compounding.",
+  intro="See how money grows when interest earns interest, with a starting amount and a monthly contribution.",
+  body="""<h2>The compound interest formula</h2>
+<p>For a single deposit: <strong>A = P × (1 + r/n)<sup>n×t</sup></strong>, where P is the deposit, r the annual rate, n how many times a year interest is added and t the years. With monthly contributions each deposit grows for the months left, and the calculator adds them all up month by month.</p>
+<h2>Example</h2>
+<p>$5,000 to start plus $200 a month at 7% for 20 years. You put in $53,000 in total and end with about <strong>$124,000</strong>: more than half of it is interest.</p>
+<h2>The rule of 72</h2>
+<p>Divide 72 by the yearly rate to estimate how many years it takes to double your money. At 6% it takes about 12 years; at 9%, about 8.</p>
+<h2>Where can you get compound interest?</h2>
+<ul><li><strong>High-yield savings accounts</strong> and CDs: low risk, FDIC insured up to the limit.</li>
+<li><strong>Index funds</strong> in a 401(k) or IRA: higher long-term returns but the value goes up and down; past returns do not guarantee future ones.</li>
+<li><strong>Credit cards work the other way</strong>: compound interest makes debt grow fast. See the credit card payoff calculator.</li></ul>""",
+  faq=[("What is the difference between simple and compound interest?","Simple interest is paid only on the original amount. Compound interest is also paid on the interest already earned, so growth speeds up over time."),
+       ("Does daily compounding make a big difference?","Not much compared with monthly. At 5%, monthly compounding gives an effective 5.12% a year and daily 5.13%."),
+       ("What rate should I use for the stock market?","Many people use 5% to 7% after inflation for a diversified stock index fund over long periods. It is an estimate, not a promise.")]),
+ es=dict(slug="calculadora-interes-compuesto", title="Calculadora de interés compuesto con aportes mensuales",
+  h1="Calculadora de interés compuesto", desc="Calculadora de interés compuesto gratis. Mira cuánto crecen tus ahorros o inversiones con aportes mensuales y capitalización diaria, mensual o anual.",
+  intro="Mira cuánto crece tu dinero cuando los intereses generan más intereses, con un monto inicial y un aporte por mes.",
+  body="""<h2>La fórmula del interés compuesto</h2>
+<p>Para un solo depósito: <strong>A = P × (1 + r/n)<sup>n×t</sup></strong>, donde P es el depósito, r la tasa anual, n cuántas veces por año se suman los intereses y t los años. Con aportes mensuales cada depósito crece por los meses que le quedan, y la calculadora los suma mes a mes.</p>
+<h2>Ejemplo</h2>
+<p>$5.000 para empezar más $200 por mes al 7% durante 20 años. Pones $53.000 en total y terminas con unos <strong>$124.000</strong>: más de la mitad son intereses.</p>
+<h2>La regla del 72</h2>
+<p>Divide 72 por la tasa anual para saber más o menos en cuántos años se duplica tu dinero. Al 6% tarda unos 12 años; al 9%, unos 8.</p>
+<h2>¿Dónde se gana interés compuesto?</h2>
+<ul><li><strong>Cuentas de ahorro de alto rendimiento</strong> y CDs: poco riesgo, aseguradas por la FDIC hasta el límite.</li>
+<li><strong>Fondos indexados</strong> en un 401(k) o IRA: más rendimiento a largo plazo, pero el valor sube y baja; lo pasado no garantiza lo que viene.</li>
+<li><strong>Las tarjetas de crédito funcionan al revés</strong>: el interés compuesto hace crecer la deuda rápido. Mira la calculadora para pagar la tarjeta.</li></ul>""",
+  faq=[("¿Qué diferencia hay entre interés simple y compuesto?","El simple se paga solo sobre el monto original. El compuesto también se paga sobre los intereses ya ganados, así que el crecimiento se acelera con el tiempo."),
+       ("¿La capitalización diaria cambia mucho?","Poco comparada con la mensual. Al 5%, la mensual da un 5,12% efectivo por año y la diaria un 5,13%."),
+       ("¿Qué tasa uso para la bolsa?","Mucha gente usa entre 5% y 7% por encima de la inflación para un fondo indexado diversificado a largo plazo. Es una estimación, no una promesa.")])),
+
+# ---------------------------------------------------------------- AUTO LOAN
+dict(id="autoloan", cat="money", aff="money",
+ inputs=[N("price","Vehicle price","Precio del auto",32000,"100","$"),
+         N("down","Down payment","Pago inicial",4000,"100","$"),
+         N("trade","Trade-in value","Valor del auto que entregas",0,"100","$"),
+         S("tradetax","Does your state tax only the difference after trade-in?","¿Tu estado cobra impuesto solo sobre la diferencia?",YESNO,"yes"),
+         N("tax","Sales tax","Impuesto de venta",7,"0.01","%"),
+         N("fees","Title, registration and dealer fees","Título, registro y cargos del concesionario",800,"10","$"),
+         N("apr","Interest rate (APR)","Tasa de interés (APR)",7.5,"0.01","%"),
+         S("months","Loan term","Plazo",[("36","36 months","36 meses"),("48","48 months","48 meses"),("60","60 months","60 meses"),("72","72 months","72 meses"),("84","84 months","84 meses")],"60")],
+ outputs=[O("monthly","Monthly payment","Pago mensual",True),O("loanAmt","Amount financed","Monto financiado"),O("salesTax","Sales tax","Impuesto de venta"),
+          O("interest","Total interest","Interés total"),O("total","Total cost of the car","Costo total del auto")],
+ related=["loan","budget","gas"],
+ en=dict(slug="auto-loan-calculator", title="Auto Loan Calculator: Car Payment with Tax, Trade-In and Fees",
+  h1="Auto Loan Calculator", desc="Free car payment calculator with sales tax, trade-in, down payment and fees. Compare 36, 48, 60, 72 and 84-month auto loans and the total interest.",
+  intro="Find your monthly car payment with everything the dealer adds: sales tax, fees, trade-in and down payment.",
+  body="""<h2>How the car payment is calculated</h2>
+<p>Amount financed = price + sales tax + fees − down payment − trade-in. The monthly payment then uses the standard loan formula with your APR and term. In most states sales tax is charged only on the price minus the trade-in; a few (such as California, Michigan and Virginia) tax the full price, so switch that option to "No".</p>
+<h2>Example</h2>
+<p>A $32,000 car with $4,000 down, 7% tax and $800 in fees. You finance $31,040. At 7.5% for 60 months the payment is about <strong>$622</strong> and you pay about $6,280 in interest.</p>
+<h2>Longer is not cheaper</h2>
+<p>A 72 or 84-month loan lowers the payment but adds a lot of interest, and you can owe more than the car is worth for years (being "upside down"). A popular guideline is 20/4/10: at least 20% down, no more than 4 years, and total car costs under 10% of your income.</p>
+<h2>Get pre-approved first</h2>
+<p>Ask your bank or a credit union for a pre-approval before visiting the dealer. Then you can compare their APR with the dealer's offer and negotiate the price of the car separately from the financing.</p>""",
+  faq=[("What is a good APR for a car loan?","It depends on your credit score and whether the car is new or used. Borrowers with excellent credit get the lowest rates; used cars and lower scores pay more. Compare at least two offers."),
+       ("Should I include sales tax in the loan?","You can pay it upfront to borrow less, or roll it into the loan. Rolling it in is common but you pay interest on it."),
+       ("Is it better to pay cash or finance?","If the loan APR is higher than what your savings earn, paying cash (or a larger down payment) saves money. Keep an emergency fund first.")]),
+ es=dict(slug="calculadora-prestamo-de-auto", title="Calculadora de préstamo de auto: cuota con impuesto, entrega y cargos",
+  h1="Calculadora de préstamo de auto", desc="Calcula la cuota mensual del auto con impuesto de venta, auto en parte de pago, pago inicial y cargos. Compara plazos de 36 a 84 meses.",
+  intro="Calcula la cuota mensual del auto con todo lo que suma el concesionario: impuesto, cargos, auto en parte de pago y pago inicial.",
+  body="""<h2>Cómo se calcula la cuota</h2>
+<p>Monto financiado = precio + impuesto + cargos − pago inicial − auto que entregas. La cuota usa la fórmula de préstamos con tu APR y el plazo. En la mayoría de los estados el impuesto se cobra solo sobre el precio menos el auto que entregas; algunos (como California, Michigan y Virginia) lo cobran sobre el precio completo: en ese caso elige "No".</p>
+<h2>Ejemplo</h2>
+<p>Un auto de $32.000 con $4.000 de pago inicial, 7% de impuesto y $800 de cargos. Financias $31.040. Al 7,5% a 60 meses la cuota es de unos <strong>$622</strong> y pagas unos $6.280 de interés.</p>
+<h2>Más largo no es más barato</h2>
+<p>Un préstamo a 72 u 84 meses baja la cuota pero suma mucho interés, y puedes deber más de lo que vale el auto durante años. Una guía conocida es 20/4/10: al menos 20% de pago inicial, no más de 4 años y que todos los gastos del auto no pasen del 10% de tu ingreso.</p>
+<h2>Pide una preaprobación antes</h2>
+<p>Pide una preaprobación en tu banco o en una credit union antes de ir al concesionario. Así comparas su APR con la oferta del concesionario y negocias el precio del auto aparte del financiamiento.</p>""",
+  faq=[("¿Qué APR es bueno para un auto?","Depende de tu puntaje de crédito y de si el auto es nuevo o usado. Con crédito excelente se consiguen las tasas más bajas; los usados y los puntajes bajos pagan más. Compara al menos dos ofertas."),
+       ("¿Conviene meter el impuesto en el préstamo?","Puedes pagarlo al contado para pedir menos, o sumarlo al préstamo. Sumarlo es común, pero pagas interés sobre él."),
+       ("¿Es mejor pagar al contado o financiar?","Si el APR del préstamo es más alto que lo que te rinden los ahorros, pagar al contado (o dar más de inicial) te ahorra plata. Primero guarda un fondo de emergencia.")])),
+
+# ---------------------------------------------------------------- CREDIT CARD PAYOFF
+dict(id="ccpayoff", cat="money", aff="money",
+ inputs=[N("balance","Credit card balance","Saldo de la tarjeta",5000,"10","$"),
+         N("apr","Interest rate (APR)","Tasa de interés (APR)",22.9,"0.1","%"),
+         N("payment","Monthly payment","Pago mensual",200,"5","$"),
+         N("target","Months you want to be debt-free in","En cuántos meses quieres terminar",24,"1","","1")],
+ outputs=[O("months","Time to pay it off","Tiempo para pagarla",True),O("interest","Total interest you will pay","Interés total que pagarás"),
+          O("needed","Payment to finish in your target months","Pago para terminar en tus meses")],
+ related=["budget","compound","loan"],
+ en=dict(slug="credit-card-payoff-calculator", title="Credit Card Payoff Calculator: How Long to Pay Off Debt",
+  h1="Credit Card Payoff Calculator", desc="Find out how many months it takes to pay off a credit card, how much interest you will pay, and the monthly payment to be debt-free by your goal date.",
+  intro="See when your credit card will be paid off and how much a bigger payment saves you in interest.",
+  body="""<h2>How it works</h2>
+<p>Each month the card adds interest (APR ÷ 12 on the balance) and your payment is subtracted. The calculator repeats this until the balance is zero, so you see the exact number of months and the total interest. It assumes you stop using the card while you pay it off.</p>
+<h2>Example</h2>
+<p>A $5,000 balance at 22.9% APR with $200 a month takes about <strong>35 months</strong> and costs around $1,860 in interest. Paying $300 a month cuts it to 21 months and about $1,080 of interest.</p>
+<h2>Why the minimum payment is a trap</h2>
+<p>Minimum payments are usually 1% to 3% of the balance plus interest, so they shrink as the balance shrinks. Paying only the minimum can take more than 10 years. Your statement shows how long it would take; a fixed payment is always faster.</p>
+<h2>Ways to pay it off faster</h2>
+<ul><li><strong>Avalanche</strong>: pay extra on the card with the highest APR first. It saves the most money.</li>
+<li><strong>Snowball</strong>: pay off the smallest balance first for quick wins and motivation.</li>
+<li><strong>0% balance transfer</strong>: moving the debt to a 0% intro card stops the interest for a while; watch the transfer fee (often 3%–5%).</li>
+<li>Call your card issuer and ask for a lower rate; it works more often than people think.</li></ul>""",
+  faq=[("How is credit card interest calculated?","Most cards use the average daily balance and a daily rate (APR ÷ 365). Using APR ÷ 12 per month, as this calculator does, gives a very close estimate."),
+       ("What if my payment is too low?","If the payment is not more than the monthly interest, the balance never goes down. The calculator will warn you."),
+       ("Should I pay off debt or save first?","Most planners suggest a small emergency fund first (for example $1,000), then attacking high-interest debt, because 20%+ APR is more than savings can earn.")]),
+ es=dict(slug="calculadora-pagar-tarjeta-de-credito", title="Calculadora para pagar la tarjeta de crédito: en cuánto tiempo",
+  h1="Calculadora para pagar la tarjeta", desc="Calcula en cuántos meses terminas de pagar la tarjeta de crédito, cuánto interés pagas y qué cuota necesitas para quedar sin deuda en la fecha que quieras.",
+  intro="Mira cuándo terminas de pagar la tarjeta y cuánto interés te ahorras con un pago más grande.",
+  body="""<h2>Cómo funciona</h2>
+<p>Cada mes la tarjeta suma interés (APR ÷ 12 sobre el saldo) y se resta tu pago. La calculadora repite esto hasta llegar a cero, así ves la cantidad exacta de meses y el interés total. Supone que no usas la tarjeta mientras la pagas.</p>
+<h2>Ejemplo</h2>
+<p>Un saldo de $5.000 al 22,9% de APR pagando $200 por mes tarda unos <strong>35 meses</strong> y cuesta alrededor de $1.860 de interés. Pagando $300 por mes baja a 21 meses y unos $1.080 de interés.</p>
+<h2>Por qué el pago mínimo es una trampa</h2>
+<p>El pago mínimo suele ser del 1% al 3% del saldo más los intereses, así que baja a medida que baja el saldo. Pagando solo el mínimo puedes tardar más de 10 años. Tu resumen lo muestra; un pago fijo siempre es más rápido.</p>
+<h2>Formas de pagarla más rápido</h2>
+<ul><li><strong>Avalancha</strong>: pon lo extra en la tarjeta con el APR más alto. Es lo que más ahorra.</li>
+<li><strong>Bola de nieve</strong>: paga primero el saldo más chico, para ver avances rápido y no aflojar.</li>
+<li><strong>Transferencia al 0%</strong>: pasar la deuda a una tarjeta con 0% inicial frena el interés un tiempo; ojo con el cargo por transferir (suele ser 3%–5%).</li>
+<li>Llama al banco y pide una tasa más baja: funciona más seguido de lo que parece.</li></ul>""",
+  faq=[("¿Cómo se calcula el interés de la tarjeta?","La mayoría usa el saldo diario promedio y una tasa diaria (APR ÷ 365). Usar APR ÷ 12 por mes, como hace esta calculadora, da un resultado muy parecido."),
+       ("¿Y si mi pago es muy bajo?","Si el pago no supera el interés del mes, el saldo nunca baja. La calculadora te avisa."),
+       ("¿Pago la deuda o ahorro primero?","Muchos asesores sugieren primero un fondo de emergencia chico (por ejemplo $1.000) y después atacar la deuda cara, porque un APR de más del 20% es más de lo que rinde cualquier ahorro.")])),
+
+# ---------------------------------------------------------------- TIME CARD
+dict(id="timecard", cat="work", aff="work",
+ inputs=[TR("d1","Monday","Lunes","09:00","17:30","30"),TR("d2","Tuesday","Martes","09:00","17:30","30"),
+         TR("d3","Wednesday","Miércoles","09:00","17:30","30"),TR("d4","Thursday","Jueves","09:00","17:30","30"),
+         TR("d5","Friday","Viernes","09:00","17:30","30"),TR("d6","Saturday","Sábado"),TR("d7","Sunday","Domingo"),
+         N("rate","Hourly wage (optional)","Pago por hora (opcional)",18,"0.01","$")],
+ outputs=[O("hours","Total hours this week","Total de horas de la semana",True),O("ot","Overtime (over 40 h)","Horas extra (más de 40)"),
+          O("pay","Gross pay (overtime at 1.5×)","Pago bruto (extras a 1,5×)"),O("days","Hours per day","Horas por día",pre=True)],
+ related=["overtime","hourly","tipout"],
+ en=dict(slug="time-card-calculator", title="Time Card Calculator: Weekly Hours with Breaks and Overtime",
+  h1="Time Card Calculator", desc="Free time card calculator. Enter start and end times for each day, subtract lunch breaks, and get total weekly hours, overtime and gross pay.",
+  intro="Add up your hours for the week from clock-in and clock-out times, with unpaid breaks, overtime and pay.",
+  body="""<h2>How to use it</h2>
+<p>For each day, enter the time you started and the time you finished, and the minutes of unpaid break (for example a 30-minute lunch). Leave a day empty if you did not work. Shifts that end after midnight are handled automatically.</p>
+<h2>Hours and minutes vs. decimal hours</h2>
+<p>Payroll uses decimal hours: 7 hours 45 minutes is <strong>7.75 hours</strong>, not 7.45. To convert, divide the minutes by 60 (45 ÷ 60 = 0.75). The calculator shows both.</p>
+<h2>Overtime</h2>
+<p>Under federal law (FLSA), non-exempt employees get at least 1.5 times their regular rate for hours over 40 in a workweek. Some states, like California, also require overtime after 8 hours in a day. This calculator uses the weekly 40-hour rule; check the overtime calculator for other cases.</p>
+<h2>Example</h2>
+<p>Monday to Friday from 9:00 to 17:30 with a 30-minute lunch is 8 hours a day, 40 hours a week. At $18 an hour that is <strong>$720</strong> before taxes.</p>""",
+  faq=[("Are breaks paid?","Under federal rules, short breaks of 5 to 20 minutes are paid, while meal breaks of 30 minutes or more where you are fully relieved can be unpaid. Enter only the unpaid minutes."),
+       ("How do I calculate hours worked between two times?","Subtract the start time from the end time and then the unpaid break. 8:30 to 17:15 is 8 h 45 m; minus 30 minutes of lunch is 8 h 15 m, or 8.25 hours."),
+       ("Does it work for night shifts?","Yes. If the end time is earlier than the start time, the calculator assumes the shift ended the next day.")]),
+ es=dict(slug="calculadora-de-horas-trabajadas", title="Calculadora de horas trabajadas: horas de la semana con descansos y extras",
+  h1="Calculadora de horas trabajadas", desc="Calculadora de horas trabajadas gratis: pon la hora de entrada y salida de cada día, resta el almuerzo y mira el total de horas, las horas extra y el pago.",
+  intro="Suma tus horas de la semana con la hora de entrada y salida de cada día, con descansos sin pago, horas extra y sueldo.",
+  body="""<h2>Cómo se usa</h2>
+<p>Para cada día pon la hora de entrada, la de salida y los minutos de descanso que no se pagan (por ejemplo, 30 minutos de almuerzo). Deja vacío el día que no trabajaste. Los turnos que terminan después de medianoche se calculan solos.</p>
+<h2>Horas y minutos o horas decimales</h2>
+<p>La nómina usa horas decimales: 7 horas y 45 minutos son <strong>7,75 horas</strong>, no 7,45. Para pasar, divide los minutos por 60 (45 ÷ 60 = 0,75). La calculadora muestra las dos formas.</p>
+<h2>Horas extra</h2>
+<p>Según la ley federal (FLSA), los empleados no exentos cobran al menos 1,5 veces su tarifa por las horas que pasan de 40 en la semana. Algunos estados, como California, también pagan extra después de 8 horas en un día. Esta calculadora usa la regla de 40 horas semanales; para otros casos usa la calculadora de horas extra.</p>
+<h2>Ejemplo</h2>
+<p>De lunes a viernes de 9:00 a 17:30 con 30 minutos de almuerzo son 8 horas por día, 40 por semana. A $18 la hora son <strong>$720</strong> antes de impuestos.</p>""",
+  faq=[("¿Los descansos se pagan?","Según las reglas federales, los descansos cortos de 5 a 20 minutos se pagan; las comidas de 30 minutos o más en las que no trabajas pueden no pagarse. Pon solo los minutos sin pago."),
+       ("¿Cómo calculo las horas entre dos horarios?","Resta la hora de entrada a la de salida y después el descanso. De 8:30 a 17:15 son 8 h 45 m; menos 30 minutos de almuerzo quedan 8 h 15 m, o sea 8,25 horas."),
+       ("¿Sirve para turnos de noche?","Sí. Si la salida es más temprano que la entrada, la calculadora entiende que saliste al día siguiente.")])),
+
+# ---------------------------------------------------------------- AGE
+dict(id="age", cat="everyday", aff="money",
+ inputs=[D("birth","Date of birth","Fecha de nacimiento","1990-06-15"),
+         D("asof","Age on this date","Edad a esta fecha","today")],
+ outputs=[O("age","Age","Edad",True),O("total","In months","En meses"),O("days","In days","En días"),O("next","Next birthday","Próximo cumpleaños")],
+ related=["datediff","percent","savings"],
+ en=dict(slug="age-calculator", title="Age Calculator: How Old Am I in Years, Months and Days?",
+  h1="Age Calculator", desc="Free age calculator. Enter a date of birth to get the exact age in years, months and days, the total days lived, and the days until the next birthday.",
+  intro="Get an exact age in years, months and days, on today's date or any other date.",
+  body="""<h2>How age is calculated</h2>
+<p>The calculator counts full years since the date of birth, then full months, then the remaining days, the same way people say "34 years, 5 months and 2 days". It handles leap years and months with different numbers of days.</p>
+<h2>Uses</h2>
+<ul><li>Checking the exact age on a form, an application or a contract date.</li>
+<li>Knowing how old a child will be on the first day of school or a sports cut-off date.</li>
+<li>Counting days lived, or the days left to the next birthday.</li></ul>
+<h2>Born on February 29?</h2>
+<p>In non-leap years most people celebrate on February 28 or March 1. Legally, many US states consider that you turn a year older on March 1 in a non-leap year. This calculator counts the next birthday from February 28 of those years.</p>""",
+  faq=[("How do I calculate my age in days?","Enter your date of birth and the calculator shows the total days lived, counting leap years."),
+       ("Can I find someone's age on a past or future date?","Yes. Change the second date to any date, for example a school cut-off or a retirement date."),
+       ("Is my birth date saved?","No. Everything is calculated on your device and nothing is sent anywhere.")]),
+ es=dict(slug="calculadora-de-edad", title="Calculadora de edad: cuántos años, meses y días tengo",
+  h1="Calculadora de edad", desc="Calculadora de edad gratis. Pon la fecha de nacimiento y mira la edad exacta en años, meses y días, los días vividos y cuánto falta para el cumpleaños.",
+  intro="Saca la edad exacta en años, meses y días, a la fecha de hoy o a cualquier otra.",
+  body="""<h2>Cómo se calcula la edad</h2>
+<p>La calculadora cuenta los años completos desde la fecha de nacimiento, después los meses completos y después los días que sobran, igual que cuando decimos "34 años, 5 meses y 2 días". Tiene en cuenta los años bisiestos y los meses de distinta cantidad de días.</p>
+<h2>Para qué sirve</h2>
+<ul><li>Ver la edad exacta para un formulario, una solicitud o la fecha de un contrato.</li>
+<li>Saber qué edad tendrá un chico el primer día de clases o en la fecha de corte de un deporte.</li>
+<li>Contar los días vividos o los que faltan para el próximo cumpleaños.</li></ul>
+<h2>¿Naciste un 29 de febrero?</h2>
+<p>En los años no bisiestos la mayoría lo festeja el 28 de febrero o el 1 de marzo. En muchos estados de EE. UU., legalmente cumples años el 1 de marzo en los años no bisiestos. Esta calculadora cuenta el próximo cumpleaños desde el 28 de febrero en esos años.</p>""",
+  faq=[("¿Cómo calculo mi edad en días?","Pon tu fecha de nacimiento y la calculadora muestra el total de días vividos, con los años bisiestos."),
+       ("¿Puedo ver la edad en una fecha pasada o futura?","Sí. Cambia la segunda fecha por la que quieras, por ejemplo la fecha de corte de la escuela o la de tu jubilación."),
+       ("¿Se guarda mi fecha de nacimiento?","No. Todo se calcula en tu dispositivo y no se envía nada.")])),
+
+# ---------------------------------------------------------------- DAYS BETWEEN DATES
+dict(id="datediff", cat="everyday", aff="money",
+ inputs=[D("start","Start date","Fecha de inicio","today"),
+         D("end","End date","Fecha de fin","2026-12-25"),
+         S("incl","Count the end day too?","¿Contar también el último día?",[("no","No","No"),("yes","Yes","Sí")],"no")],
+ outputs=[O("days","Days between the dates","Días entre las fechas",True),O("weeks","In weeks","En semanas"),O("months","In months and years","En meses y años"),O("work","Business days","Días hábiles")],
+ related=["age","timecard","savings"],
+ en=dict(slug="days-between-dates-calculator", title="Days Between Dates Calculator: Count Days, Weeks and Business Days",
+  h1="Days Between Dates Calculator", desc="Count the days between two dates, including weeks, months and business days (Monday to Friday). Free day counter for deadlines, trips and countdowns.",
+  intro="Count how many days, weeks and business days there are between two dates, for deadlines, trips or a countdown.",
+  body="""<h2>How the days are counted</h2>
+<p>By default the calculator counts the days from the start date up to the end date without counting the end day, the way you count nights in a hotel or days until an event. Choose "Yes" to include both the first and last day, for example when counting the days of a vacation or a contract.</p>
+<h2>Business days</h2>
+<p>Business days are Monday to Friday. Federal holidays such as Thanksgiving or Christmas are not subtracted, because they change by year and by employer, so take them out yourself if they fall in the range.</p>
+<h2>Quick facts</h2>
+<ul><li>A common year has 365 days (52 weeks and 1 day); a leap year has 366.</li>
+<li>An average month has about 30.44 days.</li>
+<li>"30 days from today" is not always "one month from today": it depends on the month.</li></ul>""",
+  faq=[("How many days until Christmas?","Leave today as the start date and set the end date to December 25. The default example already does it."),
+       ("Does it count weekends?","The main result counts every calendar day. The business days line counts only Monday to Friday."),
+       ("Why is my result one day off?","Check the 'count the end day' option. Some rules count both the first and last day, others count only one of them.")]),
+ es=dict(slug="calculadora-dias-entre-fechas", title="Calculadora de días entre fechas: días, semanas y días hábiles",
+  h1="Días entre fechas", desc="Cuenta los días entre dos fechas, con semanas, meses y días hábiles (de lunes a viernes). Contador de días gratis para plazos, viajes y cuentas regresivas.",
+  intro="Cuenta cuántos días, semanas y días hábiles hay entre dos fechas, para plazos, viajes o una cuenta regresiva.",
+  body="""<h2>Cómo se cuentan los días</h2>
+<p>Por defecto la calculadora cuenta los días desde la fecha de inicio hasta la de fin sin contar el último día, como se cuentan las noches de hotel o los días que faltan para un evento. Elige "Sí" para contar el primero y el último, por ejemplo para los días de unas vacaciones o de un contrato.</p>
+<h2>Días hábiles</h2>
+<p>Los días hábiles son de lunes a viernes. No se restan los feriados (como Thanksgiving o Navidad), porque cambian según el año y el empleador: réstalos tú si caen en el período.</p>
+<h2>Datos útiles</h2>
+<ul><li>Un año común tiene 365 días (52 semanas y 1 día); uno bisiesto, 366.</li>
+<li>Un mes tiene en promedio unos 30,44 días.</li>
+<li>"30 días desde hoy" no siempre es "un mes desde hoy": depende del mes.</li></ul>""",
+  faq=[("¿Cuántos días faltan para Navidad?","Deja hoy como fecha de inicio y pon el 25 de diciembre como fecha de fin. El ejemplo ya viene así."),
+       ("¿Cuenta los fines de semana?","El resultado principal cuenta todos los días del calendario. La línea de días hábiles cuenta solo de lunes a viernes."),
+       ("¿Por qué me da un día de diferencia?","Revisa la opción de contar el último día. Algunas reglas cuentan el primero y el último, otras solo uno.")])),
+
+# ---------------------------------------------------------------- SQUARE FOOTAGE
+dict(id="sqft", cat="everyday", aff="money",
+ inputs=[N("length","Length","Largo",12,"0.1"),
+         N("width","Width","Ancho",10,"0.1"),
+         S("unit","Unit","Unidad",[("ft","Feet","Pies"),("in","Inches","Pulgadas"),("yd","Yards","Yardas"),("m","Meters","Metros")],"ft"),
+         N("count","Number of equal rooms or areas","Cantidad de ambientes iguales",1,"1","","1"),
+         N("waste","Extra for cuts and waste","Extra por cortes y desperdicio",10,"1","%"),
+         N("cost","Price per square foot (optional)","Precio por pie cuadrado (opcional)",0,"0.01","$")],
+ outputs=[O("area","Area","Superficie",True),O("metric","In square meters and yards","En metros y yardas cuadradas"),
+          O("buy","Material to buy (with extra)","Material a comprar (con extra)"),O("cost","Material cost","Costo del material")],
+ related=["percent","discount","budget"],
+ en=dict(slug="square-footage-calculator", title="Square Footage Calculator for Rooms, Flooring and Paint",
+  h1="Square Footage Calculator", desc="Free square footage calculator. Enter length and width in feet, inches, yards or meters to get the area, the material to buy with waste and the total cost.",
+  intro="Get the square feet of a room or area and how much flooring, tile or sod to buy, with extra for cuts.",
+  body="""<h2>How to calculate square feet</h2>
+<p><strong>Square feet = length × width</strong> (both in feet). A 12 × 10 ft room is 120 sq ft. If you measured in inches, the calculator divides by 144; in meters it multiplies by 10.764.</p>
+<h2>L-shaped and odd rooms</h2>
+<p>Split the room into rectangles, calculate each one and add them up. For a closet or a hallway that has the same size as another area, use the "number of equal areas" field.</p>
+<h2>How much extra to buy</h2>
+<ul><li><strong>Carpet, vinyl plank, laminate</strong>: 5% to 10% extra.</li>
+<li><strong>Tile</strong>: 10%, or 15% for diagonal patterns.</li>
+<li><strong>Hardwood</strong>: 7% to 10%.</li></ul>
+<p>Leftover pieces are useful for repairs later, and boxes from a different batch can have a slightly different color.</p>
+<h2>Paint</h2>
+<p>For walls, multiply the perimeter of the room by the wall height. One gallon of paint covers about 350 to 400 sq ft per coat.</p>""",
+  faq=[("How many square feet is a 12x12 room?","144 square feet."),
+       ("How do I convert square meters to square feet?","Multiply by 10.764. For example, 20 m² is about 215 sq ft."),
+       ("How much does flooring cost per square foot?","It varies a lot by material and region. Enter the price from your store to see the total material cost; installation is extra.")]),
+ es=dict(slug="calculadora-de-pies-cuadrados", title="Calculadora de pies cuadrados para pisos, cuartos y pintura",
+  h1="Calculadora de pies cuadrados", desc="Calculadora de pies cuadrados gratis. Pon el largo y el ancho en pies, pulgadas, yardas o metros y mira la superficie, el material a comprar y el costo.",
+  intro="Saca los pies cuadrados de un cuarto o un terreno y cuánto piso, cerámica o pasto comprar, con extra por cortes.",
+  body="""<h2>Cómo calcular pies cuadrados</h2>
+<p><strong>Pies cuadrados = largo × ancho</strong> (los dos en pies). Un cuarto de 12 × 10 pies tiene 120 pies cuadrados. Si mediste en pulgadas, la calculadora divide por 144; en metros, multiplica por 10,764.</p>
+<h2>Cuartos en L o irregulares</h2>
+<p>Divide el cuarto en rectángulos, calcula cada uno y súmalos. Si hay varios ambientes del mismo tamaño, usa el campo "cantidad de ambientes iguales".</p>
+<h2>Cuánto extra comprar</h2>
+<ul><li><strong>Alfombra, vinílico, laminado</strong>: de 5% a 10% extra.</li>
+<li><strong>Cerámica o porcelanato</strong>: 10%, o 15% si va en diagonal.</li>
+<li><strong>Madera</strong>: de 7% a 10%.</li></ul>
+<p>Lo que sobra sirve para arreglos más adelante, y las cajas de otra tanda pueden venir con un color un poco distinto.</p>
+<h2>Pintura</h2>
+<p>Para las paredes, multiplica el perímetro del cuarto por la altura. Un galón de pintura cubre unos 350 a 400 pies cuadrados por mano.</p>""",
+  faq=[("¿Cuántos pies cuadrados tiene un cuarto de 12x12?","144 pies cuadrados."),
+       ("¿Cómo paso metros cuadrados a pies cuadrados?","Multiplica por 10,764. Por ejemplo, 20 m² son unos 215 pies cuadrados."),
+       ("¿Cuánto cuesta el piso por pie cuadrado?","Cambia mucho según el material y la zona. Pon el precio de tu tienda para ver el costo del material; la instalación va aparte.")])),
+
+# ---------------------------------------------------------------- BMI
+dict(id="bmi", cat="health", aff="money",
+ inputs=[N("ft","Height (feet)","Altura (pies)",5,"1"),
+         N("inch","Height (inches)","Altura (pulgadas)",7,"0.5"),
+         N("lb","Weight (pounds)","Peso (libras)",160,"0.5")],
+ outputs=[O("bmi","Your BMI","Tu IMC",True),O("cat","Category","Categoría"),O("range","Healthy weight for your height","Peso saludable para tu altura"),O("metric","In metric","En sistema métrico")],
+ related=["calorie","age","percent"],
+ en=dict(slug="bmi-calculator", title="BMI Calculator: Body Mass Index in Pounds and Feet",
+  h1="BMI Calculator", desc="Free BMI calculator for adults. Enter your height in feet and inches and your weight in pounds to get your body mass index, category and healthy weight range.",
+  intro="Find your body mass index (BMI) and the healthy weight range for your height, using feet, inches and pounds.",
+  body="""<h2>The BMI formula</h2>
+<p><strong>BMI = 703 × weight (lb) ÷ height (in)²</strong>. Someone 5 ft 7 in (67 inches) who weighs 160 lb has a BMI of 703 × 160 ÷ 4,489 = <strong>25.1</strong>.</p>
+<h2>BMI categories for adults</h2>
+<ul><li>Below 18.5: underweight</li><li>18.5 to 24.9: healthy weight</li><li>25 to 29.9: overweight</li><li>30 or more: obesity</li></ul>
+<p>These are the categories used by the CDC and the World Health Organization for adults 20 and older. Children and teens use BMI-for-age percentiles instead.</p>
+<h2>What BMI does not tell you</h2>
+<p>BMI is a quick screening number, not a diagnosis. It does not separate muscle from fat, so athletes can show as "overweight", and it does not show where fat is stored. Waist size, blood pressure, blood tests and your doctor's advice give a fuller picture.</p>""",
+  faq=[("What is a healthy BMI?","For adults, 18.5 to 24.9 is considered a healthy weight range."),
+       ("Is BMI accurate for women, older adults and athletes?","It uses the same formula for everyone, but it can overestimate fat in muscular people and underestimate it in older adults who have lost muscle. Use it as a starting point."),
+       ("Is this medical advice?","No. It is an informational tool. Talk to a doctor or a registered dietitian about your health and weight.")]),
+ es=dict(slug="calculadora-imc", title="Calculadora de IMC (BMI): índice de masa corporal en libras y pies",
+  h1="Calculadora de IMC", desc="Calculadora de IMC gratis para adultos. Pon tu altura en pies y pulgadas y tu peso en libras para ver tu índice de masa corporal, la categoría y el peso saludable.",
+  intro="Calcula tu índice de masa corporal (IMC o BMI) y el rango de peso saludable para tu altura, en pies, pulgadas y libras.",
+  body="""<h2>La fórmula del IMC</h2>
+<p><strong>IMC = 703 × peso (lb) ÷ altura (pulgadas)²</strong>. Una persona de 5 pies 7 pulgadas (67 pulgadas) que pesa 160 libras tiene un IMC de 703 × 160 ÷ 4.489 = <strong>25,1</strong>. En el sistema métrico es peso (kg) ÷ altura (m)².</p>
+<h2>Categorías de IMC en adultos</h2>
+<ul><li>Menos de 18,5: bajo peso</li><li>De 18,5 a 24,9: peso saludable</li><li>De 25 a 29,9: sobrepeso</li><li>30 o más: obesidad</li></ul>
+<p>Son las categorías que usan los CDC y la Organización Mundial de la Salud para mayores de 20 años. En chicos y adolescentes se usan percentiles según la edad.</p>
+<h2>Lo que el IMC no dice</h2>
+<p>El IMC es un número rápido de referencia, no un diagnóstico. No separa músculo de grasa (los deportistas pueden salir con "sobrepeso") y no muestra dónde se acumula la grasa. La medida de la cintura, la presión, los análisis y tu médico dan una idea más completa.</p>""",
+  faq=[("¿Qué IMC es saludable?","En adultos, entre 18,5 y 24,9."),
+       ("¿El IMC sirve para mujeres, mayores y deportistas?","Usa la misma fórmula para todos, pero puede marcar de más en personas musculosas y de menos en mayores que perdieron músculo. Úsalo como punto de partida."),
+       ("¿Esto es consejo médico?","No. Es una herramienta informativa. Habla con un médico o un nutricionista sobre tu salud y tu peso.")])),
+
+# ---------------------------------------------------------------- CALORIES
+dict(id="calorie", cat="health", aff="money",
+ inputs=[S("sex","Sex","Sexo",[("f","Female","Mujer"),("m","Male","Hombre")],"f"),
+         N("age","Age","Edad",35,"1","","15"),
+         N("ft","Height (feet)","Altura (pies)",5,"1"),
+         N("inch","Height (inches)","Altura (pulgadas)",5,"0.5"),
+         N("lb","Weight (pounds)","Peso (libras)",150,"0.5"),
+         S("activity","Activity level","Nivel de actividad",[("1.2","Sedentary (little or no exercise)","Sedentario (poco o nada de ejercicio)"),
+           ("1.375","Light (exercise 1–3 days a week)","Liviano (ejercicio 1 a 3 días por semana)"),("1.55","Moderate (exercise 3–5 days a week)","Moderado (ejercicio 3 a 5 días por semana)"),
+           ("1.725","Active (hard exercise 6–7 days a week)","Activo (ejercicio fuerte 6 a 7 días)"),("1.9","Very active (physical job plus training)","Muy activo (trabajo físico y entrenamiento)")],"1.375")],
+ outputs=[O("tdee","Calories to maintain your weight","Calorías para mantener el peso",True),O("lose05","Lose about 0.5 lb a week","Bajar unas 0,5 lb por semana"),
+          O("lose1","Lose about 1 lb a week","Bajar unas 1 lb por semana"),O("gain","Gain about 0.5 lb a week","Subir unas 0,5 lb por semana"),O("bmr","Resting calories (BMR)","Calorías en reposo (metabolismo basal)")],
+ related=["bmi","age","cooking"],
+ en=dict(slug="calorie-calculator", title="Calorie Calculator: How Many Calories Do I Need a Day?",
+  h1="Calorie Calculator", desc="Free calorie calculator (TDEE). Estimate the calories you need a day to maintain, lose or gain weight, based on age, sex, height, weight and activity.",
+  intro="Estimate how many calories you burn a day and how many to eat to keep, lose or gain weight.",
+  body="""<h2>How the calories are estimated</h2>
+<p>First the calculator finds your basal metabolic rate (BMR), the energy your body uses at rest, with the <strong>Mifflin-St Jeor equation</strong>, one of the most accurate for most adults:</p>
+<ul><li>Men: 10 × weight (kg) + 6.25 × height (cm) − 5 × age + 5</li>
+<li>Women: 10 × weight (kg) + 6.25 × height (cm) − 5 × age − 161</li></ul>
+<p>Then it multiplies the BMR by an activity factor (1.2 for sedentary up to 1.9 for very active) to get your total daily energy expenditure, or TDEE: the calories that keep your weight stable.</p>
+<h2>Losing or gaining weight</h2>
+<p>About 500 calories a day under your TDEE leads to roughly 1 pound a week of weight loss for many people; 250 calories gives about half a pound. Real results vary. The calculator never suggests going below 1,200 calories a day for women or 1,500 for men without medical supervision.</p>
+<h2>Tips</h2>
+<ul><li>Track for two or three weeks and adjust: if your weight does not move, change the number by 100–200 calories.</li>
+<li>Protein, fiber and vegetables help you feel full on fewer calories.</li>
+<li>Pregnant or breastfeeding? Your needs are different; ask your doctor.</li></ul>""",
+  faq=[("What is TDEE?","Total daily energy expenditure: the calories you burn in a day including rest, digestion and activity."),
+       ("How accurate is this calorie calculator?","Formulas like Mifflin-St Jeor are usually within about 10% for most people. Use the result as a starting point and adjust with real results."),
+       ("Is this medical advice?","No. It is for information only. Talk to a doctor or registered dietitian before starting a diet, especially if you have a health condition.")]),
+ es=dict(slug="calculadora-de-calorias", title="Calculadora de calorías: cuántas calorías necesito por día",
+  h1="Calculadora de calorías", desc="Calculadora de calorías gratis. Estima las calorías que necesitas por día para mantener, bajar o subir de peso según tu edad, sexo, altura, peso y actividad.",
+  intro="Estima cuántas calorías gastas por día y cuántas comer para mantener, bajar o subir de peso.",
+  body="""<h2>Cómo se calculan las calorías</h2>
+<p>Primero la calculadora saca tu metabolismo basal (BMR), la energía que usa el cuerpo en reposo, con la <strong>ecuación de Mifflin-St Jeor</strong>, una de las más precisas para la mayoría de los adultos:</p>
+<ul><li>Hombres: 10 × peso (kg) + 6,25 × altura (cm) − 5 × edad + 5</li>
+<li>Mujeres: 10 × peso (kg) + 6,25 × altura (cm) − 5 × edad − 161</li></ul>
+<p>Después multiplica el BMR por un factor de actividad (1,2 si eres sedentario hasta 1,9 si eres muy activo) y da tu gasto total por día (TDEE): las calorías que mantienen tu peso.</p>
+<h2>Bajar o subir de peso</h2>
+<p>Comer unas 500 calorías por día menos que tu TDEE suele llevar a bajar cerca de 1 libra (450 g) por semana; 250 calorías, media libra. Los resultados reales cambian según la persona. La calculadora nunca sugiere bajar de 1.200 calorías por día en mujeres o 1.500 en hombres sin control médico.</p>
+<h2>Consejos</h2>
+<ul><li>Anota lo que comes dos o tres semanas y ajusta: si el peso no se mueve, cambia el número en 100 a 200 calorías.</li>
+<li>Las proteínas, la fibra y las verduras ayudan a quedar satisfecho con menos calorías.</li>
+<li>¿Embarazada o amamantando? Necesitas otra cantidad; consulta a tu médico.</li></ul>""",
+  faq=[("¿Qué es el TDEE?","El gasto total de energía por día: las calorías que quemas en reposo, al digerir y al moverte."),
+       ("¿Qué tan exacta es esta calculadora?","Las fórmulas como Mifflin-St Jeor suelen acertar con un margen de un 10% para la mayoría. Úsala como punto de partida y ajusta con tus resultados."),
+       ("¿Esto es consejo médico?","No. Es solo informativo. Habla con un médico o un nutricionista antes de empezar una dieta, sobre todo si tienes algún problema de salud.")])),
+
+# ---------------------------------------------------------------- GPA
+dict(id="gpa", cat="school", aff="money",
+ inputs=[TA("list","One class per line: grade and credits","Una materia por línea: nota y créditos",
+            "English, A, 3\nAlgebra, B+, 4\nBiology, A-, 4\nHistory, B, 3\nArt, A, 1",
+            "Inglés, A, 3\nÁlgebra, B+, 4\nBiología, A-, 4\nHistoria, B, 3\nArte, A, 1"),
+         N("prevgpa","Current cumulative GPA (optional)","GPA acumulado actual (opcional)",0,"0.01"),
+         N("prevcr","Credits already completed (optional)","Créditos ya aprobados (opcional)",0,"1")],
+ outputs=[O("gpa","GPA for these classes","GPA de estas materias",True),O("cum","New cumulative GPA","Nuevo GPA acumulado"),O("credits","Credits counted","Créditos contados")],
+ related=["finalgrade","percent","age"],
+ en=dict(slug="gpa-calculator", title="GPA Calculator: Semester and Cumulative GPA (4.0 Scale)",
+  h1="GPA Calculator", desc="Free GPA calculator for high school and college. Enter letter grades and credits to get your semester GPA on a 4.0 scale and your new cumulative GPA.",
+  intro="Work out your semester GPA from letter grades and credits, and see how it changes your cumulative GPA.",
+  body="""<h2>How GPA is calculated</h2>
+<p>Each letter grade is worth grade points (A = 4.0, B = 3.0, C = 2.0, D = 1.0, F = 0). Multiply the points by the credits of the class, add everything up and divide by the total credits. That is a weighted average: a 4-credit class counts more than a 1-credit class.</p>
+<h2>Grade points used</h2>
+<p>A+ and A = 4.0 · A− = 3.7 · B+ = 3.3 · B = 3.0 · B− = 2.7 · C+ = 2.3 · C = 2.0 · C− = 1.7 · D+ = 1.3 · D = 1.0 · D− = 0.7 · F = 0. Some schools give 4.3 for an A+ or use other values; you can also type the number of points instead of the letter (for example "3.5, 3").</p>
+<h2>Cumulative GPA</h2>
+<p>To combine with past semesters, enter your current cumulative GPA and the credits you already have. The calculator weighs the old and new credits together.</p>
+<h2>Weighted GPA</h2>
+<p>Many high schools add 0.5 or 1 point for honors, AP or IB classes. If yours does, type the boosted number (for example 5.0 for an A in an AP class) instead of the letter.</p>""",
+  faq=[("What is a good GPA?","A 3.0 (B average) is the minimum for many scholarships and programs; 3.5 and above is considered strong for competitive colleges."),
+       ("How do I write each line?","Course name (optional), grade and credits separated by commas, for example 'Chemistry, B+, 4'. A line like 'A 3' also works."),
+       ("Do pass/fail classes count?","Usually not. Leave them out unless your school says otherwise.")]),
+ es=dict(slug="calculadora-de-gpa", title="Calculadora de GPA: promedio del semestre y acumulado (escala 4.0)",
+  h1="Calculadora de GPA", desc="Calculadora de GPA gratis para high school y universidad. Pon las notas en letras y los créditos y mira el GPA del semestre en escala de 4.0 y el acumulado.",
+  intro="Saca tu GPA del semestre con las notas en letras y los créditos, y mira cómo cambia tu GPA acumulado.",
+  body="""<h2>Cómo se calcula el GPA</h2>
+<p>En EE. UU. cada nota en letras vale puntos (A = 4,0, B = 3,0, C = 2,0, D = 1,0, F = 0). Se multiplican los puntos por los créditos de cada materia, se suma todo y se divide por el total de créditos. Es un promedio ponderado: una materia de 4 créditos pesa más que una de 1.</p>
+<h2>Puntos que usa la calculadora</h2>
+<p>A+ y A = 4,0 · A− = 3,7 · B+ = 3,3 · B = 3,0 · B− = 2,7 · C+ = 2,3 · C = 2,0 · C− = 1,7 · D+ = 1,3 · D = 1,0 · D− = 0,7 · F = 0. Algunas escuelas dan 4,3 por una A+ o usan otros valores; también puedes escribir los puntos en vez de la letra (por ejemplo "3.5, 3").</p>
+<h2>GPA acumulado</h2>
+<p>Para sumar los semestres anteriores, pon tu GPA acumulado actual y los créditos que ya tienes. La calculadora combina los créditos viejos y los nuevos.</p>
+<h2>GPA ponderado</h2>
+<p>Muchas high schools suman 0,5 o 1 punto en materias honors, AP o IB. Si la tuya lo hace, escribe el número con el extra (por ejemplo 5.0 por una A en una materia AP) en vez de la letra.</p>""",
+  faq=[("¿Qué GPA es bueno?","Un 3,0 (promedio B) es el mínimo para muchas becas y programas; 3,5 o más se considera fuerte para universidades competitivas."),
+       ("¿Cómo escribo cada línea?","Nombre de la materia (opcional), nota y créditos separados por comas, por ejemplo 'Química, B+, 4'. Una línea como 'A 3' también sirve."),
+       ("¿Las materias pass/fail cuentan?","En general no. Déjalas afuera salvo que tu escuela diga otra cosa.")])),
+
+# ---------------------------------------------------------------- FINAL GRADE
+dict(id="finalgrade", cat="school", aff="money",
+ inputs=[N("current","Current grade in the class","Nota actual en la materia",85,"0.1","%"),
+         N("want","Grade you want at the end","Nota que quieres al final",90,"0.1","%"),
+         N("weight","Weight of the final exam","Peso del examen final",25,"1","%")],
+ presets=("want",[70,80,90]),
+ outputs=[O("need","You need on the final","Necesitas en el final",True),O("note","Is it possible?","¿Se puede?"),
+          O("ifzero","Final grade if you get 0","Nota final si sacas 0"),O("ifhundred","Final grade if you get 100","Nota final si sacas 100")],
+ related=["gpa","percent","datediff"],
+ en=dict(slug="final-grade-calculator", title="Final Grade Calculator: What Do I Need on My Final?",
+  h1="Final Grade Calculator", desc="Find out what score you need on your final exam to get the class grade you want. Enter your current grade, your goal and how much the final is worth.",
+  intro="Find out exactly what you need on the final exam to finish the class with the grade you want.",
+  body="""<h2>The formula</h2>
+<p><strong>Needed = (goal − current × (1 − weight)) ÷ weight</strong>, with the weight as a decimal. With an 85% now, a 90% goal and a final worth 25%: (90 − 85 × 0.75) ÷ 0.25 = <strong>105%</strong>. Without extra credit that A is out of reach, but an 80% (B−) is easy: you need 65%.</p>
+<h2>Where to find the weight of the final</h2>
+<p>Look at the syllabus: it lists how much homework, quizzes, tests and the final count. If your "current grade" in the online gradebook already includes everything except the final, use it as is.</p>
+<h2>Letter grade cut-offs</h2>
+<p>The most common scale in the US is A = 90–100, B = 80–89, C = 70–79, D = 60–69 and F = below 60, but some schools use a 7-point scale or plus and minus grades. Use the cut-off your teacher uses as your goal.</p>""",
+  faq=[("What if I need more than 100%?","The goal is not reachable with the final alone. Ask your teacher about extra credit or aim for the next grade down."),
+       ("How much will the final change my grade?","The 'if you get 0' and 'if you get 100' lines show the lowest and highest grades you can end with."),
+       ("Does this work for weighted categories?","Yes, as long as your current grade is the weighted grade for everything except the final.")]),
+ es=dict(slug="calculadora-nota-final", title="Calculadora de nota final: cuánto necesito en el examen final",
+  h1="Calculadora de nota final", desc="Calcula qué nota necesitas en el examen final para terminar la materia con la nota que quieres. Pon tu nota actual, tu meta y cuánto vale el final.",
+  intro="Mira exactamente qué necesitas en el examen final para terminar la materia con la nota que quieres.",
+  body="""<h2>La fórmula</h2>
+<p><strong>Necesitas = (meta − nota actual × (1 − peso)) ÷ peso</strong>, con el peso en decimal. Con 85% ahora, meta de 90% y un final que vale 25%: (90 − 85 × 0,75) ÷ 0,25 = <strong>105%</strong>. Sin puntos extra esa A no alcanza, pero un 80% (B−) es fácil: necesitas 65%.</p>
+<h2>Dónde ver cuánto vale el final</h2>
+<p>Fíjate en el syllabus: ahí dice cuánto cuentan las tareas, los quizzes, las pruebas y el final. Si tu nota actual en el sistema de la escuela ya incluye todo menos el final, úsala tal cual.</p>
+<h2>Las notas en letras</h2>
+<p>La escala más común en EE. UU. es A = 90–100, B = 80–89, C = 70–79, D = 60–69 y F = menos de 60, pero algunas escuelas usan otra escala o notas con más y menos. Pon como meta el corte que use tu profesor.</p>""",
+  faq=[("¿Y si necesito más de 100%?","No se llega solo con el final. Pregunta al profesor por puntos extra o apunta a la nota anterior."),
+       ("¿Cuánto me puede cambiar el final?","Las líneas 'si sacas 0' y 'si sacas 100' muestran la nota más baja y la más alta con las que puedes terminar."),
+       ("¿Sirve si las categorías tienen distinto peso?","Sí, siempre que tu nota actual sea la nota ponderada de todo menos el final.")])),
 ]
