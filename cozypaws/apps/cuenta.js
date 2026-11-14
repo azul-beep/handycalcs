@@ -51,8 +51,9 @@ function panel(){if(user){var at=localAt();open('<h2 style="margin-top:0">👤 '
  }else{open('<h2 style="margin-top:0">☁️ '+t('signH')+'</h2><p class="muted">'+t('signB')+'</p><button class="btn" id="aG" style="width:100%;justify-content:center">G&nbsp; '+t('google')+'</button>'+
   '<p style="margin:16px 0 6px;font-weight:600">'+t('orEmail')+'</p><form id="aE"><input type="email" required placeholder="'+t('email')+'" autocomplete="email"><div class="btns"><button class="btn alt" type="submit">✉️ '+t('send')+'</button><button class="btn ghost" type="button" id="aX">'+t('close')+'</button></div></form>'+
   '<p class="muted" style="font-size:13px">'+t('privacy')+' <a href="/privacy/">'+(L==='es'?'política de privacidad':'privacy policy')+'</a>.</p>');
-  document.getElementById('aG').onclick=function(){load().then(function(f){var p=new f.A.GoogleAuthProvider(),standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
-   return standalone?f.A.signInWithRedirect(f.auth,p):f.A.signInWithPopup(f.auth,p).catch(function(e){if(e&&e.code==='auth/popup-blocked')return f.A.signInWithRedirect(f.auth,p);throw e})}).then(close).catch(function(e){if(!e||e.code!=='auth/popup-closed-by-user')alert(t('err'))})};
+  document.getElementById('aG').onclick=function(){load().then(function(f){var p=new f.A.GoogleAuthProvider();
+   // popup: el redirect falla en dominios que no son de Firebase (Safari y Chrome bloquean el almacenamiento de terceros)
+   return f.A.signInWithPopup(f.auth,p).catch(function(e){if(e&&e.code==='auth/popup-blocked')return f.A.signInWithRedirect(f.auth,p);throw e})}).then(close).catch(function(e){if(!e||e.code!=='auth/popup-closed-by-user')alert(t('err'))})};
   document.getElementById('aE').onsubmit=function(e){e.preventDefault();var em=this.querySelector('input').value.trim();load().then(function(f){return f.A.sendSignInLinkToEmail(f.auth,em,{url:location.origin+location.pathname,handleCodeInApp:true})}).then(function(){localStorage.setItem('cozypaws-email',em);alert(t('sent'));close()}).catch(function(){alert(t('err'))})}}
  var x=document.getElementById('aX');if(x)x.onclick=close}
 btn.onclick=panel;badge();
