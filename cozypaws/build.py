@@ -23,7 +23,7 @@ OUT = os.path.join(HERE, 'site')
 
 CONFIG = dict(
     name='Cozy Paws',
-    url='https://cozypaws.pages.dev',          # dirección de Cloudflare Pages (cambiar si se compra dominio)
+    url='https://cozypawsgifts.pages.dev',          # dirección de Cloudflare Pages (cambiar si se compra dominio)
     shop='https://www.etsy.com/shop/ShopCozyPaws',  # tienda de Etsy (shopcozypaws.etsy.com)
     pinterest='https://www.pinterest.com/cozypawsgifts/',          # https://www.pinterest.com/<usuario>/ cuando exista
     ga4='G-1RSXP3PFR4',                # G-XXXXXXX (GA4 de esta web)
@@ -405,7 +405,7 @@ def make_images(all_prods, guides_live, tools_live):
         pin(os.path.join(pins_cache, 'g-' + g['id'] + '.jpg'), g['h1'], 'Original gift ideas, printed in the USA',
             [os.path.join(DATA, 'img', p['imagen']) for p in ps[:4]])
     for t in TOOLS:
-        pin(os.path.join(pins_cache, 't-' + t['id'] + '.jpg'), t['h1'].split(':')[0], 'Free and instant at cozypaws.pages.dev', [])
+        pin(os.path.join(pins_cache, 't-' + t['id'] + '.jpg'), t['h1'].split(':')[0], 'Free and instant at cozypawsgifts.pages.dev', [])
     for f in os.listdir(pins_cache):
         shutil.copy(os.path.join(pins_cache, f), os.path.join(OUT, 'img', 'pin', f))
     # imagen para compartir e ícono

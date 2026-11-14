@@ -2,7 +2,7 @@
 # Corre sola todos los días, gratis y sin Claude:
 #   - 8:30 AM de Utah (15:30 UTC): build.py suelta los productos que ya están en Etsy (3 por día),
 #     una guía nueva como mucho por día y las herramientas en su fecha; rearma feed.xml y sitemap.
-#   - commit -> Cloudflare Pages (proyecto "cozypaws", carpeta cozypaws/site) publica solo
+#   - commit -> Cloudflare Pages (proyecto "cozypawsgifts", carpeta cozypaws/site) publica solo
 #     -> Pinterest lee feed.xml y crea los pines solo.
 name: Cozy Paws (publicación diaria)
 on:
