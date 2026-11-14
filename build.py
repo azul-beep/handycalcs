@@ -14,7 +14,7 @@ CONFIG = dict(
     ga4="G-794S7HWQJS",
     pixel="",          # Meta Pixel ID, digits only
     adsense="",        # e.g. ca-pub-1234567890123456  (Auto ads, no slots needed)
-    gsc_verify="",     # Google Search Console HTML-tag token (optional)
+    gsc_verify="snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk",
     mailerlite_action="",  # MailerLite embedded form action, e.g. https://assets.mailerlite.com/jsonp/ACCOUNT/forms/FORMID/subscribe
 )
 # Affiliate boxes. A link with an empty url is not shown.
