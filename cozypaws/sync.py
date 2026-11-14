@@ -11,8 +11,12 @@ Escribe data/productos.csv (columnas fijas) y data/img/<sku>.jpg (vista previa 9
 Si existe calendario-etsy-5xdia.csv, manda la fecha de cada producto y lo que no está ahí queda afuera.
 Los personalizados (x..) se saltean hasta que estén en Etsy. Los imprimibles (i..) salen de carga-navidad.md.
 """
-import argparse, csv, glob, os, re
+import argparse, csv, glob, os, re, sys
 from PIL import Image
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from mockups import mockup  # noqa: E402
+from build import kind_of  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 COLS = ['dia', 'sku', 'precio', 'titulo', 'etiquetas', 'texto', 'imagen', 'tinta']
@@ -52,19 +56,26 @@ IMPRIMIBLES = {  # sku -> nombre base del PDF (fotos en imprimibles/fotos-etsy/<
 
 
 def imprimibles(src):
-    """Lee título, precio y etiquetas de los imprimibles desde carga-navidad.md."""
+    """Lee título, precio, etiquetas y foto de los imprimibles (i..) desde carga-navidad.md."""
     out = {}
     text = open(os.path.join(src, 'carga-navidad.md'), encoding='utf-8').read()
-    for m in re.finditer(r'^### [^\n]*?· (i0\d) · (.+)\n1\. Archivo: [^\n]*precio: ([\d.]+) USD\n2\. Etiquetas: (.+)$', text, re.M):
-        sku, titulo, precio, tags = m.groups()
-        out[sku] = dict(titulo=titulo.strip(), precio=precio, etiquetas=tags.strip(),
-                        archivo=os.path.join('imprimibles', 'fotos-etsy', IMPRIMIBLES[sku] + '-1.jpg'))
+    for m in re.finditer(r'^### ([^\n]*?)· (i\d\d) · (.+)\n((?:\d\. .+\n?)+)', text, re.M):
+        head, sku, titulo, body = m.groups()
+        if 'PAUSA' in head and 'ACTIVO' not in head:
+            continue
+        precio = re.search(r'precio: ([\d.]+) USD', body)
+        tags = re.search(r'Etiquetas: (.+)', body)
+        foto = re.search(r'Fotos: (\S+?)-1\.\.3\.jpg', body)
+        img = (foto.group(1) + '-1.jpg') if foto else os.path.join('imprimibles', 'fotos-etsy', IMPRIMIBLES.get(sku, sku) + '-1.jpg')
+        if precio and tags:
+            out[sku] = dict(titulo=titulo.strip(), precio=precio.group(1), etiquetas=tags.group(1).strip(), archivo=img)
     return out
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--src', default='/mnt/project-files/navidad-mascotas-maestros')
+    ap.add_argument('--rehacer', action='store_true', help='volver a armar todas las fotos')
     a = ap.parse_args()
     out_csv = os.path.join(HERE, 'data', 'productos.csv')
     rows = {}
@@ -98,8 +109,14 @@ def main():
         tinta = 'clara' if 'tinta-clara' in f else ('oscura' if 'tinta-oscura' in f else '')
         img = f'{sku}.jpg'
         dst = os.path.join(HERE, 'data', 'img', img)
-        if not os.path.exists(dst):
-            preview(src, dst, tinta)
+        foto = os.path.join(HERE, 'data', 'fotos', f'{sku}.jpg')  # foto real (opcional) le gana al mockup
+        if a.rehacer or not os.path.exists(dst):
+            if os.path.exists(foto):
+                im = Image.open(foto).convert('RGB')
+            else:
+                im = mockup(src, kind_of(r['titulo']), sku, os.path.basename(f))
+            im.thumbnail((900, 900))
+            im.save(dst, 'JPEG', quality=84, optimize=True, progressive=True)
         if sku not in rows:
             nuevos += 1
         rows[sku] = dict(dia=dia, sku=sku, precio=r.get('precio', ''), titulo=r['titulo'].strip(),
