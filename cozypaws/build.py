@@ -495,6 +495,8 @@ def build(today):
     guides_live = [(g, guide_products(g, prods)) for g in GUIDES if g['live'] and g['live'] <= today]
     tools_live = [t for t in TOOLS if t['live'] <= today]
     make_images(all_prods, guides_live, tools_live)
+    import contenido  # posts que no son de venta e historias para redes (cozypaws/contenido.py)
+    contenido.render(OUT, prods)
     urls = []
 
     # inicio

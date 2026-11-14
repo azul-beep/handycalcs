@@ -13,6 +13,8 @@ Secrets de GitHub (Settings > Secrets and variables > Actions). Si falta uno, es
   GH_SECRETS_PAT                token de GitHub con permiso "Secrets: write" en este repo, para guardar el token renovado
 
   python3 cozypaws/social.py publicar [--prueba]   # --prueba muestra qué publicaría, sin publicar
+  python3 cozypaws/social.py contenido [--prueba] # 1 post que no es de venta (banco de cozypaws/contenido.py) en IG y FB
+  python3 cozypaws/social.py historia [--prueba]  # 1 historia en IG y FB (producto nuevo o tarjeta del banco)
   python3 cozypaws/social.py renovar               # renueva el token de Threads (1 vez por semana)
   python3 cozypaws/social.py revisar               # comprueba que cada token funcione, sin publicar nada
 """
@@ -122,6 +124,78 @@ def publicar(prueba):
     return errores
 
 
+# ---------------------------------------------------------------- posts que no son de venta e historias
+def ig_imagen(img, cap, ig_user, token, story=False):
+    params = {'image_url': img, 'access_token': token}
+    params.update({'media_type': 'STORIES'} if story else {'caption': cap})
+    r = call(f'{FB}/{ig_user}/media', params)
+    esperar(FB, r['id'], token)
+    return call(f'{FB}/{ig_user}/media_publish', {'creation_id': r['id'], 'access_token': token})
+
+
+def fb_historia(img, page_id, token):
+    foto = call(f'{FB}/{page_id}/photos', {'url': img, 'published': 'false', 'access_token': token})
+    return call(f'{FB}/{page_id}/photo_stories', {'photo_id': foto['id'], 'access_token': token})
+
+
+def en_web(rel):
+    return os.path.exists(os.path.join(HERE, 'site', rel))
+
+
+def siguiente(items, hechos):
+    """El primero del banco que esa red todavía no publicó; si ya salieron todos, vuelve a empezar."""
+    pend = [it for it in items if it['id'] not in hechos]
+    return (pend[0], False) if pend else (items[0], True) if items else (None, False)
+
+
+def correr(tipo, prueba):
+    """tipo 'contenido': 1 post del banco (tips, frases, Social Club, preguntas) en Instagram y Facebook.
+    tipo 'historia': 1 historia en Instagram y Facebook: el producto nuevo más viejo que todavía no tuvo historia,
+    y si no hay ninguno, una tarjeta del banco en formato historia."""
+    import contenido
+    state = json.load(open(STATE)) if os.path.exists(STATE) else {}
+    env = os.environ.get
+    url = build.CONFIG['url']
+    banco = [it for it in contenido.BANCO if en_web(f"img/social/{it['id']}.jpg")]
+    hoy = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=7)).date()
+    prods = sorted(build.load_products(hoy)[0], key=lambda p: (p['live'], p['sku']))
+    prods = [p for p in prods if en_web(f"img/story/{p['sku']}.jpg")]
+    hay_ig, hay_fb = env('IG_USER_ID') and env('FB_PAGE_TOKEN'), env('FB_PAGE_ID') and env('FB_PAGE_TOKEN')
+    redes = {
+        'instagram': hay_ig and (lambda img, cap: ig_imagen(img, cap, env('IG_USER_ID'), env('FB_PAGE_TOKEN'), tipo == 'historia')),
+        'facebook': hay_fb and ((lambda img, cap: fb_historia(img, env('FB_PAGE_ID'), env('FB_PAGE_TOKEN'))) if tipo == 'historia'
+                                else (lambda img, cap: call(f"{FB}/{env('FB_PAGE_ID')}/photos", {'url': img, 'caption': cap, 'access_token': env('FB_PAGE_TOKEN')}))),
+    }
+    errores = 0
+    for red, fn in redes.items():
+        clave_p, clave_b = f'historia-{red}', f'{tipo}-banco-{red}'
+        p = next((p for p in prods if p['sku'] not in state.get(clave_p, [])), None) if tipo == 'historia' else None
+        if p:
+            img, cap, nombre = f"{url}/img/story/{p['sku']}.jpg", '', p['sku']
+        else:
+            it, reinicio = siguiente(banco, set(state.get(clave_b, [])))
+            if not it:
+                print(f'{red}: no hay imágenes del banco en la web todavía'); continue
+            sufijo = '-story' if tipo == 'historia' else ''
+            img, cap, nombre = f"{url}/img/social/{it['id']}{sufijo}.jpg", contenido.caption_de(it), it['id']
+        if prueba or not fn:
+            print(f"{red}: {'(sin token) ' if not fn else ''}{tipo}: publicaría {nombre} {img}\n{cap}\n---")
+            continue
+        try:
+            fn(img, cap)
+            if p:
+                state.setdefault(clave_p, []).append(p['sku'])
+            else:
+                state[clave_b] = ([] if reinicio else state.get(clave_b, [])) + [it['id']]
+            print(f'{red}: {tipo} publicado {nombre}')
+        except Exception as e:
+            errores += 1
+            print(f"{red}: ERROR {tipo} {nombre}: {e} {getattr(e, 'read', lambda: b'')().decode(errors='ignore')[:400]}")
+    if not prueba:
+        json.dump(state, open(STATE, 'w'), indent=1, sort_keys=True)
+    return errores
+
+
 def renovar():
     pat = os.environ.get('GH_SECRETS_PAT')
     nuevos = {}
@@ -156,11 +230,13 @@ def revisar():
 
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument('accion', choices=['publicar', 'renovar', 'revisar'])
+    ap.add_argument('accion', choices=['publicar', 'contenido', 'historia', 'renovar', 'revisar'])
     ap.add_argument('--prueba', action='store_true')
     a = ap.parse_args()
     if a.accion == 'publicar':
         sys.exit(1 if publicar(a.prueba) else 0)
+    if a.accion in ('contenido', 'historia'):
+        sys.exit(1 if correr(a.accion, a.prueba) else 0)
     if a.accion == 'revisar':
         sys.exit(1 if revisar() else 0)
     renovar()
