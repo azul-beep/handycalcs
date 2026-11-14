@@ -1,0 +1,26 @@
+# Cozy Paws: avisa a Bing y otros buscadores (IndexNow) de las páginas nuevas o cambiadas,
+# 30 minutos después de la publicación diaria (21:00 UTC), cuando Cloudflare ya publicó. Gratis, sin Claude.
+# Google no usa IndexNow: lee el sitemap.xml solo (está cargado en Search Console).
+name: Cozy Paws (avisar buscadores)
+on:
+  schedule:
+    - cron: "30 21 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with:
+          path: cozy-indexnow-sent.txt
+          key: cozy-indexnow-${{ github.run_id }}
+          restore-keys: cozy-indexnow-
+      - run: python3 cozypaws/indexnow.py cozy-indexnow-sent.txt
+      - uses: actions/cache/save@v4
+        if: always() && hashFiles('cozy-indexnow-sent.txt') != ''
+        with:
+          path: cozy-indexnow-sent.txt
+          key: cozy-indexnow-${{ github.run_id }}
