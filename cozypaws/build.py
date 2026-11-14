@@ -34,7 +34,11 @@ CONFIG = dict(
     company='Skye Solutions AI',
     christmas_cutoff=dt.date(2026, 12, 10),
     adsense='ca-pub-1174178180336933',   # AdSense de Azu (Skye Solutions AI)
-    adsense_on=False,                    # True SOLO cuando AdSense apruebe cozypawsgifts.pages.dev: carga anuncios en las apps y publica ads.txt
+    adsense_on=False,
+    # Cuentas de las apps (Firebase, plan Spark gratis). Pegar acá el firebaseConfig de la consola (es público, no es secreto).
+    # Vacío = apps sin cuenta (todo se guarda en el equipo). Ej: dict(apiKey='...', authDomain='cozy-paws-apps.firebaseapp.com', projectId='cozy-paws-apps', appId='...')
+    firebase=dict(apiKey='AIzaSyBPa_WnI7oIRvY2_SCEmD9fc69c8xWO8Rk', authDomain='cozy-paws-apps.firebaseapp.com', projectId='cozy-paws-apps',
+                  storageBucket='cozy-paws-apps.firebasestorage.app', messagingSenderId='446269425804', appId='1:446269425804:web:610e8167392f671bc093a9'),                    # True SOLO cuando AdSense apruebe cozypawsgifts.pages.dev: carga anuncios en las apps y publica ads.txt
 )
 E = html.escape
 INDEXNOW_KEY = "92ad20c14927840aeb27fd01e77c8677"  # clave pública de IndexNow (Bing y otros); cozypaws/indexnow.py avisa las páginas nuevas
@@ -756,7 +760,7 @@ def build(today):
 <p><b>Cookies and stats.</b> Only if you click OK in the cookie notice, we load Google Analytics (anonymous visit statistics) and the Meta Pixel (to measure ads and visits). If you click "No thanks", nothing is loaded. You can change your choice by clearing this site's data in your browser.</p>
 <p><b>Ads.</b> In the future we may show ads from Google AdSense. If we do, they load only after you click OK, and Google may use cookies to show and measure them. See <a href="https://policies.google.com/technologies/ads" rel="noopener">how Google uses data in ads</a>.</p>
 <p><b>Calculators and apps.</b> The pet tools and the Paw Party and Paw Diary apps run in your browser. What you enter (your pet's name, birthday, breed, weight, photos, diary notes, reminders, saved names) is stored only on your own device (browser storage) and is never sent to us. You can delete it at any time by deleting it in the app (Paw Diary has "Delete all my data") or clearing this site's data in your browser. We do not ask for your name, email or location.</p>
-<p><b>Children.</b> The site is meant for a general audience and is not directed to children under 13. We do not knowingly collect personal information from children.</p>
+""" + (f"""<p><b>Optional accounts.</b> In Paw Party and Paw Diary you can choose to sign in (with Google or with a link sent to your email) to keep your data on all your devices. If you do, we store your email address and a copy of your app data (pets, small pet photo, diary notes, reminders and saved names) in Google Firebase (Firestore), in the United States. Diary photos are not uploaded. Only you can read your data. You can delete your account and the cloud copy at any time from the Account button in the app, or by writing to us.</p>""" if CONFIG.get('firebase') else '') + f"""<p><b>Children.</b> The site is meant for a general audience and is not directed to children under 13. We do not knowingly collect personal information from children.</p>
 <p><b>Your rights.</b> Because we do not keep personal data from the apps, there is nothing for us to access or delete. For questions about analytics data, write to us.</p>
 <p><b>Contact.</b> <a href="mailto:{CONFIG['contact']}">{CONFIG['contact']}</a></p><p class="note">Last updated: November 14, 2026.</p>""", today)
     urls.append(('/privacy/', dt.date(2026, 11, 14)))
