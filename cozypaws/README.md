@@ -1,6 +1,6 @@
 # Cozy Paws: web para traer tráfico a la tienda de Etsy
 
-Web estática (inglés, público de EE. UU.) que vive en https://cozypaws.pages.dev y empuja visitas a Etsy desde Google y Pinterest.
+Web estática (inglés, público de EE. UU.) que vive en https://cozypawsgifts.pages.dev y empuja visitas a Etsy desde Google y Pinterest.
 
 - **Guías de regalos** (`/gifts/...`): dog mom, cat mom, razas, Navidad, menos de 25 USD, tazas, invierno, papelería. Cada una aparece cuando tiene 2 productos, como mucho una guía nueva por día.
 - **Productos** (`/p/...`): uno por publicación de Etsy, el día después de su carga (para que el link ya exista). Botón "See it on Etsy".
