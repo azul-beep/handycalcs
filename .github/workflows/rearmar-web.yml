@@ -1,0 +1,37 @@
+# Rearma la web de Handy Calcs apenas se une un cambio en las calculadoras (src/ o build.py) a main.
+# Así los PR de calculadoras no tocan site/ y nunca chocan con la publicación diaria automática.
+# Gratis y sin Claude: build.py usa solo Python, commit -> Cloudflare Pages publica solo -> IndexNow avisa las páginas nuevas.
+name: Rearmar la web (cambios en calculadoras)
+on:
+  push:
+    branches: [main]
+    paths: ["src/**", "build.py"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: handycalcs-publicacion
+  cancel-in-progress: false
+jobs:
+  rearmar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Rearmar y publicar (si main cambió mientras tanto, vuelve a rearmar sobre lo último)
+        run: |
+          git config user.name "publicacion-bot"
+          git config user.email "publicacion-bot@users.noreply.github.com"
+          for i in 1 2 3; do
+            git fetch origin main && git reset --hard origin/main
+            python3 build.py
+            if git diff --quiet -- site && [ -z "$(git ls-files --others --exclude-standard site)" ]; then
+              echo "La web ya estaba al día"; exit 0
+            fi
+            git add site
+            git commit -m "Rearmar la web con los cambios de calculadoras $(date -u +%F)"
+            git push origin HEAD:main && exit 0
+            sleep 15
+          done
+          exit 1

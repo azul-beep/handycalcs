@@ -5,6 +5,7 @@ Free bilingual (EN/ES) calculators site. Static, no build tools needed except Py
 - Edit IDs (GA4, Meta Pixel, AdSense, Search Console) and affiliate links at the top of `build.py`.
 - `python3 build.py` regenerates `site/`.
 - Deploy: Cloudflare Pages, build command empty (or `python3 build.py`), output directory `site`.
+- Calculator PRs only change `src/` and `build.py` (not `site/`), so they never conflict with the daily publishing bot. When they are merged, `.github/workflows/rearmar-web.yml` rebuilds `site/` and commits it; the daily IndexNow job then pings the new URLs.
 
 ## Printable calendars (calendarios/)
 

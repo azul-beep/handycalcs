@@ -9,7 +9,7 @@ CONFIG = dict(
     site_url="https://gethandycalcs.pages.dev",   # change if Cloudflare gives another name or a domain is bought
     name="Handy Calcs",
     name_es="Handy Calcs",
-    owner="Skye Solutions AI LLC",
+    owner="Skye Solutions AI",
     email="support@skyesolutionsai.com",
     ga4="G-794S7HWQJS",
     pixel="",          # Meta Pixel ID, digits only
@@ -45,16 +45,16 @@ E = html.escape
 UI = {
  "en": dict(home="Home", all="All calculators", calc="Calculate", result="Results", faq="Frequently asked questions",
             related="Related calculators", privacy="Privacy policy", cookies="Cookie policy", terms="Terms of use", about="About", advertise="Advertise",
-            other="Español", disclaimer="Results are estimates for information only, not financial, legal or tax advice.",
+            other="Español", disclaimer="Results are estimates for information only, not financial, legal, tax or medical advice.",
             cookieset="Cookie settings", rights="All rights reserved.", copy="Copy", aff_title="Useful tools",
             aff_note="Some links are affiliate links: we may earn a commission at no extra cost to you.",
-            tagline="Free, fast calculators for tips, restaurants, recipes, pay and budgets.", private="Private: everything is calculated on your device."),
+            tagline="Free, fast calculators for tips, pay, budgets, loans, health, school and recipes.", private="Private: everything is calculated on your device."),
  "es": dict(home="Inicio", all="Todas las calculadoras", calc="Calcular", result="Resultados", faq="Preguntas frecuentes",
             related="Otras calculadoras", privacy="Política de privacidad", cookies="Política de cookies", terms="Términos de uso", about="Quiénes somos", advertise="Publicidad",
-            other="English", disclaimer="Los resultados son estimaciones a modo informativo, no asesoramiento financiero, legal ni impositivo.",
+            other="English", disclaimer="Los resultados son estimaciones a modo informativo, no asesoramiento financiero, legal, impositivo ni médico.",
             cookieset="Configurar cookies", rights="Todos los derechos reservados.", copy="Copiar", aff_title="Herramientas útiles",
             aff_note="Algunos enlaces son de afiliados: podemos ganar una comisión sin costo extra para ti.",
-            tagline="Calculadoras gratis y rápidas para propinas, restaurantes, recetas, sueldos y presupuestos.", private="Privado: todo se calcula en tu dispositivo."),
+            tagline="Calculadoras gratis y rápidas para propinas, sueldos, presupuestos, préstamos, salud, escuela y recetas.", private="Privado: todo se calcula en tu dispositivo."),
 }
 
 def url(lang, slug=""):
@@ -82,7 +82,7 @@ def affiliate_box(cat, lang):
     lis = "".join('<li>%s<a href="%s" rel="sponsored noopener" target="_blank">%s</a>: %s</li>' % ('<span class="tag">%s</span> ' % spon if a.get("paid") else "", E(l), E(a["name"]), E(a[lang])) for a, l in items)
     return '<aside class="aff"><h2>%s</h2><ul>%s</ul><p class="small">%s</p></aside>' % (u["aff_title"], lis, u["aff_note"])
 
-CSS_VER = "2"
+CSS_VER = "3"
 
 # ============================== Printable calendars ==============================
 # calendarios/calendarios-AAAA/ is made by calendarios/regenerar.py (once a year, every Oct 1).
@@ -327,6 +327,21 @@ def field(inp, lang, cid):
         return '<label for="%s">%s</label><div class="inp"><select id="%s" data-in="%s">%s</select></div>' % (fid, lab, fid, k, opts)
     if inp["kind"] == "textarea":
         return '<label for="%s">%s</label><textarea id="%s" data-in="%s" rows="%d" spellcheck="false">%s</textarea>' % (fid, lab, fid, k, inp["rows"], E(inp["default_" + lang]))
+    if inp["kind"] in ("date", "time"):
+        # default "today" is filled in by calc.js with the visitor's date
+        val = "" if inp["default"] == "today" else inp["default"]
+        tod = ' data-today="1"' if inp["default"] == "today" else ""
+        return '<label for="%s">%s</label><div class="inp"><input id="%s" data-in="%s" type="%s" value="%s"%s></div>' % (fid, lab, fid, k, inp["kind"], E(val), tod)
+    if inp["kind"] == "timerow":
+        # one line of a time card: start, end and unpaid break (minutes)
+        st, en, br = inp["default"]
+        ph = ("Start", "End", "Break (min)") if lang == "en" else ("Entrada", "Salida", "Pausa (min)")
+        th = '<div class="trow th" aria-hidden="true"><span>%s</span><span>%s</span><span>%s</span></div>' % ph if k.endswith("1") else ""
+        return (th + '<span class="lab">%s</span><div class="trow">'
+                '<input id="%s" data-in="%s_s" type="time" value="%s" aria-label="%s %s">'
+                '<input data-in="%s_e" type="time" value="%s" aria-label="%s %s">'
+                '<input data-in="%s_b" type="number" inputmode="numeric" min="0" step="5" value="%s" aria-label="%s %s" placeholder="%s"></div>'
+                % (lab, fid, k, st, lab, ph[0], k, en, lab, ph[1], k, br, lab, ph[2], ph[2]))
     return '<label for="%s">%s</label><div class="inp"><input id="%s" data-in="%s" type="text" value="%s"></div>' % (fid, lab, fid, k, E(inp["default"]))
 
 def calc_widget(c, lang):
@@ -418,7 +433,7 @@ def home_page(lang):
     site_ld = {"@context": "https://schema.org", "@type": "WebSite", "name": CONFIG["name"], "url": abs_url(path), "inLanguage": lang}
     s = head(lang, title, desc, path, alt, [site_ld]) + header(lang, alt)
     s += '<section class="hero"><h1>%s</h1><p class="lead">%s</p>%s</section>' % (
-        "Free calculators for everyday money" if lang == "en" else "Calculadoras gratis para la dinero de todos los días",
+        "Free calculators for everyday money" if lang == "en" else "Calculadoras gratis para el dinero de todos los días",
         E(u["tagline"]),
         '<input class="search" type="search" placeholder="%s" aria-label="%s" oninput="hcFilter(this.value)">' % (
             "Search: tip, salary, cups…" if lang == "en" else "Buscar: propina, sueldo, tazas…",
