@@ -37,7 +37,8 @@ CONFIG = dict(
     adsense_on=False,
     # Cuentas de las apps (Firebase, plan Spark gratis). Pegar acá el firebaseConfig de la consola (es público, no es secreto).
     # Vacío = apps sin cuenta (todo se guarda en el equipo). Ej: dict(apiKey='...', authDomain='cozy-paws-apps.firebaseapp.com', projectId='cozy-paws-apps', appId='...')
-    firebase=None,                    # True SOLO cuando AdSense apruebe cozypawsgifts.pages.dev: carga anuncios en las apps y publica ads.txt
+    firebase=dict(apiKey='AIzaSyBPa_WnI7oIRvY2_SCEmD9fc69c8xWO8Rk', authDomain='cozy-paws-apps.firebaseapp.com', projectId='cozy-paws-apps',
+                  storageBucket='cozy-paws-apps.firebasestorage.app', messagingSenderId='446269425804', appId='1:446269425804:web:610e8167392f671bc093a9'),                    # True SOLO cuando AdSense apruebe cozypawsgifts.pages.dev: carga anuncios en las apps y publica ads.txt
 )
 E = html.escape
 INDEXNOW_KEY = "92ad20c14927840aeb27fd01e77c8677"  # clave pública de IndexNow (Bing y otros); cozypaws/indexnow.py avisa las páginas nuevas
