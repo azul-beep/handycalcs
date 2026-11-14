@@ -20,3 +20,11 @@ Web estática (inglés, público de EE. UU.) que vive en https://cozypawsgifts.p
 3. Commit a main. El workflow hace el resto.
 
 Links directos de Etsy (opcional): `cozypaws/data/etsy-links.txt`, una línea por producto: `p01 https://www.etsy.com/listing/123456789`. Sin link directo, el botón abre la búsqueda dentro de la tienda.
+
+## Redes (Instagram y Facebook, Threads si tiene token)
+`.github/workflows/cozypaws-redes.yml` + `social.py`, con las APIs oficiales de Meta (gratis, sin Claude). Por día, en hora de Utah:
+1. 10 AM: producto nuevo en el feed + una historia (el producto nuevo con "New in the shop", o una tarjeta del banco si no hay productos nuevos).
+2. 1 PM: un post que no es de venta: tip de cuidado, frase, Social Club o pregunta para la comunidad.
+3. 6 PM: otro producto nuevo.
+
+Los textos de los posts que no son de venta están en `BANCO` de `contenido.py` y rotan en orden. Para sumar, agregar entradas al final con un id nuevo. Las imágenes se arman con plantillas en cada build (`site/img/social/`, `site/img/story/`). Lo publicado queda en `data/redes-publicado.json`.
