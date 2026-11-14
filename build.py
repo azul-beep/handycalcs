@@ -39,7 +39,7 @@ AFFILIATES = {
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "site")
-TODAY = datetime.date.today().isoformat()
+TODAY = os.environ.get("HC_TODAY") or datetime.date.today().isoformat()  # HC_TODAY=2026-11-20 to preview a date
 E = html.escape
 
 UI = {
@@ -82,7 +82,7 @@ def affiliate_box(cat, lang):
     lis = "".join('<li>%s<a href="%s" rel="sponsored noopener" target="_blank">%s</a>: %s</li>' % ('<span class="tag">%s</span> ' % spon if a.get("paid") else "", E(l), E(a["name"]), E(a[lang])) for a, l in items)
     return '<aside class="aff"><h2>%s</h2><ul>%s</ul><p class="small">%s</p></aside>' % (u["aff_title"], lis, u["aff_note"])
 
-CSS_VER = "3"
+CSS_VER = "4"
 
 # ============================== Printable calendars ==============================
 # calendarios/calendarios-AAAA/ is made by calendarios/regenerar.py (once a year, every Oct 1).
@@ -303,6 +303,7 @@ def footer(lang):
     cal_foot = '<a href="%s">%s</a> · ' % (cl[0], E(cl[1])) if cl else ""
     if lang == "es" and herr_link(): cal_foot += '<a href="/herramientas-gratis/">Herramientas gratis para emprender</a> · '
     if lang == "es" and os.path.isdir(os.path.join(OUT, "imprimibles")): cal_foot += '<a href="/imprimibles/">Sudoku del día y fichas bilingües</a> · '
+    if lang == "en" and ARTICLES: cal_foot += '<a href="/guides/">Guides</a> · '
     return f"""</main>
 <footer class="foot"><div class="wrap">
 <div class="fcols">{cats}</div>
@@ -393,6 +394,11 @@ def embed_page(c, lang):
 """
     return embed_path(c, lang), s
 
+def guides_box(c, lang):
+    gs = guides_for(c["id"]) if lang == "en" else []
+    if not gs: return ""
+    return '<section class="content"><h2>Guides</h2><div class="rels">%s</div></section>' % "".join('<a class="rel" href="/guides/%s/">%s</a>' % (a["slug"], E(a["h1"])) for a in gs)
+
 def calc_page(c, lang):
     d = c[lang]; other = "es" if lang == "en" else "en"
     path = url(lang, d["slug"]); alt = url(other, c[other]["slug"])
@@ -414,7 +420,7 @@ def calc_page(c, lang):
 <p class="lead">{E(d['intro'])}</p>
 {calc_widget(c, lang)}
 <article class="content">{d['body']}</article>
-{affiliate_box(c['aff'], lang)}
+{guides_box(c, lang)}{affiliate_box(c['aff'], lang)}
 {newsletter(lang)}
 <section class="content"><h2>{u['faq']}</h2>{faq}</section>
 <section class="content"><h2>{u['related']}</h2><div class="rels">{rel}</div></section>
@@ -446,7 +452,11 @@ def home_page(lang):
             s += '<a class="tile" href="%s" data-k="%s"><strong>%s</strong><span>%s</span></a>' % (
                 url(lang, c[lang]["slug"]), E((c[lang]["h1"] + " " + c[lang]["title"]).lower()), E(c[lang]["h1"]), E(c[lang]["intro"]))
         s += '</div></section>'
-    s += '</div>' + newsletter(lang)
+    s += '</div>'
+    if lang == "en" and ARTICLES:
+        s += '<section class="cat" id="guides"><h2>Guides</h2><div class="grid">%s</div><p><a href="/guides/">All guides →</a></p></section>' % "".join(
+            '<a class="tile" href="/guides/%s/"><strong>%s</strong><span>%s</span></a>' % (a["slug"], E(a["h1"]), E(a["description"])) for a in list(reversed(ARTICLES))[:6])
+    s += newsletter(lang)
     s += ("""<script>function hcFilter(q){q=q.toLowerCase().trim();document.querySelectorAll('.tile').forEach(function(t){t.style.display=!q||t.getAttribute('data-k').indexOf(q)>-1?'':'none'});document.querySelectorAll('.cat').forEach(function(c){c.style.display=[].some.call(c.querySelectorAll('.tile'),function(t){return t.style.display!=='none'})?'':'none'})}</script>""")
     s += footer(lang) + "</body></html>\n"
     return path, s
@@ -542,6 +552,59 @@ def legal(lang, key):
     s += footer(lang) + "</body></html>\n"
     return path, s
 
+
+# ------------------------------ guides (articles) ------------------------------
+# Articles written in advance in src/articles/NN-<slug>.html ("key: value" header, a "---" line, then the HTML body).
+# NN sets the order: 01 goes live on ARTICLES_START, 02 the next day, and so on. The daily workflow (8 AM Utah) runs build.py,
+# so each article appears on its day by itself, free and without Claude. To add more, add files with the next number.
+import re as _re
+ARTICLES_START = datetime.date(2026, 11, 16)
+def load_articles():
+    d = os.path.join(ROOT, "src", "articles"); out = []
+    for f in sorted(os.listdir(d)) if os.path.isdir(d) else []:
+        m = _re.match(r"(\d+)-([a-z0-9-]+)\.html$", f)
+        if not m: continue
+        head_, body = open(os.path.join(d, f), encoding="utf-8").read().split("\n---\n", 1)
+        a = dict(line.split(": ", 1) for line in head_.strip().splitlines())
+        a.update(n=int(m.group(1)), slug=m.group(2), body=body.strip())
+        a["calcs"] = [x.strip() for x in a.get("calcs", "").split(",") if x.strip() in BY_ID]
+        a["live"] = ARTICLES_START + datetime.timedelta(days=a["n"] - 1)
+        out.append(a)
+    return out
+ALL_ARTICLES = load_articles()
+ARTICLES = [a for a in ALL_ARTICLES if a["live"] <= datetime.date.fromisoformat(TODAY)]
+
+def guides_for(cid):
+    return [a for a in ARTICLES if cid in a["calcs"]]
+
+def article_page(a):
+    path = "/guides/%s/" % a["slug"]
+    ld = [{"@context": "https://schema.org", "@type": "Article", "headline": a["h1"], "description": a["description"],
+           "datePublished": a["live"].isoformat(), "inLanguage": "en", "mainEntityOfPage": abs_url(path),
+           "author": {"@type": "Organization", "name": CONFIG["name"]}, "publisher": {"@type": "Organization", "name": CONFIG["name"]}},
+          {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": CONFIG["name"], "item": abs_url("/")},
+              {"@type": "ListItem", "position": 2, "name": "Guides", "item": abs_url("/guides/")},
+              {"@type": "ListItem", "position": 3, "name": a["h1"], "item": abs_url(path)}]}]
+    tiles = "".join('<a class="tile" href="%s"><strong>%s</strong><span>%s</span></a>' % (url("en", BY_ID[c]["en"]["slug"]), E(BY_ID[c]["en"]["h1"]), E(BY_ID[c]["en"]["intro"])) for c in a["calcs"])
+    more = "".join('<a class="rel" href="/guides/%s/">%s</a>' % (o["slug"], E(o["h1"])) for o in reversed(ARTICLES) if o is not a)[:4000]
+    s = head("en", a["title"], a["description"], path, None, ld) + header("en", None)
+    s += '<nav class="crumbs"><a href="/">Home</a> › <a href="/guides/">Guides</a></nav>'
+    s += '<article class="content post"><p class="kicker">Guide · %s</p><h1>%s</h1>%s</article>' % (a["live"].strftime("%B %d, %Y").replace(" 0", " "), E(a["h1"]), a["body"])
+    if tiles: s += '<section class="content"><h2>Calculators for this</h2><div class="grid">%s</div></section>' % tiles
+    s += newsletter("en")
+    if more: s += '<section class="content"><h2>More guides</h2><div class="rels">%s</div></section>' % more
+    s += footer("en") + "</body></html>\n"
+    return path, s
+
+def guides_index():
+    path = "/guides/"
+    tiles = "".join('<a class="tile" href="/guides/%s/"><strong>%s</strong><span>%s</span></a>' % (a["slug"], E(a["h1"]), E(a["description"])) for a in reversed(ARTICLES))
+    s = head("en", "Money, Pay and Kitchen Guides | " + CONFIG["name"], "Plain-English guides to tipping, pay, budgets, debt, discounts and kitchen math, each with a free calculator.", path, None) + header("en", None)
+    s += '<h1>Guides</h1><p class="lead">Plain-English guides to everyday money and kitchen math, each with a free calculator. A new guide every day.</p><div class="grid">%s</div>' % tiles
+    s += footer("en") + "</body></html>\n"
+    return path, s
+
 def write(path, content):
     fp = os.path.join(OUT, path.strip("/"), "index.html") if path.endswith("/") else os.path.join(OUT, path.strip("/"))
     os.makedirs(os.path.dirname(fp), exist_ok=True)
@@ -558,6 +621,9 @@ def main():
         pages.append(home_page(lang))
         for c in CALCS: pages.append(calc_page(c, lang)); pages.append(embed_page(c, lang))
         for k in ("about", "privacy", "cookies", "terms", "advertise"): pages.append(legal(lang, k))
+    if ARTICLES:
+        pages.append(guides_index())
+        for a in ARTICLES: pages.append(article_page(a))
     for p, s in pages: write(p, s)
     # chips: presets click -> set input (inline in calc.js would need ids; tiny add-on)
     for f in ("style.css", "cookie.css", "site.js", "calc.js", "favicon.svg", "og-image.png"):
@@ -579,6 +645,10 @@ document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('
         for p in (en_p, es_p):
             sm.append('<url><loc>%s</loc><lastmod>%s</lastmod><xhtml:link rel="alternate" hreflang="en" href="%s"/><xhtml:link rel="alternate" hreflang="es" href="%s"/></url>'
                       % (abs_url(p), TODAY, abs_url(en_p), abs_url(es_p)))
+    if ARTICLES:
+        sm.append("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (abs_url("/guides/"), TODAY))
+        for a in ARTICLES:
+            sm.append("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (abs_url("/guides/%s/" % a["slug"]), a["live"].isoformat()))
     for loc in herr_locs:
         sm.append("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (loc, TODAY))
     sm.append("</urlset>")
@@ -588,7 +658,7 @@ document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('
     if CONFIG["adsense"]:
         write("/ads.txt", "google.com, %s, DIRECT, f08c47fec0942fa0\n" % CONFIG["adsense"].replace("ca-", ""))
     write("/_headers", "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/*.css\n  Cache-Control: public, max-age=86400\n/*.js\n  Cache-Control: public, max-age=86400\n")
-    print("Built %d pages into %s" % (len(pages) + 1, OUT))
+    print("Built %d pages into %s (guides %d/%d)" % (len(pages) + 1, OUT, len(ARTICLES), len(ALL_ARTICLES)))
 
 if __name__ == "__main__":
     main()
