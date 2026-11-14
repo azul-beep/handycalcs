@@ -1,5 +1,5 @@
-// Paw Diary (Cozy Paws): funciona sin internet. Versión 4526147e83 (cambia sola cuando cambia la app).
-const C='pawdiary-4526147e83',PRE=["/diary/", "/diary/es/", "/diary/manifest.webmanifest", "/diary/es/manifest.webmanifest", "/img/logo-160.png", "/img/logo-ilustrado.png", "/img/icon.png", "/fonts/Yesteryear-Regular.woff2", "/fonts/AbrilFatface-Regular.woff2", "/fonts/Lora.woff2", "/diary/icons/icon-192.png", "/diary/icons/icon-512.png"];
+// Paw Diary (Cozy Paws): funciona sin internet. Versión 181f9f3392 (cambia sola cuando cambia la app).
+const C='pawdiary-181f9f3392',PRE=["/diary/", "/diary/es/", "/diary/manifest.webmanifest", "/diary/es/manifest.webmanifest", "/img/logo-160.png", "/img/logo-ilustrado.png", "/img/icon.png", "/fonts/Yesteryear-Regular.woff2", "/fonts/AbrilFatface-Regular.woff2", "/fonts/Lora.woff2", "/diary/icons/icon-192.png", "/diary/icons/icon-512.png"];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(PRE)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith('pawdiary-')&&x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('notificationclick',e=>{e.notification.close();e.waitUntil(clients.openWindow('/diary/#rem'))});
