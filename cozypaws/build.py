@@ -24,11 +24,11 @@ OUT = os.path.join(HERE, 'site')
 CONFIG = dict(
     name='Cozy Paws',
     url='https://cozypaws.pages.dev',          # dirección de Cloudflare Pages (cambiar si se compra dominio)
-    shop='https://www.etsy.com/shop/CozyPawsAndWhiskers',  # nombre actual en Etsy; cuando quede ShopCozyPaws el viejo redirige solo (cambiar igual)
+    shop='https://www.etsy.com/shop/ShopCozyPaws',  # tienda de Etsy (shopcozypaws.etsy.com)
     pinterest='https://www.pinterest.com/cozypawsgifts/',          # https://www.pinterest.com/<usuario>/ cuando exista
     ga4='G-1RSXP3PFR4',                # G-XXXXXXX (GA4 de esta web)
     pixel='',              # ID del Pixel de Meta
-    pinterest_verify='',   # contenido de la etiqueta meta "p:domain_verify" para reclamar la web en Pinterest
+    pinterest_verify='c84a6e3acb398fb108d0538381e88517',   # contenido de la etiqueta meta "p:domain_verify" para reclamar la web en Pinterest
     google_verify='snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk',      # contenido de la meta "google-site-verification" (Search Console), si se usa
     contact='support@skyesolutionsai.com',
     company='Skye Solutions AI',
@@ -38,6 +38,8 @@ E = html.escape
 
 # ---------------------------------------------------------------- productos
 KINDS = [  # (palabra en el título, tipo en inglés)
+    ('printable', 'Printable (instant download)'), ('pajama', 'Pajama pants'), ('tank top', 'Pet tank top'),
+    ('kids shirt', 'Kids T-shirt'), ('youth', 'Kids T-shirt'), ('wooden', 'Wooden ornament'), ('glass', 'Glass ornament'),
     ('ornament', 'Ceramic ornament'), ('accent mug', 'Accent mug'), ('latte mug', 'Latte mug'), ('enamel', 'Enamel camping mug'),
     ('tumbler', 'Insulated tumbler'), ('mug', 'Coffee mug'), ('bandana', 'Dog bandana'), ('dog sweater', 'Dog sweater'),
     ('dog hoodie', 'Dog hoodie'), ('pet blanket', 'Pet blanket'), ('dog blanket', 'Pet blanket'), ('blanket', 'Plush blanket'),
@@ -136,6 +138,15 @@ GUIDES = [
     dict(id='cozy-winter-gifts-pet-lovers', h1='Cozy Winter Gifts for Pet Lovers', match=r'blanket|socks|beanie|sweatshirt|hoodie|candle',
          intro='Couch, blanket, dog on the feet. Cozy gifts for the coldest months: plush throws, socks, beanies, sweatshirts and candles.',
          tips=['Plush blankets come in several background colors; pick the one that matches the couch.']),
+    dict(id='matching-dog-and-owner-outfits', h1='Matching Dog and Owner Christmas Outfits', match=r'matching',
+         intro='The family photo is better when the dog matches. Dog hoodies, kids tees and plaid pajamas designed to be worn together, so the whole pack shows up in the same holiday spirit.',
+         tips=['Order the dog size from its chest measurement, and the people sizes from the Etsy size chart.', 'Plaid pajamas come in women\'s and men\'s cuts.']),
+    dict(id='first-christmas-and-memorial-ornaments', h1="Puppy's First Christmas and Pet Memorial Ornaments", match=r'first christmas|memorial',
+         intro="Two moments that deserve an ornament: the first Christmas with a new puppy or kitten, and the first one without a pet who crossed the rainbow bridge. Simple keepsakes to hang every year.",
+         tips=['A memorial ornament is a kind sympathy gift for a friend who lost a pet.', 'Ornaments are light and easy to mail.']),
+    dict(id='printable-pet-gifts', h1='Printable Pet Gifts and Gift Tags', match=r'printable|instant download',
+         intro='Last minute? Printables download right after purchase: "from the dog" gift tags, a 2027 pet calendar and a pet health planner. Print at home tonight.',
+         tips=['Printables are digital: nothing ships, so they work even on Christmas Eve.']),
     dict(id='pet-lover-gifts-under-25', h1='Pet Lover Gifts Under $25', match=None, max_price=25,
          intro='Secret Santa, coworkers, teachers who love dogs: affordable gifts under $25 for pet people.',
          tips=['Stickers, cards and ornaments make great stocking stuffers.']),
@@ -475,8 +486,10 @@ def build(today):
         in_guides = ''.join(f'<a href="/gifts/{g["id"]}/">{E(g["h1"])}</a>' for g, ps in guides_live if p in ps)
         body = (f'<div class="prod"><img src="/img/p/{p["sku"]}.jpg" alt="{E(p["short"])}" width="900" height="900"><div>'
                 f'<h1>{E(p["short"])}</h1><p class="price">From ${E(p["precio"])}</p><p>{E(p["texto"])}</p>'
-                f'<ul><li>{E(p["kind"])} with an original Cozy Paws design</li><li>Printed on demand in the USA</li><li>Ships from our production partner (Printify)</li>'
-                + (f'<li>Order by Dec 10 for Christmas delivery in the US</li>' if today <= CONFIG['christmas_cutoff'] else '')
+                + (f'<ul><li>Printable PDF with an original Cozy Paws design</li><li>Instant download after purchase on Etsy</li><li>Print at home or at any print shop, as many times as you need</li>'
+                   if p['kind'].startswith('Printable') else
+                   f'<ul><li>{E(p["kind"])} with an original Cozy Paws design</li><li>Printed on demand in the USA</li><li>Ships from our production partner (Printify)</li>'
+                   + (f'<li>Order by Dec 10 for Christmas delivery in the US</li>' if today <= CONFIG['christmas_cutoff'] else ''))
                 + f'</ul><p><a class="btn" href="{E(p["etsy"])}" data-etsy="{E(p["sku"])}" rel="nofollow">See it on Etsy</a></p>'
                 + (f'<p>Part of: <span class="pills">{in_guides}</span></p>' if in_guides else '') + '</div></div>'
                 + (f'<h2>You may also like</h2>{grid(related)}' if related else ''))
