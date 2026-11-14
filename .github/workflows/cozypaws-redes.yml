@@ -1,0 +1,45 @@
+# Cozy Paws en redes: publica solo en Threads, Instagram y Facebook con las APIs oficiales de Meta (gratis, sin Claude).
+# 10 AM y 6 PM de Utah: 1 producto nuevo por red en cada corrida (2 por día). Lunes: renueva los tokens que vencen.
+# Si una red no tiene su secret cargado, se saltea. Si algo falla, la corrida queda en rojo y GitHub avisa por mail.
+name: Cozy Paws (redes)
+on:
+  schedule:
+    - cron: "0 17 * * *"
+    - cron: "0 1 * * *"
+    - cron: "20 16 * * 1"
+  workflow_dispatch:
+    inputs:
+      accion: { description: "publicar o renovar", default: "publicar" }
+permissions:
+  contents: write
+concurrency:
+  group: handycalcs-publicacion
+  cancel-in-progress: false
+jobs:
+  redes:
+    runs-on: ubuntu-latest
+    env:
+      THREADS_TOKEN: ${{ secrets.THREADS_TOKEN }}
+      IG_TOKEN: ${{ secrets.IG_TOKEN }}
+      FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+      FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+      GH_SECRETS_PAT: ${{ secrets.GH_SECRETS_PAT }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Renovar tokens (lunes)
+        if: github.event.schedule == '20 16 * * 1' || inputs.accion == 'renovar'
+        run: python3 cozypaws/social.py renovar
+      - name: Publicar
+        if: github.event.schedule != '20 16 * * 1' && inputs.accion != 'renovar'
+        run: python3 cozypaws/social.py publicar
+      - name: Guardar lo publicado
+        if: always() && github.event.schedule != '20 16 * * 1' && inputs.accion != 'renovar'
+        run: |
+          git diff --quiet -- cozypaws/data/redes-publicado.json && exit 0
+          git config user.name "publicacion-bot"
+          git config user.email "publicacion-bot@users.noreply.github.com"
+          git add cozypaws/data/redes-publicado.json
+          git commit -m "Cozy Paws: redes $(date -u +%F)"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 10; done; exit 1
