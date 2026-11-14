@@ -6,13 +6,15 @@ UN producto nuevo (el más viejo que ya esté a la venta y todavía no se public
 su token cargado. Lo publicado queda anotado en data/redes-publicado.json, así nunca se repite.
 
 Secrets de GitHub (Settings > Secrets and variables > Actions). Si falta uno, esa red se saltea sin error:
-  THREADS_TOKEN                 token largo de Threads (60 días; este script lo renueva solo)
-  IG_TOKEN                      token largo de Instagram con login de Instagram (60 días; se renueva solo)
-  FB_PAGE_ID, FB_PAGE_TOKEN     página de Facebook (el token de página no vence)
-  GH_SECRETS_PAT                token de GitHub con permiso "Secrets: write" en este repo, para guardar los tokens renovados
+  THREADS_TOKEN                 token largo de Threads (60 días; este script lo renueva solo los lunes)
+  FB_PAGE_ID, FB_PAGE_TOKEN     página de Facebook y su token de página largo (no vence)
+  IG_USER_ID                    id de la cuenta de Instagram profesional vinculada a esa página. Instagram se publica
+                                por graph.facebook.com con el mismo FB_PAGE_TOKEN (no hace falta un token aparte)
+  GH_SECRETS_PAT                token de GitHub con permiso "Secrets: write" en este repo, para guardar el token renovado
 
   python3 cozypaws/social.py publicar [--prueba]   # --prueba muestra qué publicaría, sin publicar
-  python3 cozypaws/social.py renovar               # renueva los tokens de Threads e Instagram (1 vez por semana)
+  python3 cozypaws/social.py renovar               # renueva el token de Threads (1 vez por semana)
+  python3 cozypaws/social.py revisar               # comprueba que cada token funcione, sin publicar nada
 """
 import argparse, datetime as dt, json, os, subprocess, sys, time, urllib.parse, urllib.request
 
@@ -49,20 +51,37 @@ def caption(p, network):
     return text
 
 
+FB = 'https://graph.facebook.com/v21.0'
+
+
+def esperar(base, cid, token):
+    """Meta procesa la imagen antes de dejar publicar: espera hasta que el contenedor esté listo (máx. ~3 min)."""
+    for _ in range(12):
+        time.sleep(15)
+        st = call(f'{base}/{cid}', {'fields': 'status_code' if 'facebook' in base else 'status', 'access_token': token}, 'GET')
+        estado = st.get('status_code') or st.get('status')
+        if estado == 'FINISHED':
+            return
+        if estado in ('ERROR', 'EXPIRED'):
+            raise RuntimeError(f'Meta no pudo procesar la imagen: {st}')
+    raise RuntimeError('Meta tardó demasiado en procesar la imagen')
+
+
 def post_threads(p, img, token):
-    r = call('https://graph.threads.net/v1.0/me/threads', {'media_type': 'IMAGE', 'image_url': img, 'text': caption(p, 'threads'), 'access_token': token})
-    time.sleep(30)  # Meta pide esperar a que procese la imagen
-    return call('https://graph.threads.net/v1.0/me/threads_publish', {'creation_id': r['id'], 'access_token': token})
+    base = 'https://graph.threads.net/v1.0'
+    r = call(f'{base}/me/threads', {'media_type': 'IMAGE', 'image_url': img, 'text': caption(p, 'threads'), 'access_token': token})
+    esperar(base, r['id'], token)
+    return call(f'{base}/me/threads_publish', {'creation_id': r['id'], 'access_token': token})
 
 
-def post_instagram(p, img, token):
-    r = call('https://graph.instagram.com/v21.0/me/media', {'image_url': img, 'caption': caption(p, 'instagram'), 'access_token': token})
-    time.sleep(30)
-    return call('https://graph.instagram.com/v21.0/me/media_publish', {'creation_id': r['id'], 'access_token': token})
+def post_instagram(p, img, ig_user, token):
+    r = call(f'{FB}/{ig_user}/media', {'image_url': img, 'caption': caption(p, 'instagram'), 'access_token': token})
+    esperar(FB, r['id'], token)
+    return call(f'{FB}/{ig_user}/media_publish', {'creation_id': r['id'], 'access_token': token})
 
 
 def post_facebook(p, img, page_id, token):
-    return call(f'https://graph.facebook.com/v21.0/{page_id}/photos', {'url': img, 'caption': caption(p, 'facebook'), 'access_token': token})
+    return call(f'{FB}/{page_id}/photos', {'url': img, 'caption': caption(p, 'facebook'), 'access_token': token})
 
 
 def publicar(prueba):
@@ -72,7 +91,8 @@ def publicar(prueba):
     prods = sorted(prods, key=lambda p: (p['live'], p['sku']))
     redes = {
         'threads': (lambda p, img: post_threads(p, img, os.environ['THREADS_TOKEN'])) if os.environ.get('THREADS_TOKEN') else None,
-        'instagram': (lambda p, img: post_instagram(p, img, os.environ['IG_TOKEN'])) if os.environ.get('IG_TOKEN') else None,
+        'instagram': (lambda p, img: post_instagram(p, img, os.environ['IG_USER_ID'], os.environ['FB_PAGE_TOKEN']))
+        if os.environ.get('IG_USER_ID') and os.environ.get('FB_PAGE_TOKEN') else None,
         'facebook': (lambda p, img: post_facebook(p, img, os.environ['FB_PAGE_ID'], os.environ['FB_PAGE_TOKEN']))
         if os.environ.get('FB_PAGE_TOKEN') and os.environ.get('FB_PAGE_ID') else None,
     }
@@ -106,9 +126,6 @@ def renovar():
     if os.environ.get('THREADS_TOKEN'):
         r = call('https://graph.threads.net/refresh_access_token', {'grant_type': 'th_refresh_token', 'access_token': os.environ['THREADS_TOKEN']}, 'GET')
         nuevos['THREADS_TOKEN'] = r['access_token']
-    if os.environ.get('IG_TOKEN'):
-        r = call('https://graph.instagram.com/refresh_access_token', {'grant_type': 'ig_refresh_token', 'access_token': os.environ['IG_TOKEN']}, 'GET')
-        nuevos['IG_TOKEN'] = r['access_token']
     for k, v in nuevos.items():
         if not pat:
             print(f'{k}: renovado pero falta GH_SECRETS_PAT para guardarlo'); continue
@@ -116,11 +133,32 @@ def renovar():
         print(f'{k}: renovado y guardado')
 
 
+def revisar():
+    """Comprueba cada token (no publica). Sirve después de cargar los secrets en GitHub."""
+    env, mal = os.environ.get, 0
+    pruebas = [
+        ('threads', env('THREADS_TOKEN'), lambda: call('https://graph.threads.net/v1.0/me', {'fields': 'username', 'access_token': env('THREADS_TOKEN')}, 'GET')['username']),
+        ('facebook', env('FB_PAGE_TOKEN') and env('FB_PAGE_ID'), lambda: call(f"{FB}/{env('FB_PAGE_ID')}", {'fields': 'name', 'access_token': env('FB_PAGE_TOKEN')}, 'GET')['name']),
+        ('instagram', env('FB_PAGE_TOKEN') and env('IG_USER_ID'), lambda: call(f"{FB}/{env('IG_USER_ID')}", {'fields': 'username', 'access_token': env('FB_PAGE_TOKEN')}, 'GET')['username']),
+    ]
+    for red, hay, fn in pruebas:
+        if not hay:
+            print(f'{red}: falta el secret, se saltea'); continue
+        try:
+            print(f'{red}: OK, publica como {fn()}')
+        except Exception as e:
+            mal += 1
+            print(f"{red}: ERROR {e} {getattr(e, 'read', lambda: b'')().decode(errors='ignore')[:400]}")
+    return mal
+
+
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
-    ap.add_argument('accion', choices=['publicar', 'renovar'])
+    ap.add_argument('accion', choices=['publicar', 'renovar', 'revisar'])
     ap.add_argument('--prueba', action='store_true')
     a = ap.parse_args()
     if a.accion == 'publicar':
         sys.exit(1 if publicar(a.prueba) else 0)
+    if a.accion == 'revisar':
+        sys.exit(1 if revisar() else 0)
     renovar()
