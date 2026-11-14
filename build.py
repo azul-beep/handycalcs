@@ -13,7 +13,7 @@ CONFIG = dict(
     email="support@skyesolutionsai.com",
     ga4="G-794S7HWQJS",
     pixel="",          # Meta Pixel ID, digits only
-    adsense="",        # e.g. ca-pub-1234567890123456  (Auto ads, no slots needed)
+    adsense="ca-pub-1174178180336933",
     gsc_verify="snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk",
     mailerlite_action="",  # MailerLite embedded form action, e.g. https://assets.mailerlite.com/jsonp/ACCOUNT/forms/FORMID/subscribe
 )
