@@ -1,6 +1,6 @@
 # Rearma la web de Handy Calcs apenas se une un cambio en las calculadoras (src/ o build.py) a main.
 # Así los PR de calculadoras no tocan site/ y nunca chocan con la publicación diaria automática.
-# Gratis y sin Claude: build.py usa solo Python, commit -> Cloudflare Pages publica solo -> IndexNow avisa las páginas nuevas.
+# Gratis y sin Claude: build.py (necesita Pillow para los pines de herramientas), commit -> Cloudflare Pages publica solo -> IndexNow avisa las páginas nuevas.
 name: Rearmar la web (cambios en calculadoras)
 on:
   push:
@@ -17,8 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Fuentes del sistema (las usan los pines de la guía de herramientas)
+        run: sudo apt-get install -y fonts-inter fonts-dejavu-core fontconfig && fc-cache -f
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
+      - run: pip install pillow
       - name: Rearmar y publicar (si main cambió mientras tanto, vuelve a rearmar sobre lo último)
         run: |
           git config user.name "publicacion-bot"
