@@ -21,6 +21,22 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, 'data')
 OUT = os.path.join(HERE, 'site')
 
+ETSY_AUTH_HTML = """<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer"><title>Cozy Paws · Etsy</title>
+<style>body{font-family:system-ui,sans-serif;max-width:34rem;margin:3rem auto;padding:0 1rem;color:#22282A;line-height:1.5}
+a.b{display:inline-block;background:#22282A;color:#fff;padding:.8rem 1.2rem;border-radius:.6rem;text-decoration:none;font-weight:600}</style>
+</head><body><h1>Cozy Paws · Etsy</h1><p id="m">Un segundo...</p><p id="b"></p>
+<script>
+var q=new URLSearchParams(location.search),c=q.get('code'),m=document.getElementById('m');
+if(c){var u='https://github.com/azul-beep/crux-report/issues/new?title=etsy-code&body='+encodeURIComponent('code: '+c);
+m.textContent='Etsy dio el permiso. Ahora en GitHub tocá "Create" (o "Submit new issue") y listo.';
+document.getElementById('b').innerHTML='<a class="b" href="'+u+'">Ir a GitHub</a>';
+history.replaceState(null,'',location.pathname);location.replace(u);}
+else{m.textContent='Etsy no dio el permiso'+(q.get('error')?' ('+q.get('error')+')':'')+'. Volvé a tocar el link del mail de GitHub.';}
+</script></body></html>
+"""
+
 CONFIG = dict(
     name='Cozy Paws',
     url='https://cozypawsgifts.pages.dev',          # dirección de Cloudflare Pages (cambiar si se compra dominio)
@@ -780,6 +796,11 @@ def build(today):
 <p class="note">Last updated: November 14, 2026. Governed by the laws of the State of Utah, USA.</p>""", today)
     urls.append(('/terms/', dt.date(2026, 11, 14)))
     page('/404.html', 'Page not found | Cozy Paws', 'Page not found.', '<h1>Oops, this page ran off to chase a squirrel</h1><p><a href="/">Go to the home page</a> or <a href="/gifts/">see the gift guides</a>.</p>', today, canonical=False)
+
+    # página de vuelta de la autorización de Etsy (app "Cozy Paws Shop Tools"): lleva el código a un issue
+    # "etsy-code" de crux-report, donde un workflow lo guarda (tools/etsy_digital). No va al sitemap.
+    os.makedirs(os.path.join(OUT, 'etsy-auth'), exist_ok=True)
+    open(os.path.join(OUT, 'etsy-auth', 'index.html'), 'w', encoding='utf-8').write(ETSY_AUTH_HTML)
 
     # sitemap, robots, feed
     sm = ''.join(f'<url><loc>{CONFIG["url"]}{u}</loc><lastmod>{d.isoformat()}</lastmod></url>' for u, d in urls)
