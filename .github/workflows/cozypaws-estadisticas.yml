@@ -1,0 +1,32 @@
+# Cozy Paws: estadísticas de Instagram y Facebook todos los días a las 7 AM de Utah (gratis, sin Claude).
+# Escribe cozypaws/estadisticas/redes.md (resumen legible para cualquier hilo) y redes-historial.csv (una fila por día).
+name: Cozy Paws (estadísticas de redes)
+on:
+  schedule:
+    - cron: "0 14 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: handycalcs-publicacion
+  cancel-in-progress: false
+jobs:
+  estadisticas:
+    runs-on: ubuntu-latest
+    env:
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+      FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python3 cozypaws/estadisticas.py
+      - name: Guardar
+        run: |
+          [ -z "$(git status --porcelain -- cozypaws/estadisticas)" ] && exit 0
+          git config user.name "publicacion-bot"
+          git config user.email "publicacion-bot@users.noreply.github.com"
+          git add cozypaws/estadisticas
+          git commit -m "Cozy Paws: estadísticas de redes $(date -u +%F)"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 10; done; exit 1
