@@ -254,24 +254,61 @@ document.getElementById('go').addEventListener('click',go);go();
 }
 
 # ---------------------------------------------------------------- html
-CSS = """*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:#fbf6ef;color:#2b2622;line-height:1.6}
-a{color:#a8333a}header{background:#2f4a40;color:#fbf6ef}header .in,footer .in{max-width:1100px;margin:0 auto;padding:14px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-header a{color:#fbf6ef;text-decoration:none}.logo{font-family:Georgia,serif;font-size:25px;font-weight:bold}nav a{margin-left:16px;font-size:15px}
-.bar{background:#a8333a;color:#fff;text-align:center;font-size:14px;padding:7px 12px}
-main{max-width:1100px;margin:0 auto;padding:10px 22px 40px}h1,h2{font-family:Georgia,serif;line-height:1.2}h1{font-size:38px;margin:22px 0 10px}h2{font-size:26px;margin:34px 0 12px}
-.lead{font-size:18px;max-width:760px;color:#4b433c}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
-.card{background:#fff;border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 1px 4px rgba(0,0,0,.07);display:flex;flex-direction:column}
-.card img{width:100%;aspect-ratio:1;object-fit:cover;display:block}.card .t{padding:10px 12px 4px;font-weight:600;font-size:15px}.card .m{padding:0 12px 12px;color:#6b625a;font-size:14px}
-.pills a{display:inline-block;margin:4px 6px 4px 0;padding:7px 13px;border-radius:99px;background:#fff;border:1px solid #e3d8ca;text-decoration:none;color:#2b2622;font-size:14px}
-.btn{display:inline-block;background:#a8333a;color:#fff!important;padding:13px 22px;border-radius:10px;text-decoration:none;font-weight:700;border:0;font-size:16px;cursor:pointer}
-.prod{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}.prod img{width:100%;border-radius:14px}@media(max-width:720px){.prod{grid-template-columns:1fr}h1{font-size:30px}}
-.price{font-size:22px;font-weight:700}.tips li{margin:4px 0}.calc{background:#fff;border-radius:14px;padding:20px;max-width:620px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
-.calc label{display:block;margin:0 0 14px}.calc input,.calc select{font-size:17px;padding:8px;border:1px solid #d9cdbd;border-radius:8px;margin-left:6px;max-width:220px}
-.result{font-size:20px;background:#f2ebe1;border-radius:10px;padding:14px;margin-top:8px}.names{columns:2;margin:0;padding-left:20px}
-table{border-collapse:collapse;background:#fff}td,th{border:1px solid #e3d8ca;padding:6px 12px;text-align:center}.note{color:#6b625a;font-size:14px}
-footer{background:#efe6da;margin-top:40px;font-size:14px}footer a{margin-right:14px}
-#cc{position:fixed;bottom:12px;left:12px;right:12px;max-width:560px;background:#2b2622;color:#fff;padding:14px 16px;border-radius:12px;font-size:14px;display:none;z-index:9}
-#cc button{margin:8px 8px 0 0;padding:7px 14px;border-radius:8px;border:0;cursor:pointer}#cc a{color:#f6c9a8}"""
+PAW = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23e6d6b8' opacity='.55'%3E"
+       "%3Cellipse cx='30' cy='36' rx='7' ry='6'/%3E%3Ccircle cx='22' cy='27' r='3'/%3E%3Ccircle cx='28' cy='23' r='3'/%3E%3Ccircle cx='34' cy='23' r='3'/%3E%3Ccircle cx='39' cy='28' r='3'/%3E"
+       "%3Cellipse cx='88' cy='94' rx='7' ry='6'/%3E%3Ccircle cx='80' cy='85' r='3'/%3E%3Ccircle cx='86' cy='81' r='3'/%3E%3Ccircle cx='92' cy='81' r='3'/%3E%3Ccircle cx='97' cy='86' r='3'/%3E%3C/g%3E%3C/svg%3E")
+CSS = """@font-face{font-family:Yesteryear;src:url(/fonts/Yesteryear-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:Abril;src:url(/fonts/AbrilFatface-Regular.woff2) format('woff2');font-display:swap}
+@font-face{font-family:Lora;src:url(/fonts/Lora.woff2) format('woff2');font-weight:400 700;font-display:swap}
+:root{--cream:#F3E9D7;--cream2:#FAF4E8;--plum:#3B2433;--blue:#4E7F86;--gold:#C8962E;--rose:#B5525C;--ink:#3a2f2a;--line:#E2D3B8}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;font-family:Lora,Georgia,serif;background:var(--cream);background-image:url("PAWURL");color:var(--ink);line-height:1.65;font-size:17px}
+a{color:var(--blue)}img{max-width:100%;height:auto}
+.bar{background:var(--blue);color:var(--cream);text-align:center;font-size:14px;padding:8px 14px;letter-spacing:.3px}
+header{background:var(--cream2);border-bottom:3px double var(--gold)}header .in{max-width:1120px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}.brand img{width:58px;height:58px}.brand span{font-family:Yesteryear,cursive;font-size:38px;color:var(--plum);line-height:1}
+nav{display:flex;gap:6px;flex-wrap:wrap}nav a{font-family:Abril,Georgia,serif;color:var(--plum);text-decoration:none;font-size:16px;padding:8px 12px;border-radius:99px;letter-spacing:.3px}nav a:hover{background:var(--cream)}
+nav a.shop{background:var(--plum);color:var(--cream)}
+main{max-width:1120px;margin:0 auto;padding:6px 20px 50px}
+h1,h2,h3{font-family:Abril,Georgia,serif;font-weight:400;color:var(--plum);line-height:1.15;letter-spacing:.2px}h1{font-size:44px;margin:26px 0 12px}h2{font-size:30px;margin:46px 0 16px;display:flex;align-items:center;gap:12px}
+h2:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+.script{font-family:Yesteryear,cursive;color:var(--plum)}
+.lead{font-size:19px;max-width:740px;color:#5a4a44}
+.hero{display:grid;grid-template-columns:1.25fr .9fr;gap:30px;align-items:center;background:var(--cream2);border:2px solid var(--line);border-radius:28px;padding:34px 40px;margin-top:22px;box-shadow:0 10px 30px rgba(59,36,51,.07)}
+.hero .script{font-size:72px;line-height:1;display:block;margin-bottom:6px}.hero .tag{font-family:Abril,Georgia,serif;color:var(--blue);font-size:24px;line-height:1.3;margin:0 0 14px}
+.hero p{margin:0 0 20px;color:#5a4a44}.hero img{width:100%;max-width:340px;justify-self:center}
+.btn{display:inline-block;background:var(--plum);color:var(--cream)!important;padding:13px 24px;border-radius:99px;text-decoration:none;font-family:Abril,Georgia,serif;font-size:17px;letter-spacing:.4px;border:0;cursor:pointer;box-shadow:0 4px 0 #24151f}
+.btn:hover{transform:translateY(1px);box-shadow:0 3px 0 #24151f}.btn.ghost{background:transparent;color:var(--plum)!important;border:2px solid var(--plum);box-shadow:none;margin-left:8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.card{background:var(--cream2);border:1px solid var(--line);border-radius:20px;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s;position:relative}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(59,36,51,.12)}.card img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;display:block}
+.card .t{padding:12px 14px 2px;font-weight:600;font-size:16px;color:var(--plum);line-height:1.35}.card .m{padding:2px 14px 14px;font-size:14px;color:#7b6b62;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card .price{font-family:Abril,Georgia,serif;color:var(--blue);font-size:18px}
+.badge{position:absolute;top:12px;left:12px;background:var(--gold);color:#fff;font-family:Abril,Georgia,serif;font-size:13px;padding:4px 11px;border-radius:99px;letter-spacing:.4px}
+.stamps{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.stamp{display:flex;align-items:center;gap:14px;background:var(--cream2);border:2px dashed var(--blue);border-radius:18px;padding:12px;text-decoration:none;color:var(--plum)}
+.stamp img{width:78px;height:78px;flex:none;border-radius:50%;object-fit:cover;border:3px solid var(--cream)}.stamp b{font-family:Abril,Georgia,serif;font-weight:400;font-size:18px;line-height:1.2}.stamp small{display:block;color:#7b6b62}
+.pills a{display:inline-block;margin:5px 6px 5px 0;padding:8px 15px;border-radius:99px;background:var(--cream2);border:1.5px solid var(--blue);text-decoration:none;color:var(--blue);font-size:15px}
+.prod{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:start;margin-top:22px}.prod img{width:100%;border-radius:24px;border:1px solid var(--line)}
+.prod h1{margin-top:6px}.bigprice{font-family:Abril,Georgia,serif;font-size:30px;color:var(--blue)}.kind{font-family:Abril,Georgia,serif;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-size:14px}
+.perks{list-style:none;padding:0}.perks li{padding:6px 0 6px 30px;position:relative}.perks li:before{content:"✦";position:absolute;left:4px;color:var(--gold)}
+.calc{background:var(--cream2);border:2px solid var(--line);border-radius:22px;padding:24px;max-width:640px}
+.calc label{display:block;margin:0 0 14px;font-weight:600}.calc input,.calc select{font:inherit;font-size:17px;padding:9px 10px;border:1.5px solid var(--line);border-radius:12px;margin-left:6px;max-width:230px;background:#fff}
+.calc button{font-family:Abril,Georgia,serif}.result{font-size:20px;background:#fff;border:2px dashed var(--gold);border-radius:16px;padding:16px;margin-top:10px}.names{columns:2;margin:0;padding-left:20px}
+table{border-collapse:collapse;background:var(--cream2);border-radius:12px;overflow:hidden}td,th{border:1px solid var(--line);padding:7px 14px;text-align:center}th{background:var(--blue);color:var(--cream);font-weight:600}
+.note{color:#7b6b62;font-size:14px}.tips li{margin:6px 0}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}.tool{background:var(--blue);color:var(--cream);border-radius:22px;padding:22px;text-decoration:none}
+.tool b{font-family:Abril,Georgia,serif;font-weight:400;font-size:22px;display:block;margin-bottom:6px;line-height:1.2}.tool span{font-size:15px;opacity:.92}.tool:hover{background:#436f75}
+.club{display:grid;grid-template-columns:150px 1fr;gap:26px;align-items:center;background:var(--plum);color:var(--cream);border-radius:28px;padding:28px 34px;margin-top:50px}
+.club .script{color:var(--cream);font-size:44px;line-height:1}.club p{margin:8px 0 0}.club img{width:150px}
+footer{background:var(--plum);color:var(--cream);margin-top:50px;border-top:5px solid var(--gold)}footer .in{max-width:1120px;margin:0 auto;padding:26px 20px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;font-size:15px}
+footer a{color:var(--cream);margin-right:16px}footer .fb{display:flex;align-items:center;gap:14px}footer img{width:64px}footer .script{color:var(--cream);font-size:30px}
+#cc{position:fixed;bottom:12px;left:12px;right:12px;max-width:540px;background:var(--plum);color:var(--cream);padding:14px 16px;border-radius:16px;font-size:14px;display:none;z-index:9;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+#cc button{margin:8px 8px 0 0;padding:7px 16px;border-radius:99px;border:0;cursor:pointer;font:inherit}#cc .y{background:var(--gold);color:#fff}#cc a{color:#f3c9a0}
+@media(max-width:760px){body{font-size:16px}h1{font-size:32px}h2{font-size:24px}.hero{grid-template-columns:1fr;padding:24px 20px;text-align:center}.hero img{max-width:190px;order:-1}.hero .script{font-size:56px}.hero .tag{font-size:20px}
+.btn.ghost{margin:10px 0 0}.grid{grid-template-columns:repeat(2,1fr);gap:12px}.card .t{font-size:14px;padding:10px 10px 0}.card .m{padding:2px 10px 10px;font-size:12px}.card .price{font-size:16px}
+.prod{grid-template-columns:1fr;gap:16px}.club{grid-template-columns:1fr;text-align:center;padding:24px}.club img{margin:0 auto;width:110px}
+header .in{justify-content:center}.brand span{font-size:32px}.brand img{width:46px;height:46px}nav{justify-content:center}nav a{font-size:14px;padding:6px 10px}}
+""".replace('PAWURL', PAW)
 
 
 def analytics():
@@ -296,24 +333,28 @@ def page(path, title, desc, body, today, image=None, jsonld=None, canonical=True
     img = CONFIG['url'] + (image or '/img/og.jpg')
     days = (CONFIG['christmas_cutoff'] - today).days
     bar = (f'Order by Dec 10 for Christmas delivery in the US ({days} days left)' if 0 <= days <= 40
-           else 'Original pet lover gifts, printed on demand in the USA')
+           else 'Original gifts for pet people, printed on demand in the USA')
+    bar = '✦ ' + bar + ' ✦'
     metas = ''
     if CONFIG['pinterest_verify']:
         metas += f'<meta name="p:domain_verify" content="{E(CONFIG["pinterest_verify"])}">'
     if CONFIG['google_verify']:
         metas += f'<meta name="google-site-verification" content="{E(CONFIG["google_verify"])}">'
     ld = f'<script type="application/ld+json">{json.dumps(jsonld)}</script>' if jsonld else ''
-    pin = f' · <a href="{CONFIG["pinterest"]}" rel="me">Pinterest</a>' if CONFIG['pinterest'] else ''
+    pin = f'<a href="{CONFIG["pinterest"]}" rel="me">Pinterest</a>' if CONFIG['pinterest'] else ''
     doc = f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)}</title><meta name="description" content="{E(desc)}">{'<link rel="canonical" href="' + url + '">' if canonical else ''}
 <meta property="og:title" content="{E(title)}"><meta property="og:description" content="{E(desc)}"><meta property="og:image" content="{img}"><meta property="og:url" content="{url}"><meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">{metas}
-<link rel="alternate" type="application/rss+xml" title="{CONFIG['name']}" href="/feed.xml"><link rel="icon" href="/img/icon.png"><style>{CSS}</style>{ld}{analytics()}</head><body>
+<link rel="alternate" type="application/rss+xml" title="{CONFIG['name']}" href="/feed.xml"><link rel="icon" href="/img/icon.png"><link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<link rel="preload" href="/fonts/Yesteryear-Regular.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/fonts/AbrilFatface-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="theme-color" content="#4E7F86"><style>{CSS}</style>{ld}{analytics()}</head><body>
 <div class="bar">{bar}</div>
-<header><div class="in"><a class="logo" href="/">Cozy Paws</a><nav><a href="/gifts/">Gift guides</a><a href="/tools/">Pet tools</a><a href="{CONFIG['shop']}" data-etsy="shop">Etsy shop</a></nav></div></header>
+<header><div class="in"><a class="brand" href="/"><img src="/img/logo-160.png" alt="" width="58" height="58"><span>Cozy Paws</span></a>
+<nav><a href="/gifts/">Gift guides</a><a href="/tools/">Pet tools</a><a class="shop" href="{CONFIG['shop']}" data-etsy="shop">Shop on Etsy</a></nav></div></header>
 <main>{body}</main>
-<footer><div class="in"><div>© {today.year} Cozy Paws · Original pet lover gifts designed in Salt Lake City, Utah{pin}</div>
-<div><a href="/privacy/">Privacy</a><a href="/feed.xml">RSS</a><a href="mailto:{CONFIG['contact']}">Contact</a></div></div></footer>
+<footer><div class="in"><div class="fb"><img src="/img/sello-claro.png" alt="" width="64" height="64" loading="lazy"><div><span class="script">Cozy Paws</span><br>Vintage club gifts for dogs, cats &amp; the people who love them. Designed in Salt Lake City, Utah.</div></div>
+<div><a href="{CONFIG['shop']}" data-etsy="footer">Etsy shop</a>{pin}<a href="/privacy/">Privacy</a><a href="mailto:{CONFIG['contact']}">Contact</a><br><small>© {today.year} Cozy Paws</small></div></div></footer>
 <div id="cc">We use cookies for anonymous stats (Google Analytics) and ads measurement (Meta). <a href="/privacy/">Privacy</a><br><button class="y">OK</button><button class="n">No thanks</button></div>
 </body></html>"""
     if path.endswith('.html'):
@@ -325,9 +366,13 @@ def page(path, title, desc, body, today, image=None, jsonld=None, canonical=True
     open(f, 'w', encoding='utf-8').write(doc)
 
 
-def card(p):
-    return (f'<a class="card" href="/p/{p["slug"]}/"><img src="/img/p/{p["sku"]}.jpg" alt="{E(p["short"])}" loading="lazy" width="450" height="450">'
-            f'<div class="t">{E(p["short"])}</div><div class="m">{E(p["kind"])} · from ${E(p["precio"])}</div></a>')
+def card(p, soon=None):
+    inner = (f'<img src="/img/p/{p["sku"]}.jpg" alt="{E(p["short"])}" loading="lazy" width="450" height="450">'
+             + (f'<span class="badge">{E(soon)}</span>' if soon else '')
+             + f'<div class="t">{E(p["short"])}</div><div class="m"><span>{E(p["kind"])}</span><span class="price">${E(p["precio"])}</span></div>')
+    if soon:
+        return f'<div class="card">{inner}</div>'
+    return f'<a class="card" href="/p/{p["slug"]}/">{inner}</a>'
 
 
 def grid(ps):
@@ -337,16 +382,24 @@ def grid(ps):
 # ---------------------------------------------------------------- imágenes
 def make_images(all_prods, guides_live, tools_live):
     from PIL import Image, ImageDraw, ImageFont
-    os.makedirs(os.path.join(OUT, 'img', 'p'), exist_ok=True)
-    os.makedirs(os.path.join(OUT, 'img', 'pin'), exist_ok=True)
+    for sub in ('img/p', 'img/pin', 'fonts'):
+        os.makedirs(os.path.join(OUT, sub), exist_ok=True)
     pins_cache = os.path.join(DATA, 'pins')
     os.makedirs(pins_cache, exist_ok=True)
+    for f in os.listdir(os.path.join(DATA, 'fonts')):
+        if f.endswith('.woff2'):
+            shutil.copy(os.path.join(DATA, 'fonts', f), os.path.join(OUT, 'fonts', f))
+    for f in os.listdir(os.path.join(DATA, 'brand')):
+        shutil.copy(os.path.join(DATA, 'brand', f), os.path.join(OUT, 'img', f))
+    PLUM, BLUE, CREAM, GOLD = (59, 36, 51), (78, 127, 134), (243, 233, 215), (200, 150, 46)
 
-    def font(bold, size):
-        for f in (['/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf'] if bold else ['/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf']):
-            if os.path.exists(f):
-                return ImageFont.truetype(f, size)
-        return ImageFont.load_default()
+    def font(kind, size):
+        f = {'script': 'Yesteryear-Regular.ttf', 'title': 'AbrilFatface-Regular.ttf'}.get(kind)
+        path = os.path.join(DATA, 'fonts', f) if f else '/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf'
+        try:
+            return ImageFont.truetype(path, size)
+        except OSError:
+            return ImageFont.load_default()
 
     def wrap(d, text, f, maxw):
         lines, cur = [], ''
@@ -359,43 +412,45 @@ def make_images(all_prods, guides_live, tools_live):
         lines.append(cur)
         return lines
 
+    logo = Image.open(os.path.join(DATA, 'brand', 'logo-ilustrado.png')).convert('RGBA')
+
     def pin(dst, head, sub, imgs):
         if os.path.exists(dst):
             return
         W, H = 1000, 1500
-        c = Image.new('RGB', (W, H), (251, 246, 239))
+        c = Image.new('RGB', (W, H), CREAM)
+        d = ImageDraw.Draw(c)
+        d.rounded_rectangle([30, 30, W - 30, H - 30], 36, outline=GOLD, width=4)
         if len(imgs) == 1:
-            im = Image.open(imgs[0]).convert('RGB'); im = im.resize((900, 900))
-            c.paste(im, (50, 50))
+            im = Image.open(imgs[0]).convert('RGB').resize((860, 860))
+            m = Image.new('L', im.size, 0); ImageDraw.Draw(m).rounded_rectangle([0, 0, 859, 859], 30, fill=255)
+            c.paste(im, (70, 70), m)
         elif imgs:
             for i, f in enumerate(imgs[:4]):
-                im = Image.open(f).convert('RGB').resize((445, 445))
-                c.paste(im, (50 + (i % 2) * 455, 50 + (i // 2) * 455))
+                im = Image.open(f).convert('RGB').resize((420, 420))
+                m = Image.new('L', im.size, 0); ImageDraw.Draw(m).rounded_rectangle([0, 0, 419, 419], 24, fill=255)
+                c.paste(im, (70 + (i % 2) * 440, 70 + (i // 2) * 440), m)
         else:
-            d0 = ImageDraw.Draw(c)
-            d0.rectangle([50, 50, 950, 950], fill=(47, 74, 64))
-            for i in range(4):  # huellitas simples
-                x, y = 300 + (i % 2) * 380, 300 + (i // 2) * 360
-                d0.ellipse([x - 70, y - 50, x + 70, y + 70], fill=(168, 51, 58))
-                for dx, dy in ((-75, -95), (-25, -125), (25, -125), (75, -95)):
-                    d0.ellipse([x + dx - 24, y + dy - 30, x + dx + 24, y + dy + 30], fill=(168, 51, 58))
-        d = ImageDraw.Draw(c)
-        f1 = font(True, 64)
-        lines = wrap(d, head, f1, 880)
-        if len(lines) > 3:
-            f1 = font(True, 52); lines = wrap(d, head, f1, 880)[:4]
-        f2 = font(False, 34)
-        sub_lines = wrap(d, sub, f2, 860)[:2]
-        block = len(lines) * (f1.size + 14) + 10 + len(sub_lines) * 46
-        y = 960 + max(0, (H - 90 - 960 - block) // 2)
+            lg = logo.copy(); lg.thumbnail((700, 700))
+            c.paste(lg, ((W - lg.width) // 2, 90), lg)
+        f1 = font('title', 70)
+        lines = wrap(d, head, f1, 840)
+        if len(lines) > 2:
+            f1 = font('title', 56); lines = wrap(d, head, f1, 860)[:3]
+        f2 = font(None, 34)
+        sub_lines = wrap(d, sub, f2, 840)[:2]
+        block = len(lines) * (f1.size + 12) + 16 + len(sub_lines) * 46
+        y = 960 + max(0, (H - 200 - 960 - block) // 2)
         for ln in lines:
-            w = d.textlength(ln, font=f1); d.text(((W - w) / 2, y), ln, font=f1, fill=(43, 38, 34)); y += f1.size + 14
+            w = d.textlength(ln, font=f1); d.text(((W - w) / 2, y), ln, font=f1, fill=PLUM); y += f1.size + 12
+        y += 16
         for ln in sub_lines:
-            w = d.textlength(ln, font=f2); d.text(((W - w) / 2, y + 10), ln, font=f2, fill=(107, 98, 90)); y += 46
-        d.rectangle([0, H - 90, W, H], fill=(47, 74, 64))
-        f3 = font(True, 36); t = 'Cozy Paws'
-        d.text(((W - d.textlength(t, font=f3)) / 2, H - 70), t, font=f3, fill=(251, 246, 239))
-        c.save(dst, 'JPEG', quality=84, optimize=True, progressive=True)
+            w = d.textlength(ln, font=f2); d.text(((W - w) / 2, y), ln, font=f2, fill=BLUE); y += 46
+        d.rounded_rectangle([30, H - 170, W - 30, H - 30], 36, fill=BLUE)
+        d.rectangle([30, H - 170, W - 30, H - 120], fill=BLUE)
+        f3 = font('script', 78); t = 'Cozy Paws'
+        d.text(((W - d.textlength(t, font=f3)) / 2, H - 160), t, font=f3, fill=CREAM)
+        c.save(dst, 'JPEG', quality=86, optimize=True, progressive=True)
 
     for p in all_prods:
         src = os.path.join(DATA, 'img', p['imagen'])
@@ -405,25 +460,19 @@ def make_images(all_prods, guides_live, tools_live):
         pin(os.path.join(pins_cache, 'g-' + g['id'] + '.jpg'), g['h1'], 'Original gift ideas, printed in the USA',
             [os.path.join(DATA, 'img', p['imagen']) for p in ps[:4]])
     for t in TOOLS:
-        pin(os.path.join(pins_cache, 't-' + t['id'] + '.jpg'), t['h1'].split(':')[0], 'Free and instant at cozypawsgifts.pages.dev', [])
+        pin(os.path.join(pins_cache, 't-' + t['id'] + '.jpg'), t['h1'].split(':')[0], 'Free and instant at ' + CONFIG['url'].split('//')[1], [])
     for f in os.listdir(pins_cache):
         shutil.copy(os.path.join(pins_cache, f), os.path.join(OUT, 'img', 'pin', f))
-    # imagen para compartir e ícono
-    first = [os.path.join(DATA, 'img', p['imagen']) for p in all_prods[:4]]
-    og = Image.new('RGB', (1200, 630), (251, 246, 239))
-    for i, f in enumerate(first):
-        og.paste(Image.open(f).convert('RGB').resize((290, 290)), (20 + i * 295, 20))
+    # imagen para compartir (1200x630)
+    og = Image.new('RGB', (1200, 630), CREAM)
     d = ImageDraw.Draw(og)
-    f1 = font(True, 70); t = 'Cozy Paws'
-    d.text(((1200 - d.textlength(t, font=f1)) / 2, 380), t, font=f1, fill=(47, 74, 64))
-    f2 = font(False, 34); t = 'Gifts for dog moms, cat lovers and their pets'
-    d.text(((1200 - d.textlength(t, font=f2)) / 2, 485), t, font=f2, fill=(107, 98, 90))
-    og.save(os.path.join(OUT, 'img', 'og.jpg'), 'JPEG', quality=84)
-    ic = Image.new('RGB', (192, 192), (47, 74, 64)); d = ImageDraw.Draw(ic)
-    d.ellipse([56, 86, 136, 156], fill=(251, 246, 239))
-    for x, y in ((50, 62), (80, 40), (112, 40), (142, 62)):
-        d.ellipse([x - 15, y - 18, x + 15, y + 18], fill=(251, 246, 239))
-    ic.save(os.path.join(OUT, 'img', 'icon.png'))
+    lg = logo.copy(); lg.thumbnail((470, 470)); og.paste(lg, (70, 80), lg)
+    d.text((590, 150), 'Cozy Paws', font=font('script', 150), fill=PLUM)
+    f2 = font('title', 40)
+    d.text((600, 360), 'Vintage club gifts for dogs, cats', font=f2, fill=BLUE)
+    d.text((600, 412), '& the people who love them', font=f2, fill=BLUE)
+    d.rectangle([0, 600, 1200, 608], fill=GOLD); d.rectangle([0, 608, 1200, 630], fill=BLUE)
+    og.save(os.path.join(OUT, 'img', 'og.jpg'), 'JPEG', quality=86)
 
 
 # ---------------------------------------------------------------- armado
@@ -445,19 +494,32 @@ def build(today):
         g['live'] = sched.get(g['id'])
     guides_live = [(g, guide_products(g, prods)) for g in GUIDES if g['live'] and g['live'] <= today]
     tools_live = [t for t in TOOLS if t['live'] <= today]
-    make_images(prods, guides_live, tools_live)
+    make_images(all_prods, guides_live, tools_live)
     urls = []
 
     # inicio
-    pills = '<div class="pills">' + ''.join(f'<a href="/gifts/{g["id"]}/">{E(g["h1"])}</a>' for g, _ in guides_live) + '</div>'
-    tl = ''.join(f'<li><a href="/tools/{t["id"]}/">{E(t["h1"].split(":")[0])}</a>: {E(t["desc"])}</li>' for t in tools_live)
-    body = ('<h1>Gifts for dog moms, cat lovers and their furry best friends</h1>'
-            '<p class="lead">Original designs on mugs, ornaments, cozy clothes and pet accessories, drawn in Salt Lake City and printed on demand in the USA. '
-            'Every product is sold through our Etsy shop.</p>'
-            f'<p><a class="btn" href="{CONFIG["shop"]}" data-etsy="shop">Visit the Etsy shop</a></p>'
-            + (f'<h2>Gift guides</h2>{pills}' if guides_live else '')
-            + (f'<h2>New in the shop</h2>{grid(prods[:12])}' if prods else '<h2>New designs start dropping on November 17</h2><p>Three new gifts a day until Christmas. Check back soon, or try our free pet tools below.</p>')
-            + (f'<h2>Free pet tools</h2><ul>{tl}</ul>' if tl else ''))
+    stamps = ''.join(f'<a class="stamp" href="/gifts/{g["id"]}/"><img src="/img/p/{ps[0]["sku"]}.jpg" alt="" loading="lazy" width="78" height="78"><span><b>{E(g["h1"])}</b><small>{len(ps)} gift ideas</small></span></a>' for g, ps in guides_live)
+    tl = ''.join(f'<a class="tool" href="/tools/{t["id"]}/"><b>{E(t["h1"].split(":")[0])}</b><span>{E(t["desc"])}</span></a>' for t in tools_live)
+    upcoming = [p for p in sorted(all_prods, key=lambda p: (p['live'], p['sku'])) if p['live'] > today][:8]
+    if prods:
+        shop = f'<h2>New in the shop</h2>{grid(prods[:12])}'
+    else:
+        shop = ''
+    if upcoming and len(prods) < 8:
+        first = upcoming[0]['live']
+        shop += (f'<h2>Sneak peek: dropping soon</h2><p>Five new gifts a day, starting {first.strftime("%B")} {first.day}.</p>'
+                 '<div class="grid">' + ''.join(card(p, soon=f'{p["live"].strftime("%b")} {p["live"].day}') for p in upcoming) + '</div>')
+    body = ('<section class="hero"><div><span class="script">Cozy Paws</span>'
+            '<p class="tag">Vintage club gifts for dogs, cats &amp; the people who love them</p>'
+            '<p>Mugs, ornaments, cozy sweatshirts, blankets and goodies for the pets themselves. Original designs drawn in Salt Lake City and printed on demand in the USA.</p>'
+            f'<a class="btn" href="{CONFIG["shop"]}" data-etsy="hero">Shop on Etsy</a><a class="btn ghost" href="/gifts/">Gift guides</a></div>'
+            '<img src="/img/logo-ilustrado.png" alt="Cozy Paws Social Club logo: a sleeping dog and cat" width="340" height="340"></section>'
+            + shop
+            + (f'<h2>Gift guides</h2><div class="stamps">{stamps}</div>' if guides_live else '')
+            + (f'<h2>Free pet tools</h2><div class="tools">{tl}</div>' if tl else '')
+            + '<section class="club"><img src="/img/sello-claro.png" alt="" width="150" height="150" loading="lazy"><div><span class="script">Join the club</span>'
+            '<p>Every design is made for people who let the dog on the couch and the cat on the keyboard. New gifts drop all season long.</p>'
+            f'<p style="margin-top:14px"><a class="btn" style="background:var(--gold);box-shadow:0 4px 0 #8f6a1f" href="{CONFIG["shop"]}" data-etsy="club">Visit the shop</a></p></div></section>')
     page('/', 'Cozy Paws: Dog Mom and Cat Lover Gifts, Pet Christmas Gifts',
          'Original gifts for dog moms, cat lovers and their pets: mugs, ornaments, sweatshirts, blankets and pet accessories. Gift guides and free pet tools.',
          body, today, jsonld={'@context': 'https://schema.org', '@type': 'Organization', 'name': 'Cozy Paws', 'url': CONFIG['url'],
@@ -465,9 +527,9 @@ def build(today):
     urls.append(('/', today))
 
     # guías
-    gl = ''.join(f'<a class="card" href="/gifts/{g["id"]}/"><img src="/img/p/{ps[0]["sku"]}.jpg" alt="" loading="lazy"><div class="t">{E(g["h1"])}</div><div class="m">{len(ps)} gift ideas</div></a>' for g, ps in guides_live)
+    gl = ''.join(f'<a class="card" href="/gifts/{g["id"]}/"><img src="/img/p/{ps[0]["sku"]}.jpg" alt="" loading="lazy" width="450" height="450"><div class="t">{E(g["h1"])}</div><div class="m"><span>{len(ps)} gift ideas</span><span class="price">→</span></div></a>' for g, ps in guides_live)
     page('/gifts/', 'Gift Guides for Pet Lovers | Cozy Paws', 'Gift ideas for dog moms, dog dads, cat lovers and every breed fan.',
-         f'<h1>Gift guides for pet lovers</h1><div class="grid">{gl}</div>' if gl else '<h1>Gift guides</h1><p>Coming soon.</p>', today)
+         f'<h1>Gift guides for pet lovers</h1><p class="lead">Ideas for every dog mom, cat dad and breed fan on your list.</p><div class="grid">{gl}</div>' if gl else '<h1>Gift guides</h1><p class="lead">The first guides open on November 17, with five new gifts a day. Meanwhile, try our <a href="/tools/">free pet tools</a>.</p>', today)
     urls.append(('/gifts/', today))
     for g, ps in guides_live:
         others = ''.join(f'<a href="/gifts/{o["id"]}/">{E(o["h1"])}</a>' for o, _ in guides_live if o is not g)
@@ -485,10 +547,10 @@ def build(today):
         related = [o for o in prods if o is not p and set(o['tags'][:4]) & set(p['tags'][:4])][:4] or [o for o in prods if o is not p][:4]
         in_guides = ''.join(f'<a href="/gifts/{g["id"]}/">{E(g["h1"])}</a>' for g, ps in guides_live if p in ps)
         body = (f'<div class="prod"><img src="/img/p/{p["sku"]}.jpg" alt="{E(p["short"])}" width="900" height="900"><div>'
-                f'<h1>{E(p["short"])}</h1><p class="price">From ${E(p["precio"])}</p><p>{E(p["texto"])}</p>'
-                + (f'<ul><li>Printable PDF with an original Cozy Paws design</li><li>Instant download after purchase on Etsy</li><li>Print at home or at any print shop, as many times as you need</li>'
+                f'<div class="kind">{E(p["kind"])}</div><h1>{E(p["short"])}</h1><p class="bigprice">${E(p["precio"])}</p><p>{E(p["texto"])}</p>'
+                + (f'<ul class="perks"><li>Printable PDF with an original Cozy Paws design</li><li>Instant download after purchase on Etsy</li><li>Print at home or at any print shop, as many times as you need</li>'
                    if p['kind'].startswith('Printable') else
-                   f'<ul><li>{E(p["kind"])} with an original Cozy Paws design</li><li>Printed on demand in the USA</li><li>Ships from our production partner (Printify)</li>'
+                   f'<ul class="perks"><li>{E(p["kind"])} with an original Cozy Paws design</li><li>Printed on demand in the USA</li><li>Ships from our production partner (Printify)</li>'
                    + (f'<li>Order by Dec 10 for Christmas delivery in the US</li>' if today <= CONFIG['christmas_cutoff'] else ''))
                 + f'</ul><p><a class="btn" href="{E(p["etsy"])}" data-etsy="{E(p["sku"])}" rel="nofollow">See it on Etsy</a></p>'
                 + (f'<p>Part of: <span class="pills">{in_guides}</span></p>' if in_guides else '') + '</div></div>'
@@ -500,9 +562,9 @@ def build(today):
         urls.append((f'/p/{p["slug"]}/', p['live']))
 
     # herramientas
-    tli = ''.join(f'<a class="card" href="/tools/{t["id"]}/"><img src="/img/pin/t-{t["id"]}.jpg" alt="" loading="lazy" style="aspect-ratio:2/3"><div class="t">{E(t["h1"].split(":")[0])}</div><div class="m">{E(t["desc"])}</div></a>' for t in tools_live)
+    tli = ''.join(f'<a class="tool" href="/tools/{t["id"]}/"><b>{E(t["h1"].split(":")[0])}</b><span>{E(t["desc"])}</span></a>' for t in tools_live)
     page('/tools/', 'Free Pet Tools: Dog Age, Cat Age, Dog Food Calculator | Cozy Paws', 'Free calculators and generators for dog and cat owners.',
-         f'<h1>Free pet tools</h1><div class="grid">{tli}</div>' if tli else '<h1>Free pet tools</h1><p>Coming soon.</p>', today)
+         f'<h1>Free pet tools</h1><p class="lead">Quick, free calculators for dog and cat people. Nothing to sign up for.</p><div class="tools">{tli}</div>' if tli else '<h1>Free pet tools</h1><p>Coming soon.</p>', today)
     urls.append(('/tools/', today))
     for t in tools_live:
         pet_ps = [p for p in prods if t['pet'] == 'both' or t['pet'] in p['hay']][:4]
