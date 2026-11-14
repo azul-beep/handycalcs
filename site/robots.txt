@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://handycalcs.pages.dev/sitemap.xml
+Sitemap: https://gethandycalcs.pages.dev/sitemap.xml

@@ -1,4 +1,4 @@
-var SITE = 'https://handycalcs.pages.dev';
+var SITE = 'https://gethandycalcs.pages.dev';
 var L = {
   en: { bill: 'Bill', tip: 'Tip %', people: 'People', otip: 'Tip', ototal: 'Total', oeach: 'Each pays', other: 'ES', loc: 'en-US',
         links: [['/split-the-bill-calculator/', 'Split with tax →'], ['/tip-pool-calculator/', 'Tip pool by hours →'], ['/', 'All 19 calculators →']] },

@@ -6,7 +6,7 @@ from calcs import CALCS, CATS
 
 # ============================== CONFIG (edit here) ==============================
 CONFIG = dict(
-    site_url="https://handycalcs.pages.dev",   # change if Cloudflare gives another name or a domain is bought
+    site_url="https://gethandycalcs.pages.dev",   # change if Cloudflare gives another name or a domain is bought
     name="Handy Calcs",
     name_es="Handy Calcs",
     owner="Skye Solutions AI LLC",

@@ -2,9 +2,9 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
 <channel>
 <title>Fichas bilingües español-inglés para niños</title>
-<link>https://handycalcs.pages.dev/imprimibles/fichas-bilingues/</link>
+<link>https://gethandycalcs.pages.dev/imprimibles/fichas-bilingues/</link>
 <description>Fichas gratis para imprimir en español e inglés.</description>
 <language>es</language>
-<atom:link href="https://handycalcs.pages.dev/imprimibles/fichas-bilingues/rss.xml" rel="self" type="application/rss+xml" />
+<atom:link href="https://gethandycalcs.pages.dev/imprimibles/fichas-bilingues/rss.xml" rel="self" type="application/rss+xml" />
 </channel>
 </rss>
