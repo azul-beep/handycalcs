@@ -112,9 +112,14 @@ def facebook():
                      'vistas': ['page_media_view', 'page_impressions'],
                      'interacciones': ['page_post_engagements'],
                      'visitas': ['page_views_total']}, period='day'), {})
-    posts = probar('pages_read_engagement', 'posts de Facebook',
-                   lambda: get(f'{page}/published_posts', fields='id,message,created_time,permalink_url,shares,reactions.summary(true).limit(0),comments.summary(true).limit(0)',
-                               limit=10).get('data', []), [])
+    campos = 'id,message,created_time,permalink_url,shares,reactions.summary(true).limit(0),comments.summary(true).limit(0)'
+
+    def leer_posts():
+        try:  # /posts alcanza con pages_read_engagement; /published_posts pide además pages_read_user_content
+            return get(f'{page}/posts', fields=campos, limit=10).get('data', [])
+        except urllib.error.HTTPError:
+            return get(f'{page}/published_posts', fields=campos, limit=10).get('data', [])
+    posts = probar('pages_read_engagement', 'posts de Facebook', leer_posts, [])
     for p in posts:
         p['insights'] = probar('read_insights', 'alcance y clics de cada post de Facebook',
                                lambda p=p: metricas(f"{p['id']}/insights", {
