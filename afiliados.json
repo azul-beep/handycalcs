@@ -1,0 +1,38 @@
+{
+  "LEEME": "Links de afiliados de Handy Calcs y Cozy Paws (además de Amazon). Pegá el link que te da cada programa en 'link' y la web lo muestra sola al día siguiente (o apenas se une el cambio). Vacío = no se muestra nada. 'red_automatica': si te aprueban en Sovrn Commerce o Skimlinks, pegá UNA sola clave y las tiendas con \"red\": true aparecen solas. No son claves secretas: se ven en la web.",
+  "red_automatica": {
+    "sovrn_key": "",
+    "skimlinks_id": ""
+  },
+  "programas": {
+    "ynab":        {"sitio": "handycalcs", "nombre": "YNAB", "alta": "https://www.ynab.com/partners/affiliate-program", "tienda": "https://www.ynab.com/", "red": false, "link": "",
+                    "en": "A budgeting app built on the idea of giving every dollar a job. It has a free trial, so you can test a monthly plan before paying.",
+                    "es": "Una app de presupuesto basada en darle un trabajo a cada dólar. Tiene prueba gratis, así que puedes probar un plan mensual antes de pagar."},
+    "monarch":     {"sitio": "handycalcs", "nombre": "Monarch Money", "alta": "https://www.monarchmoney.com/", "tienda": "https://www.monarchmoney.com/", "red": false, "link": "",
+                    "en": "Connects your bank accounts and cards in one place to track spending, budgets, savings goals and net worth.",
+                    "es": "Junta tus cuentas y tarjetas en un solo lugar para seguir gastos, presupuesto, metas de ahorro y patrimonio."},
+    "rocketmoney": {"sitio": "handycalcs", "nombre": "Rocket Money", "alta": "https://www.rocketmoney.com/", "tienda": "https://www.rocketmoney.com/", "red": false, "link": "",
+                    "en": "Finds subscriptions you forgot about and helps you cancel them, so that money can go to your debt instead.",
+                    "es": "Encuentra suscripciones que olvidaste y te ayuda a cancelarlas, para que esa plata vaya a tu deuda."},
+    "turbotax":    {"sitio": "handycalcs", "nombre": "TurboTax", "alta": "https://turbotax.intuit.com/", "tienda": "https://turbotax.intuit.com/", "red": true, "link": "",
+                    "en": "File your federal and state taxes online. Overtime and a raise change your refund, and it walks you through it step by step.",
+                    "es": "Presenta tus impuestos federales y estatales online. Las horas extra y un aumento cambian tu reembolso, y te guía paso a paso."},
+    "7shifts":     {"sitio": "handycalcs", "nombre": "7shifts", "alta": "https://www.7shifts.com/partners/", "tienda": "https://www.7shifts.com/", "red": false, "link": "",
+                    "en": "Restaurant scheduling, time clock and tip pooling in one app, so labor cost stays in check next to food cost.",
+                    "es": "Horarios, reloj de entrada y reparto de propinas para restaurantes en una sola app, para controlar el costo de personal junto al de comida."},
+    "publer":      {"sitio": "handycalcs", "nombre": "Publer", "alta": "https://publer.com/affiliates", "tienda": "https://publer.com/", "red": false, "link": "", "en": "", "es": ""},
+    "socialbee":   {"sitio": "handycalcs", "nombre": "SocialBee", "alta": "https://socialbee.com/affiliate-program/", "tienda": "https://socialbee.com/", "red": false, "link": "", "en": "", "es": ""},
+    "typefully":   {"sitio": "handycalcs", "nombre": "Typefully", "alta": "https://typefully.com/", "tienda": "https://typefully.com/", "red": false, "link": "", "en": "", "es": ""},
+
+    "chewy":       {"sitio": "cozypaws", "nombre": "Chewy", "alta": "https://www.chewy.com/ (Affiliate Program, al pie de la página)", "tienda": "https://www.chewy.com/", "red": true, "link": "",
+                    "en": "Pet food, treats, paw balm, booties and meds delivered to your door, with extra savings when you set up Autoship."},
+    "petco":       {"sitio": "cozypaws", "nombre": "Petco", "alta": "https://www.petco.com/ (Affiliates, al pie de la página)", "tienda": "https://www.petco.com/", "red": true, "link": "",
+                    "en": "Pet supplies online with pickup at local stores, plus vet and grooming services in many locations."},
+    "lemonade":    {"sitio": "cozypaws", "nombre": "Lemonade Pet", "alta": "https://www.lemonade.com/partners-program", "tienda": "https://www.lemonade.com/pet", "red": false, "link": "",
+                    "en": "Pet health insurance you can quote and set up online in a few minutes, for those surprise vet bills."},
+    "embrace":     {"sitio": "cozypaws", "nombre": "Embrace Pet Insurance", "alta": "https://www.embracepetinsurance.com/ (Affiliates, al pie de la página)", "tienda": "https://www.embracepetinsurance.com/", "red": false, "link": "",
+                    "en": "Accident and illness coverage for dogs and cats, with an optional wellness plan for routine care like vaccines."},
+    "barkbox":     {"sitio": "cozypaws", "nombre": "BarkBox", "alta": "https://www.barkbox.com/ (Affiliates, al pie de la página)", "tienda": "https://www.barkbox.com/", "red": true, "link": "",
+                    "en": "A monthly box of themed toys and treats for your dog: an easy gift that keeps arriving."}
+  }
+}

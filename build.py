@@ -3,6 +3,7 @@
 import html, json, os, shutil, sys, datetime
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 from calcs import CALCS, CATS
+import afiliados as AF   # afiliados.json: links de afiliados además de Amazon (ver afiliados.py)
 
 # ============================== CONFIG (edit here) ==============================
 CONFIG = dict(
@@ -24,18 +25,23 @@ INDEXNOW_KEY = "fa73deeb0b15a8fbbf4e7d3b06044329"  # public key for IndexNow (Bi
 AMAZON_ON = True       # site added to the Amazon Associates account (15 nov 2026)
 AFFILIATES = {
     "restaurant": [
-        dict(name="Publer", url="", en="Schedule your restaurant's Instagram, Facebook and TikTok posts for the whole week in one sitting.", es="Programa los posts de Instagram, Facebook y TikTok de tu restaurante para toda la semana de una vez."),
-        dict(name="SocialBee", url="", en="Recycle your best menu photos and specials automatically on every social network.", es="Recicla automáticamente tus mejores fotos del menú y promociones en todas las redes."),
+        dict(name="Publer", url="prog:publer", en="Schedule your restaurant's Instagram, Facebook and TikTok posts for the whole week in one sitting.", es="Programa los posts de Instagram, Facebook y TikTok de tu restaurante para toda la semana de una vez."),
+        dict(name="SocialBee", url="prog:socialbee", en="Recycle your best menu photos and specials automatically on every social network.", es="Recicla automáticamente tus mejores fotos del menú y promociones en todas las redes."),
     ],
     "work": [
-        dict(name="Typefully", url="", en="Write and schedule posts that grow your personal brand for your next job.", es="Escribe y programa publicaciones para hacer crecer tu marca personal y conseguir un mejor trabajo."),
+        dict(name="Typefully", url="prog:typefully", en="Write and schedule posts that grow your personal brand for your next job.", es="Escribe y programa publicaciones para hacer crecer tu marca personal y conseguir un mejor trabajo."),
     ],
-    "money": [],
+    "money": [],   # filled below from afiliados.json (ynab, monarch)
     "kitchen": [
         dict(name="Amazon", url="amazon:digital kitchen scale grams", en="A digital kitchen scale (under $15) makes every conversion exact.", es="Una balanza digital de cocina (menos de $15) hace que cada conversión sea exacta."),
         dict(name="Amazon", url="amazon:measuring cups and spoons set stainless", en="Stainless steel measuring cups and spoons that do not wear off.", es="Tazas y cucharas medidoras de acero que no se borran."),
     ],
 }
+def _prog(pid):  # a program from afiliados.json as an affiliate-box entry (shown only once its link is active)
+    p = AF.PROG[pid]; return dict(name=p["nombre"], url="prog:" + pid, en=p["en"], es=p["es"])
+AFFILIATES["money"] += [_prog("ynab"), _prog("monarch")]
+AFFILIATES["work"] += [_prog("turbotax")]
+AFFILIATES["restaurant"] = [_prog("7shifts")] + AFFILIATES["restaurant"]
 # ================================================================================
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -68,6 +74,7 @@ def abs_url(path):
 BY_ID = {c["id"]: c for c in CALCS}
 
 def aff_link(u):
+    if u.startswith("prog:"): return AF.link(u[5:])
     if u.startswith("amazon:"):
         if not AMAZON_ON: return ""
         q = u[7:].replace(" ", "+")
@@ -424,7 +431,7 @@ def calc_page(c, lang):
 <p class="lead">{E(d['intro'])}</p>
 {calc_widget(c, lang)}
 <article class="content">{d['body']}</article>
-{guides_box(c, lang)}{affiliate_box(c['aff'], lang)}
+{guides_box(c, lang)}{affiliate_box(c['aff'] if c['aff'] != 'money' or c.get('cat') == 'money' else '', lang)}
 {newsletter(lang)}
 <section class="content"><h2>{u['faq']}</h2>{faq}</section>
 <section class="content"><h2>{u['related']}</h2><div class="rels">{rel}</div></section>
@@ -598,6 +605,7 @@ def article_page(a):
     s = head("en", a["title"], a["description"], path, None, ld) + header("en", None)
     s += '<nav class="crumbs"><a href="/">Home</a> › <a href="/guides/">Guides</a></nav>'
     s += '<article class="content post"><p class="kicker">Guide · %s</p><h1>%s</h1>%s</article>' % (a["live"].strftime("%B %d, %Y").replace(" 0", " "), E(a["h1"]), a["body"])
+    s += AF.caja(AF.ids_de(a.get("socios")), "Tools that can help", "en", "aff content")
     if tiles: s += '<section class="content"><h2>Calculators for this</h2><div class="grid">%s</div></section>' % tiles
     s += newsletter("en")
     if more: s += '<section class="content"><h2>More guides</h2><div class="rels">%s</div></section>' % more

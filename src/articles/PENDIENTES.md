@@ -54,3 +54,5 @@ Reglas (AdSense): contenido original y de valor, cifras verificadas, aviso "not 
 58. How long to pay off a personal loan early
 59. Student loan payment basics
 60. Moving budget checklist
+
+Afiliados: agregar en la cabecera `socios:` con ids de afiliados.json que encajen con el tema (por ejemplo `socios: ynab, monarch` o `socios: chewy, lemonade`). Se muestran solos cuando el programa tiene link.

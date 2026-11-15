@@ -6,6 +6,9 @@ El número NN marca el orden: el 01 sale el día START, el 02 al día siguiente,
 Para sumar artículos: agregar archivos con el número siguiente (no cambiar los nombres de los que ya salieron).
 """
 import datetime as dt, html, os, re, shutil
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+import afiliados as AF  # afiliados.json en la raíz del repo: la cabecera "socios: chewy, lemonade" muestra esos programas cuando estén activos
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(os.path.dirname(HERE), 'articulos')
@@ -46,8 +49,10 @@ def build_blog(page, config, OUT, DATA, today, pin_maker):
     for a in live:
         others = [o for o in live if o is not a][-6:]
         more = ''.join(f'<a href="/blog/{o["slug"]}/">{E(o["h1"])}</a>' for o in reversed(others))
+        socios = AF.caja(AF.ids_de(a.get('socios')), 'Helpful for this', 'en', 'post aff',
+                         'background:var(--cream2);border:2px solid var(--gold);border-radius:14px;padding:6px 20px 12px;margin-top:22px')
         body = (f'<article class="post"><p class="kind">Pet tips · {a["live"].strftime("%B %-d, %Y")}</p><h1>{E(a["h1"])}</h1>{a["body"]}</article>'
-                + apps + shop_box + (f'<h2>More pet tips</h2><div class="pills">{more}</div>' if more else ''))
+                + socios + apps + shop_box + (f'<h2>More pet tips</h2><div class="pills">{more}</div>' if more else ''))
         img = f'a-{a["slug"]}.jpg'
         ld = [{'@context': 'https://schema.org', '@type': 'Article', 'headline': a['h1'], 'description': a['description'],
                'datePublished': a['live'].isoformat(), 'image': config['url'] + f'/img/pin/{img}',
