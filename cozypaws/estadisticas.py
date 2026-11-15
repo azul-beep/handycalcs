@@ -69,7 +69,11 @@ def metricas(path, opciones, **params):
                     break
             except urllib.error.HTTPError as e:
                 body = e.read().decode(errors='ignore')
-                if '"code":10' in body or '"code":200' in body:
+                try:
+                    code = json.loads(body).get('error', {}).get('code')
+                except ValueError:
+                    code = None
+                if code in (10, 200, 210, 190):
                     raise urllib.error.HTTPError(e.url, e.code, e.msg, e.hdrs, io.BytesIO(body.encode()))
     return out
 
@@ -197,5 +201,23 @@ def main():
     print('\n'.join(L))
 
 
+
+def asegurar_token_de_pagina():
+    """Si FB_PAGE_TOKEN es un token de usuario (no de página), pide a Meta el token de la página y usa ese.
+    Facebook exige token de página para publicar y leer posts; Instagram funciona con cualquiera de los dos."""
+    page, tok = os.environ.get('FB_PAGE_ID'), os.environ.get('FB_PAGE_TOKEN')
+    if not (page and tok):
+        return
+    try:
+        url = f"https://graph.facebook.com/v21.0/{page}?" + urllib.parse.urlencode({'fields': 'access_token', 'access_token': tok})
+        with urllib.request.urlopen(url, timeout=60) as r:
+            nuevo = json.loads(r.read().decode()).get('access_token')
+        if nuevo and nuevo != tok:
+            os.environ['FB_PAGE_TOKEN'] = nuevo
+            print('FB_PAGE_TOKEN era de usuario: se usa el token de la página')
+    except Exception as e:
+        print(f'no se pudo pedir el token de la página: {e}')
+
 if __name__ == '__main__':
+    asegurar_token_de_pagina()
     main()
