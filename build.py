@@ -282,6 +282,7 @@ def header(lang, alt_path):
     alt = alt_path or url("es" if lang == "en" else "en")
     cl = cal_link(lang)
     cal_nav = '<a href="%s">%s</a>' % (cl[0], E(cl[1])) if cl else ""
+    if TOOLS_LIVE: cal_nav = '<a href="%s">%s</a>' % (TOOL_UI[lang]["hub"], TOOL_UI[lang]["short"]) + cal_nav
     if lang == "es" and herr_link(): cal_nav += '<a href="/herramientas-gratis/">Herramientas gratis</a>'
     if lang == "es" and os.path.isdir(os.path.join(OUT, "imprimibles")): cal_nav += '<a href="/imprimibles/">Imprimibles</a>'
     return f"""<header class="top"><div class="wrap">
@@ -301,6 +302,7 @@ def footer(lang):
             "".join('<li><a href="%s">%s</a></li>' % (url(lang, c[lang]["slug"]), E(c[lang]["h1"])) for c in items))
     cl = cal_link(lang)
     cal_foot = '<a href="%s">%s</a> · ' % (cl[0], E(cl[1])) if cl else ""
+    if TOOLS_LIVE: cal_foot += '<a href="%s">%s</a> · ' % (TOOL_UI[lang]["hub"], TOOL_UI[lang]["name"])
     if lang == "es" and herr_link(): cal_foot += '<a href="/herramientas-gratis/">Herramientas gratis para emprender</a> · '
     if lang == "es" and os.path.isdir(os.path.join(OUT, "imprimibles")): cal_foot += '<a href="/imprimibles/">Sudoku del día y fichas bilingües</a> · '
     if lang == "en" and ARTICLES: cal_foot += '<a href="/guides/">Guides</a> · '
@@ -453,6 +455,9 @@ def home_page(lang):
                 url(lang, c[lang]["slug"]), E((c[lang]["h1"] + " " + c[lang]["title"]).lower()), E(c[lang]["h1"]), E(c[lang]["intro"]))
         s += '</div></section>'
     s += '</div>'
+    if TOOLS_LIVE:
+        s += '<section class="cat" id="tools"><h2>%s</h2><div class="grid">%s</div><p><a href="%s">%s →</a></p></section>' % (
+            TOOL_UI[lang]["name"], tools_tiles(lang, TOOLS_LIVE[-6:][::-1]), TOOL_UI[lang]["hub"], "All tools" if lang == "en" else "Todas las herramientas")
     if lang == "en" and ARTICLES:
         s += '<section class="cat" id="guides"><h2>Guides</h2><div class="grid">%s</div><p><a href="/guides/">All guides →</a></p></section>' % "".join(
             '<a class="tile" href="/guides/%s/"><strong>%s</strong><span>%s</span></a>' % (a["slug"], E(a["h1"]), E(a["description"])) for a in list(reversed(ARTICLES))[:6])
@@ -605,6 +610,78 @@ def guides_index():
     s += footer("en") + "</body></html>\n"
     return path, s
 
+# ------------------------------ online tools (/tools/ and /es/herramientas/) ------------------------------
+# Definitions and texts in src/tools.py, widgets in src/tools.js (everything runs in the visitor's browser).
+# Drip (Azu's rule: a little every day): tools n=1 and n=2 go live on TOOLS_START, then one more tool per day (EN + ES).
+# The daily workflow runs build.py at 8 AM Utah, so each tool appears on its day by itself, free and without Claude.
+# To add tools: add entries to src/tools.py with the next "n".
+import tools as TL
+TOOLS_START = datetime.date(2026, 11, 16)
+def tool_live(x): return TOOLS_START + datetime.timedelta(days=max(0, x["n"] - 2))
+TOOLS_LIVE = sorted([x for x in TL.TOOLS if tool_live(x) <= datetime.date.fromisoformat(TODAY)], key=lambda x: x["n"])
+LIVE_IDS = {x["id"] for x in TOOLS_LIVE}
+TOOL_UI = {"en": dict(hub="/tools/", name="Free online tools", short="Tools", how="How to use it", faq="Frequently asked questions", more="More free tools",
+                      priv="Private: everything happens on your device. Nothing you type or upload is sent anywhere."),
+           "es": dict(hub="/es/herramientas/", name="Herramientas online gratis", short="Herramientas", how="Cómo se usa", faq="Preguntas frecuentes", more="Más herramientas gratis",
+                      priv="Privado: todo pasa en tu dispositivo. Nada de lo que escribes o subes se envía a ningún lado.")}
+
+def tool_url(x, lang):
+    return TOOL_UI[lang]["hub"] + x[lang]["slug"] + "/"
+
+def tools_css(s):
+    return s.replace("</head>", '<link rel="stylesheet" href="/tools.css?v=%s">\n</head>' % CSS_VER, 1)
+
+def tool_page(x, lang):
+    d = x[lang]; other = "es" if lang == "en" else "en"; tu = TOOL_UI[lang]
+    path = tool_url(x, lang); alt = tool_url(x, other)
+    app_ld = {"@context": "https://schema.org", "@type": "WebApplication", "name": d["h1"], "url": abs_url(path),
+              "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "inLanguage": lang, "browserRequirements": "Requires JavaScript",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": d["desc"]}
+    faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faq"]]}
+    howto = {"@context": "https://schema.org", "@type": "HowTo", "name": d["h1"], "inLanguage": lang,
+             "step": [{"@type": "HowToStep", "position": i + 1, "text": st} for i, st in enumerate(d["steps"])]}
+    crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": CONFIG["name"], "item": abs_url(url(lang))},
+        {"@type": "ListItem", "position": 2, "name": tu["name"], "item": abs_url(tu["hub"])},
+        {"@type": "ListItem", "position": 3, "name": d["h1"], "item": abs_url(path)}]}
+    faq = "".join('<details><summary>%s</summary><p>%s</p></details>' % (E(q), E(a)) for q, a in d["faq"])
+    rel_ids = [r for r in x["related"] if r in LIVE_IDS] + [o["id"] for o in TOOLS_LIVE if o["id"] not in x["related"] and o is not x]
+    rel = "".join('<a class="rel" href="%s">%s</a>' % (tool_url(TL.BY_ID[r], lang), E(TL.BY_ID[r][lang]["h1"])) for r in rel_ids[:8])
+    steps = "".join("<li>%s</li>" % E(st) for st in d["steps"])
+    s = tools_css(head(lang, d["title"], d["desc"], path, alt, [app_ld, howto, faq_ld, crumbs])) + header(lang, alt)
+    s += f"""<nav class="crumbs"><a href="{url(lang)}">{UI[lang]['home']}</a> › <a href="{tu['hub']}">{E(tu['name'])}</a></nav>
+<h1>{E(d['h1'])}</h1>
+<p class="lead">{E(d['intro'])}</p>
+{TL.widget(x, lang)}
+<p class="small priv">🔒 {tu['priv']}</p>
+<section class="content"><h2>{tu['how']}</h2><ol class="tool-steps">{steps}</ol>{d['body']}</section>
+{newsletter(lang)}
+<section class="content"><h2>{tu['faq']}</h2>{faq}</section>
+{'<section class="content"><h2>%s</h2><div class="rels">%s</div></section>' % (tu['more'], rel) if rel else ''}
+<p class="small upd">{'Updated' if lang == 'en' else 'Actualizado'}: {TODAY}</p>
+"""
+    extra = '<script src="/vendor/qrcode.js?v=%s" defer></script>\n' % CSS_VER if x["engine"] == "qr" else ""
+    s += footer(lang) + extra + '<script src="/tools.js?v=%s" defer></script>\n</body></html>\n' % CSS_VER
+    return path, s
+
+def tools_tiles(lang, items):
+    return "".join('<a class="tile" href="%s"><strong>%s</strong><span>%s</span></a>' % (tool_url(x, lang), E(x[lang]["h1"]), E(x[lang]["intro"])) for x in items)
+
+def tools_hub(lang):
+    tu = TOOL_UI[lang]; other = "es" if lang == "en" else "en"
+    path = tu["hub"]; alt = TOOL_UI[other]["hub"]
+    title = ("Free Online Tools: QR Codes, Images, Text and Random Pickers | " if lang == "en" else "Herramientas online gratis: códigos QR, imágenes, texto y sorteos | ") + CONFIG["name"]
+    desc = ("Free tools that work in your browser: QR code generator, image compressor, word counter, name picker wheel, password generator and more. No sign-up, nothing uploaded."
+            if lang == "en" else "Herramientas gratis que funcionan en tu navegador: generador de QR, comprimir imágenes, contador de palabras, ruleta de nombres, contraseñas y más. Sin registro y sin subir nada.")
+    s = tools_css(head(lang, title, desc, path, alt)) + header(lang, alt)
+    s += '<h1>%s</h1><p class="lead">%s</p>' % (E(tu["name"]), E(tu["priv"]) + (" A new tool almost every day." if lang == "en" else " Una herramienta nueva casi todos los días."))
+    for cid, names in TL.CATS.items():
+        items = [x for x in TOOLS_LIVE if x["cat"] == cid]
+        if items: s += '<section class="cat"><h2>%s</h2><div class="grid">%s</div></section>' % (names[0 if lang == "en" else 1], tools_tiles(lang, items))
+    s += footer(lang) + "</body></html>\n"
+    return path, s
+
 def write(path, content):
     fp = os.path.join(OUT, path.strip("/"), "index.html") if path.endswith("/") else os.path.join(OUT, path.strip("/"))
     os.makedirs(os.path.dirname(fp), exist_ok=True)
@@ -621,13 +698,19 @@ def main():
         pages.append(home_page(lang))
         for c in CALCS: pages.append(calc_page(c, lang)); pages.append(embed_page(c, lang))
         for k in ("about", "privacy", "cookies", "terms", "advertise"): pages.append(legal(lang, k))
+    if TOOLS_LIVE:
+        for lang in ("en", "es"):
+            pages.append(tools_hub(lang))
+            for x in TOOLS_LIVE: pages.append(tool_page(x, lang))
     if ARTICLES:
         pages.append(guides_index())
         for a in ARTICLES: pages.append(article_page(a))
     for p, s in pages: write(p, s)
     # chips: presets click -> set input (inline in calc.js would need ids; tiny add-on)
-    for f in ("style.css", "cookie.css", "site.js", "calc.js", "favicon.svg", "og-image.png"):
+    for f in ("style.css", "cookie.css", "site.js", "calc.js", "favicon.svg", "og-image.png", "tools.js", "tools.css"):
         shutil.copy(os.path.join(ROOT, "src", f), os.path.join(OUT, f))
+    os.makedirs(os.path.join(OUT, "vendor"), exist_ok=True)
+    shutil.copy(os.path.join(ROOT, "src", "vendor", "qrcode.js"), os.path.join(OUT, "vendor", "qrcode.js"))
     with open(os.path.join(OUT, "calc.js"), "a", encoding="utf-8") as f:
         f.write("""
 document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('click',function(){var i=document.getElementById(b.getAttribute('data-set'));i.value=b.getAttribute('data-val');i.dispatchEvent(new Event('input',{bubbles:true}));});});
@@ -641,6 +724,8 @@ document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('
     pairs = [(url("en"), url("es"))] + [(url("en", c["en"]["slug"]), url("es", c["es"]["slug"])) for c in CALCS] + \
             [("/%s/" % k, "/es/%s/" % k) for k in ("about", "privacy", "cookies", "terms", "advertise")]
     pairs += [(cal_paths(y)[1], cal_paths(y)[0]) for y in cal_ys]
+    if TOOLS_LIVE:
+        pairs += [(TOOL_UI["en"]["hub"], TOOL_UI["es"]["hub"])] + [(tool_url(x, "en"), tool_url(x, "es")) for x in TOOLS_LIVE]
     for en_p, es_p in pairs:
         for p in (en_p, es_p):
             sm.append('<url><loc>%s</loc><lastmod>%s</lastmod><xhtml:link rel="alternate" hreflang="en" href="%s"/><xhtml:link rel="alternate" hreflang="es" href="%s"/></url>'
@@ -658,7 +743,7 @@ document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('
     if CONFIG["adsense"]:
         write("/ads.txt", "google.com, %s, DIRECT, f08c47fec0942fa0\n" % CONFIG["adsense"].replace("ca-", ""))
     write("/_headers", "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/*.css\n  Cache-Control: public, max-age=86400\n/*.js\n  Cache-Control: public, max-age=86400\n")
-    print("Built %d pages into %s (guides %d/%d)" % (len(pages) + 1, OUT, len(ARTICLES), len(ALL_ARTICLES)))
+    print("Built %d pages into %s (guides %d/%d, tools %d/%d)" % (len(pages) + 1, OUT, len(ARTICLES), len(ALL_ARTICLES), len(TOOLS_LIVE), len(TL.TOOLS)))
 
 if __name__ == "__main__":
     main()

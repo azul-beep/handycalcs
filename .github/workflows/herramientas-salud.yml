@@ -1,0 +1,30 @@
+# Vigila las herramientas online (/tools/ y /es/herramientas/) todos los días, gratis y sin Claude.
+# Si una página no responde o una herramienta que tenía que salir no salió, abre un aviso (issue) en GitHub,
+# que le llega por mail a Azu. Si ya hay un aviso abierto, le suma un comentario en vez de abrir otro.
+name: Vigilar herramientas online
+on:
+  schedule:
+    - cron: "30 18 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Revisar la web en línea
+        id: rev
+        run: python3 tools/revisar_herramientas.py
+      - name: Avisar si algo falla
+        if: failure() && steps.rev.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITULO="Herramientas online: algo no anda"
+          NUM=$(gh issue list --state open --search "$TITULO in:title" --json number --jq '.[0].number')
+          { echo "La revisión diaria de $(date -u +%F) encontró esto:"; echo; cat problemas.txt; echo; echo "Detalle: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"; } > cuerpo.md
+          if [ -n "$NUM" ]; then gh issue comment "$NUM" --body-file cuerpo.md; else gh issue create --title "$TITULO" --body-file cuerpo.md; fi
