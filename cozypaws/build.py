@@ -51,6 +51,9 @@ CONFIG = dict(
     christmas_cutoff=dt.date(2026, 12, 10),
     adsense='ca-pub-1174178180336933',   # AdSense de Azu (Skye Solutions AI)
     adsense_on=False,
+    # MailerLite: URL "action" del formulario incrustado "Cozy Paws Club" (https://assets.mailerlite.com/jsonp/2793611/forms/<id>/subscribe).
+    # Vacío = no se muestra el formulario. Al pegarla aparece la caja "Join the club" con el regalo (checklist PDF de data/gift/).
+    mailerlite_action='',
     # Cuentas de las apps (Firebase, plan Spark gratis). Pegar acá el firebaseConfig de la consola (es público, no es secreto).
     # Vacío = apps sin cuenta (todo se guarda en el equipo). Ej: dict(apiKey='...', authDomain='cozy-paws-apps.firebaseapp.com', projectId='cozy-paws-apps', appId='...')
     firebase=dict(apiKey='AIzaSyBPa_WnI7oIRvY2_SCEmD9fc69c8xWO8Rk', authDomain='cozy-paws-apps.firebaseapp.com', projectId='cozy-paws-apps',
@@ -432,6 +435,20 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
     return f'<script>{js}</script>'
 
 
+def signup():
+    act = CONFIG['mailerlite_action']
+    if not act:
+        return ''
+    return f'''<section class="club" id="join"><img src="/img/sello-claro.png" alt="" width="120" height="120" loading="lazy"><div><span class="script">Join the club</span>
+<p>Get our free printable <b>Pet Care Checklist</b> (daily, weekly, monthly and yearly, plus a pet info card for the fridge), new gift drops and the occasional member-only coupon. A few emails a month, unsubscribe anytime.</p>
+<form action="{E(act)}" method="post" target="cp_nl" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px" onsubmit="setTimeout(function(){{document.getElementById('cp-ok').hidden=false}},600);if(window.gtag)gtag('event','sign_up',{{method:'newsletter'}});if(window.fbq)fbq('track','Lead')">
+<input type="email" name="fields[email]" required placeholder="Your email" aria-label="Your email" style="flex:1;min-width:200px;padding:12px;border:2px solid var(--gold);border-radius:10px;font:inherit">
+<input type="hidden" name="fields[language]" value="en"><input type="hidden" name="ml-submit" value="1"><input type="hidden" name="anticsrf" value="true">
+<button class="btn" type="submit" style="border:0;cursor:pointer;background:var(--gold);box-shadow:0 4px 0 #8f6a1f">Send me the checklist</button></form>
+<p id="cp-ok" hidden><b>Almost there!</b> Check your inbox and tap the link to confirm. Your checklist comes right after.</p>
+<p style="font-size:13px;margin-top:6px">We use MailerLite to send emails. See our <a href="/privacy/" style="color:var(--cream)">privacy policy</a>.</p><iframe name="cp_nl" title="newsletter" hidden></iframe></div></section>'''
+
+
 def page(path, title, desc, body, today, image=None, jsonld=None, canonical=True):
     url = CONFIG['url'] + path
     img = CONFIG['url'] + (image or '/img/og.jpg')
@@ -456,7 +473,7 @@ def page(path, title, desc, body, today, image=None, jsonld=None, canonical=True
 <div class="bar">{bar}</div>
 <header><div class="in"><a class="brand" href="/"><img src="/img/logo-160.png" alt="" width="58" height="58"><span>Cozy Paws</span></a>
 <nav><a href="/gifts/">Gift guides</a><a href="/tools/">Pet tools</a><a href="/blog/">Pet tips</a><a href="/fun/">Fun app</a><a href="/diary/">Pet diary</a><a class="shop" href="{CONFIG['shop']}" data-etsy="shop">Shop on Etsy</a></nav></div></header>
-<main>{body}</main>
+<main>{body}{signup() if path not in ('/', '/privacy/', '/terms/') else ''}</main>
 <footer><div class="in"><div class="fb"><img src="/img/sello-claro.png" alt="" width="64" height="64" loading="lazy"><div><span class="script">Cozy Paws</span><br>Vintage club gifts for dogs, cats &amp; the people who love them. Designed in Salt Lake City, Utah.</div></div>
 <div><a href="{CONFIG['shop']}" data-etsy="footer">Etsy shop</a>{pin}<a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="mailto:{CONFIG['contact']}">Contact</a><br><small>© {today.year} Cozy Paws</small></div></div></footer>
 <div id="cc">We use cookies for anonymous stats (Google Analytics) and ads measurement (Meta). <a href="/privacy/">Privacy</a><br><button class="y">OK</button><button class="n">No thanks</button></div>
@@ -561,6 +578,8 @@ def make_images(all_prods, guides_live, tools_live):
             shutil.copy(os.path.join(DATA, 'fonts', f), os.path.join(OUT, 'fonts', f))
     for f in os.listdir(os.path.join(DATA, 'brand')):
         shutil.copy(os.path.join(DATA, 'brand', f), os.path.join(OUT, 'img', f))
+    if os.path.isdir(os.path.join(DATA, 'gift')):  # regalo del club de mails (cozypaws/regalo.py)
+        shutil.copytree(os.path.join(DATA, 'gift'), os.path.join(OUT, 'gift'), dirs_exist_ok=True)
     PLUM, BLUE, CREAM, GOLD = (59, 36, 51), (78, 127, 134), (243, 233, 215), (200, 150, 46)
 
     def font(kind, size):
@@ -694,9 +713,9 @@ def build(today):
             + shop
             + (f'<h2>Gift guides</h2><div class="stamps">{stamps}</div>' if guides_live else '')
             + (f'<h2>Free pet tools</h2><div class="tools">{tl}</div>' if tl else '')
-            + '<section class="club"><img src="/img/sello-claro.png" alt="" width="150" height="150" loading="lazy"><div><span class="script">Join the club</span>'
+            + (signup() or '<section class="club"><img src="/img/sello-claro.png" alt="" width="150" height="150" loading="lazy"><div><span class="script">Join the club</span>'
             '<p>Every design is made for people who let the dog on the couch and the cat on the keyboard. New gifts drop all season long.</p>'
-            f'<p style="margin-top:14px"><a class="btn" style="background:var(--gold);box-shadow:0 4px 0 #8f6a1f" href="{CONFIG["shop"]}" data-etsy="club">Visit the shop</a></p></div></section>')
+            f'<p style="margin-top:14px"><a class="btn" style="background:var(--gold);box-shadow:0 4px 0 #8f6a1f" href="{CONFIG["shop"]}" data-etsy="club">Visit the shop</a></p></div></section>'))
     page('/', 'Cozy Paws: Dog Mom and Cat Lover Gifts, Pet Christmas Gifts',
          'Original gifts for dog moms, cat lovers and their pets: mugs, ornaments, sweatshirts, blankets and pet accessories. Gift guides and free pet tools.',
          body, today, jsonld={'@context': 'https://schema.org', '@type': 'Organization', 'name': 'Cozy Paws', 'url': CONFIG['url'],
@@ -789,8 +808,8 @@ def build(today):
 <p>This website and its apps (including Paw Party) are run by {CONFIG['company']}, a sole proprietorship based in Utah, USA, under the Cozy Paws brand. We do not sell products on this site: purchases happen on Etsy, under Etsy's own privacy policy.</p>
 <p><b>Cookies and stats.</b> Only if you click OK in the cookie notice, we load Google Analytics (anonymous visit statistics) and the Meta Pixel (to measure ads and visits). If you click "No thanks", nothing is loaded. You can change your choice by clearing this site's data in your browser.</p>
 <p><b>Ads.</b> In the future we may show ads from Google AdSense. If we do, they load only after you click OK, and Google may use cookies to show and measure them. See <a href="https://policies.google.com/technologies/ads" rel="noopener">how Google uses data in ads</a>.</p>
-<p><b>Calculators and apps.</b> The pet tools and the Paw Party and Paw Diary apps run in your browser. What you enter (your pet's name, birthday, breed, weight, photos, diary notes, reminders, saved names) is stored only on your own device (browser storage) and is never sent to us. You can delete it at any time by deleting it in the app (Paw Diary has "Delete all my data") or clearing this site's data in your browser. We do not ask for your name, email or location.</p>
-""" + (f"""<p><b>Optional accounts.</b> In Paw Party and Paw Diary you can choose to sign in (with Google or with a link sent to your email) to keep your data on all your devices. If you do, we store your email address and a copy of your app data (pets, small pet photo, diary notes, reminders and saved names) in Google Firebase (Firestore), in the United States. Diary photos are not uploaded. Only you can read your data. You can delete your account and the cloud copy at any time from the Account button in the app, or by writing to us.</p>""" if CONFIG.get('firebase') else '') + f"""<p><b>Children.</b> The site is meant for a general audience and is not directed to children under 13. We do not knowingly collect personal information from children.</p>
+<p><b>Calculators and apps.</b> The pet tools and the Paw Party and Paw Diary apps run in your browser. What you enter (your pet's name, birthday, breed, weight, photos, diary notes, reminders, saved names) is stored only on your own device (browser storage) and is never sent to us. You can delete it at any time by deleting it in the app (Paw Diary has "Delete all my data") or clearing this site's data in your browser. We do not ask for your name, email or location in the tools.</p>
+""" + ("""<p><b>Email club.</b> If you join our email club, we store your email address (and the language of the form) with MailerLite, our email provider, to send you the free checklist, new gift drops and offers. You confirm your email first (double opt-in), and every email has an unsubscribe link. We never sell or share your email. To be removed, unsubscribe or write to us.</p>""" if CONFIG.get('mailerlite_action') else '') + (f"""<p><b>Optional accounts.</b> In Paw Party and Paw Diary you can choose to sign in (with Google or with a link sent to your email) to keep your data on all your devices. If you do, we store your email address and a copy of your app data (pets, small pet photo, diary notes, reminders and saved names) in Google Firebase (Firestore), in the United States. Diary photos are not uploaded. Only you can read your data. You can delete your account and the cloud copy at any time from the Account button in the app, or by writing to us.</p>""" if CONFIG.get('firebase') else '') + f"""<p><b>Children.</b> The site is meant for a general audience and is not directed to children under 13. We do not knowingly collect personal information from children.</p>
 <p><b>Your rights.</b> Because we do not keep personal data from the apps, there is nothing for us to access or delete. For questions about analytics data, write to us.</p>
 <p><b>Contact.</b> <a href="mailto:{CONFIG['contact']}">{CONFIG['contact']}</a></p><p class="note">Last updated: November 14, 2026.</p>""", today)
     urls.append(('/privacy/', dt.date(2026, 11, 14)))
