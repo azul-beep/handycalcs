@@ -1,0 +1,22 @@
+# Reloj de las rutinas: dispara a la hora justa las publicaciones de Handy Calcs, Cozy Paws y Blue
+# (GitHub atrasa los cron 4 a 6 horas). Gratis (repo público), sin Claude y sin claves: usa la clave automática de GitHub.
+# Cada corrida dura ~5 h 50 min y al terminar arranca la siguiente. El cron de cada hora es solo respaldo:
+# si ya hay un reloj andando, termina enseguida. Horarios y explicación: tools/reloj.py
+name: Reloj de las rutinas
+on:
+  schedule:
+    - cron: "11 * * * *"
+  workflow_dispatch:
+permissions:
+  actions: write
+  contents: read
+jobs:
+  reloj:
+    runs-on: ubuntu-latest
+    timeout-minutes: 358
+    steps:
+      - uses: actions/checkout@v4
+      - name: Mirar la hora y disparar las rutinas
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 tools/reloj.py
