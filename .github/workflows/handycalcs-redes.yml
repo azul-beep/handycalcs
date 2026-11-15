@@ -1,0 +1,40 @@
+# Handy Calcs en redes: cada guía nueva (1 por día desde el 16 nov 2026) sale sola en la página de Facebook de Handy Calcs.
+# Gratis y sin Claude (API oficial de Meta). Pinterest ya lo cubre tools/pines_calculadoras.py (feed rss-en.xml).
+# Corre a las 4 PM de Utah (23:00 UTC), después del build diario de las 8 AM, aunque GitHub lo atrase unas horas.
+# Mientras no estén los secrets HC_FB_PAGE_ID y HC_FB_PAGE_TOKEN, termina en verde sin publicar.
+# Si la guía de ayer no apareció en la web o el token deja de andar, la corrida queda en rojo y GitHub avisa por mail.
+# A mano: Actions > Handy Calcs (redes) > Run workflow con "publicar" o "revisar" (prueba el token sin publicar).
+name: Handy Calcs (redes)
+on:
+  schedule:
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+    inputs:
+      accion: { description: "publicar o revisar", default: "publicar" }
+permissions:
+  contents: write
+concurrency:
+  group: handycalcs-redes
+  cancel-in-progress: false
+jobs:
+  redes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      HC_FB_PAGE_ID: ${{ secrets.HC_FB_PAGE_ID }}
+      HC_FB_PAGE_TOKEN: ${{ secrets.HC_FB_PAGE_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Publicar
+        run: python3 tools/redes_guias.py ${{ inputs.accion || 'publicar' }}
+      - name: Guardar lo publicado
+        if: always()
+        run: |
+          [ -z "$(git status --porcelain -- redes/)" ] && exit 0
+          git config user.name "publicacion-bot"
+          git config user.email "publicacion-bot@users.noreply.github.com"
+          git add redes/
+          git commit -m "Handy Calcs: redes $(date -u +%F)"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 10; done; exit 1
