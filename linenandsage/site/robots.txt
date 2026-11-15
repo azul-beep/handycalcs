@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://linenandsage.pages.dev/sitemap.xml
