@@ -11,6 +11,20 @@ Web estática (inglés, público de EE. UU.) que vive en https://cozypawsgifts.p
 - **feed.xml**: RSS con imagen de pin 1000x1500 por item. Pinterest lo lee y publica solo.
 - GA4 + Pixel de Meta con aviso de cookies (se cargan solo si la persona acepta), política de privacidad, sitemap, robots.
 
+## Apps instalables (PWA)
+**Paw Party** (`/fun/` en inglés y `/fun/es/` en español): app divertida para perros y gatos. Edad en años humanos, generador de nombres (9 estilos, favoritos), test de personalidad (8 preguntas, 6 tipos), horóscopo de mascotas y tarjetas (cumpleaños, adopción, Navidad, mejor amigo) con estampas de Cozy Paws y foto, para descargar o compartir. Botón "Instalar app" (Android/Chrome) y guía para iPhone; funciona sin internet (service worker `/fun/sw.js`).
+- Código: `apps/fun.html` (pantallas y textos EN/ES) y `apps/apps.py` (SEO, schema, manifest, service worker). `build.py` la arma en cada publicación.
+- Estampas e íconos: `data/apps/` (los arma `apps/make_assets.py` desde la carpeta del proyecto, una sola vez).
+- Lo que guarda la persona (mascotas, foto chica, nombres favoritos) queda en su navegador (`localStorage` `cozypaws-pets`, compartido con la futura app del diario). No hay cuentas todavía.
+- Links a Etsy discretos: cada estampa apunta a su producto publicado (o a la búsqueda en la tienda). Se arman solos con `etsy-links.txt`.
+- Anuncios: `CONFIG['adsense_on']` en `build.py`. Apagado. Cuando AdSense apruebe el sitio, ponerlo en `True`: carga los anuncios (solo si aceptan cookies) y publica `ads.txt`.
+- Privacidad y términos: `/privacy/` y `/terms/` (Skye Solutions AI, sole proprietor).
+
+**Paw Diary** (`/diary/` y `/diary/es/`): app utilitaria. Anotar con un toque (paseo, comida, remedio, etc.), diario con ánimo, etiquetas, peso y foto, recordatorios que se repiten (vacunas, pulgas, corazón, peluquería, veterinario) con botón para mandarlos al calendario del celular (.ics con alarma), gráfico de peso con rango sano por raza (70 perros, 10 gatos), calculadora de comida (RER), copia de seguridad descargable y "Borrar todos mis datos".
+- Código: `apps/diary.html`. Usa el mismo estilo que `fun.html`. Mascotas compartidas con Paw Party (`cozypaws-pets`); diario y recordatorios en `cozypaws-diary`; fotos en IndexedDB (`cozypaws-photos`).
+
+**Páginas para buscadores** (`apps/seo_pages.py`): `/breeds/<raza>/` (68 perros + 10 gatos: peso sano, edad humana, comida) y `/names/<lista>/` (18 listas de nombres). Salen solas 1 raza y 1 lista por día desde el 15 nov, cada una con su pin en `feed.xml` (Pinterest la publica sola) y en el sitemap (IndexNow avisa solo). Los datos salen de las apps: una raza nueva en `diary.html` o nombres nuevos en `fun.html` suman páginas al final de la cola.
+
 ## Cómo corre solo
 `.github/workflows/cozypaws.yml` corre todos los días a las 21:00 UTC (2 PM de Utah): `python3 cozypaws/build.py` y commit de `cozypaws/site`. Cloudflare Pages publica cada commit.
 

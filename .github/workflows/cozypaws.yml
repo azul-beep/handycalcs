@@ -10,7 +10,7 @@ on:
     - cron: "0 21 * * *"
   push:
     branches: [main]
-    paths: ["cozypaws/data/**", "cozypaws/build.py", "cozypaws/contenido.py"]
+    paths: ["cozypaws/data/**", "cozypaws/build.py", "cozypaws/contenido.py", "cozypaws/apps/**", "cozypaws/articulos/**"]
   workflow_dispatch:
 permissions:
   contents: write

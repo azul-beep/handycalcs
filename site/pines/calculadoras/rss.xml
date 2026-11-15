@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+<channel>
+  <title>Handy Calcs pins</title>
+  <link>https://gethandycalcs.pages.dev/</link>
+  <description>Free calculators in English and Spanish.</description>
+  <language>en</language>
+  <item>
+    <title>Calculadora de propinas: cuánto dejar (15%, 18%, 20%)</title>
+    <link>https://gethandycalcs.pages.dev/es/calculadora-de-propinas/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-calc-a</link>
+    <description>Calculadora de propinas gratis. Pon el total, elige 15%, 18%, 20% o el porcentaje que quieras y divídelo entre varias personas.</description>
+    <guid isPermaLink="false">handycalcs-calc-tip-es-a</guid>
+    <pubDate>Sun, 15 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-es-a.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-es-a.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
+    <title>Tip Calculator: How Much to Tip (15%, 18%, 20%)</title>
+    <link>https://gethandycalcs.pages.dev/tip-calculator/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-calc-a</link>
+    <description>Free tip calculator. Enter the bill, pick 15%, 18%, 20% or any tip and split it between people. Instant, no sign-up.</description>
+    <guid isPermaLink="false">handycalcs-calc-tip-en-a</guid>
+    <pubDate>Sun, 15 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-en-a.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-en-a.jpg" medium="image" type="image/jpeg"/>
+  </item>
+</channel>
+</rss>

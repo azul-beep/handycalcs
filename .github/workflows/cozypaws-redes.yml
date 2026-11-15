@@ -1,5 +1,6 @@
 # Cozy Paws en redes: publica solo en Instagram y Facebook (y Threads si tiene token) con las APIs oficiales de Meta (gratis, sin Claude).
 # Ritmo por día (hora de Utah): 10 AM producto nuevo + historia, 1 PM post del banco (tip, frase, Social Club o pregunta), 6 PM producto nuevo.
+# Cada artículo nuevo del blog se recicla solo: ocupa el post de la 1 PM y la historia de las 10 AM (no suma publicaciones).
 # Lunes: renueva el token de Threads. A mano (Actions > Cozy Paws (redes) > Run workflow): publicar, contenido, historia, revisar o renovar.
 # Si una red no tiene su secret cargado, se saltea. Si algo falla, la corrida queda en rojo y GitHub avisa por mail.
 name: Cozy Paws (redes)
@@ -15,7 +16,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: handycalcs-publicacion
+  group: cozypaws-redes
   cancel-in-progress: false
 jobs:
   redes:

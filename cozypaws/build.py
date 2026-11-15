@@ -21,6 +21,22 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, 'data')
 OUT = os.path.join(HERE, 'site')
 
+ETSY_AUTH_HTML = """<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer"><title>Cozy Paws · Etsy</title>
+<style>body{font-family:system-ui,sans-serif;max-width:34rem;margin:3rem auto;padding:0 1rem;color:#22282A;line-height:1.5}
+a.b{display:inline-block;background:#22282A;color:#fff;padding:.8rem 1.2rem;border-radius:.6rem;text-decoration:none;font-weight:600}</style>
+</head><body><h1>Cozy Paws · Etsy</h1><p id="m">Un segundo...</p><p id="b"></p>
+<script>
+var q=new URLSearchParams(location.search),c=q.get('code'),m=document.getElementById('m');
+if(c){var u='https://github.com/azul-beep/crux-report/issues/new?title=etsy-code&body='+encodeURIComponent('code: '+c);
+m.textContent='Etsy dio el permiso. Ahora en GitHub tocá "Create" (o "Submit new issue") y listo.';
+document.getElementById('b').innerHTML='<a class="b" href="'+u+'">Ir a GitHub</a>';
+history.replaceState(null,'',location.pathname);location.replace(u);}
+else{m.textContent='Etsy no dio el permiso'+(q.get('error')?' ('+q.get('error')+')':'')+'. Volvé a tocar el link del mail de GitHub.';}
+</script></body></html>
+"""
+
 CONFIG = dict(
     name='Cozy Paws',
     url='https://cozypawsgifts.pages.dev',          # dirección de Cloudflare Pages (cambiar si se compra dominio)
@@ -36,6 +52,15 @@ CONFIG = dict(
     contact='support@skyesolutionsai.com',
     company='Skye Solutions AI',
     christmas_cutoff=dt.date(2026, 12, 10),
+    adsense='ca-pub-1174178180336933',   # AdSense de Azu (Skye Solutions AI)
+    adsense_on=False,
+    # MailerLite: URL "action" del formulario incrustado "Cozy Paws Club" (https://assets.mailerlite.com/jsonp/2793611/forms/<id>/subscribe).
+    # Vacío = no se muestra el formulario. Al pegarla aparece la caja "Join the club" con el regalo (checklist PDF de data/gift/).
+    mailerlite_action='',
+    # Cuentas de las apps (Firebase, plan Spark gratis). Pegar acá el firebaseConfig de la consola (es público, no es secreto).
+    # Vacío = apps sin cuenta (todo se guarda en el equipo). Ej: dict(apiKey='...', authDomain='cozy-paws-apps.firebaseapp.com', projectId='cozy-paws-apps', appId='...')
+    firebase=dict(apiKey='AIzaSyBPa_WnI7oIRvY2_SCEmD9fc69c8xWO8Rk', authDomain='cozy-paws-apps.firebaseapp.com', projectId='cozy-paws-apps',
+                  storageBucket='cozy-paws-apps.firebasestorage.app', messagingSenderId='446269425804', appId='1:446269425804:web:610e8167392f671bc093a9'),                    # True SOLO cuando AdSense apruebe cozypawsgifts.pages.dev: carga anuncios en las apps y publica ads.txt
 )
 E = html.escape
 INDEXNOW_KEY = "92ad20c14927840aeb27fd01e77c8677"  # clave pública de IndexNow (Bing y otros); cozypaws/indexnow.py avisa las páginas nuevas
@@ -325,6 +350,11 @@ document.getElementById('go').addEventListener('click',go);go();
 <ol><li>Short names (one or two syllables) are easier for pets to learn.</li><li>Avoid names that sound like commands, like "Kit" (sit) or "Bo" (no).</li><li>Say it out loud at the park: you will be yelling it for years.</li><li>Give it a few days. If the name does not fit, it is fine to change it while your pet is still learning.</li></ol>''',
 }
 
+FUN_TILE = ('<a class="tool" href="/fun/" style="background:var(--rose)"><b>Paw Party app 🎉</b><span>Free fun app for dogs and cats: human years, names, '
+            'personality quiz, pet zodiac and birthday cards. Install it on your phone.</span></a>'
+            '<a class="tool" href="/diary/" style="background:var(--plum)"><b>Paw Diary app 📔</b><span>Free pet diary and vet reminders: walks, meds, vaccines, '
+            'weight chart and food plan for dogs and cats. Works offline.</span></a>')
+
 # ---------------------------------------------------------------- html
 PAW = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23e6d6b8' opacity='.55'%3E"
        "%3Cellipse cx='30' cy='36' rx='7' ry='6'/%3E%3Ccircle cx='22' cy='27' r='3'/%3E%3Ccircle cx='28' cy='23' r='3'/%3E%3Ccircle cx='34' cy='23' r='3'/%3E%3Ccircle cx='39' cy='28' r='3'/%3E"
@@ -375,6 +405,7 @@ table{border-collapse:collapse;background:var(--cream2);border-radius:12px;overf
 .contact{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}.contact a{display:block;background:var(--blue);color:var(--cream);border-radius:20px;padding:20px;text-decoration:none}.contact b{font-family:Abril,Georgia,serif;font-weight:400;font-size:21px;display:block}
 footer .links a{margin-right:12px}
 @media(max-width:760px){.about,.maker{grid-template-columns:1fr;text-align:center}.maker img{margin:0 auto;width:150px;height:150px}}
+.post{max-width:760px}.post p,.post li{font-size:17.5px;line-height:1.7}.post table{margin:12px 0;font-size:16px}.post h2{margin-top:28px}
 .toc{background:var(--cream2);border:2px dashed var(--gold);border-radius:20px;padding:16px 22px;margin:22px 0}.toc b{font-family:Abril,Georgia,serif;font-weight:400;color:var(--plum)}
 .toc a{display:inline-block;margin:4px 6px 4px 0;padding:6px 13px;border-radius:99px;background:#fff;border:1.5px solid var(--line);text-decoration:none;color:var(--blue);font-size:15px}
 .ship{background:var(--blue);color:var(--cream);border-radius:20px;padding:16px 22px;margin:18px 0}.ship b{font-family:Abril,Georgia,serif;font-weight:400}
@@ -414,6 +445,20 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
     return f'<script>{js}</script>'
 
 
+def signup():
+    act = CONFIG['mailerlite_action']
+    if not act:
+        return ''
+    return f'''<section class="club" id="join"><img src="/img/sello-claro.png" alt="" width="120" height="120" loading="lazy"><div><span class="script">Join the club</span>
+<p>Get our free printable <b>Pet Care Checklist</b> (daily, weekly, monthly and yearly, plus a pet info card for the fridge), new gift drops and the occasional member-only coupon. A few emails a month, unsubscribe anytime.</p>
+<form action="{E(act)}" method="post" target="cp_nl" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px" onsubmit="setTimeout(function(){{document.getElementById('cp-ok').hidden=false}},600);if(window.gtag)gtag('event','sign_up',{{method:'newsletter'}});if(window.fbq)fbq('track','Lead')">
+<input type="email" name="fields[email]" required placeholder="Your email" aria-label="Your email" style="flex:1;min-width:200px;padding:12px;border:2px solid var(--gold);border-radius:10px;font:inherit">
+<input type="hidden" name="fields[language]" value="en"><input type="hidden" name="ml-submit" value="1"><input type="hidden" name="anticsrf" value="true">
+<button class="btn" type="submit" style="border:0;cursor:pointer;background:var(--gold);box-shadow:0 4px 0 #8f6a1f">Send me the checklist</button></form>
+<p id="cp-ok" hidden><b>Almost there!</b> Check your inbox and tap the link to confirm. Your checklist comes right after.</p>
+<p style="font-size:13px;margin-top:6px">We use MailerLite to send emails. See our <a href="/privacy/" style="color:var(--cream)">privacy policy</a>.</p><iframe name="cp_nl" title="newsletter" hidden></iframe></div></section>'''
+
+
 def page(path, title, desc, body, today, image=None, jsonld=None, canonical=True):
     url = CONFIG['url'] + path
     img = CONFIG['url'] + (image or '/img/og.jpg')
@@ -437,8 +482,8 @@ def page(path, title, desc, body, today, image=None, jsonld=None, canonical=True
 <meta name="theme-color" content="#4E7F86"><style>{CSS}</style>{ld}{analytics()}</head><body>
 <div class="bar">{bar}</div>
 <header><div class="in"><a class="brand" href="/"><img src="/img/logo-160.png" alt="" width="58" height="58"><span>Cozy Paws</span></a>
-<nav><a href="/gifts/">Gift guides</a><a href="/tools/">Pet tools</a><a href="/about/">About</a><a class="shop" href="{CONFIG['shop']}" data-etsy="shop">Shop on Etsy</a></nav></div></header>
-<main>{body}</main>
+<nav><a href="/gifts/">Gift guides</a><a href="/tools/">Pet tools</a><a href="/blog/">Pet tips</a><a href="/fun/">Fun app</a><a href="/diary/">Pet diary</a><a href="/about/">About</a><a class="shop" href="{CONFIG['shop']}" data-etsy="shop">Shop on Etsy</a></nav></div></header>
+<main>{body}{signup() if path not in ('/', '/privacy/', '/terms/') else ''}</main>
 <footer><div class="in"><div class="fb"><img src="/img/sello-claro.png" alt="" width="64" height="64" loading="lazy"><div><span class="script">Cozy Paws</span><br>Vintage club gifts for dogs, cats &amp; the people who love them. Designed in Salt Lake City, Utah.</div></div>
 <div class="links"><a href="{CONFIG['shop']}" data-etsy="footer">Etsy shop</a>{pin}<a href="{CONFIG['instagram']}" rel="me">Instagram</a><a href="{CONFIG['facebook']}" rel="me">Facebook</a><br>
 <a href="/about/">About</a><a href="/shipping-returns/">Shipping &amp; returns</a><a href="/faq/">FAQ</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><br><small>© {today.year} Cozy Paws</small></div></div></footer>
@@ -651,14 +696,6 @@ def trust_pages(today, prods):
                          'contactPoint': {'@type': 'ContactPoint', 'contactType': 'customer support', 'email': CONFIG['contact'], 'availableLanguage': ['English', 'Spanish']}}}
     page('/contact/', 'Contact Cozy Paws', 'Questions about a gift or an order? Contact Cozy Paws by Etsy message, email, Instagram or Facebook.', body, today, jsonld=ld)
 
-    body = (f"""<p class="note"><a href="/">Home</a> › Terms</p><h1>Terms of use</h1>
-<p>This website is run by {CONFIG['company']}, a sole proprietorship in Salt Lake City, Utah (Cozy Paws brand). By using it you agree to these terms.</p>
-<p><b>Purchases.</b> We do not sell on this site. All purchases happen on Etsy and follow Etsy's terms, our Etsy shop policies and our <a href="/shipping-returns/">shipping &amp; returns</a> page. Prices on this site are for reference; the price on Etsy is the one that applies.</p>
-<p><b>Designs.</b> All Cozy Paws designs, text and images on this site are our original work and are protected by copyright. You may share links and pins, but please do not copy or resell the designs.</p>
-<p><b>Pet tools.</b> The calculators are for fun and general information only. They are not veterinary advice; ask your vet about your pet's health and diet.</p>
-<p><b>Links.</b> Links to Etsy, Pinterest, Instagram and Facebook go to sites we do not control.</p>
-<p><b>Contact.</b> <a href="mailto:{CONFIG['contact']}">{CONFIG['contact']}</a></p><p class="note">Last updated: {PAGES_UPDATED.strftime('%B')} {PAGES_UPDATED.day}, {PAGES_UPDATED.year}.</p>""")
-    page('/terms/', 'Terms of Use | Cozy Paws', 'Terms of use for the Cozy Paws website.', body, today)
 
 
 # ---------------------------------------------------------------- imágenes
@@ -673,6 +710,8 @@ def make_images(all_prods, guides_live, tools_live):
             shutil.copy(os.path.join(DATA, 'fonts', f), os.path.join(OUT, 'fonts', f))
     for f in os.listdir(os.path.join(DATA, 'brand')):
         shutil.copy(os.path.join(DATA, 'brand', f), os.path.join(OUT, 'img', f))
+    if os.path.isdir(os.path.join(DATA, 'gift')):  # regalo del club de mails (cozypaws/regalo.py)
+        shutil.copytree(os.path.join(DATA, 'gift'), os.path.join(OUT, 'gift'), dirs_exist_ok=True)
     PLUM, BLUE, CREAM, GOLD = (59, 36, 51), (78, 127, 134), (243, 233, 215), (200, 150, 46)
 
     def font(kind, size):
@@ -746,6 +785,8 @@ def make_images(all_prods, guides_live, tools_live):
         [os.path.join(DATA, 'img', p['imagen']) for p in dps[:4]])
     for t in TOOLS:
         pin(os.path.join(pins_cache, 't-' + t['id'] + '.jpg'), t['h1'].split(':')[0], 'Free and instant at ' + CONFIG['url'].split('//')[1], [])
+    pin(os.path.join(pins_cache, 'app-diary.jpg'), 'Paw Diary: free pet diary & vet reminders', 'Walks, meds, vaccines, weight and food for dogs and cats', [])
+    pin(os.path.join(pins_cache, 'app-fun.jpg'), 'Paw Party: free fun app for dogs & cats', 'Human years, names, personality quiz, pet zodiac and cards', [])
     for f in os.listdir(pins_cache):
         shutil.copy(os.path.join(pins_cache, f), os.path.join(OUT, 'img', 'pin', f))
     # imagen para compartir (1200x630)
@@ -786,7 +827,7 @@ def build(today):
 
     # inicio
     stamps = ''.join(f'<a class="stamp" href="/gifts/{g["id"]}/"><img src="/img/p/{ps[0]["sku"]}.jpg" alt="" loading="lazy" width="78" height="78"><span><b>{E(g["h1"])}</b><small>{len(ps)} gift ideas</small></span></a>' for g, ps in guides_live)
-    tl = ''.join(f'<a class="tool" href="/tools/{t["id"]}/"><b>{E(t["h1"].split(":")[0])}</b><span>{E(t["desc"])}</span></a>' for t in tools_live)
+    tl = FUN_TILE + ''.join(f'<a class="tool" href="/tools/{t["id"]}/"><b>{E(t["h1"].split(":")[0])}</b><span>{E(t["desc"])}</span></a>' for t in tools_live)
     upcoming = [p for p in sorted(all_prods, key=lambda p: (p['live'], p['sku'])) if p['live'] > today][:8]
     if prods:
         shop = f'<h2>New in the shop</h2>{grid(prods[:12])}'
@@ -805,9 +846,9 @@ def build(today):
             + (f'<h2>Gift guides</h2><div class="stamps">{stamps}</div>' if guides_live else '')
             + (f'<h2>Free pet tools</h2><div class="tools">{tl}</div>' if tl else '')
             + maker_block()
-            + '<section class="club"><img src="/img/sello-claro.png" alt="" width="150" height="150" loading="lazy"><div><span class="script">Join the club</span>'
+            + (signup() or '<section class="club"><img src="/img/sello-claro.png" alt="" width="150" height="150" loading="lazy"><div><span class="script">Join the club</span>'
             '<p>Every design is made for people who let the dog on the couch and the cat on the keyboard. New gifts drop all season long.</p>'
-            f'<p style="margin-top:14px"><a class="btn" style="background:var(--gold);box-shadow:0 4px 0 #8f6a1f" href="{CONFIG["shop"]}" data-etsy="club">Visit the shop</a></p></div></section>')
+            f'<p style="margin-top:14px"><a class="btn" style="background:var(--gold);box-shadow:0 4px 0 #8f6a1f" href="{CONFIG["shop"]}" data-etsy="club">Visit the shop</a></p></div></section>'))
     page('/', 'Cozy Paws: Dog Mom and Cat Lover Gifts, Pet Christmas Gifts',
          'Original gifts for dog moms, cat lovers and their pets: mugs, ornaments, sweatshirts, blankets and pet accessories. Gift guides and free pet tools.',
          body, today, jsonld={'@context': 'https://schema.org', '@type': 'Organization', 'name': 'Cozy Paws', 'url': CONFIG['url'],
@@ -860,9 +901,10 @@ def build(today):
         urls.append((f'/p/{p["slug"]}/', p['live']))
 
     # herramientas
-    tli = ''.join(f'<a class="tool" href="/tools/{t["id"]}/"><b>{E(t["h1"].split(":")[0])}</b><span>{E(t["desc"])}</span></a>' for t in tools_live)
+    tli = FUN_TILE + ''.join(f'<a class="tool" href="/tools/{t["id"]}/"><b>{E(t["h1"].split(":")[0])}</b><span>{E(t["desc"])}</span></a>' for t in tools_live)
     page('/tools/', 'Free Pet Tools: Dog Age, Cat Age, Dog Food Calculator | Cozy Paws', 'Free calculators and generators for dog and cat owners.',
-         f'<h1>Free pet tools</h1><p class="lead">Quick, free calculators for dog and cat people. Nothing to sign up for.</p><div class="tools">{tli}</div>' if tli else '<h1>Free pet tools</h1><p>Coming soon.</p>', today)
+         f'<h1>Free pet tools</h1><p class="lead">Quick, free calculators for dog and cat people. Nothing to sign up for.</p><div class="tools">{tli}</div>'
+         '<p class="pills" style="margin-top:18px"><a href="/breeds/">Breed guides: weight, age and food</a><a href="/names/">Pet name lists</a></p>' if tli else '<h1>Free pet tools</h1><p>Coming soon.</p>', today)
     urls.append(('/tools/', today))
     for t in tools_live:
         pet_ps = [p for p in prods if t['pet'] == 'both' or t['pet'] in p['hay']][:4]
@@ -873,24 +915,65 @@ def build(today):
         page(f'/tools/{t["id"]}/', f'{t["h1"]} | Cozy Paws', t['desc'], body, today, image=f'/img/pin/t-{t["id"]}.jpg', jsonld=ld)
         urls.append((f'/tools/{t["id"]}/', t['live']))
 
-    # páginas de confianza: about, envíos y devoluciones, preguntas, contacto, términos
+    # páginas de confianza: about, envíos y devoluciones, preguntas, contacto
     trust_pages(today, prods)
-    urls += [(u, PAGES_UPDATED) for u in ('/about/', '/shipping-returns/', '/faq/', '/contact/', '/terms/', '/privacy/')]
+    urls += [(u, PAGES_UPDATED) for u in ('/about/', '/shipping-returns/', '/faq/', '/contact/')]
 
-    # privacidad y 404
+    # apps (PWA): Paw Party en /fun/ y /fun/es/ (cozypaws/apps/)
+    import apps.apps as cpapps
+    urls += cpapps.build_fun(OUT, CONFIG, all_prods, today)
+    urls += cpapps.build_diary(OUT, CONFIG, all_prods, today)
+    # páginas por raza y listas de nombres (goteo 1+1 por día; cada una con pin en el feed): cozypaws/apps/seo_pages.py
+    from apps import seo_pages
+    seo_urls, seo_items, nb, nn, tb, tn = seo_pages.build_seo(page, CONFIG, OUT, DATA, today, cpapps.stamp_links(CONFIG, all_prods, today))
+    urls += seo_urls
+    print(f'razas {nb}/{tb}, listas de nombres {nn}/{tn}')
+    # artículos (goteo 1 por día desde el 16 nov; textos ya escritos en cozypaws/articulos/; cada uno con pin en el feed): cozypaws/apps/articulos.py
+    from apps import articulos
+    blog_urls, blog_items, na = articulos.build_blog(page, CONFIG, OUT, DATA, today, seo_pages.pin_maker)
+    urls += blog_urls
+    print(f'artículos {na}/{len(articulos.load())}')
+    # cada artículo también sale como post e historia en Instagram y Facebook (imágenes acá; publica social.py)
+    contenido.render_articulos(OUT, [a for a in articulos.load() if a['live'] <= today])
+    items_apps = [(dt.date(2026, 11, 15), 'Paw Party: free fun app for dogs and cats', '/fun/', '/img/pin/app-fun.jpg',
+                   'Dog and cat age in human years, pet name ideas, a personality quiz, pet zodiac and birthday cards. Free, no sign up, install it on your phone.', 'app-fun'),
+                  (dt.date(2026, 11, 16), 'Paw Diary: free pet diary and vet reminder app', '/diary/', '/img/pin/app-diary.jpg',
+                   'Log walks, meals and meds, get vaccine and flea pill reminders, track weight and see how much to feed your dog or cat. Free, works offline.', 'app-diary')]
+    if CONFIG['adsense_on']:
+        open(os.path.join(OUT, 'ads.txt'), 'w').write(f"google.com, {CONFIG['adsense'].replace('ca-', '')}, DIRECT, f08c47fec0942fa0\n")
+
+    # privacidad, términos y 404
     page('/privacy/', 'Privacy Policy | Cozy Paws', 'How Cozy Paws uses cookies and data.', f"""<h1>Privacy policy</h1>
-<p>This website is run by {CONFIG['company']}, a sole proprietorship in Salt Lake City, Utah (Cozy Paws brand). We do not sell products on this site: purchases happen on Etsy, under Etsy's own privacy policy.</p>
+<p>This website and its apps (including Paw Party) are run by {CONFIG['company']}, a sole proprietorship based in Utah, USA, under the Cozy Paws brand. We do not sell products on this site: purchases happen on Etsy, under Etsy's own privacy policy.</p>
 <p><b>Cookies and stats.</b> Only if you click OK in the cookie notice, we load Google Analytics (anonymous visit statistics) and the Meta Pixel (to measure ads and visits). If you click "No thanks", nothing is loaded. You can change your choice by clearing this site's data in your browser.</p>
-<p><b>Calculators.</b> The pet tools run in your browser. We do not store what you type.</p>
+<p><b>Ads.</b> In the future we may show ads from Google AdSense. If we do, they load only after you click OK, and Google may use cookies to show and measure them. See <a href="https://policies.google.com/technologies/ads" rel="noopener">how Google uses data in ads</a>.</p>
+<p><b>Calculators and apps.</b> The pet tools and the Paw Party and Paw Diary apps run in your browser. What you enter (your pet's name, birthday, breed, weight, photos, diary notes, reminders, saved names) is stored only on your own device (browser storage) and is never sent to us. You can delete it at any time by deleting it in the app (Paw Diary has "Delete all my data") or clearing this site's data in your browser. We do not ask for your name, email or location in the tools.</p>
+""" + ("""<p><b>Email club.</b> If you join our email club, we store your email address (and the language of the form) with MailerLite, our email provider, to send you the free checklist, new gift drops and offers. You confirm your email first (double opt-in), and every email has an unsubscribe link. We never sell or share your email. To be removed, unsubscribe or write to us.</p>""" if CONFIG.get('mailerlite_action') else '') + (f"""<p><b>Optional accounts.</b> In Paw Party and Paw Diary you can choose to sign in (with Google or with a link sent to your email) to keep your data on all your devices. If you do, we store your email address and a copy of your app data (pets, small pet photo, diary notes, reminders and saved names) in Google Firebase (Firestore), in the United States. Diary photos are not uploaded. Only you can read your data. You can delete your account and the cloud copy at any time from the Account button in the app, or by writing to us.</p>""" if CONFIG.get('firebase') else '') + f"""<p><b>Children.</b> The site is meant for a general audience and is not directed to children under 13. We do not knowingly collect personal information from children.</p>
+<p><b>Your rights.</b> Because we do not keep personal data from the apps, there is nothing for us to access or delete. For questions about analytics data, write to us.</p>
 <p><b>Contact.</b> <a href="mailto:{CONFIG['contact']}">{CONFIG['contact']}</a></p><p class="note">Last updated: November 14, 2026.</p>""", today)
+    urls.append(('/privacy/', dt.date(2026, 11, 14)))
+    page('/terms/', 'Terms of Use | Cozy Paws', 'Terms of use for the Cozy Paws website and the Paw Party and Paw Diary apps.', f"""<h1>Terms of use</h1>
+<p>This website and the Paw Party and Paw Diary apps are provided by {CONFIG['company']} (a sole proprietorship, Cozy Paws brand). By using them you agree to these terms.</p>
+<p><b>Free, for fun and general information.</b> The calculators, quiz, zodiac, diary, reminders, food calculator and other tools are free and for entertainment and general information only. They are not veterinary advice. Always ask your vet about your pet's health, food and weight.</p>
+<p><b>Your content.</b> Photos and text you add stay on your device. You are responsible for having the right to use the photos you add. Cards you make are yours to download, print and share for personal, non-commercial use. The Cozy Paws stamps and logo remain our property and may not be resold.</p>
+<p><b>Products.</b> Cozy Paws designs are created by Azu in Salt Lake City and printed on demand by our production partners. Purchases happen on Etsy under Etsy's terms.</p>
+<p><b>No warranty.</b> The site and apps are provided "as is", without warranties. Reminders depend on your device and calendar; we cannot guarantee they will fire, so do not rely only on them for medication. We are not liable for lost data stored on your device or for decisions made based on the tools. Back up anything important (Paw Diary has a backup button).</p>
+<p><b>Changes.</b> We may update these terms; the date below shows the latest version. Contact: <a href="mailto:{CONFIG['contact']}">{CONFIG['contact']}</a>.</p>
+<p class="note">Last updated: November 14, 2026. Governed by the laws of the State of Utah, USA.</p>""", today)
+    urls.append(('/terms/', dt.date(2026, 11, 14)))
     page('/404.html', 'Page not found | Cozy Paws', 'Page not found.', '<h1>Oops, this page ran off to chase a squirrel</h1><p><a href="/">Go to the home page</a> or <a href="/gifts/">see the gift guides</a>.</p>', today, canonical=False)
+
+    # página de vuelta de la autorización de Etsy (app "Cozy Paws Shop Tools"): lleva el código a un issue
+    # "etsy-code" de crux-report, donde un workflow lo guarda (tools/etsy_digital). No va al sitemap.
+    os.makedirs(os.path.join(OUT, 'etsy-auth'), exist_ok=True)
+    open(os.path.join(OUT, 'etsy-auth', 'index.html'), 'w', encoding='utf-8').write(ETSY_AUTH_HTML)
 
     # sitemap, robots, feed
     sm = ''.join(f'<url><loc>{CONFIG["url"]}{u}</loc><lastmod>{d.isoformat()}</lastmod></url>' for u, d in urls)
     open(os.path.join(OUT, 'sitemap.xml'), 'w').write(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sm}</urlset>')
     open(os.path.join(OUT, INDEXNOW_KEY + '.txt'), 'w').write(INDEXNOW_KEY)
     open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\nSitemap: {CONFIG["url"]}/sitemap.xml\n')
-    open(os.path.join(OUT, '_headers'), 'w').write('/img/*\n  Cache-Control: public, max-age=604800\n')
+    open(os.path.join(OUT, '_headers'), 'w').write('/img/*\n  Cache-Control: public, max-age=604800\n/fun/sw.js\n  Cache-Control: no-cache\n/diary/sw.js\n  Cache-Control: no-cache\n/*.webmanifest\n  Content-Type: application/manifest+json\n')
 
     items = []
     for p in prods:
@@ -902,6 +985,7 @@ def build(today):
         items.append((HUB['live'], f'{HUB["h1"]} {today.year}', f'/gifts/{HUB["id"]}/', f'/img/pin/g-{HUB["id"]}.jpg', HUB['intro'][:300], 'g-' + HUB['id']))
     for t in tools_live:
         items.append((t['live'], t['h1'], f'/tools/{t["id"]}/', f'/img/pin/t-{t["id"]}.jpg', t['desc'], 't-' + t['id']))
+    items += [x for x in items_apps if x[0] <= today] + seo_items + blog_items
     items.sort(key=lambda x: x[0], reverse=True)
     xi = ''
     for d, title, path, img, desc, gid in items[:60]:

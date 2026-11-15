@@ -1,0 +1,25 @@
+# Claves por vencer: los lunes revisa FB_PAGE_TOKEN, THREADS_TOKEN y GH_SECRETS_PAT; si algo vence en menos de 21 días
+# o dejó de andar, abre un issue "🔑 Claves por vencer" (GitHub le manda el mail a Azu). Sin Claude.
+# Corre después de la renovación de Threads de los lunes (cozypaws-redes 16:20 UTC). Nunca imprime las claves.
+# El mismo revisor corre en crux-report para Printify y Etsy. Código: tools/claves.py
+name: Claves por vencer
+on:
+  schedule:
+    - cron: '47 18 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  claves:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Revisar claves
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          THREADS_TOKEN: ${{ secrets.THREADS_TOKEN }}
+          GH_SECRETS_PAT: ${{ secrets.GH_SECRETS_PAT }}
+        run: python3 tools/claves.py

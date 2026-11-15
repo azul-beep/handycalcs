@@ -18,6 +18,9 @@ h2{font-size:1.3rem;margin:1.6em 0 .5em}h3{font-size:1rem;margin:0 0 .4em}
 .results{padding:20px;background:var(--soft)}
 @media(max-width:680px){.calc{grid-template-columns:1fr}.calc form{border-right:0;border-bottom:1px solid var(--line)}}
 .f{margin-bottom:12px}label{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
+.lab{display:block;font-weight:600;font-size:.92rem;margin-bottom:4px}
+.trow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 64px;gap:6px}.trow input{min-width:0;padding:8px 6px;font-size:.95rem}
+.trow.th{font-size:.78rem;color:var(--mut);margin:-2px 0 6px}
 .inp{position:relative;display:flex;align-items:center}
 input,select,textarea{width:100%;font:inherit;font-size:1.05rem;padding:10px 12px;border:1.5px solid #cfd5d0;border-radius:10px;background:#fff;color:var(--ink)}
 textarea{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.95rem}
@@ -59,3 +62,4 @@ summary{font-weight:600;cursor:pointer}details p{margin:.6em 0 .2em}
 .news{margin-top:26px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--pri);border-radius:var(--r);padding:4px 18px 12px}.news h2{font-size:1.1rem}
 .nl{display:flex;gap:8px;flex-wrap:wrap}.nl input[type=email]{flex:1 1 220px}
 .tag{background:#fde68a;color:#713f12;border-radius:6px;padding:1px 6px;font-size:.75rem;font-weight:700}
+.post{max-width:72ch}.post p,.post li{line-height:1.7}.post h2{margin-top:28px}.post .tips li{margin:6px 0}.note{font-size:.88rem;color:var(--mut)}.kicker{font-size:.85rem;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin:0 0 4px}

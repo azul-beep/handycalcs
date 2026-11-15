@@ -1,0 +1,14 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer"><title>Cozy Paws · Etsy</title>
+<style>body{font-family:system-ui,sans-serif;max-width:34rem;margin:3rem auto;padding:0 1rem;color:#22282A;line-height:1.5}
+a.b{display:inline-block;background:#22282A;color:#fff;padding:.8rem 1.2rem;border-radius:.6rem;text-decoration:none;font-weight:600}</style>
+</head><body><h1>Cozy Paws · Etsy</h1><p id="m">Un segundo...</p><p id="b"></p>
+<script>
+var q=new URLSearchParams(location.search),c=q.get('code'),m=document.getElementById('m');
+if(c){var u='https://github.com/azul-beep/crux-report/issues/new?title=etsy-code&body='+encodeURIComponent('code: '+c);
+m.textContent='Etsy dio el permiso. Ahora en GitHub tocá "Create" (o "Submit new issue") y listo.';
+document.getElementById('b').innerHTML='<a class="b" href="'+u+'">Ir a GitHub</a>';
+history.replaceState(null,'',location.pathname);location.replace(u);}
+else{m.textContent='Etsy no dio el permiso'+(q.get('error')?' ('+q.get('error')+')':'')+'. Volvé a tocar el link del mail de GitHub.';}
+</script></body></html>

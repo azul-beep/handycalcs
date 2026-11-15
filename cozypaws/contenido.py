@@ -7,6 +7,9 @@ render(site_dir, live_prods) arma las imágenes con plantillas (la llama build.p
   site/img/social/<id>.jpg       post cuadrado 1080x1080
   site/img/social/<id>-story.jpg historia 1080x1920
   site/img/story/<sku>.jpg       historia "New in the shop" de cada producto a la venta
+render_articulos(site_dir, articulos) arma, para cada artículo del blog ya publicado (cozypaws/articulos/):
+  site/img/social/a-<slug>.jpg       post 1080x1350 "New on the blog" (Instagram y Facebook)
+  site/img/social/a-<slug>-story.jpg historia 1080x1920
 Las imágenes quedan guardadas en data/social/ para no rehacerlas en cada corrida.
 """
 import hashlib, os, shutil
@@ -238,3 +241,74 @@ def render(site_dir, live_prods):
         if os.path.exists(src):
             key = p['short'] + p.get('precio', '') + str(os.path.getsize(src))
             _cached(key, os.path.join(site_dir, 'img', 'story', p['sku'] + '.jpg'), lambda p=p, src=src: _story_producto(p, src))
+
+
+def _card_articulo(a, W, H, stamp=None):
+    """Tarjeta "New on the blog" para reciclar cada artículo en un post (1080x1350) o una historia (1080x1920)."""
+    from PIL import Image, ImageDraw
+    im = Image.new('RGB', (W, H), CREAM)
+    _paws(im)
+    d = ImageDraw.Draw(im)
+    m = 60
+    story = H > 1500
+    d.rounded_rectangle((m, m, W - m, H - m), 36, fill=CREAM2, outline=GOLD, width=6)
+    d.rounded_rectangle((m + 16, m + 16, W - m - 16, H - m - 16), 28, outline=(226, 205, 160), width=2)
+    top = m + (260 if story else 90)
+    sf = _font('script', 96 if story else 80)
+    t = 'New on the blog'
+    d.text(((W - d.textlength(t, font=sf)) / 2, top), t, font=sf, fill=BLUE)
+    d.line(((W - 140) / 2, top + 130, (W + 140) / 2, top + 130), fill=GOLD, width=4)
+    inner_w = W - 2 * m - 140
+    y = top + 175
+    if stamp and os.path.exists(stamp):
+        st = Image.open(stamp).convert('RGBA')
+        side = 300 if story else 240
+        st.thumbnail((side, side))
+        im.paste(st, (int((W - st.width) / 2), int(y)), st)
+        y += st.height + 30
+    bottom = H - m - (520 if story else 300)
+    tf, tl, ts = _fit(d, a.get('pin') or a['h1'], 'title', inner_w, (bottom - y) * 0.62, 92 if story else 80, 46, 1.15)
+    y = _centered(d, tl, tf, ts, y, W, PLUM, 1.15) + 26
+    if a.get('sub'):
+        bf, bl, bs = _fit(d, a['sub'], 'body', inner_w, max(60, bottom - y), 46 if story else 42, 28, 1.35)
+        _centered(d, bl, bf, bs, y, W, (80, 60, 70), 1.35)
+    # botón + marca
+    by = H - m - (440 if story else 250)
+    bf = _font('title', 44)
+    btn = 'Read the full guide'
+    bw = d.textlength(btn, font=bf) + 80
+    d.rounded_rectangle(((W - bw) / 2, by, (W + bw) / 2, by + 84), 42, fill=PLUM)
+    d.text(((W - d.textlength(btn, font=bf)) / 2, by + 14), btn, font=bf, fill=CREAM2)
+    logo = Image.open(os.path.join(DATA, 'brand', 'logo-160.png')).convert('RGBA').resize((90, 90))
+    fy = by + 120
+    sf = _font('script', 60)
+    bw = d.textlength('Cozy Paws', font=sf)
+    x0 = (W - (90 + 20 + bw)) / 2
+    im.paste(logo, (int(x0), int(fy)), logo)
+    d.text((x0 + 110, fy + 6), 'Cozy Paws', font=sf, fill=PLUM)
+    if story:
+        uf = _font('body', 38)
+        u = 'cozypawsgifts.pages.dev/blog'
+        d.text(((W - d.textlength(u, font=uf)) / 2, fy + 130), u, font=uf, fill=BLUE)
+    return im
+
+
+def render_articulos(site_dir, articulos):
+    """Imágenes de redes para cada artículo ya publicado (las usa social.py para el post y la historia del artículo)."""
+    for a in articulos:
+        stamp = os.path.join(DATA, 'apps', 'stamps', a.get('stamp', '') + '.png') if a.get('stamp') else None
+        key = 'art' + repr((a.get('pin'), a['h1'], a.get('sub'), a.get('stamp')))
+        base = os.path.join(site_dir, 'img', 'social', 'a-' + a['slug'])
+        _cached(key, base + '.jpg', lambda a=a, stamp=stamp: _card_articulo(a, 1080, 1350, stamp))
+        _cached(key, base + '-story.jpg', lambda a=a, stamp=stamp: _card_articulo(a, 1080, 1920, stamp))
+
+
+TAGS_ART = '#petcare #pettips #doglover #catlover #cozypaws'
+
+
+def caption_articulo(a, url, red):
+    """Texto del post que recicla un artículo. En Instagram los links no se pueden tocar: va 'link in bio'."""
+    link = f"{url}/blog/{a['slug']}/"
+    texto = f"New on the blog: {a['h1']} 🐾\n\n{a['description']}\n\n"
+    texto += 'Read the full guide: link in bio (cozypawsgifts.pages.dev/blog)\n\n' if red == 'instagram' else f'Read the full guide: {link}\n\n'
+    return texto + 'Save this for later and share it with a friend who has a pet. ' + TAGS_ART

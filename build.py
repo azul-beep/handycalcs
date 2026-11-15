@@ -15,12 +15,13 @@ CONFIG = dict(
     pixel="",          # Meta Pixel ID, digits only
     adsense="ca-pub-1174178180336933",
     gsc_verify="snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk",
+    pinterest_verify="0d47d56066e050ff1586ee7b32e60bf2",   # Pinterest "Claim website" meta tag content (p:domain_verify), only the code
     mailerlite_action="",  # MailerLite embedded form action, e.g. https://assets.mailerlite.com/jsonp/ACCOUNT/forms/FORMID/subscribe
 )
 # Affiliate boxes. A link with an empty url is not shown.
 AMAZON_TAG = "cruxreport-20"
 INDEXNOW_KEY = "fa73deeb0b15a8fbbf4e7d3b06044329"  # public key for IndexNow (Bing, Yandex, Seznam); file served at /<key>.txt
-AMAZON_ON = False      # turn on after adding this site to the Amazon Associates account
+AMAZON_ON = True       # site added to the Amazon Associates account (15 nov 2026)
 AFFILIATES = {
     "restaurant": [
         dict(name="Publer", url="", en="Schedule your restaurant's Instagram, Facebook and TikTok posts for the whole week in one sitting.", es="Programa los posts de Instagram, Facebook y TikTok de tu restaurante para toda la semana de una vez."),
@@ -39,7 +40,7 @@ AFFILIATES = {
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "site")
-TODAY = datetime.date.today().isoformat()
+TODAY = os.environ.get("HC_TODAY") or datetime.date.today().isoformat()  # HC_TODAY=2026-11-20 to preview a date
 E = html.escape
 
 UI = {
@@ -47,13 +48,13 @@ UI = {
             related="Related calculators", privacy="Privacy policy", cookies="Cookie policy", terms="Terms of use", about="About", advertise="Advertise",
             other="Español", disclaimer="Results are estimates for information only, not financial, legal, tax or medical advice.",
             cookieset="Cookie settings", rights="All rights reserved.", copy="Copy", aff_title="Useful tools",
-            aff_note="Some links are affiliate links: we may earn a commission at no extra cost to you.",
+            aff_note="Some links are affiliate links: we may earn a commission at no extra cost to you. As an Amazon Associate we earn from qualifying purchases.",
             tagline="Free, fast calculators for tips, pay, budgets, loans, health, school and recipes.", private="Private: everything is calculated on your device."),
  "es": dict(home="Inicio", all="Todas las calculadoras", calc="Calcular", result="Resultados", faq="Preguntas frecuentes",
             related="Otras calculadoras", privacy="Política de privacidad", cookies="Política de cookies", terms="Términos de uso", about="Quiénes somos", advertise="Publicidad",
             other="English", disclaimer="Los resultados son estimaciones a modo informativo, no asesoramiento financiero, legal, impositivo ni médico.",
             cookieset="Configurar cookies", rights="Todos los derechos reservados.", copy="Copiar", aff_title="Herramientas útiles",
-            aff_note="Algunos enlaces son de afiliados: podemos ganar una comisión sin costo extra para ti.",
+            aff_note="Algunos enlaces son de afiliados: podemos ganar una comisión sin costo extra para ti. Como afiliados de Amazon, ganamos con las compras que califican.",
             tagline="Calculadoras gratis y rápidas para propinas, sueldos, presupuestos, préstamos, salud, escuela y recetas.", private="Privado: todo se calcula en tu dispositivo."),
 }
 
@@ -82,7 +83,7 @@ def affiliate_box(cat, lang):
     lis = "".join('<li>%s<a href="%s" rel="sponsored noopener" target="_blank">%s</a>: %s</li>' % ('<span class="tag">%s</span> ' % spon if a.get("paid") else "", E(l), E(a["name"]), E(a[lang])) for a, l in items)
     return '<aside class="aff"><h2>%s</h2><ul>%s</ul><p class="small">%s</p></aside>' % (u["aff_title"], lis, u["aff_note"])
 
-CSS_VER = "3"
+CSS_VER = "4"
 
 # ============================== Printable calendars ==============================
 # calendarios/calendarios-AAAA/ is made by calendarios/regenerar.py (once a year, every Oct 1).
@@ -241,6 +242,7 @@ def head(lang, title, desc, path, alt_path, extra_ld=None):
         ads = ('<script>window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.pauseAdRequests=1;</script>'
                '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=%s" crossorigin="anonymous"></script>' % c["adsense"])
     gsc = '<meta name="google-site-verification" content="%s">' % c["gsc_verify"] if c["gsc_verify"] else ""
+    if c.get("pinterest_verify"): gsc += '<meta name="p:domain_verify" content="%s">' % c["pinterest_verify"]
     alts = ""
     if alt_path:
         en_p, es_p = (path, alt_path) if lang == "en" else (alt_path, path)
@@ -282,6 +284,7 @@ def header(lang, alt_path):
     alt = alt_path or url("es" if lang == "en" else "en")
     cl = cal_link(lang)
     cal_nav = '<a href="%s">%s</a>' % (cl[0], E(cl[1])) if cl else ""
+    if TOOLS_LIVE: cal_nav = '<a href="%s">%s</a>' % (TOOL_UI[lang]["hub"], TOOL_UI[lang]["short"]) + cal_nav
     if lang == "es" and herr_link(): cal_nav += '<a href="/herramientas-gratis/">Herramientas gratis</a>'
     if lang == "es" and os.path.isdir(os.path.join(OUT, "imprimibles")): cal_nav += '<a href="/imprimibles/">Imprimibles</a>'
     return f"""<header class="top"><div class="wrap">
@@ -301,8 +304,10 @@ def footer(lang):
             "".join('<li><a href="%s">%s</a></li>' % (url(lang, c[lang]["slug"]), E(c[lang]["h1"])) for c in items))
     cl = cal_link(lang)
     cal_foot = '<a href="%s">%s</a> · ' % (cl[0], E(cl[1])) if cl else ""
+    if TOOLS_LIVE: cal_foot += '<a href="%s">%s</a> · ' % (TOOL_UI[lang]["hub"], TOOL_UI[lang]["name"])
     if lang == "es" and herr_link(): cal_foot += '<a href="/herramientas-gratis/">Herramientas gratis para emprender</a> · '
     if lang == "es" and os.path.isdir(os.path.join(OUT, "imprimibles")): cal_foot += '<a href="/imprimibles/">Sudoku del día y fichas bilingües</a> · '
+    if lang == "en" and ARTICLES: cal_foot += '<a href="/guides/">Guides</a> · '
     return f"""</main>
 <footer class="foot"><div class="wrap">
 <div class="fcols">{cats}</div>
@@ -393,6 +398,11 @@ def embed_page(c, lang):
 """
     return embed_path(c, lang), s
 
+def guides_box(c, lang):
+    gs = guides_for(c["id"]) if lang == "en" else []
+    if not gs: return ""
+    return '<section class="content"><h2>Guides</h2><div class="rels">%s</div></section>' % "".join('<a class="rel" href="/guides/%s/">%s</a>' % (a["slug"], E(a["h1"])) for a in gs)
+
 def calc_page(c, lang):
     d = c[lang]; other = "es" if lang == "en" else "en"
     path = url(lang, d["slug"]); alt = url(other, c[other]["slug"])
@@ -414,7 +424,7 @@ def calc_page(c, lang):
 <p class="lead">{E(d['intro'])}</p>
 {calc_widget(c, lang)}
 <article class="content">{d['body']}</article>
-{affiliate_box(c['aff'], lang)}
+{guides_box(c, lang)}{affiliate_box(c['aff'], lang)}
 {newsletter(lang)}
 <section class="content"><h2>{u['faq']}</h2>{faq}</section>
 <section class="content"><h2>{u['related']}</h2><div class="rels">{rel}</div></section>
@@ -446,7 +456,14 @@ def home_page(lang):
             s += '<a class="tile" href="%s" data-k="%s"><strong>%s</strong><span>%s</span></a>' % (
                 url(lang, c[lang]["slug"]), E((c[lang]["h1"] + " " + c[lang]["title"]).lower()), E(c[lang]["h1"]), E(c[lang]["intro"]))
         s += '</div></section>'
-    s += '</div>' + newsletter(lang)
+    s += '</div>'
+    if TOOLS_LIVE:
+        s += '<section class="cat" id="tools"><h2>%s</h2><div class="grid">%s</div><p><a href="%s">%s →</a></p></section>' % (
+            TOOL_UI[lang]["name"], tools_tiles(lang, TOOLS_LIVE[-6:][::-1]), TOOL_UI[lang]["hub"], "All tools" if lang == "en" else "Todas las herramientas")
+    if lang == "en" and ARTICLES:
+        s += '<section class="cat" id="guides"><h2>Guides</h2><div class="grid">%s</div><p><a href="/guides/">All guides →</a></p></section>' % "".join(
+            '<a class="tile" href="/guides/%s/"><strong>%s</strong><span>%s</span></a>' % (a["slug"], E(a["h1"]), E(a["description"])) for a in list(reversed(ARTICLES))[:6])
+    s += newsletter(lang)
     s += ("""<script>function hcFilter(q){q=q.toLowerCase().trim();document.querySelectorAll('.tile').forEach(function(t){t.style.display=!q||t.getAttribute('data-k').indexOf(q)>-1?'':'none'});document.querySelectorAll('.cat').forEach(function(c){c.style.display=[].some.call(c.querySelectorAll('.tile'),function(t){return t.style.display!=='none'})?'':'none'})}</script>""")
     s += footer(lang) + "</body></html>\n"
     return path, s
@@ -470,7 +487,7 @@ def legal(lang, key):
 <h2>Analytics</h2><p>If you accept cookies, we use Google Analytics 4 to count visits and see which calculators are used. Google may collect your IP address (shortened), device and browser information, and pages visited. See <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>.</p>
 <h2>Advertising</h2><p>We show ads through Google AdSense. Google and its partners use cookies to serve ads based on your visits to this and other websites. You can turn off personalized ads at <a href="https://adssettings.google.com" rel="noopener">Google Ads Settings</a> or <a href="https://www.aboutads.info" rel="noopener">aboutads.info</a>. If you choose "Necessary only", we ask Google to show non-personalized ads. Learn <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">how Google uses data from partner sites</a>.</p>
 <h2>Meta Pixel</h2><p>If you accept cookies, we use the Meta Pixel to measure visits that come from Facebook or Instagram ads. See <a href="https://www.facebook.com/privacy/policy/" rel="noopener">Meta's privacy policy</a>.</p>
-<h2>Affiliate links</h2><p>Some pages contain affiliate links. If you buy through them we may earn a commission. The partner may set its own cookies when you click.</p>
+<h2>Affiliate links</h2><p>Some pages contain affiliate links. If you buy through them we may earn a commission. The partner may set its own cookies when you click. As an Amazon Associate we earn from qualifying purchases.</p>
 <h2>Your choices and rights</h2><p>You can change your cookie choice at any time with "Cookie settings" at the bottom of every page. Residents of California and other US states with privacy laws can ask what data is collected about them and request deletion; because we do not store personal data ourselves, requests about analytics and ads are handled by Google and Meta, and we will help you with them. We do not sell personal information. We honor Global Privacy Control signals as an opt-out of personalized ads.</p>
 <h2>Children</h2><p>This site is not directed to children under 13 and we do not knowingly collect their data.</p>
 <h2>Contact</h2><p><a href="mailto:{mail}">{mail}</a></p>"""),
@@ -479,7 +496,7 @@ def legal(lang, key):
 <h2>Estadísticas</h2><p>Si aceptas las cookies, usamos Google Analytics 4 para contar visitas y ver qué calculadoras se usan. Google puede recoger tu dirección IP (acortada), datos del dispositivo y del navegador, y las páginas visitadas. Mira la <a href="https://policies.google.com/privacy?hl=es" rel="noopener">política de privacidad de Google</a>.</p>
 <h2>Publicidad</h2><p>Mostramos anuncios de Google AdSense. Google y sus socios usan cookies para mostrar anuncios según tus visitas a este y otros sitios. Puedes desactivar los anuncios personalizados en <a href="https://adssettings.google.com" rel="noopener">Configuración de anuncios de Google</a> o en <a href="https://www.aboutads.info" rel="noopener">aboutads.info</a>. Si eliges "Solo necesarias", le pedimos a Google que muestre anuncios no personalizados. Más información sobre <a href="https://policies.google.com/technologies/partner-sites?hl=es" rel="noopener">cómo usa Google los datos de sitios asociados</a>.</p>
 <h2>Píxel de Meta</h2><p>Si aceptas las cookies, usamos el Píxel de Meta para medir las visitas que llegan desde anuncios de Facebook o Instagram. Mira la <a href="https://www.facebook.com/privacy/policy/" rel="noopener">política de privacidad de Meta</a>.</p>
-<h2>Enlaces de afiliados</h2><p>Algunas páginas tienen enlaces de afiliados. Si compras a través de ellos podemos ganar una comisión. El socio puede usar sus propias cookies cuando haces clic.</p>
+<h2>Enlaces de afiliados</h2><p>Algunas páginas tienen enlaces de afiliados. Si compras a través de ellos podemos ganar una comisión. El socio puede usar sus propias cookies cuando haces clic. Como afiliados de Amazon, ganamos con las compras que califican.</p>
 <h2>Tus opciones y derechos</h2><p>Puedes cambiar tu elección de cookies cuando quieras con "Configurar cookies" al pie de cada página. Los residentes de California y otros estados con leyes de privacidad pueden pedir saber qué datos se recogen y pedir que se borren; como nosotros no guardamos datos personales, esos pedidos los resuelven Google y Meta, y te ayudamos con ellos. No vendemos información personal. Respetamos la señal Global Privacy Control como rechazo de anuncios personalizados.</p>
 <h2>Menores</h2><p>Este sitio no está dirigido a menores de 13 años y no recogemos sus datos a sabiendas.</p>
 <h2>Contacto</h2><p><a href="mailto:{mail}">{mail}</a></p>"""))
@@ -542,6 +559,131 @@ def legal(lang, key):
     s += footer(lang) + "</body></html>\n"
     return path, s
 
+
+# ------------------------------ guides (articles) ------------------------------
+# Articles written in advance in src/articles/NN-<slug>.html ("key: value" header, a "---" line, then the HTML body).
+# NN sets the order: 01 goes live on ARTICLES_START, 02 the next day, and so on. The daily workflow (8 AM Utah) runs build.py,
+# so each article appears on its day by itself, free and without Claude. To add more, add files with the next number.
+import re as _re
+ARTICLES_START = datetime.date(2026, 11, 16)
+def load_articles():
+    d = os.path.join(ROOT, "src", "articles"); out = []
+    for f in sorted(os.listdir(d)) if os.path.isdir(d) else []:
+        m = _re.match(r"(\d+)-([a-z0-9-]+)\.html$", f)
+        if not m: continue
+        head_, body = open(os.path.join(d, f), encoding="utf-8").read().split("\n---\n", 1)
+        a = dict(line.split(": ", 1) for line in head_.strip().splitlines())
+        a.update(n=int(m.group(1)), slug=m.group(2), body=body.strip())
+        a["calcs"] = [x.strip() for x in a.get("calcs", "").split(",") if x.strip() in BY_ID]
+        a["live"] = ARTICLES_START + datetime.timedelta(days=a["n"] - 1)
+        out.append(a)
+    return out
+ALL_ARTICLES = load_articles()
+ARTICLES = [a for a in ALL_ARTICLES if a["live"] <= datetime.date.fromisoformat(TODAY)]
+
+def guides_for(cid):
+    return [a for a in ARTICLES if cid in a["calcs"]]
+
+def article_page(a):
+    path = "/guides/%s/" % a["slug"]
+    ld = [{"@context": "https://schema.org", "@type": "Article", "headline": a["h1"], "description": a["description"],
+           "datePublished": a["live"].isoformat(), "inLanguage": "en", "mainEntityOfPage": abs_url(path),
+           "author": {"@type": "Organization", "name": CONFIG["name"]}, "publisher": {"@type": "Organization", "name": CONFIG["name"]}},
+          {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+              {"@type": "ListItem", "position": 1, "name": CONFIG["name"], "item": abs_url("/")},
+              {"@type": "ListItem", "position": 2, "name": "Guides", "item": abs_url("/guides/")},
+              {"@type": "ListItem", "position": 3, "name": a["h1"], "item": abs_url(path)}]}]
+    tiles = "".join('<a class="tile" href="%s"><strong>%s</strong><span>%s</span></a>' % (url("en", BY_ID[c]["en"]["slug"]), E(BY_ID[c]["en"]["h1"]), E(BY_ID[c]["en"]["intro"])) for c in a["calcs"])
+    more = "".join('<a class="rel" href="/guides/%s/">%s</a>' % (o["slug"], E(o["h1"])) for o in reversed(ARTICLES) if o is not a)[:4000]
+    s = head("en", a["title"], a["description"], path, None, ld) + header("en", None)
+    s += '<nav class="crumbs"><a href="/">Home</a> › <a href="/guides/">Guides</a></nav>'
+    s += '<article class="content post"><p class="kicker">Guide · %s</p><h1>%s</h1>%s</article>' % (a["live"].strftime("%B %d, %Y").replace(" 0", " "), E(a["h1"]), a["body"])
+    if tiles: s += '<section class="content"><h2>Calculators for this</h2><div class="grid">%s</div></section>' % tiles
+    s += newsletter("en")
+    if more: s += '<section class="content"><h2>More guides</h2><div class="rels">%s</div></section>' % more
+    s += footer("en") + "</body></html>\n"
+    return path, s
+
+def guides_index():
+    path = "/guides/"
+    tiles = "".join('<a class="tile" href="/guides/%s/"><strong>%s</strong><span>%s</span></a>' % (a["slug"], E(a["h1"]), E(a["description"])) for a in reversed(ARTICLES))
+    s = head("en", "Money, Pay and Kitchen Guides | " + CONFIG["name"], "Plain-English guides to tipping, pay, budgets, debt, discounts and kitchen math, each with a free calculator.", path, None) + header("en", None)
+    s += '<h1>Guides</h1><p class="lead">Plain-English guides to everyday money and kitchen math, each with a free calculator. A new guide every day.</p><div class="grid">%s</div>' % tiles
+    s += footer("en") + "</body></html>\n"
+    return path, s
+
+# ------------------------------ online tools (/tools/ and /es/herramientas/) ------------------------------
+# Definitions and texts in src/tools.py, widgets in src/tools.js (everything runs in the visitor's browser).
+# Drip (Azu's rule: a little every day): tools n=1 and n=2 go live on TOOLS_START, then one more tool per day (EN + ES).
+# The daily workflow runs build.py at 8 AM Utah, so each tool appears on its day by itself, free and without Claude.
+# To add tools: add entries to src/tools.py with the next "n".
+import tools as TL
+TOOLS_START = datetime.date(2026, 11, 16)
+def tool_live(x): return TOOLS_START + datetime.timedelta(days=max(0, x["n"] - 2))
+TOOLS_LIVE = sorted([x for x in TL.TOOLS if tool_live(x) <= datetime.date.fromisoformat(TODAY)], key=lambda x: x["n"])
+LIVE_IDS = {x["id"] for x in TOOLS_LIVE}
+TOOL_UI = {"en": dict(hub="/tools/", name="Free online tools", short="Tools", how="How to use it", faq="Frequently asked questions", more="More free tools",
+                      priv="Private: everything happens on your device. Nothing you type or upload is sent anywhere."),
+           "es": dict(hub="/es/herramientas/", name="Herramientas online gratis", short="Herramientas", how="Cómo se usa", faq="Preguntas frecuentes", more="Más herramientas gratis",
+                      priv="Privado: todo pasa en tu dispositivo. Nada de lo que escribes o subes se envía a ningún lado.")}
+
+def tool_url(x, lang):
+    return TOOL_UI[lang]["hub"] + x[lang]["slug"] + "/"
+
+def tools_css(s):
+    return s.replace("</head>", '<link rel="stylesheet" href="/tools.css?v=%s">\n</head>' % CSS_VER, 1)
+
+def tool_page(x, lang):
+    d = x[lang]; other = "es" if lang == "en" else "en"; tu = TOOL_UI[lang]
+    path = tool_url(x, lang); alt = tool_url(x, other)
+    app_ld = {"@context": "https://schema.org", "@type": "WebApplication", "name": d["h1"], "url": abs_url(path),
+              "applicationCategory": "UtilitiesApplication", "operatingSystem": "Any", "inLanguage": lang, "browserRequirements": "Requires JavaScript",
+              "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "description": d["desc"]}
+    faq_ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faq"]]}
+    howto = {"@context": "https://schema.org", "@type": "HowTo", "name": d["h1"], "inLanguage": lang,
+             "step": [{"@type": "HowToStep", "position": i + 1, "text": st} for i, st in enumerate(d["steps"])]}
+    crumbs = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": CONFIG["name"], "item": abs_url(url(lang))},
+        {"@type": "ListItem", "position": 2, "name": tu["name"], "item": abs_url(tu["hub"])},
+        {"@type": "ListItem", "position": 3, "name": d["h1"], "item": abs_url(path)}]}
+    faq = "".join('<details><summary>%s</summary><p>%s</p></details>' % (E(q), E(a)) for q, a in d["faq"])
+    rel_ids = [r for r in x["related"] if r in LIVE_IDS] + [o["id"] for o in TOOLS_LIVE if o["id"] not in x["related"] and o is not x]
+    rel = "".join('<a class="rel" href="%s">%s</a>' % (tool_url(TL.BY_ID[r], lang), E(TL.BY_ID[r][lang]["h1"])) for r in rel_ids[:8])
+    steps = "".join("<li>%s</li>" % E(st) for st in d["steps"])
+    s = tools_css(head(lang, d["title"], d["desc"], path, alt, [app_ld, howto, faq_ld, crumbs])) + header(lang, alt)
+    s += f"""<nav class="crumbs"><a href="{url(lang)}">{UI[lang]['home']}</a> › <a href="{tu['hub']}">{E(tu['name'])}</a></nav>
+<h1>{E(d['h1'])}</h1>
+<p class="lead">{E(d['intro'])}</p>
+{TL.widget(x, lang)}
+<p class="small priv">🔒 {tu['priv']}</p>
+<section class="content"><h2>{tu['how']}</h2><ol class="tool-steps">{steps}</ol>{d['body']}</section>
+{newsletter(lang)}
+<section class="content"><h2>{tu['faq']}</h2>{faq}</section>
+{'<section class="content"><h2>%s</h2><div class="rels">%s</div></section>' % (tu['more'], rel) if rel else ''}
+<p class="small upd">{'Updated' if lang == 'en' else 'Actualizado'}: {TODAY}</p>
+"""
+    extra = '<script src="/vendor/qrcode.js?v=%s" defer></script>\n' % CSS_VER if x["engine"] == "qr" else ""
+    s += footer(lang) + extra + '<script src="/tools.js?v=%s" defer></script>\n</body></html>\n' % CSS_VER
+    return path, s
+
+def tools_tiles(lang, items):
+    return "".join('<a class="tile" href="%s"><strong>%s</strong><span>%s</span></a>' % (tool_url(x, lang), E(x[lang]["h1"]), E(x[lang]["intro"])) for x in items)
+
+def tools_hub(lang):
+    tu = TOOL_UI[lang]; other = "es" if lang == "en" else "en"
+    path = tu["hub"]; alt = TOOL_UI[other]["hub"]
+    title = ("Free Online Tools: QR Codes, Images, Text and Random Pickers | " if lang == "en" else "Herramientas online gratis: códigos QR, imágenes, texto y sorteos | ") + CONFIG["name"]
+    desc = ("Free tools that work in your browser: QR code generator, image compressor, word counter, name picker wheel, password generator and more. No sign-up, nothing uploaded."
+            if lang == "en" else "Herramientas gratis que funcionan en tu navegador: generador de QR, comprimir imágenes, contador de palabras, ruleta de nombres, contraseñas y más. Sin registro y sin subir nada.")
+    s = tools_css(head(lang, title, desc, path, alt)) + header(lang, alt)
+    s += '<h1>%s</h1><p class="lead">%s</p>' % (E(tu["name"]), E(tu["priv"]) + (" A new tool almost every day." if lang == "en" else " Una herramienta nueva casi todos los días."))
+    for cid, names in TL.CATS.items():
+        items = [x for x in TOOLS_LIVE if x["cat"] == cid]
+        if items: s += '<section class="cat"><h2>%s</h2><div class="grid">%s</div></section>' % (names[0 if lang == "en" else 1], tools_tiles(lang, items))
+    s += footer(lang) + "</body></html>\n"
+    return path, s
+
 def write(path, content):
     fp = os.path.join(OUT, path.strip("/"), "index.html") if path.endswith("/") else os.path.join(OUT, path.strip("/"))
     os.makedirs(os.path.dirname(fp), exist_ok=True)
@@ -558,10 +700,23 @@ def main():
         pages.append(home_page(lang))
         for c in CALCS: pages.append(calc_page(c, lang)); pages.append(embed_page(c, lang))
         for k in ("about", "privacy", "cookies", "terms", "advertise"): pages.append(legal(lang, k))
+    if TOOLS_LIVE:
+        for lang in ("en", "es"):
+            pages.append(tools_hub(lang))
+            for x in TOOLS_LIVE: pages.append(tool_page(x, lang))
+    if ARTICLES:
+        pages.append(guides_index())
+        for a in ARTICLES: pages.append(article_page(a))
     for p, s in pages: write(p, s)
+    # Pinterest pins for every calculator and guide, 2 a day (tools/pines_calculadoras.py, queue in pines/calculadoras/cola.json)
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import pines_calculadoras
+    pines_calculadoras.build(OUT, CALCS, CATS, ALL_ARTICLES, CONFIG["site_url"], TODAY)
     # chips: presets click -> set input (inline in calc.js would need ids; tiny add-on)
-    for f in ("style.css", "cookie.css", "site.js", "calc.js", "favicon.svg", "og-image.png"):
+    for f in ("style.css", "cookie.css", "site.js", "calc.js", "favicon.svg", "og-image.png", "tools.js", "tools.css"):
         shutil.copy(os.path.join(ROOT, "src", f), os.path.join(OUT, f))
+    os.makedirs(os.path.join(OUT, "vendor"), exist_ok=True)
+    shutil.copy(os.path.join(ROOT, "src", "vendor", "qrcode.js"), os.path.join(OUT, "vendor", "qrcode.js"))
     with open(os.path.join(OUT, "calc.js"), "a", encoding="utf-8") as f:
         f.write("""
 document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('click',function(){var i=document.getElementById(b.getAttribute('data-set'));i.value=b.getAttribute('data-val');i.dispatchEvent(new Event('input',{bubbles:true}));});});
@@ -575,10 +730,16 @@ document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('
     pairs = [(url("en"), url("es"))] + [(url("en", c["en"]["slug"]), url("es", c["es"]["slug"])) for c in CALCS] + \
             [("/%s/" % k, "/es/%s/" % k) for k in ("about", "privacy", "cookies", "terms", "advertise")]
     pairs += [(cal_paths(y)[1], cal_paths(y)[0]) for y in cal_ys]
+    if TOOLS_LIVE:
+        pairs += [(TOOL_UI["en"]["hub"], TOOL_UI["es"]["hub"])] + [(tool_url(x, "en"), tool_url(x, "es")) for x in TOOLS_LIVE]
     for en_p, es_p in pairs:
         for p in (en_p, es_p):
             sm.append('<url><loc>%s</loc><lastmod>%s</lastmod><xhtml:link rel="alternate" hreflang="en" href="%s"/><xhtml:link rel="alternate" hreflang="es" href="%s"/></url>'
                       % (abs_url(p), TODAY, abs_url(en_p), abs_url(es_p)))
+    if ARTICLES:
+        sm.append("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (abs_url("/guides/"), TODAY))
+        for a in ARTICLES:
+            sm.append("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (abs_url("/guides/%s/" % a["slug"]), a["live"].isoformat()))
     for loc in herr_locs:
         sm.append("<url><loc>%s</loc><lastmod>%s</lastmod></url>" % (loc, TODAY))
     sm.append("</urlset>")
@@ -588,7 +749,7 @@ document.querySelectorAll('[data-set]').forEach(function(b){b.addEventListener('
     if CONFIG["adsense"]:
         write("/ads.txt", "google.com, %s, DIRECT, f08c47fec0942fa0\n" % CONFIG["adsense"].replace("ca-", ""))
     write("/_headers", "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n/*.css\n  Cache-Control: public, max-age=86400\n/*.js\n  Cache-Control: public, max-age=86400\n")
-    print("Built %d pages into %s" % (len(pages) + 1, OUT))
+    print("Built %d pages into %s (guides %d/%d, tools %d/%d)" % (len(pages) + 1, OUT, len(ARTICLES), len(ALL_ARTICLES), len(TOOLS_LIVE), len(TL.TOOLS)))
 
 if __name__ == "__main__":
     main()

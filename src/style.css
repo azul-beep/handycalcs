@@ -62,3 +62,4 @@ summary{font-weight:600;cursor:pointer}details p{margin:.6em 0 .2em}
 .news{margin-top:26px;background:#fff;border:1px solid var(--line);border-left:4px solid var(--pri);border-radius:var(--r);padding:4px 18px 12px}.news h2{font-size:1.1rem}
 .nl{display:flex;gap:8px;flex-wrap:wrap}.nl input[type=email]{flex:1 1 220px}
 .tag{background:#fde68a;color:#713f12;border-radius:6px;padding:1px 6px;font-size:.75rem;font-weight:700}
+.post{max-width:72ch}.post p,.post li{line-height:1.7}.post h2{margin-top:28px}.post .tips li{margin:6px 0}.note{font-size:.88rem;color:var(--mut)}.kicker{font-size:.85rem;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin:0 0 4px}
