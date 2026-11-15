@@ -79,7 +79,7 @@ def caja(ids, titulo, lang="en", clase="aff", estilo=""):
     items = activos(ids)
     if not items:
         return ""
-    lis = "".join('<li><a href="%s" rel="sponsored noopener" target="_blank" data-aff="%s"><b>%s</b></a>: %s</li>'
+    lis = "".join('<li><a href="%s" rel="sponsored nofollow noopener" target="_blank" data-aff="%s"><b>%s</b></a>: %s</li>'
                   % (E(u), E(p["nombre"]), E(p["nombre"]), E(p.get(lang) or p.get("en", ""))) for p, u in items)
     return '<aside class="%s"%s><h2>%s</h2><ul>%s</ul><p class="small">%s</p></aside>' % (
         clase, (' style="%s"' % estilo) if estilo else "", E(titulo), lis, NOTA[lang])
