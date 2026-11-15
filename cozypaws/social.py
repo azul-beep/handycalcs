@@ -228,7 +228,25 @@ def revisar():
     return mal
 
 
+
+def asegurar_token_de_pagina():
+    """Si FB_PAGE_TOKEN es un token de usuario (no de página), pide a Meta el token de la página y usa ese.
+    Facebook exige token de página para publicar y leer posts; Instagram funciona con cualquiera de los dos."""
+    page, tok = os.environ.get('FB_PAGE_ID'), os.environ.get('FB_PAGE_TOKEN')
+    if not (page and tok):
+        return
+    try:
+        url = f"https://graph.facebook.com/v21.0/{page}?" + urllib.parse.urlencode({'fields': 'access_token', 'access_token': tok})
+        with urllib.request.urlopen(url, timeout=60) as r:
+            nuevo = json.loads(r.read().decode()).get('access_token')
+        if nuevo and nuevo != tok:
+            os.environ['FB_PAGE_TOKEN'] = nuevo
+            print('FB_PAGE_TOKEN era de usuario: se usa el token de la página')
+    except Exception as e:
+        print(f'no se pudo pedir el token de la página: {e}')
+
 if __name__ == '__main__':
+    asegurar_token_de_pagina()
     ap = argparse.ArgumentParser()
     ap.add_argument('accion', choices=['publicar', 'contenido', 'historia', 'renovar', 'revisar'])
     ap.add_argument('--prueba', action='store_true')

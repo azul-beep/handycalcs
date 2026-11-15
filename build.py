@@ -15,6 +15,7 @@ CONFIG = dict(
     pixel="",          # Meta Pixel ID, digits only
     adsense="ca-pub-1174178180336933",
     gsc_verify="snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk",
+    pinterest_verify="",   # Pinterest "Claim website" meta tag content (p:domain_verify), only the code
     mailerlite_action="",  # MailerLite embedded form action, e.g. https://assets.mailerlite.com/jsonp/ACCOUNT/forms/FORMID/subscribe
 )
 # Affiliate boxes. A link with an empty url is not shown.
@@ -241,6 +242,7 @@ def head(lang, title, desc, path, alt_path, extra_ld=None):
         ads = ('<script>window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.pauseAdRequests=1;</script>'
                '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=%s" crossorigin="anonymous"></script>' % c["adsense"])
     gsc = '<meta name="google-site-verification" content="%s">' % c["gsc_verify"] if c["gsc_verify"] else ""
+    if c.get("pinterest_verify"): gsc += '<meta name="p:domain_verify" content="%s">' % c["pinterest_verify"]
     alts = ""
     if alt_path:
         en_p, es_p = (path, alt_path) if lang == "en" else (alt_path, path)
@@ -706,6 +708,10 @@ def main():
         pages.append(guides_index())
         for a in ARTICLES: pages.append(article_page(a))
     for p, s in pages: write(p, s)
+    # Pinterest pins for every calculator and guide, 2 a day (tools/pines_calculadoras.py, queue in pines/calculadoras/cola.json)
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import pines_calculadoras
+    pines_calculadoras.build(OUT, CALCS, CATS, ALL_ARTICLES, CONFIG["site_url"], TODAY)
     # chips: presets click -> set input (inline in calc.js would need ids; tiny add-on)
     for f in ("style.css", "cookie.css", "site.js", "calc.js", "favicon.svg", "og-image.png", "tools.js", "tools.css"):
         shutil.copy(os.path.join(ROOT, "src", f), os.path.join(OUT, f))

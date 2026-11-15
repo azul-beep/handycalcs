@@ -30,3 +30,10 @@ Free bilingual (EN/ES) calculators site. Static, no build tools needed except Py
 - Definitions and texts: `src/tools.py`. Widgets: `src/tools.js` + `src/tools.css`. QR library: `src/vendor/qrcode.js` (Kazuhiko Arase, MIT).
 - Drip (Azu's rule): tools 1 and 2 go live on `TOOLS_START` in `build.py` (2026-11-16), then one more tool per day (EN + ES) with the daily workflow. To add tools, append entries with the next `n`.
 - Monitor: `.github/workflows/herramientas-salud.yml` runs `tools/revisar_herramientas.py` every day and opens a GitHub issue (email) if a page that should be live is missing or broken.
+
+## Pinterest pins for every calculator and guide (pines/calculadoras/)
+
+- `tools/pines_calculadoras.py` (called by `build.py`) gives every calculator 4 pins (EN/ES x design A "calculator card" and B "question + answer") and every guide 1 pin. Images (1000x1500) are drawn with Pillow into `site/pines/calculadoras/img/`.
+- Queue with a fixed day per pin: `pines/calculadoras/cola.json` (2 pins a day, never on a past day). New calculators in `src/calcs.py` and new guides in `src/articles/` join the queue by themselves; a guide pin never goes out before the guide.
+- Feeds for Pinterest auto-publish (each feed shows only the newest 6 pins, so connecting late never dumps the backlog): `/pines/calculadoras/rss-en.xml` (board "Free Calculators"), `/pines/calculadoras/rss-es.xml` (board "Calculadoras gratis"), `/pines/calculadoras/rss.xml` (both).
+- Links carry `utm_source=pinterest&utm_campaign=pin-calc-a|pin-calc-b|pin-guide` for GA4. Preview all designs: `python3 tools/pines_calculadoras.py /tmp/preview`.
