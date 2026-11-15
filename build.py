@@ -625,6 +625,10 @@ def main():
         pages.append(guides_index())
         for a in ARTICLES: pages.append(article_page(a))
     for p, s in pages: write(p, s)
+    # Pinterest pins for every calculator and guide, 2 a day (tools/pines_calculadoras.py, queue in pines/calculadoras/cola.json)
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import pines_calculadoras
+    pines_calculadoras.build(OUT, CALCS, CATS, ALL_ARTICLES, CONFIG["site_url"], TODAY)
     # chips: presets click -> set input (inline in calc.js would need ids; tiny add-on)
     for f in ("style.css", "cookie.css", "site.js", "calc.js", "favicon.svg", "og-image.png"):
         shutil.copy(os.path.join(ROOT, "src", f), os.path.join(OUT, f))

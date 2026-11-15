@@ -23,3 +23,10 @@ Free bilingual (EN/ES) calculators site. Static, no build tools needed except Py
 ## Pinterest-only pin feeds (pines/)
 
 - `pines/<name>/` holds `pines-en/`, `pines-es/` and `rss-completo.xml` (the queue). Start days are in `pines/goteo.json` (navidad 2026-11-18, agenda-2027 2026-11-20). `build.py` publishes `/pines/<name>/rss.xml` with the drip; add those feeds to Pinterest auto-publish.
+
+## Pinterest pins for every calculator and guide (pines/calculadoras/)
+
+- `tools/pines_calculadoras.py` (called by `build.py`) gives every calculator 4 pins (EN/ES x design A "calculator card" and B "question + answer") and every guide 1 pin. Images (1000x1500) are drawn with Pillow into `site/pines/calculadoras/img/`.
+- Queue with a fixed day per pin: `pines/calculadoras/cola.json` (2 pins a day, never on a past day). New calculators in `src/calcs.py` and new guides in `src/articles/` join the queue by themselves; a guide pin never goes out before the guide.
+- Feeds for Pinterest auto-publish (each feed shows only the newest 6 pins, so connecting late never dumps the backlog): `/pines/calculadoras/rss-en.xml` (board "Free Calculators"), `/pines/calculadoras/rss-es.xml` (board "Calculadoras gratis"), `/pines/calculadoras/rss.xml` (both).
+- Links carry `utm_source=pinterest&utm_campaign=pin-calc-a|pin-calc-b|pin-guide` for GA4. Preview all designs: `python3 tools/pines_calculadoras.py /tmp/preview`.

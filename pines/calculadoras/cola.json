@@ -1,0 +1,543 @@
+{
+ "_nota": "Cola de pines de Handy Calcs. La arma tools/pines_calculadoras.py; no hace falta editarla a mano.",
+ "inicio": "2026-11-17",
+ "por_dia": 2,
+ "items": [
+  {
+   "id": "guide-discount-and-sales-tax-math",
+   "fecha": "2026-11-17"
+  },
+  {
+   "id": "guide-how-much-to-tip",
+   "fecha": "2026-11-17"
+  },
+  {
+   "id": "guide-how-to-scale-a-recipe",
+   "fecha": "2026-11-18"
+  },
+  {
+   "id": "calc-tip-en-a",
+   "fecha": "2026-11-18"
+  },
+  {
+   "id": "guide-how-to-split-a-bill-fairly",
+   "fecha": "2026-11-19"
+  },
+  {
+   "id": "calc-tip-es-a",
+   "fecha": "2026-11-19"
+  },
+  {
+   "id": "guide-hourly-to-salary",
+   "fecha": "2026-11-20"
+  },
+  {
+   "id": "calc-split-en-a",
+   "fecha": "2026-11-20"
+  },
+  {
+   "id": "guide-how-overtime-pay-works",
+   "fecha": "2026-11-21"
+  },
+  {
+   "id": "calc-split-es-a",
+   "fecha": "2026-11-21"
+  },
+  {
+   "id": "guide-50-30-20-budget-rule",
+   "fecha": "2026-11-22"
+  },
+  {
+   "id": "calc-tipout-en-a",
+   "fecha": "2026-11-22"
+  },
+  {
+   "id": "guide-pay-off-credit-card-debt",
+   "fecha": "2026-11-23"
+  },
+  {
+   "id": "calc-tipout-es-a",
+   "fecha": "2026-11-23"
+  },
+  {
+   "id": "guide-compound-interest-explained",
+   "fecha": "2026-11-24"
+  },
+  {
+   "id": "calc-menuprice-en-a",
+   "fecha": "2026-11-24"
+  },
+  {
+   "id": "guide-food-cost-percentage",
+   "fecha": "2026-11-25"
+  },
+  {
+   "id": "calc-menuprice-es-a",
+   "fecha": "2026-11-25"
+  },
+  {
+   "id": "calc-foodcost-en-a",
+   "fecha": "2026-11-26"
+  },
+  {
+   "id": "calc-foodcost-es-a",
+   "fecha": "2026-11-26"
+  },
+  {
+   "id": "calc-scaler-en-a",
+   "fecha": "2026-11-27"
+  },
+  {
+   "id": "calc-scaler-es-a",
+   "fecha": "2026-11-27"
+  },
+  {
+   "id": "calc-cooking-en-a",
+   "fecha": "2026-11-28"
+  },
+  {
+   "id": "calc-cooking-es-a",
+   "fecha": "2026-11-28"
+  },
+  {
+   "id": "calc-oven-en-a",
+   "fecha": "2026-11-29"
+  },
+  {
+   "id": "calc-oven-es-a",
+   "fecha": "2026-11-29"
+  },
+  {
+   "id": "calc-hourly-en-a",
+   "fecha": "2026-11-30"
+  },
+  {
+   "id": "calc-hourly-es-a",
+   "fecha": "2026-11-30"
+  },
+  {
+   "id": "calc-salary-en-a",
+   "fecha": "2026-12-01"
+  },
+  {
+   "id": "calc-salary-es-a",
+   "fecha": "2026-12-01"
+  },
+  {
+   "id": "calc-overtime-en-a",
+   "fecha": "2026-12-02"
+  },
+  {
+   "id": "calc-overtime-es-a",
+   "fecha": "2026-12-02"
+  },
+  {
+   "id": "calc-rule503020-en-a",
+   "fecha": "2026-12-03"
+  },
+  {
+   "id": "calc-rule503020-es-a",
+   "fecha": "2026-12-03"
+  },
+  {
+   "id": "calc-budget-en-a",
+   "fecha": "2026-12-04"
+  },
+  {
+   "id": "calc-budget-es-a",
+   "fecha": "2026-12-04"
+  },
+  {
+   "id": "calc-savings-en-a",
+   "fecha": "2026-12-05"
+  },
+  {
+   "id": "calc-savings-es-a",
+   "fecha": "2026-12-05"
+  },
+  {
+   "id": "calc-loan-en-a",
+   "fecha": "2026-12-06"
+  },
+  {
+   "id": "calc-loan-es-a",
+   "fecha": "2026-12-06"
+  },
+  {
+   "id": "calc-percent-en-a",
+   "fecha": "2026-12-07"
+  },
+  {
+   "id": "calc-percent-es-a",
+   "fecha": "2026-12-07"
+  },
+  {
+   "id": "calc-discount-en-a",
+   "fecha": "2026-12-08"
+  },
+  {
+   "id": "calc-discount-es-a",
+   "fecha": "2026-12-08"
+  },
+  {
+   "id": "calc-salestax-en-a",
+   "fecha": "2026-12-09"
+  },
+  {
+   "id": "calc-salestax-es-a",
+   "fecha": "2026-12-09"
+  },
+  {
+   "id": "calc-gas-en-a",
+   "fecha": "2026-12-10"
+  },
+  {
+   "id": "calc-gas-es-a",
+   "fecha": "2026-12-10"
+  },
+  {
+   "id": "calc-mortgage-en-a",
+   "fecha": "2026-12-11"
+  },
+  {
+   "id": "calc-mortgage-es-a",
+   "fecha": "2026-12-11"
+  },
+  {
+   "id": "calc-compound-en-a",
+   "fecha": "2026-12-12"
+  },
+  {
+   "id": "calc-compound-es-a",
+   "fecha": "2026-12-12"
+  },
+  {
+   "id": "calc-autoloan-en-a",
+   "fecha": "2026-12-13"
+  },
+  {
+   "id": "calc-autoloan-es-a",
+   "fecha": "2026-12-13"
+  },
+  {
+   "id": "calc-ccpayoff-en-a",
+   "fecha": "2026-12-14"
+  },
+  {
+   "id": "calc-ccpayoff-es-a",
+   "fecha": "2026-12-14"
+  },
+  {
+   "id": "calc-timecard-en-a",
+   "fecha": "2026-12-15"
+  },
+  {
+   "id": "calc-timecard-es-a",
+   "fecha": "2026-12-15"
+  },
+  {
+   "id": "calc-age-en-a",
+   "fecha": "2026-12-16"
+  },
+  {
+   "id": "calc-age-es-a",
+   "fecha": "2026-12-16"
+  },
+  {
+   "id": "calc-datediff-en-a",
+   "fecha": "2026-12-17"
+  },
+  {
+   "id": "calc-datediff-es-a",
+   "fecha": "2026-12-17"
+  },
+  {
+   "id": "calc-sqft-en-a",
+   "fecha": "2026-12-18"
+  },
+  {
+   "id": "calc-sqft-es-a",
+   "fecha": "2026-12-18"
+  },
+  {
+   "id": "calc-bmi-en-a",
+   "fecha": "2026-12-19"
+  },
+  {
+   "id": "calc-bmi-es-a",
+   "fecha": "2026-12-19"
+  },
+  {
+   "id": "calc-calorie-en-a",
+   "fecha": "2026-12-20"
+  },
+  {
+   "id": "calc-calorie-es-a",
+   "fecha": "2026-12-20"
+  },
+  {
+   "id": "calc-gpa-en-a",
+   "fecha": "2026-12-21"
+  },
+  {
+   "id": "calc-gpa-es-a",
+   "fecha": "2026-12-21"
+  },
+  {
+   "id": "calc-finalgrade-en-a",
+   "fecha": "2026-12-22"
+  },
+  {
+   "id": "calc-finalgrade-es-a",
+   "fecha": "2026-12-22"
+  },
+  {
+   "id": "calc-tip-en-b",
+   "fecha": "2026-12-23"
+  },
+  {
+   "id": "calc-tip-es-b",
+   "fecha": "2026-12-23"
+  },
+  {
+   "id": "calc-split-en-b",
+   "fecha": "2026-12-24"
+  },
+  {
+   "id": "calc-split-es-b",
+   "fecha": "2026-12-24"
+  },
+  {
+   "id": "calc-tipout-en-b",
+   "fecha": "2026-12-25"
+  },
+  {
+   "id": "calc-tipout-es-b",
+   "fecha": "2026-12-25"
+  },
+  {
+   "id": "calc-menuprice-en-b",
+   "fecha": "2026-12-26"
+  },
+  {
+   "id": "calc-menuprice-es-b",
+   "fecha": "2026-12-26"
+  },
+  {
+   "id": "calc-foodcost-en-b",
+   "fecha": "2026-12-27"
+  },
+  {
+   "id": "calc-foodcost-es-b",
+   "fecha": "2026-12-27"
+  },
+  {
+   "id": "calc-scaler-en-b",
+   "fecha": "2026-12-28"
+  },
+  {
+   "id": "calc-scaler-es-b",
+   "fecha": "2026-12-28"
+  },
+  {
+   "id": "calc-cooking-en-b",
+   "fecha": "2026-12-29"
+  },
+  {
+   "id": "calc-cooking-es-b",
+   "fecha": "2026-12-29"
+  },
+  {
+   "id": "calc-oven-en-b",
+   "fecha": "2026-12-30"
+  },
+  {
+   "id": "calc-oven-es-b",
+   "fecha": "2026-12-30"
+  },
+  {
+   "id": "calc-hourly-en-b",
+   "fecha": "2026-12-31"
+  },
+  {
+   "id": "calc-hourly-es-b",
+   "fecha": "2026-12-31"
+  },
+  {
+   "id": "calc-salary-en-b",
+   "fecha": "2027-01-01"
+  },
+  {
+   "id": "calc-salary-es-b",
+   "fecha": "2027-01-01"
+  },
+  {
+   "id": "calc-overtime-en-b",
+   "fecha": "2027-01-02"
+  },
+  {
+   "id": "calc-overtime-es-b",
+   "fecha": "2027-01-02"
+  },
+  {
+   "id": "calc-rule503020-en-b",
+   "fecha": "2027-01-03"
+  },
+  {
+   "id": "calc-rule503020-es-b",
+   "fecha": "2027-01-03"
+  },
+  {
+   "id": "calc-budget-en-b",
+   "fecha": "2027-01-04"
+  },
+  {
+   "id": "calc-budget-es-b",
+   "fecha": "2027-01-04"
+  },
+  {
+   "id": "calc-savings-en-b",
+   "fecha": "2027-01-05"
+  },
+  {
+   "id": "calc-savings-es-b",
+   "fecha": "2027-01-05"
+  },
+  {
+   "id": "calc-loan-en-b",
+   "fecha": "2027-01-06"
+  },
+  {
+   "id": "calc-loan-es-b",
+   "fecha": "2027-01-06"
+  },
+  {
+   "id": "calc-percent-en-b",
+   "fecha": "2027-01-07"
+  },
+  {
+   "id": "calc-percent-es-b",
+   "fecha": "2027-01-07"
+  },
+  {
+   "id": "calc-discount-en-b",
+   "fecha": "2027-01-08"
+  },
+  {
+   "id": "calc-discount-es-b",
+   "fecha": "2027-01-08"
+  },
+  {
+   "id": "calc-salestax-en-b",
+   "fecha": "2027-01-09"
+  },
+  {
+   "id": "calc-salestax-es-b",
+   "fecha": "2027-01-09"
+  },
+  {
+   "id": "calc-gas-en-b",
+   "fecha": "2027-01-10"
+  },
+  {
+   "id": "calc-gas-es-b",
+   "fecha": "2027-01-10"
+  },
+  {
+   "id": "calc-mortgage-en-b",
+   "fecha": "2027-01-11"
+  },
+  {
+   "id": "calc-mortgage-es-b",
+   "fecha": "2027-01-11"
+  },
+  {
+   "id": "calc-compound-en-b",
+   "fecha": "2027-01-12"
+  },
+  {
+   "id": "calc-compound-es-b",
+   "fecha": "2027-01-12"
+  },
+  {
+   "id": "calc-autoloan-en-b",
+   "fecha": "2027-01-13"
+  },
+  {
+   "id": "calc-autoloan-es-b",
+   "fecha": "2027-01-13"
+  },
+  {
+   "id": "calc-ccpayoff-en-b",
+   "fecha": "2027-01-14"
+  },
+  {
+   "id": "calc-ccpayoff-es-b",
+   "fecha": "2027-01-14"
+  },
+  {
+   "id": "calc-timecard-en-b",
+   "fecha": "2027-01-15"
+  },
+  {
+   "id": "calc-timecard-es-b",
+   "fecha": "2027-01-15"
+  },
+  {
+   "id": "calc-age-en-b",
+   "fecha": "2027-01-16"
+  },
+  {
+   "id": "calc-age-es-b",
+   "fecha": "2027-01-16"
+  },
+  {
+   "id": "calc-datediff-en-b",
+   "fecha": "2027-01-17"
+  },
+  {
+   "id": "calc-datediff-es-b",
+   "fecha": "2027-01-17"
+  },
+  {
+   "id": "calc-sqft-en-b",
+   "fecha": "2027-01-18"
+  },
+  {
+   "id": "calc-sqft-es-b",
+   "fecha": "2027-01-18"
+  },
+  {
+   "id": "calc-bmi-en-b",
+   "fecha": "2027-01-19"
+  },
+  {
+   "id": "calc-bmi-es-b",
+   "fecha": "2027-01-19"
+  },
+  {
+   "id": "calc-calorie-en-b",
+   "fecha": "2027-01-20"
+  },
+  {
+   "id": "calc-calorie-es-b",
+   "fecha": "2027-01-20"
+  },
+  {
+   "id": "calc-gpa-en-b",
+   "fecha": "2027-01-21"
+  },
+  {
+   "id": "calc-gpa-es-b",
+   "fecha": "2027-01-21"
+  },
+  {
+   "id": "calc-finalgrade-en-b",
+   "fecha": "2027-01-22"
+  },
+  {
+   "id": "calc-finalgrade-es-b",
+   "fecha": "2027-01-22"
+  }
+ ]
+}
