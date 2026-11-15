@@ -445,7 +445,7 @@ def analytics():
     js += "}"
     js += """var c=localStorage.getItem('ww_cc');if(c==='y')wwLoad();else if(c!=='n'){document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('cc');b.style.display='block';
 b.querySelector('.y').onclick=function(){localStorage.setItem('ww_cc','y');b.style.display='none';wwLoad()};b.querySelector('.n').onclick=function(){localStorage.setItem('ww_cc','n');b.style.display='none'}})}
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-etsy]');if(a&&window.gtag)gtag('event','etsy_click',{item_id:a.getAttribute('data-etsy')});if(a&&window.fbq)fbq('trackCustom','EtsyClick');});"""
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-etsy]');if(a&&window.gtag)gtag('event','etsy_click',{item_id:a.getAttribute('data-etsy')});if(a&&window.fbq)fbq('trackCustom','EtsyClick');var f=e.target.closest&&e.target.closest('a[rel~="sponsored"]');if(f&&window.gtag)gtag('event','affiliate_click',{program:f.getAttribute('data-aff')||f.textContent.trim().slice(0,60),link_domain:f.hostname});if(f&&window.fbq)fbq('trackCustom','AffiliateClick');});"""
     ads = ''
     if CONFIG['adsense_on']:
         ads = ('<script>window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.pauseAdRequests=1;</script>'
