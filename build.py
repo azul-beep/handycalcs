@@ -15,6 +15,7 @@ CONFIG = dict(
     pixel="",          # Meta Pixel ID, digits only
     adsense="ca-pub-1174178180336933",
     gsc_verify="snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk",
+    pinterest_verify="",   # Pinterest "Claim website" meta tag content (p:domain_verify), only the code
     mailerlite_action="",  # MailerLite embedded form action, e.g. https://assets.mailerlite.com/jsonp/ACCOUNT/forms/FORMID/subscribe
 )
 # Affiliate boxes. A link with an empty url is not shown.
@@ -241,6 +242,7 @@ def head(lang, title, desc, path, alt_path, extra_ld=None):
         ads = ('<script>window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.pauseAdRequests=1;</script>'
                '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=%s" crossorigin="anonymous"></script>' % c["adsense"])
     gsc = '<meta name="google-site-verification" content="%s">' % c["gsc_verify"] if c["gsc_verify"] else ""
+    if c.get("pinterest_verify"): gsc += '<meta name="p:domain_verify" content="%s">' % c["pinterest_verify"]
     alts = ""
     if alt_path:
         en_p, es_p = (path, alt_path) if lang == "en" else (alt_path, path)
