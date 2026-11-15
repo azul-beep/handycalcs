@@ -13,8 +13,9 @@ Secrets de GitHub (Settings > Secrets and variables > Actions). Si falta uno, es
   GH_SECRETS_PAT                token de GitHub con permiso "Secrets: write" en este repo, para guardar el token renovado
 
   python3 cozypaws/social.py publicar [--prueba]   # --prueba muestra qué publicaría, sin publicar
-  python3 cozypaws/social.py contenido [--prueba] # 1 post que no es de venta (banco de cozypaws/contenido.py) en IG y FB
-  python3 cozypaws/social.py historia [--prueba]  # 1 historia en IG y FB (producto nuevo o tarjeta del banco)
+  python3 cozypaws/social.py contenido [--prueba] # 1 post que no es de venta en IG y FB: el artículo nuevo del blog si hay
+                                                  # uno sin reciclar; si no, el banco de cozypaws/contenido.py
+  python3 cozypaws/social.py historia [--prueba]  # 1 historia en IG y FB (artículo nuevo, si no producto nuevo, si no tarjeta del banco)
   python3 cozypaws/social.py renovar               # renueva el token de Threads (1 vez por semana)
   python3 cozypaws/social.py revisar               # comprueba que cada token funcione, sin publicar nada
 """
@@ -160,6 +161,11 @@ def correr(tipo, prueba):
     hoy = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=7)).date()
     prods = sorted(build.load_products(hoy)[0], key=lambda p: (p['live'], p['sku']))
     prods = [p for p in prods if en_web(f"img/story/{p['sku']}.jpg")]
+    from apps import articulos
+    # artículos ya publicados con página e imagen en la web, el más viejo sin reciclar primero;
+    # solo los de los últimos 14 días, para no publicar de golpe artículos viejos si se suman muchos juntos
+    arts = [a for a in articulos.load() if hoy - dt.timedelta(days=14) <= a['live'] <= hoy
+            and en_web(f"blog/{a['slug']}/index.html") and en_web(f"img/social/a-{a['slug']}.jpg")]
     hay_ig, hay_fb = env('IG_USER_ID') and env('FB_PAGE_TOKEN'), env('FB_PAGE_ID') and env('FB_PAGE_TOKEN')
     redes = {
         'instagram': hay_ig and (lambda img, cap: ig_imagen(img, cap, env('IG_USER_ID'), env('FB_PAGE_TOKEN'), tipo == 'historia')),
@@ -169,9 +175,16 @@ def correr(tipo, prueba):
     errores = 0
     for red, fn in redes.items():
         clave_p, clave_b = f'historia-{red}', f'{tipo}-banco-{red}'
-        p = next((p for p in prods if p['sku'] not in state.get(clave_p, [])), None) if tipo == 'historia' else None
+        # reciclado de artículos: cada artículo nuevo del blog sale 1 vez como post (en el lugar del banco) y 1 vez
+        # como historia (antes que el producto, que igual sale en los posts de las 10 AM y 6 PM). No suma publicaciones al día.
+        clave_a = f'articulo-{tipo}-{red}'
+        art = next((a for a in arts if a['slug'] not in state.get(clave_a, [])), None)
+        p = next((p for p in prods if p['sku'] not in state.get(clave_p, [])), None) if tipo == 'historia' and not art else None
         if p:
             img, cap, nombre = f"{url}/img/story/{p['sku']}.jpg", '', p['sku']
+        elif art:
+            sufijo = '-story' if tipo == 'historia' else ''
+            img, cap, nombre = f"{url}/img/social/a-{art['slug']}{sufijo}.jpg", contenido.caption_articulo(art, url, red), 'a-' + art['slug']
         else:
             it, reinicio = siguiente(banco, set(state.get(clave_b, [])))
             if not it:
@@ -185,6 +198,8 @@ def correr(tipo, prueba):
             fn(img, cap)
             if p:
                 state.setdefault(clave_p, []).append(p['sku'])
+            elif art:
+                state.setdefault(clave_a, []).append(art['slug'])
             else:
                 state[clave_b] = ([] if reinicio else state.get(clave_b, [])) + [it['id']]
             print(f'{red}: {tipo} publicado {nombre}')
