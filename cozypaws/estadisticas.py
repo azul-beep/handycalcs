@@ -16,6 +16,7 @@ OUT = os.path.join(HERE, 'estadisticas')
 FB = 'https://graph.facebook.com/v21.0'
 env = os.environ.get
 faltan = {}  # permiso -> qué dato necesita
+notas = []  # errores crudos de Meta (para entender qué pasó)
 
 
 def get(path, **params):
@@ -36,10 +37,10 @@ def probar(permiso, que, fn, defecto=None):
         except ValueError:
             err = {'message': body[:200]}
         msg = err.get('message', '')
-        if err.get('code') in (10, 200, 190) or 'permission' in msg.lower():
+        notas.append(f"{que}: código {err.get('code')} · {msg[:180]}")
+        if err.get('code') in (200, 190) or 'permission' in msg.lower() and 'Public Content Access' not in msg:
             faltan.setdefault(permiso, set()).add(que)
-        else:
-            print(f'{que}: {msg[:200]}')
+        print(f'{que}: {msg[:200]}')
         return defecto
     except Exception as e:
         print(f'{que}: {e}')
@@ -53,6 +54,23 @@ def valor_insight(data):
             out[m['name']] = m['total_value'].get('value')
         elif m.get('values'):
             out[m['name']] = m['values'][-1].get('value')
+    return out
+
+
+def metricas(path, opciones, **params):
+    """Pide cada métrica por separado y usa la primera variante que Meta acepte (algunas se renombraron)."""
+    out = {}
+    for nombre, variantes in opciones.items():
+        for v in variantes:
+            try:
+                d = valor_insight(get(path, metric=v, **params))
+                if v in d:
+                    out[nombre] = d[v]
+                    break
+            except urllib.error.HTTPError as e:
+                body = e.read().decode(errors='ignore')
+                if '"code":10' in body or '"code":200' in body:
+                    raise urllib.error.HTTPError(e.url, e.code, e.msg, e.hdrs, io.BytesIO(body.encode()))
     return out
 
 
@@ -85,13 +103,22 @@ def facebook():
     cuenta = probar('pages_read_engagement', 'datos de la página de Facebook',
                     lambda: get(page, fields='name,followers_count,fan_count,link'), {})
     ins = probar('read_insights', 'alcance de la página de Facebook',
-                 lambda: valor_insight(get(f'{page}/insights', metric='page_impressions_unique,page_post_engagements,page_views_total', period='day')), {})
+                 lambda: metricas(f'{page}/insights', {
+                     'alcance': ['page_total_media_view_unique', 'page_impressions_unique'],
+                     'vistas': ['page_media_view', 'page_impressions'],
+                     'interacciones': ['page_post_engagements'],
+                     'visitas': ['page_views_total']}, period='day'), {})
     posts = probar('pages_read_engagement', 'posts de Facebook',
-                   lambda: get(f'{page}/posts', fields='id,message,created_time,permalink_url,shares,reactions.summary(true).limit(0),comments.summary(true).limit(5){message,from,created_time}',
+                   lambda: get(f'{page}/published_posts', fields='id,message,created_time,permalink_url,shares,reactions.summary(true).limit(0),comments.summary(true).limit(0)',
                                limit=10).get('data', []), [])
     for p in posts:
         p['insights'] = probar('read_insights', 'alcance y clics de cada post de Facebook',
-                               lambda p=p: valor_insight(get(f"{p['id']}/insights", metric='post_impressions_unique,post_clicks')), {})
+                               lambda p=p: metricas(f"{p['id']}/insights", {
+                                   'alcance': ['post_total_media_view_unique', 'post_impressions_unique'],
+                                   'clics': ['post_clicks']}), {})
+        if p.get('comments', {}).get('summary', {}).get('total_count'):
+            p['comentarios'] = probar('pages_read_user_content', 'texto de los comentarios de Facebook',
+                                      lambda p=p: get(f"{p['id']}/comments", fields='message,created_time,from', limit=10).get('data', []), [])
     return dict(cuenta=cuenta, insights=ins, posts=posts)
 
 
@@ -133,27 +160,31 @@ def main():
         c, i = fb['cuenta'], fb['insights']
         L += [f"## Facebook: {c.get('name', '?')}", '',
               f"1. Seguidores: {n(c.get('followers_count'))} · me gusta: {n(c.get('fan_count'))}",
-              f"2. Ayer: alcance {n(i.get('page_impressions_unique'))}, interacciones {n(i.get('page_post_engagements'))}, visitas a la página {n(i.get('page_views_total'))}", '',
+              f"2. Ayer: alcance {n(i.get('alcance'))}, vistas {n(i.get('vistas'))}, interacciones {n(i.get('interacciones'))}, visitas a la página {n(i.get('visitas'))}", '',
               '| Fecha | Post | Reacciones | Coment. | Compartidos | Alcance | Clics |', '|---|---|---|---|---|---|---|']
         coms = []
         for p in fb['posts']:
             pi = p.get('insights', {})
             L.append(f"| {p['created_time'][:10]} | [{corto(p.get('message'), 50) or 'foto'}]({p.get('permalink_url', '')}) | "
                      f"{n(p.get('reactions', {}).get('summary', {}).get('total_count'))} | {n(p.get('comments', {}).get('summary', {}).get('total_count'))} | "
-                     f"{n(p.get('shares', {}).get('count', 0))} | {n(pi.get('post_impressions_unique'))} | {n(pi.get('post_clicks'))} |")
-            coms += [(p, cm) for cm in p.get('comments', {}).get('data', [])]
+                     f"{n(p.get('shares', {}).get('count', 0))} | {n(pi.get('alcance'))} | {n(pi.get('clics'))} |")
+            coms += [(p, cm) for cm in p.get('comentarios', [])]
         if coms:
             L += ['', '### Comentarios recientes en Facebook (para responder)']
             L += [f"{k}. {cm.get('from', {}).get('name', 'alguien')}: \"{corto(cm.get('message'), 120)}\" ([post]({p.get('permalink_url', '')}))"
                   for k, (p, cm) in enumerate(sorted(coms, key=lambda x: x[1].get('created_time', ''), reverse=True)[:15], 1)]
         L.append('')
-        fila.update(fb_seguidores=c.get('followers_count'), fb_alcance_dia=i.get('page_impressions_unique'))
+        fila.update(fb_seguidores=c.get('followers_count'), fb_alcance_dia=i.get('alcance'))
     if not ig and not fb:
         L += ['Faltan los secrets FB_PAGE_TOKEN, FB_PAGE_ID o IG_USER_ID en GitHub.', '']
     if faltan:
         L += ['## Permisos que le faltan al token', '',
               'Para ver estos datos hay que generar el token de la página de nuevo (pasos A del plan de redes) sumando estos permisos:', '']
         L += [f"{k}. `{perm}`: {', '.join(sorted(q))}" for k, (perm, q) in enumerate(sorted(faltan.items()), 1)]
+        L.append('')
+    if notas:
+        L += ['## Respuestas de Meta que no fueron datos (para revisar)', '']
+        L += [f'{k}. {x}' for k, x in enumerate(dict.fromkeys(notas), 1)]
         L.append('')
     os.makedirs(OUT, exist_ok=True)
     open(os.path.join(OUT, 'redes.md'), 'w').write('\n'.join(L))
