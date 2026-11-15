@@ -38,8 +38,10 @@ env = lambda k: os.environ.get(k, "").strip()
 COMO = {
     "Printify": "Printify > My profile > Connections > Generate token (mismos permisos que la anterior). "
                 "Pegarla en GitHub: crux-report > Settings > Secrets and variables > Actions > PRINTIFY_TOKEN > Update.",
-    "Facebook/Instagram": "Generar un token de página nuevo (Graph API Explorer > token de usuario largo > /me/accounts) "
-                          "y pegarlo en handycalcs > Settings > Secrets > FB_PAGE_TOKEN.",
+    "Facebook/Instagram": "Hace falta un token de página que no venza: 1) Graph API Explorer: token de usuario con los permisos "
+                          "de páginas e Instagram; 2) Access Token Debugger > Extend Access Token (queda de 60 días); "
+                          "3) con ese token largo, en el Explorer pedir me/accounts y copiar el access_token de la página "
+                          "Cozy Paws (el Debugger tiene que decir Expires: Never); 4) pegarlo en handycalcs > Settings > Secrets > FB_PAGE_TOKEN.",
     "Threads": "Correr a mano Actions > Cozy Paws (redes) > Run workflow con 'renovar'. Si falla, generar un token "
                "largo nuevo de Threads y pegarlo en handycalcs > Settings > Secrets > THREADS_TOKEN.",
     "GitHub (GH_SECRETS_PAT)": "github.com/settings/personal-access-tokens > el token > Regenerate (o crear uno nuevo con "
@@ -74,7 +76,12 @@ def anotar(nombre, vence=None, error=None, nota=""):
     else:
         d = dias(vence)
         estado = "mal" if d < 0 else "pronto" if d <= AVISAR_DIAS else "ok"
-        txt = f"vencida el {fmt(vence)}" if d < 0 else f"vence el {fmt(vence)} (en {int(d)} días)"
+        if d < 0:
+            txt = f"vencida el {fmt(vence)}"
+        elif d < 2:
+            txt = f"vence el {vence.strftime('%Y-%m-%d %H:%M')} UTC (en {max(int(d * 24), 0)} horas)"
+        else:
+            txt = f"vence el {fmt(vence)} (en {int(d)} días)"
         resultados.append((nombre, estado, txt + (f" ({nota})" if nota else "")))
 
 
