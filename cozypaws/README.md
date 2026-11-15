@@ -48,3 +48,6 @@ Links directos de Etsy (opcional): `cozypaws/data/etsy-links.txt`, una línea po
 3. 6 PM: otro producto nuevo.
 
 Los textos de los posts que no son de venta están en `BANCO` de `contenido.py` y rotan en orden. Para sumar, agregar entradas al final con un id nuevo. Las imágenes se arman con plantillas en cada build (`site/img/social/`, `site/img/story/`). Lo publicado queda en `data/redes-publicado.json`.
+
+## Newsletter mensual del club
+`.github/workflows/cozypaws-newsletter.yml` + `newsletter.py`: el primer martes de cada mes arma un mail con los productos nuevos, el cupón CLUB10, artículos del blog y una herramienta gratis, lo publica en `/news/AAAA-MM/` y lo manda por la API de MailerLite al grupo "Cozy Paws Club" (si existe el secret `MAILERLITE_TOKEN`). Detalle y pasos en `newsletter/LEEME.md`.
