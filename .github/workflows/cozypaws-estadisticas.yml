@@ -8,7 +8,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: handycalcs-publicacion
+  group: cozypaws-estadisticas
   cancel-in-progress: false
 jobs:
   estadisticas:

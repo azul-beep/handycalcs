@@ -17,8 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Fuentes y librerías del sistema (las usan los pins de herramientas e imprimibles)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcairo2 fonts-inter fonts-dejavu-core fontconfig
+          fc-cache -f
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
+      - run: pip install -r imprimibles/requirements.txt
       - name: Rearmar y publicar (si main cambió mientras tanto, vuelve a rearmar sobre lo último)
         run: |
           git config user.name "publicacion-bot"
