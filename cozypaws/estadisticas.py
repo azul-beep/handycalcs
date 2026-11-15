@@ -118,7 +118,21 @@ def facebook():
         try:  # /posts alcanza con pages_read_engagement; /published_posts pide además pages_read_user_content
             return get(f'{page}/posts', fields=campos, limit=10).get('data', [])
         except urllib.error.HTTPError:
+            pass
+        try:
             return get(f'{page}/published_posts', fields=campos, limit=10).get('data', [])
+        except urllib.error.HTTPError:
+            pass
+        # Sin pages_read_user_content: los posts de la tienda son fotos, y /photos las lista igual.
+        fotos = get(f'{page}/photos', type='uploaded', fields='id,name,created_time,link,page_story_id', limit=10).get('data', [])
+        posts = []
+        for f in fotos:
+            pid = f.get('page_story_id') or f['id']
+            try:
+                posts.append(get(pid, fields=campos))
+            except urllib.error.HTTPError:
+                posts.append({'id': pid, 'message': f.get('name'), 'created_time': f.get('created_time'), 'permalink_url': f.get('link')})
+        return posts
     posts = probar('pages_read_engagement', 'posts de Facebook', leer_posts, [])
     for p in posts:
         p['insights'] = probar('read_insights', 'alcance y clics de cada post de Facebook',
