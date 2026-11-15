@@ -562,6 +562,10 @@ def hub_page(prods, guides_live, today):
             body += f'<p class="more pills"><a href="/gifts/{g["id"]}/">See all: {E(g["h1"])} →</a></p>'
     faq = ''.join(f'<details><summary>{E(q)}</summary><p>{E(a)}</p></details>' for q, a in HUB['faq'])
     others = ''.join(f'<a href="/gifts/{g["id"]}/">{E(g["h1"])}</a>' for g, _ in guides_live)
+    # recuadro de afiliados de invierno (Chewy suéteres vía Sovrn, 15 nov 2026): sale solo si el programa tiene link en afiliados.json
+    import sys; sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__)))); import afiliados as AF
+    body += AF.caja(['chewy_sweaters'], 'Keep them warm this winter', 'en', 'post aff',
+                   'background:var(--cream2);border:2px solid var(--gold);border-radius:14px;padding:6px 20px 12px;margin-top:22px')
     body += (f'<p style="margin-top:34px"><a class="btn" href="{CONFIG["shop"]}" data-etsy="hub">See every gift on Etsy</a></p>'
              f'<h2 id="faq">Questions dog people ask</h2><div class="faq">{faq}</div>'
              + (f'<h2>More gift guides</h2><div class="pills">{others}</div>' if others else ''))
