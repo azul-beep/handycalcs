@@ -72,7 +72,25 @@ def imprimibles(src):
     return out
 
 
+def fotos(src='/mnt/project-files/cozypaws-trafico/fotos-autora'):
+    """Copia las fotos de la autora (achicadas a 1600 px) a data/autora/."""
+    from PIL import ImageOps
+    dst = os.path.join(HERE, 'data', 'autora')
+    os.makedirs(dst, exist_ok=True)
+    n = 0
+    for f in sorted(glob.glob(os.path.join(src, '*'))):
+        if not re.search(r'\.(jpe?g|png|webp|heic)$', f, re.I):
+            continue
+        im = ImageOps.exif_transpose(Image.open(f)).convert('RGB')
+        im.thumbnail((1600, 1600))
+        im.save(os.path.join(dst, re.sub(r'\.\w+$', '.jpg', os.path.basename(f))), 'JPEG', quality=86)
+        n += 1
+    print(f'{n} fotos de la autora en {dst}' if n else f'No hay fotos en {src}')
+
+
 def main():
+    if '--fotos' in sys.argv:
+        return fotos()
     ap = argparse.ArgumentParser()
     ap.add_argument('--src', default='/mnt/project-files/navidad-mascotas-maestros')
     ap.add_argument('--rehacer', action='store_true', help='volver a armar todas las fotos')
