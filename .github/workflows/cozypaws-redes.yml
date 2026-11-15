@@ -4,6 +4,7 @@
 # Lunes: renueva el token de Threads. A mano (Actions > Cozy Paws (redes) > Run workflow): publicar, contenido, historia, revisar o renovar.
 # Si una red no tiene su secret cargado, se saltea. Si algo falla, la corrida queda en rojo y GitHub avisa por mail.
 name: Cozy Paws (redes)
+run-name: ${{ (inputs.turno || github.event.schedule) && format('Turno {0}', inputs.turno || github.event.schedule) || github.workflow }}
 on:
   schedule:
     - cron: "0 17 * * *"
@@ -12,14 +13,41 @@ on:
     - cron: "20 16 * * 1"
   workflow_dispatch:
     inputs:
+      turno: { description: "Lo usa el despertador (dejar vacío a mano)", default: "" }
       accion: { description: "publicar, contenido, historia, revisar o renovar", default: "publicar" }
 permissions:
+  actions: read
   contents: write
 concurrency:
   group: cozypaws-redes
   cancel-in-progress: false
 jobs:
+  turno:
+    # Despertador: el mismo turno puede llegar dos veces (el despertador de Cloudflare a horario y el cron de GitHub
+    # atrasado). Corre solo el primero; el segundo termina en verde sin hacer nada. Corridas a mano: siempre corren.
+    runs-on: ubuntu-latest
+    outputs:
+      correr: ${{ steps.ver.outputs.correr }}
+    steps:
+      - id: ver
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TURNO: ${{ inputs.turno || github.event.schedule }}
+        run: |
+          if [ -z "$TURNO" ]; then echo "correr=si" >> "$GITHUB_OUTPUT"; exit 0; fi
+          wf=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" --jq .workflow_id) || { echo "No pude revisar turnos anteriores: corre igual."; echo "correr=si" >> "$GITHUB_OUTPUT"; exit 0; }
+          desde=$(date -u -d '-14 hours' +%FT%TZ)
+          n=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$wf/runs?created=%3E%3D$desde&status=success&per_page=100" \
+                --jq "[.workflow_runs[] | select(.id != $GITHUB_RUN_ID and .display_title == \"Turno $TURNO\")] | length") || n=0
+          if [ "${n:-0}" -gt 0 ]; then
+            echo "El turno '$TURNO' ya corrió en las últimas 14 horas: no se repite."
+            echo "correr=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "correr=si" >> "$GITHUB_OUTPUT"
+          fi
   redes:
+    needs: turno
+    if: needs.turno.outputs.correr == 'si'
     runs-on: ubuntu-latest
     env:
       THREADS_TOKEN: ${{ secrets.THREADS_TOKEN }}
@@ -33,9 +61,11 @@ jobs:
         with: { python-version: "3.12" }
       - name: Publicar
         run: |
-          acc="${{ inputs.accion }}"
+          turno="${{ inputs.turno || github.event.schedule }}"
+          acc=""
+          [ -z "$turno" ] && acc="${{ inputs.accion }}"
           if [ -z "$acc" ]; then
-            case "${{ github.event.schedule }}" in
+            case "$turno" in
               "20 16 * * 1") acc="renovar" ;;
               "0 20 * * *") acc="contenido" ;;
               "0 17 * * *") acc="publicar historia" ;;

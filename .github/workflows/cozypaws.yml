@@ -5,6 +5,7 @@
 #   - commit -> Cloudflare Pages (proyecto "cozypawsgifts", carpeta cozypaws/site) publica solo
 #     -> Pinterest lee feed.xml y crea los pines solo.
 name: Cozy Paws (publicación diaria)
+run-name: ${{ (inputs.turno || github.event.schedule) && format('Turno {0}', inputs.turno || github.event.schedule) || github.workflow }}
 on:
   schedule:
     - cron: "0 21 * * *"
@@ -12,13 +13,41 @@ on:
     branches: [main]
     paths: ["cozypaws/data/**", "cozypaws/build.py", "cozypaws/contenido.py", "cozypaws/apps/**", "cozypaws/articulos/**", "afiliados.json", "afiliados.py"]
   workflow_dispatch:
+    inputs:
+      turno: { description: "Lo usa el despertador (dejar vacío a mano)", default: "" }
 permissions:
+  actions: read
   contents: write
 concurrency:
   group: handycalcs-publicacion
   cancel-in-progress: false
 jobs:
+  turno:
+    # Despertador: el mismo turno puede llegar dos veces (el despertador de Cloudflare a horario y el cron de GitHub
+    # atrasado). Corre solo el primero; el segundo termina en verde sin hacer nada. Corridas a mano: siempre corren.
+    runs-on: ubuntu-latest
+    outputs:
+      correr: ${{ steps.ver.outputs.correr }}
+    steps:
+      - id: ver
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TURNO: ${{ inputs.turno || github.event.schedule }}
+        run: |
+          if [ -z "$TURNO" ]; then echo "correr=si" >> "$GITHUB_OUTPUT"; exit 0; fi
+          wf=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" --jq .workflow_id) || { echo "No pude revisar turnos anteriores: corre igual."; echo "correr=si" >> "$GITHUB_OUTPUT"; exit 0; }
+          desde=$(date -u -d '-14 hours' +%FT%TZ)
+          n=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/$wf/runs?created=%3E%3D$desde&status=success&per_page=100" \
+                --jq "[.workflow_runs[] | select(.id != $GITHUB_RUN_ID and .display_title == \"Turno $TURNO\")] | length") || n=0
+          if [ "${n:-0}" -gt 0 ]; then
+            echo "El turno '$TURNO' ya corrió en las últimas 14 horas: no se repite."
+            echo "correr=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "correr=si" >> "$GITHUB_OUTPUT"
+          fi
   publicar:
+    needs: turno
+    if: needs.turno.outputs.correr == 'si'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
