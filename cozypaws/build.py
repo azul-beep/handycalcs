@@ -46,7 +46,9 @@ CONFIG = dict(
     pixel='',              # ID del Pixel de Meta
     instagram='https://www.instagram.com/cozypawsgifts/',
     facebook='https://www.facebook.com/profile.php?id=61596427566616',
-    maker='Azu',                   # nombre de la autora en la página About
+    maker='Azu',
+    maker_photo_alt='Azu as a kid hugging her Doberman, Aaron',
+    maker_photo_caption='Me as a kid with Aaron, my Doberman. Dogs have been family for as long as I can remember.',  # foto principal = la primera de data/autora/
     pinterest_verify='c84a6e3acb398fb108d0538381e88517',   # contenido de la etiqueta meta "p:domain_verify" para reclamar la web en Pinterest
     google_verify='snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk',      # contenido de la meta "google-site-verification" (Search Console), si se usa
     contact='support@skyesolutionsai.com',
@@ -398,10 +400,10 @@ h2:after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--gol
 .calc button{font-family:Abril,Georgia,serif}.result{font-size:20px;background:#fff;border:2px dashed var(--gold);border-radius:16px;padding:16px;margin-top:10px}.names{columns:2;margin:0;padding-left:20px}
 table{border-collapse:collapse;background:var(--cream2);border-radius:12px;overflow:hidden}td,th{border:1px solid var(--line);padding:7px 14px;text-align:center}th{background:var(--blue);color:var(--cream);font-weight:600}
 .note{color:#7b6b62;font-size:14px}.tips li{margin:6px 0}
-.about{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;margin-top:20px}.about .ph img{width:100%;border-radius:26px;border:6px solid var(--cream2);box-shadow:0 10px 30px rgba(59,36,51,.12)}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;margin-top:20px}.about .ph img{width:100%;max-height:640px;object-fit:cover;object-position:50% 30%;border-radius:26px;border:6px solid var(--cream2);box-shadow:0 10px 30px rgba(59,36,51,.12)}
 .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:10px 0}.gal img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:20px;border:5px solid var(--cream2)}
 .vals{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}.vals div{background:var(--cream2);border:1px solid var(--line);border-radius:20px;padding:18px 20px}.vals b{font-family:Abril,Georgia,serif;font-weight:400;font-size:20px;color:var(--plum);display:block;margin-bottom:4px}
-.maker{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:center;background:var(--cream2);border:2px solid var(--line);border-radius:26px;padding:24px 30px;margin-top:46px}.maker img{width:200px;height:200px;object-fit:cover;border-radius:50%;border:5px solid var(--cream)}
+.maker{display:grid;grid-template-columns:200px 1fr;gap:26px;align-items:center;background:var(--cream2);border:2px solid var(--line);border-radius:26px;padding:24px 30px;margin-top:46px}.maker img{width:200px;height:200px;object-fit:cover;object-position:50% 30%;border-radius:50%;border:5px solid var(--cream)}
 .contact{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}.contact a{display:block;background:var(--blue);color:var(--cream);border-radius:20px;padding:20px;text-decoration:none}.contact b{font-family:Abril,Georgia,serif;font-weight:400;font-size:21px;display:block}
 footer .links a{margin-right:12px}
 @media(max-width:760px){.about,.maker{grid-template-columns:1fr;text-align:center}.maker img{margin:0 auto;width:150px;height:150px}}
@@ -605,7 +607,7 @@ def author_photos():
 def maker_block():
     ph = author_photos()
     img = ph[0] if ph else '/img/logo-ilustrado.png'
-    return (f'<section class="maker"><img src="{img}" alt="{E(CONFIG["maker"])}, the maker behind Cozy Paws" loading="lazy" width="200" height="200">'
+    return (f'<section class="maker"><img src="{img}" alt="{E(CONFIG["maker_photo_alt"] if ph else CONFIG["maker"])}" loading="lazy" width="200" height="200">'
             f'<div><span class="script" style="font-size:44px">Meet the maker</span><p>Hi, I\'m {E(CONFIG["maker"])}. I design every Cozy Paws gift in Salt Lake City, '
             'surrounded by mountains, trail dogs and very spoiled couch potatoes. This is a one-person shop: each gift is made to order and I answer every message myself.</p>'
             '<p><a href="/about/">Read our story →</a></p></div></section>')
@@ -651,7 +653,8 @@ def trust_pages(today, prods):
             '<p>Every design is made for this shop and printed on demand in the USA, so nothing is mass produced and nothing goes to waste. '
             'I pick every product, check every mockup and answer every message myself.</p>'
             f'<p><a class="btn" href="{CONFIG["shop"]}" data-etsy="about">Visit the shop</a><a class="btn ghost" href="/contact/">Say hi</a></p></div>'
-            f'<div class="ph"><img src="{main_img}" alt="{E(CONFIG["maker"])}, the maker behind Cozy Paws" width="520" height="520"></div></div>'
+            f'<div class="ph"><img src="{main_img}" alt="{E(CONFIG["maker_photo_alt"] if ph else CONFIG["maker"])}" width="520" height="520">'
+            + (f'<p class="note" style="text-align:center">{E(CONFIG["maker_photo_caption"])}</p>' if ph else '') + '</div></div>'
             + gal + '<h2>What we care about</h2>' + vals
             + (f'<h2>New in the shop</h2>{news}' if news else '')
             + '<p class="note" style="margin-top:30px">Cozy Paws is a brand of Skye Solutions AI, a sole proprietorship based in Salt Lake City, Utah.</p>')
