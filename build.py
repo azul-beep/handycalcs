@@ -15,7 +15,7 @@ CONFIG = dict(
     pixel="",          # Meta Pixel ID, digits only
     adsense="ca-pub-1174178180336933",
     gsc_verify="snG6WI_Ay90gukuDRtPKQLCo42mUWLXTbusn-InyaTk",
-    pinterest_verify="",   # Pinterest "Claim website" meta tag content (p:domain_verify), only the code
+    pinterest_verify="0d47d56066e050ff1586ee7b32e60bf2",   # Pinterest "Claim website" meta tag content (p:domain_verify), only the code
     mailerlite_action="",  # MailerLite embedded form action, e.g. https://assets.mailerlite.com/jsonp/ACCOUNT/forms/FORMID/subscribe
 )
 # Affiliate boxes. A link with an empty url is not shown.
