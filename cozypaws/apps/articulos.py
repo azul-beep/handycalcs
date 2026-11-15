@@ -49,7 +49,7 @@ def build_blog(page, config, OUT, DATA, today, pin_maker):
     for a in live:
         others = [o for o in live if o is not a][-6:]
         more = ''.join(f'<a href="/blog/{o["slug"]}/">{E(o["h1"])}</a>' for o in reversed(others))
-        socios = AF.caja(AF.ids_de(a.get('socios')), 'Helpful for this', 'en', 'post aff',
+        socios = AF.caja(AF.ids_para(a, 'cozypaws'), 'Helpful for this', 'en', 'post aff',
                          'background:var(--cream2);border:2px solid var(--gold);border-radius:14px;padding:6px 20px 12px;margin-top:22px')
         body = (f'<article class="post"><p class="kind">Pet tips · {a["live"].strftime("%B %-d, %Y")}</p><h1>{E(a["h1"])}</h1>{a["body"]}</article>'
                 + socios + apps + shop_box + (f'<h2>More pet tips</h2><div class="pills">{more}</div>' if more else ''))

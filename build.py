@@ -605,7 +605,7 @@ def article_page(a):
     s = head("en", a["title"], a["description"], path, None, ld) + header("en", None)
     s += '<nav class="crumbs"><a href="/">Home</a> › <a href="/guides/">Guides</a></nav>'
     s += '<article class="content post"><p class="kicker">Guide · %s</p><h1>%s</h1>%s</article>' % (a["live"].strftime("%B %d, %Y").replace(" 0", " "), E(a["h1"]), a["body"])
-    s += AF.caja(AF.ids_de(a.get("socios")), "Tools that can help", "en", "aff content")
+    s += AF.caja(AF.ids_para(a, "handycalcs"), "Tools that can help", "en", "aff content")
     if tiles: s += '<section class="content"><h2>Calculators for this</h2><div class="grid">%s</div></section>' % tiles
     s += newsletter("en")
     if more: s += '<section class="content"><h2>More guides</h2><div class="rels">%s</div></section>' % more

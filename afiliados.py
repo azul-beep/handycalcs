@@ -1,10 +1,10 @@
 """Links de afiliados (además de Amazon) para Handy Calcs y Cozy Paws, leídos de afiliados.json.
 
-Un programa se muestra solo si tiene 'link' (el que da el programa al aprobarte), o si tiene "red": true y hay una
+Cada artículo muestra sus "socios:" activos y, si falta lugar, los programas activos cuyas "temas" aparecen en el texto (auto). Un programa se muestra solo si tiene 'link' (el que da el programa al aprobarte), o si tiene "red": true y hay una
 clave de Sovrn Commerce o Skimlinks en 'red_automatica' (esas redes convierten el link normal de la tienda en afiliado).
 Sin nada cargado no se muestra nada: la web sigue igual. Corre con cada build, gratis y sin Claude.
 """
-import html, json, os
+import html, json, os, re
 from urllib.parse import quote
 
 _FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "afiliados.json")
@@ -42,6 +42,32 @@ def activos(ids):
 def ids_de(texto):
     """'ynab, monarch' -> ['ynab', 'monarch'] (cabecera 'socios:' de un artículo)."""
     return [x.strip() for x in (texto or "").split(",") if x.strip() in PROG]
+
+
+def auto(texto, sitio, maximo=2):
+    """Elige solos los programas ACTIVOS de un sitio cuyas 'temas' aparecen en el texto (título + cuerpo).
+
+    Así los artículos nuevos (y los que tienen socios todavía sin link) muestran el recuadro sin que nadie elija a mano.
+    Puntaje = cuántas veces aparece cada palabra; hace falta al menos 2 apariciones para entrar.
+    """
+    t = " " + re.sub(r"<[^>]+>", " ", (texto or "")).lower() + " "
+    puntos = []
+    for pid, p in PROG.items():
+        if p.get("sitio") != sitio or not link(pid):
+            continue
+        n = sum(len(re.findall(r"(?<![a-z])" + re.escape(w.lower()) + r"(?![a-z])", t)) for w in p.get("temas", []))
+        if n >= 2:
+            puntos.append((-n, pid))
+    return [pid for _, pid in sorted(puntos)[:maximo]]
+
+
+def ids_para(articulo, sitio, maximo=2):
+    """Programas para el recuadro de un artículo: primero los de 'socios:' que ya estén activos; si falta lugar, completa con auto()."""
+    elegidos = [pid for pid in ids_de(articulo.get("socios")) if link(pid)][:maximo]
+    if len(elegidos) < maximo:
+        texto = " ".join([articulo.get("title", ""), articulo.get("h1", ""), articulo.get("h1", ""), articulo.get("body", "")])
+        elegidos += [pid for pid in auto(texto, sitio, maximo) if pid not in elegidos][:maximo - len(elegidos)]
+    return elegidos
 
 
 NOTA = {"en": "Some links in this box are affiliate links: if you sign up or buy through them we may earn a commission, at no extra cost to you. It never changes what we recommend.",

@@ -31,6 +31,15 @@
     if (window.fbq && started) window.fbq('trackCustom', 'Calculate', { calculator: name });
   };
 
+  // Clicks on affiliate / sponsored links -> GA4 event "affiliate_click" (shows in Analytics which programs get clicks).
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[rel~="sponsored"]');
+    if (!a || !started) return;
+    var label = a.getAttribute('data-aff') || a.textContent.trim().slice(0, 60);
+    if (window.gtag) gtag('event', 'affiliate_click', { program: label, link_domain: a.hostname, page: location.pathname });
+    if (window.fbq) window.fbq('trackCustom', 'AffiliateClick', { program: label });
+  });
+
   function banner() {
     var d = document.createElement('div');
     d.className = 'cookie';
