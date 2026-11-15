@@ -312,7 +312,23 @@ def asegurar_token_de_pagina():
     except Exception as e:
         print(f'no se pudo pedir el token de la página: {e}')
 
+def en_pausa(accion):
+    """data/redes-pausa.json {"hasta": "AAAA-MM-DD"}: hasta esa fecha (hora de Utah) no se publica nada, porque esos días
+    se programaron a mano en el planificador de Meta. Así no sale lo mismo dos veces."""
+    f = os.path.join(HERE, 'data', 'redes-pausa.json')
+    if accion not in ('publicar', 'contenido', 'historia') or not os.path.exists(f):
+        return False
+    hasta = dt.date.fromisoformat(json.load(open(f))['hasta'])
+    hoy = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(hours=7)).date()
+    if hoy <= hasta:
+        print(f'En pausa hasta el {hasta}: esos días los publica el planificador de Meta (data/redes-pausa.json).')
+        return True
+    return False
+
+
 if __name__ == '__main__':
+    if len(sys.argv) > 1 and en_pausa(sys.argv[1]):
+        sys.exit(0)
     asegurar_token_de_pagina()
     ap = argparse.ArgumentParser()
     ap.add_argument('accion', choices=['publicar', 'contenido', 'historia', 'renovar', 'revisar'])
