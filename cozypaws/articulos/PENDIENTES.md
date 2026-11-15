@@ -54,3 +54,5 @@ Reglas: útil y honesto, nada de "hecho a mano", sin afirmaciones falsas, aviso 
 58. How much exercise does my dog need, by breed group
 59. Cat enrichment on a budget: DIY ideas
 60. Pet name trends: the most popular dog and cat names
+
+Afiliados: agregar en la cabecera `socios:` con ids de afiliados.json que encajen con el tema (por ejemplo `socios: ynab, monarch` o `socios: chewy, lemonade`). Se muestran solos cuando el programa tiene link.

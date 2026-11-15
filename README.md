@@ -37,3 +37,10 @@ Free bilingual (EN/ES) calculators site. Static, no build tools needed except Py
 - Queue with a fixed day per pin: `pines/calculadoras/cola.json` (2 pins a day, never on a past day). New calculators in `src/calcs.py` and new guides in `src/articles/` join the queue by themselves; a guide pin never goes out before the guide.
 - Feeds for Pinterest auto-publish (each feed shows only the newest 6 pins, so connecting late never dumps the backlog): `/pines/calculadoras/rss-en.xml` (board "Free Calculators"), `/pines/calculadoras/rss-es.xml` (board "Calculadoras gratis"), `/pines/calculadoras/rss.xml` (both).
 - Links carry `utm_source=pinterest&utm_campaign=pin-calc-a|pin-calc-b|pin-guide` for GA4. Preview all designs: `python3 tools/pines_calculadoras.py /tmp/preview`.
+
+## Afiliados (además de Amazon)
+- Todo está en `afiliados.json` (raíz): cada programa tiene `link` (el que da el programa al aprobarte) y `alta` (dónde anotarse). Con `link` vacío no se muestra nada.
+- `red_automatica`: con UNA clave de Sovrn Commerce o Skimlinks, los programas con `"red": true` (tiendas como Chewy, Petco, TurboTax, BarkBox) se activan solos.
+- Artículos: la cabecera `socios: ynab, monarch` (Handy Calcs) o `socios: chewy, lemonade` (Cozy Paws) agrega el recuadro "Tools that can help" / "Helpful for this" al final, con aviso de afiliados. Los artículos nuevos solo necesitan esa línea.
+- Calculadoras de dinero, trabajo y restaurante muestran los programas en su recuadro "Useful tools" (ver `AFFILIATES` en build.py).
+- Cambiar `afiliados.json` en main rearma Handy Calcs y Cozy Paws solos (rearmar-web.yml y cozypaws.yml). Código: `afiliados.py`.
