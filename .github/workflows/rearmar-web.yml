@@ -5,7 +5,7 @@ name: Rearmar la web (cambios en calculadoras)
 on:
   push:
     branches: [main]
-    paths: ["src/**", "build.py"]
+    paths: ["src/**", "build.py", "pines/**", "tools/pines_calculadoras.py"]
   workflow_dispatch:
 permissions:
   contents: write
