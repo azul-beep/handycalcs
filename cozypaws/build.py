@@ -775,6 +775,8 @@ def build(today):
     blog_urls, blog_items, na = articulos.build_blog(page, CONFIG, OUT, DATA, today, seo_pages.pin_maker)
     urls += blog_urls
     print(f'artículos {na}/{len(articulos.load())}')
+    # cada artículo también sale como post e historia en Instagram y Facebook (imágenes acá; publica social.py)
+    contenido.render_articulos(OUT, [a for a in articulos.load() if a['live'] <= today])
     items_apps = [(dt.date(2026, 11, 15), 'Paw Party: free fun app for dogs and cats', '/fun/', '/img/pin/app-fun.jpg',
                    'Dog and cat age in human years, pet name ideas, a personality quiz, pet zodiac and birthday cards. Free, no sign up, install it on your phone.', 'app-fun'),
                   (dt.date(2026, 11, 16), 'Paw Diary: free pet diary and vet reminder app', '/diary/', '/img/pin/app-diary.jpg',
