@@ -21,7 +21,7 @@ CONFIG = dict(
 # Affiliate boxes. A link with an empty url is not shown.
 AMAZON_TAG = "cruxreport-20"
 INDEXNOW_KEY = "fa73deeb0b15a8fbbf4e7d3b06044329"  # public key for IndexNow (Bing, Yandex, Seznam); file served at /<key>.txt
-AMAZON_ON = False      # turn on after adding this site to the Amazon Associates account
+AMAZON_ON = True       # site added to the Amazon Associates account (15 nov 2026)
 AFFILIATES = {
     "restaurant": [
         dict(name="Publer", url="", en="Schedule your restaurant's Instagram, Facebook and TikTok posts for the whole week in one sitting.", es="Programa los posts de Instagram, Facebook y TikTok de tu restaurante para toda la semana de una vez."),
@@ -48,13 +48,13 @@ UI = {
             related="Related calculators", privacy="Privacy policy", cookies="Cookie policy", terms="Terms of use", about="About", advertise="Advertise",
             other="Español", disclaimer="Results are estimates for information only, not financial, legal, tax or medical advice.",
             cookieset="Cookie settings", rights="All rights reserved.", copy="Copy", aff_title="Useful tools",
-            aff_note="Some links are affiliate links: we may earn a commission at no extra cost to you.",
+            aff_note="Some links are affiliate links: we may earn a commission at no extra cost to you. As an Amazon Associate we earn from qualifying purchases.",
             tagline="Free, fast calculators for tips, pay, budgets, loans, health, school and recipes.", private="Private: everything is calculated on your device."),
  "es": dict(home="Inicio", all="Todas las calculadoras", calc="Calcular", result="Resultados", faq="Preguntas frecuentes",
             related="Otras calculadoras", privacy="Política de privacidad", cookies="Política de cookies", terms="Términos de uso", about="Quiénes somos", advertise="Publicidad",
             other="English", disclaimer="Los resultados son estimaciones a modo informativo, no asesoramiento financiero, legal, impositivo ni médico.",
             cookieset="Configurar cookies", rights="Todos los derechos reservados.", copy="Copiar", aff_title="Herramientas útiles",
-            aff_note="Algunos enlaces son de afiliados: podemos ganar una comisión sin costo extra para ti.",
+            aff_note="Algunos enlaces son de afiliados: podemos ganar una comisión sin costo extra para ti. Como afiliados de Amazon, ganamos con las compras que califican.",
             tagline="Calculadoras gratis y rápidas para propinas, sueldos, presupuestos, préstamos, salud, escuela y recetas.", private="Privado: todo se calcula en tu dispositivo."),
 }
 
@@ -487,7 +487,7 @@ def legal(lang, key):
 <h2>Analytics</h2><p>If you accept cookies, we use Google Analytics 4 to count visits and see which calculators are used. Google may collect your IP address (shortened), device and browser information, and pages visited. See <a href="https://policies.google.com/privacy" rel="noopener">Google's privacy policy</a>.</p>
 <h2>Advertising</h2><p>We show ads through Google AdSense. Google and its partners use cookies to serve ads based on your visits to this and other websites. You can turn off personalized ads at <a href="https://adssettings.google.com" rel="noopener">Google Ads Settings</a> or <a href="https://www.aboutads.info" rel="noopener">aboutads.info</a>. If you choose "Necessary only", we ask Google to show non-personalized ads. Learn <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">how Google uses data from partner sites</a>.</p>
 <h2>Meta Pixel</h2><p>If you accept cookies, we use the Meta Pixel to measure visits that come from Facebook or Instagram ads. See <a href="https://www.facebook.com/privacy/policy/" rel="noopener">Meta's privacy policy</a>.</p>
-<h2>Affiliate links</h2><p>Some pages contain affiliate links. If you buy through them we may earn a commission. The partner may set its own cookies when you click.</p>
+<h2>Affiliate links</h2><p>Some pages contain affiliate links. If you buy through them we may earn a commission. The partner may set its own cookies when you click. As an Amazon Associate we earn from qualifying purchases.</p>
 <h2>Your choices and rights</h2><p>You can change your cookie choice at any time with "Cookie settings" at the bottom of every page. Residents of California and other US states with privacy laws can ask what data is collected about them and request deletion; because we do not store personal data ourselves, requests about analytics and ads are handled by Google and Meta, and we will help you with them. We do not sell personal information. We honor Global Privacy Control signals as an opt-out of personalized ads.</p>
 <h2>Children</h2><p>This site is not directed to children under 13 and we do not knowingly collect their data.</p>
 <h2>Contact</h2><p><a href="mailto:{mail}">{mail}</a></p>"""),
@@ -496,7 +496,7 @@ def legal(lang, key):
 <h2>Estadísticas</h2><p>Si aceptas las cookies, usamos Google Analytics 4 para contar visitas y ver qué calculadoras se usan. Google puede recoger tu dirección IP (acortada), datos del dispositivo y del navegador, y las páginas visitadas. Mira la <a href="https://policies.google.com/privacy?hl=es" rel="noopener">política de privacidad de Google</a>.</p>
 <h2>Publicidad</h2><p>Mostramos anuncios de Google AdSense. Google y sus socios usan cookies para mostrar anuncios según tus visitas a este y otros sitios. Puedes desactivar los anuncios personalizados en <a href="https://adssettings.google.com" rel="noopener">Configuración de anuncios de Google</a> o en <a href="https://www.aboutads.info" rel="noopener">aboutads.info</a>. Si eliges "Solo necesarias", le pedimos a Google que muestre anuncios no personalizados. Más información sobre <a href="https://policies.google.com/technologies/partner-sites?hl=es" rel="noopener">cómo usa Google los datos de sitios asociados</a>.</p>
 <h2>Píxel de Meta</h2><p>Si aceptas las cookies, usamos el Píxel de Meta para medir las visitas que llegan desde anuncios de Facebook o Instagram. Mira la <a href="https://www.facebook.com/privacy/policy/" rel="noopener">política de privacidad de Meta</a>.</p>
-<h2>Enlaces de afiliados</h2><p>Algunas páginas tienen enlaces de afiliados. Si compras a través de ellos podemos ganar una comisión. El socio puede usar sus propias cookies cuando haces clic.</p>
+<h2>Enlaces de afiliados</h2><p>Algunas páginas tienen enlaces de afiliados. Si compras a través de ellos podemos ganar una comisión. El socio puede usar sus propias cookies cuando haces clic. Como afiliados de Amazon, ganamos con las compras que califican.</p>
 <h2>Tus opciones y derechos</h2><p>Puedes cambiar tu elección de cookies cuando quieras con "Configurar cookies" al pie de cada página. Los residentes de California y otros estados con leyes de privacidad pueden pedir saber qué datos se recogen y pedir que se borren; como nosotros no guardamos datos personales, esos pedidos los resuelven Google y Meta, y te ayudamos con ellos. No vendemos información personal. Respetamos la señal Global Privacy Control como rechazo de anuncios personalizados.</p>
 <h2>Menores</h2><p>Este sitio no está dirigido a menores de 13 años y no recogemos sus datos a sabiendas.</p>
 <h2>Contacto</h2><p><a href="mailto:{mail}">{mail}</a></p>"""))
