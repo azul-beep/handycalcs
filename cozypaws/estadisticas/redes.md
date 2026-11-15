@@ -1,11 +1,11 @@
-# Cozy Paws en redes (14 Nov 2026, 15:15 hora de Utah)
+# Cozy Paws en redes (14 Nov 2026, 17:26 hora de Utah)
 
 Lo arma solo GitHub Actions todos los días (cozypaws/estadisticas.py). "Ayer" = últimas 24 horas. "-" = sin dato.
 
 ## Instagram @cozypawsgifts
 
 1. Seguidores: 0 · sigue a 0 · posts: 0
-2. Ayer: alcance -, visitas al perfil -, cuentas que interactuaron -, toques en el link -
+2. Ayer: alcance 0, visitas al perfil 0, cuentas que interactuaron 0, toques en el link 0
 
 | Fecha | Post | Likes | Coment. | Alcance | Guardados | Compartidos |
 |---|---|---|---|---|---|---|
@@ -22,5 +22,4 @@ Lo arma solo GitHub Actions todos los días (cozypaws/estadisticas.py). "Ayer" =
 
 Para ver estos datos hay que generar el token de la página de nuevo (pasos A del plan de redes) sumando estos permisos:
 
-1. `instagram_manage_insights`: alcance y visitas de la cuenta de Instagram
-2. `pages_read_engagement`: posts de Facebook
+1. `pages_read_engagement`: posts de Facebook
