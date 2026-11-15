@@ -1,10 +1,86 @@
 {
+ "articulo-contenido-facebook": [
+  "winter-walks-dog-paws",
+  "holiday-foods-toxic-to-dogs-and-cats",
+  "pet-proof-christmas-tree"
+ ],
+ "articulo-contenido-instagram": [
+  "winter-walks-dog-paws",
+  "holiday-foods-toxic-to-dogs-and-cats",
+  "pet-proof-christmas-tree"
+ ],
+ "articulo-historia-facebook": [
+  "winter-walks-dog-paws",
+  "holiday-foods-toxic-to-dogs-and-cats",
+  "pet-proof-christmas-tree",
+  "dog-age-in-human-years",
+  "how-much-to-feed-your-dog",
+  "pet-vaccine-and-flea-reminders"
+ ],
+ "articulo-historia-instagram": [
+  "winter-walks-dog-paws",
+  "holiday-foods-toxic-to-dogs-and-cats",
+  "pet-proof-christmas-tree",
+  "dog-age-in-human-years",
+  "how-much-to-feed-your-dog",
+  "pet-vaccine-and-flea-reminders"
+ ],
+ "carrusel-facebook": [
+  "k-gato-feliz",
+  "k-paseo-invierno",
+  "k-solo-perros"
+ ],
+ "carrusel-instagram": [
+  "k-gato-feliz",
+  "k-paseo-invierno",
+  "k-solo-perros"
+ ],
+ "contenido-banco-facebook": [
+  "t-agua-invierno"
+ ],
+ "contenido-banco-instagram": [
+  "t-agua-invierno"
+ ],
  "facebook": [
   "p01",
-  "p02"
+  "p02",
+  "p03",
+  "p04",
+  "p09",
+  "p05",
+  "p06",
+  "p11",
+  "p12",
+  "p13",
+  "i06",
+  "o01",
+  "p07",
+  "p08",
+  "p10",
+  "o02"
+ ],
+ "historia-facebook": [
+  "p01"
+ ],
+ "historia-instagram": [
+  "p01"
  ],
  "instagram": [
   "p01",
-  "p02"
+  "p02",
+  "p03",
+  "p04",
+  "p09",
+  "p05",
+  "p06",
+  "p11",
+  "p12",
+  "p13",
+  "i06",
+  "o01",
+  "p07",
+  "p08",
+  "p10",
+  "o02"
  ]
 }
