@@ -74,7 +74,12 @@ def anotar(nombre, vence=None, error=None, nota=""):
     else:
         d = dias(vence)
         estado = "mal" if d < 0 else "pronto" if d <= AVISAR_DIAS else "ok"
-        txt = f"vencida el {fmt(vence)}" if d < 0 else f"vence el {fmt(vence)} (en {int(d)} días)"
+        if d < 0:
+            txt = f"vencida el {fmt(vence)}"
+        elif d < 2:
+            txt = f"vence el {vence.strftime('%Y-%m-%d %H:%M')} UTC (en {max(int(d * 24), 0)} horas)"
+        else:
+            txt = f"vence el {fmt(vence)} (en {int(d)} días)"
         resultados.append((nombre, estado, txt + (f" ({nota})" if nota else "")))
 
 
