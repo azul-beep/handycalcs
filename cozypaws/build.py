@@ -855,6 +855,8 @@ def build(today):
     make_images(all_prods, guides_live, tools_live)
     import contenido  # posts que no son de venta e historias para redes (cozypaws/contenido.py)
     contenido.render(OUT, prods)
+    import carruseles  # carruseles de Instagram y Facebook (cozypaws/carruseles.py)
+    carruseles.render(OUT)
     urls = []
 
     # inicio
