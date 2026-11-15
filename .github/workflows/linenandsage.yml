@@ -1,0 +1,37 @@
+# Linen & Sage (tienda de Payhip): mini web con una página por producto + feed.xml para Pinterest.
+# Corre sola, gratis y sin Claude:
+#   - Cada vez que se agrega un link a linenandsage/payhip-links.md (una línea "<carpeta> <link de Payhip>"),
+#     build.py rearma linenandsage/site/ con ese producto y lo suma a feed.xml.
+#   - commit -> Cloudflare Pages (proyecto conectado a este repo, carpeta linenandsage/site) publica solo
+#     -> Pinterest (linenandsageprints) lee feed.xml y crea el pin solo.
+name: Linen & Sage (web)
+on:
+  push:
+    branches: [main]
+    paths: ["linenandsage/payhip-links.md", "linenandsage/build.py", "linenandsage/fuente/**"]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: handycalcs-publicacion
+  cancel-in-progress: false
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pillow
+      - name: Rearmar la web de Linen & Sage
+        run: python3 linenandsage/build.py
+      - name: Commit si cambió algo
+        run: |
+          if git diff --quiet -- linenandsage && [ -z "$(git ls-files --others --exclude-standard linenandsage)" ]; then
+            echo "Sin cambios"; exit 0
+          fi
+          git config user.name "publicacion-bot"
+          git config user.email "publicacion-bot@users.noreply.github.com"
+          git add linenandsage
+          git commit -m "Linen & Sage: web rearmada $(date -u +%F)"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 10; done; exit 1
