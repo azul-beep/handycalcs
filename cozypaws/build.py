@@ -55,7 +55,7 @@ CONFIG = dict(
     company='Skye Solutions AI',
     christmas_cutoff=dt.date(2026, 12, 10),
     adsense='ca-pub-1174178180336933',   # AdSense de Azu (Skye Solutions AI)
-    adsense_on=False,
+    adsense_on=True,   # 15 nov 2026: código puesto para pedir revisión del sitio en AdSense (anuncios solo con consentimiento)
     # MailerLite: URL "action" del formulario incrustado "Cozy Paws Club" (https://assets.mailerlite.com/jsonp/2793611/forms/<id>/subscribe).
     # Vacío = no se muestra el formulario. Al pegarla aparece la caja "Join the club" con el regalo (checklist PDF de data/gift/).
     mailerlite_action='https://assets.mailerlite.com/jsonp/2793611/forms/204177339414742657/subscribe',
@@ -440,11 +440,17 @@ def analytics():
         js += ("!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};"
                "if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];"
                f"s.parentNode.insertBefore(t,s)}}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','{px}');fbq('track','PageView');")
+    if CONFIG['adsense_on']:
+        js += "window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.pauseAdRequests=0;"
     js += "}"
     js += """var c=localStorage.getItem('ww_cc');if(c==='y')wwLoad();else if(c!=='n'){document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('cc');b.style.display='block';
 b.querySelector('.y').onclick=function(){localStorage.setItem('ww_cc','y');b.style.display='none';wwLoad()};b.querySelector('.n').onclick=function(){localStorage.setItem('ww_cc','n');b.style.display='none'}})}
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[data-etsy]');if(a&&window.gtag)gtag('event','etsy_click',{item_id:a.getAttribute('data-etsy')});if(a&&window.fbq)fbq('trackCustom','EtsyClick');});"""
-    return f'<script>{js}</script>'
+    ads = ''
+    if CONFIG['adsense_on']:
+        ads = ('<script>window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.pauseAdRequests=1;</script>'
+               '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=%s" crossorigin="anonymous"></script>' % CONFIG['adsense'])
+    return f'{ads}<script>{js}</script>'
 
 
 def signup():
@@ -970,7 +976,7 @@ def build(today):
     page('/privacy/', 'Privacy Policy | Cozy Paws', 'How Cozy Paws uses cookies and data.', f"""<h1>Privacy policy</h1>
 <p>This website and its apps (including Paw Party) are run by {CONFIG['company']}, a sole proprietorship based in Utah, USA, under the Cozy Paws brand. We do not sell products on this site: purchases happen on Etsy, under Etsy's own privacy policy.</p>
 <p><b>Cookies and stats.</b> Only if you click OK in the cookie notice, we load Google Analytics (anonymous visit statistics) and the Meta Pixel (to measure ads and visits). If you click "No thanks", nothing is loaded. You can change your choice by clearing this site's data in your browser.</p>
-<p><b>Ads.</b> In the future we may show ads from Google AdSense. If we do, they load only after you click OK, and Google may use cookies to show and measure them. See <a href="https://policies.google.com/technologies/ads" rel="noopener">how Google uses data in ads</a>.</p>
+<p><b>Ads.</b> We show ads from Google AdSense. Ads are only requested after you click OK in the cookie notice, and Google and its partners may then use cookies to show and measure them. See <a href="https://policies.google.com/technologies/ads" rel="noopener">how Google uses data in ads</a>.</p>
 <p><b>Calculators and apps.</b> The pet tools and the Paw Party and Paw Diary apps run in your browser. What you enter (your pet's name, birthday, breed, weight, photos, diary notes, reminders, saved names) is stored only on your own device (browser storage) and is never sent to us. You can delete it at any time by deleting it in the app (Paw Diary has "Delete all my data") or clearing this site's data in your browser. We do not ask for your name, email or location in the tools.</p>
 """ + ("""<p><b>Email club.</b> If you join our email club, we store your email address (and the language of the form) with MailerLite, our email provider, to send you the free checklist, new gift drops and offers. Every email has an unsubscribe link. We never sell or share your email. To be removed, unsubscribe or write to us.</p>""" if CONFIG.get('mailerlite_action') else '') + (f"""<p><b>Optional accounts.</b> In Paw Party and Paw Diary you can choose to sign in (with Google or with a link sent to your email) to keep your data on all your devices. If you do, we store your email address and a copy of your app data (pets, small pet photo, diary notes, reminders and saved names) in Google Firebase (Firestore), in the United States. Diary photos are not uploaded. Only you can read your data. You can delete your account and the cloud copy at any time from the Account button in the app, or by writing to us.</p>""" if CONFIG.get('firebase') else '') + f"""<p><b>Children.</b> The site is meant for a general audience and is not directed to children under 13. We do not knowingly collect personal information from children.</p>
 <p><b>Your rights.</b> Because we do not keep personal data from the apps, there is nothing for us to access or delete. For questions about analytics data, write to us.</p>
