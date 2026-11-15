@@ -69,7 +69,7 @@ INDEXNOW_KEY = "92ad20c14927840aeb27fd01e77c8677"  # clave pública de IndexNow 
 
 # ---------------------------------------------------------------- productos
 KINDS = [  # (palabra en el título, tipo en inglés)
-    ('printable', 'Printable (instant download)'), ('pajama', 'Pajama pants'), ('tank top', 'Pet tank top'),
+    ('printable', 'Printable (instant download)'), ('pajama pants', 'Pajama pants'), ('tank top', 'Pet tank top'),
     ('kids shirt', 'Kids T-shirt'), ('youth', 'Kids T-shirt'), ('wooden', 'Wooden ornament'), ('glass', 'Glass ornament'),
     ('ornament', 'Ceramic ornament'), ('accent mug', 'Accent mug'), ('latte mug', 'Latte mug'), ('enamel', 'Enamel camping mug'),
     ('tumbler', 'Insulated tumbler'), ('mug', 'Coffee mug'), ('bandana', 'Dog bandana'), ('dog sweater', 'Dog sweater'),
@@ -805,6 +805,25 @@ def make_images(all_prods, guides_live, tools_live):
 
 
 # ---------------------------------------------------------------- armado
+def newsletter_pages(today):
+    src = os.path.join(DATA, 'newsletter')
+    eds = sorted((f[:-5] for f in os.listdir(src) if re.match(r'\d{4}-\d{2}\.html$', f)), reverse=True) if os.path.isdir(src) else []
+    eds = [k for k in eds if k <= f'{today:%Y-%m}']
+    if not eds:
+        return []
+    urls = []
+    for k in eds:
+        os.makedirs(os.path.join(OUT, 'news', k), exist_ok=True)
+        shutil.copy(os.path.join(src, k + '.html'), os.path.join(OUT, 'news', k, 'index.html'))
+        urls.append((f'/news/{k}/', dt.date.fromisoformat(k + '-01')))
+    lis = ''.join(f'<li><a href="/news/{k}/">{dt.date.fromisoformat(k + "-01"):%B %Y}</a></li>' for k in eds)
+    page('/news/', 'Cozy Paws Club Newsletter Archive', 'Every monthly Cozy Paws Club email: new pet gifts, pet tips and free tools.',
+         f'<p class="note"><a href="/">Home</a> › Club newsletter</p><h1>Club newsletter</h1><p>One email a month with our newest designs, '
+         f'a member coupon, pet tips and a free tool. Join with the form below to get the next one.</p><ul>{lis}</ul>', today)
+    urls.append(('/news/', dt.date.fromisoformat(eds[0] + '-01')))
+    return urls
+
+
 def build(today):
     if os.path.exists(OUT):
         shutil.rmtree(OUT)
@@ -938,6 +957,8 @@ def build(today):
     print(f'artículos {na}/{len(articulos.load())}')
     # cada artículo también sale como post e historia en Instagram y Facebook (imágenes acá; publica social.py)
     contenido.render_articulos(OUT, [a for a in articulos.load() if a['live'] <= today])
+    # newsletter mensual del club (lo arma cozypaws/newsletter.py): versión web en /news/AAAA-MM/ y archivo en /news/
+    urls += newsletter_pages(today)
     items_apps = [(dt.date(2026, 11, 15), 'Paw Party: free fun app for dogs and cats', '/fun/', '/img/pin/app-fun.jpg',
                    'Dog and cat age in human years, pet name ideas, a personality quiz, pet zodiac and birthday cards. Free, no sign up, install it on your phone.', 'app-fun'),
                   (dt.date(2026, 11, 16), 'Paw Diary: free pet diary and vet reminder app', '/diary/', '/img/pin/app-diary.jpg',

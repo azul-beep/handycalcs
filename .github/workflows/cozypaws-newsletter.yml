@@ -1,0 +1,56 @@
+# Cozy Paws Club: newsletter mensual automático (gratis, sin Claude). Ver cozypaws/newsletter/LEEME.md.
+# Corre los días 1 a 10 de cada mes. cozypaws/newsletter.py decide solo:
+#   - antes del primer martes del mes: no hace nada;
+#   - si este mes ya salió (data/newsletter-enviado.json): no hace nada;
+#   - si no: arma el mail con los productos nuevos, lo publica en /news/AAAA-MM/ y, si existe el secret
+#     MAILERLITE_TOKEN, crea la campaña en MailerLite para el grupo "Cozy Paws Club" y la manda.
+# Así, aunque GitHub atrase o saltee un día el cron, sale igual en la corrida siguiente y nunca dos veces.
+# Si falla, abre un issue "Newsletter de Cozy Paws: no salió" (GitHub le manda el mail a Azu).
+name: Cozy Paws - newsletter mensual
+on:
+  schedule:
+    - cron: "0 16 1-10 * *"   # 9 AM de Utah (GitHub suele atrasarlo unas horas)
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: cozypaws-newsletter
+  cancel-in-progress: false
+jobs:
+  newsletter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pillow
+      - name: Armar y mandar el newsletter
+        env:
+          MAILERLITE_TOKEN: ${{ secrets.MAILERLITE_TOKEN }}
+          MAILERLITE_GROUP_ID: ${{ vars.MAILERLITE_GROUP_ID }}
+          NEWSLETTER_MODO: ${{ vars.NEWSLETTER_MODO }}
+        run: python3 cozypaws/newsletter.py
+      - name: Guardar (la web lo publica en el build de las 2 PM)
+        if: always()
+        run: |
+          git add cozypaws/newsletter cozypaws/data/newsletter cozypaws/data/newsletter-enviado.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "Nada nuevo"; exit 0; fi
+          git config user.name "newsletter-bot"
+          git config user.email "newsletter-bot@users.noreply.github.com"
+          git commit -m "Cozy Paws: newsletter $(date -u +%Y-%m)"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 10; done; exit 1
+      - name: Avisar si falló
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          T="Newsletter de Cozy Paws: no salió ($(date -u +%Y-%m))"
+          if gh issue list --state open --search "in:title \"$T\"" --json number -q '.[0].number' | grep -q .; then exit 0; fi
+          gh issue create --title "$T" --body "El proceso automático del newsletter falló: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+          Qué revisar (cozypaws/newsletter/LEEME.md):
+          1. Si dice 'MailerLite respondió 401': la clave MAILERLITE_TOKEN venció o está mal. Crear una nueva en MailerLite > Integrations > API y pegarla en GitHub > Settings > Secrets > Actions.
+          2. Si dice 'not available on your plan' o similar sobre 'content': el plan gratis no deja mandar el mail armado por la API. Ver la sección 'Plan B' del LEEME.
+          3. Si dice 'No encontré el grupo': crear el grupo 'Cozy Paws Club' en MailerLite.
+          Se vuelve a intentar solo mañana (hasta el día 10). Para probar ya: Actions > Cozy Paws - newsletter mensual > Run workflow."
