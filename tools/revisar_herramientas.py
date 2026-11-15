@@ -3,10 +3,12 @@ Lo corre .github/workflows/herramientas-salud.yml todos los días, después de l
 Revisa en la web EN LÍNEA:
   1. que estén publicadas todas las herramientas que ya tendrían que haber salido según el goteo (TOOLS_START en build.py),
   2. que cada página responda 200 y traiga su herramienta (data-tool=),
-  3. que respondan tools.js, tools.css y vendor/qrcode.js.
+  3. que respondan tools.js, tools.css y vendor/qrcode.js,
+  4. pines de Pinterest: que cada herramienta tenga sus 2 pines (EN y ES) en la cola pines/calculadoras/cola.json,
+     que ninguno salga antes que su página y que la imagen de los pines que ya salieron esté en línea.
 Si algo falla, escribe el detalle en problemas.txt y sale con código 1 (el workflow abre un aviso en GitHub, que llega por mail).
 """
-import datetime, os, re, sys, urllib.request
+import datetime, json, os, re, sys, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "src"))
@@ -42,6 +44,22 @@ for x in deben:
         st, body = get(SITE + path)
         if st != 200: problemas.append("%s responde %s (tenía que estar publicada)" % (path, st))
         elif 'data-tool="%s"' % x["engine"] not in body: problemas.append("%s no muestra la herramienta" % path)
+
+# 4) Pines de las herramientas (los publica tools/pines_calculadoras.py en los feeds rss-en.xml y rss-es.xml)
+cola = json.load(open(os.path.join(ROOT, "pines", "calculadoras", "cola.json"), encoding="utf-8"))["items"]
+fecha_pin = {i["id"]: datetime.date.fromisoformat(i["fecha"]) for i in cola}
+salidos = 0
+for x in TL.TOOLS:
+    live = START + datetime.timedelta(days=max(0, x["n"] - 2))
+    for lang in ("en", "es"):
+        pid = "tool-%s-%s" % (x["id"], lang)
+        if pid not in fecha_pin: problemas.append("La herramienta %s no tiene pin %s en la cola de Pinterest" % (x["id"], lang.upper())); continue
+        if fecha_pin[pid] < live: problemas.append("El pin %s sale el %s, antes que su página (%s)" % (pid, fecha_pin[pid], live))
+        if fecha_pin[pid] <= HOY:
+            salidos += 1
+            st, _ = get(SITE + "/pines/calculadoras/img/%s.jpg" % pid)
+            if st != 200: problemas.append("La imagen del pin %s responde %s" % (pid, st))
+print("Pines de herramientas que ya salieron: %d de %d" % (salidos, 2 * len(TL.TOOLS)))
 
 print("Herramientas que ya tendrían que estar en línea: %d de %d" % (len(deben), len(TL.TOOLS)))
 if problemas:

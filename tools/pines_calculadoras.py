@@ -3,10 +3,13 @@
 
 build.py calls build(...) every time it runs (daily workflow at 8 AM Utah + after calculator changes):
 
-1. Queue (pines/calculadoras/cola.json): every calculator gets 4 pins (EN/ES x design A/B) and every guide 1 pin.
-   Anything new (a calculator added to src/calcs.py, a guide added to src/articles/) enters the queue by itself
-   and gets a fixed day. At most POR_DIA pins per day, never on a past day, so nothing ever goes out all at once
-   (Azu's rule: 2 or 3 a day). A guide pin never goes out before the guide is live.
+1. Queue (pines/calculadoras/cola.json): every calculator gets 4 pins (EN/ES x design A/B), every guide 1 pin and
+   every online tool (src/tools.py, /tools/) 2 pins (EN + ES). Anything new (a calculator added to src/calcs.py,
+   a guide added to src/articles/, a tool added to src/tools.py) enters the queue by itself.
+   At most POR_DIA pins per day, never on a past day, so nothing ever goes out all at once (Azu's rule: 2 or 3 a day).
+   A guide or tool pin never goes out before its page is live. Days already out (today and before) never change;
+   future days are re-planned when something new arrives so guides and tools go first:
+   at most 1 guide pin + 1 tool pin per day, the rest of the day is calculators.
 2. Images (1000x1500 JPG) are drawn with Pillow into site/pines/calculadoras/img/ for the pins already out.
 3. Feeds for Pinterest auto-publish (each one goes to its own board):
      /pines/calculadoras/rss-en.xml  -> board "Free Calculators" (English pins + guides)
@@ -15,7 +18,7 @@ build.py calls build(...) every time it runs (daily workflow at 8 AM Utah + afte
    Each feed shows only the last VENTANA pins, so connecting a feed late never dumps the whole backlog at once.
 Links carry utm_source=pinterest so GA4 shows the visits.
 """
-import datetime as dt, json, os, textwrap
+import datetime as dt, json, os, re, textwrap
 from email.utils import format_datetime
 from xml.sax.saxutils import escape
 
@@ -32,13 +35,22 @@ COLORS = {           # (dark, light, accent) per category, Handy Calcs teal fami
     "health":     ("#9f1239", "#fff1f2", "#fb7185"),
     "school":     ("#0f766e", "#f0fdfa", "#2dd4bf"),
     "guide":      ("#1c2321", "#f7f7f4", "#fb923c"),
+    # online tools (src/tools.py CATS)
+    "t-qr":       ("#134e4a", "#f0fdfa", "#2dd4bf"),
+    "t-image":    ("#3730a3", "#eef2ff", "#818cf8"),
+    "t-text":     ("#1e293b", "#f8fafc", "#38bdf8"),
+    "t-random":   ("#9d174d", "#fdf2f8", "#f472b6"),
+    "t-everyday": ("#5b21b6", "#f5f3ff", "#a78bfa"),
+    "t-work":     ("#9a3412", "#fff7ed", "#fb923c"),
 }
 
 TXT = {
     "en": dict(free="FREE CALCULATOR", calc="Calculate", try_="Try the free %s", guide="FREE GUIDE",
-               read="Read the guide + free calculator", foot="No sign-up · Private · Free", today="Today"),
+               read="Read the guide + free calculator", foot="No sign-up · Private · Free", today="Today",
+               tool="FREE ONLINE TOOL", use="Use it free", how="How it works"),
     "es": dict(free="CALCULADORA GRATIS", calc="Calcular", try_="Prueba gratis: %s", guide="GUÍA GRATIS",
-               read="Lee la guía + calculadora gratis", foot="Sin registro · Privado · Gratis", today="Hoy"),
+               read="Lee la guía + calculadora gratis", foot="Sin registro · Privado · Gratis", today="Hoy",
+               tool="HERRAMIENTA GRATIS", use="Úsala gratis", how="Cómo funciona"),
 }
 
 # ------------------------------------------------------------------ fonts
@@ -60,33 +72,65 @@ def font(kind, size):
     return ImageFont.load_default()
 
 # ------------------------------------------------------------------ queue
-def candidates(calcs, all_articles):
-    """(item_id, min_date) in priority order: guides first (they wait for their live day), then design A, then B."""
-    out = [("guide-%s" % a["slug"], a["live"]) for a in all_articles]
+def candidates(calcs, all_articles, tools=()):
+    """(item_id, min_date, kind) in priority order inside each kind."""
+    out = [("guide-%s" % a["slug"], a["live"], "guide") for a in all_articles]
+    for x in sorted(tools, key=lambda x: x["n"]):          # EN and ES of each tool, alternating boards
+        for lang in ("en", "es"):
+            out.append(("tool-%s-%s" % (x["id"], lang), x["live"], "tool"))
     for v in ("a", "b"):
         for c in calcs:
             for lang in ("en", "es"):
-                out.append(("calc-%s-%s-%s" % (c["id"], lang, v), None))
+                out.append(("calc-%s-%s-%s" % (c["id"], lang, v), None, "calc"))
     return out
 
-def update_queue(path, calcs, all_articles, today):
+KIND_MAX = {"guide": 1, "tool": 1}   # per day; calculators fill the rest
+
+def plan(fixed, pool, start):
+    """fixed: items already out (fecha <= today), never moved. pool: [(id, min_date, kind)] in priority order.
+    Greedy day by day from start: 1 guide, 1 tool, then calculators; leftover room goes to whatever is ready."""
+    used, kinds = {}, {}
+    for i in fixed:
+        used[i["fecha"]] = used.get(i["fecha"], 0) + 1
+        k = (i["fecha"], i["id"].split("-", 1)[0]); kinds[k] = kinds.get(k, 0) + 1
+    out, pool, d = [], list(pool), start
+    for _ in range(3650):
+        if not pool: break
+        ds = d.isoformat()
+        def take(pred):
+            for j, (iid, md, kind) in enumerate(pool):
+                if (md is None or md <= d) and pred(kind):
+                    pool.pop(j); out.append({"id": iid, "fecha": ds})
+                    used[ds] = used.get(ds, 0) + 1; kinds[(ds, kind)] = kinds.get((ds, kind), 0) + 1
+                    return True
+            return False
+        for kind in ("guide", "tool"):
+            if used.get(ds, 0) < POR_DIA and kinds.get((ds, kind), 0) < KIND_MAX[kind]:
+                take(lambda k, kind=kind: k == kind)
+        while used.get(ds, 0) < POR_DIA and take(lambda k: k == "calc"): pass
+        while used.get(ds, 0) < POR_DIA and take(lambda k: True): pass
+        d += dt.timedelta(days=1)
+    return out
+
+def update_queue(path, calcs, all_articles, today, tools=()):
     data = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {}
     inicio = dt.date.fromisoformat(data.get("inicio", "2026-11-17"))
-    items = data.get("items", [])
-    known = {i["id"] for i in items}
-    per_day = {}
-    for i in items: per_day[i["fecha"]] = per_day.get(i["fecha"], 0) + 1
-    added = 0
-    for iid, min_date in candidates(calcs, all_articles):
-        if iid in known: continue
-        d = max(inicio, today, min_date or inicio)
-        while per_day.get(d.isoformat(), 0) >= POR_DIA: d += dt.timedelta(days=1)
-        items.append({"id": iid, "fecha": d.isoformat()}); known.add(iid)
-        per_day[d.isoformat()] = per_day.get(d.isoformat(), 0) + 1; added += 1
+    old = data.get("items", [])
+    cands = candidates(calcs, all_articles, tools)
+    valid = {c[0] for c in cands}
+    fixed = [i for i in old if dt.date.fromisoformat(i["fecha"]) <= today]
+    fixed_ids = {i["id"] for i in fixed}
+    future_old = {i["id"]: i["fecha"] for i in old if i["id"] not in fixed_ids}
+    # Pins that no longer exist are dropped from the future (already-out ones stay as history).
+    pool = [c for c in cands if c[0] not in fixed_ids]
+    if any(c[0] not in future_old for c in pool) or any(i not in valid for i in future_old):
+        items = fixed + plan(fixed, pool, max(inicio, today))      # something new (or removed): re-plan the future
+    else:
+        items = old                                                 # nothing new: keep every date as it is
     items.sort(key=lambda i: (i["fecha"], i["id"].startswith("calc"), i["id"]))
     data = {"_nota": "Cola de pines de Handy Calcs. La arma tools/pines_calculadoras.py; no hace falta editarla a mano.",
             "inicio": inicio.isoformat(), "por_dia": POR_DIA, "items": items}
-    if added or not os.path.exists(path):
+    if items != old or not os.path.exists(path):
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w", encoding="utf-8") as f: json.dump(data, f, ensure_ascii=False, indent=1); f.write("\n")
     return items
@@ -223,10 +267,60 @@ def draw_guide(a, site_host):
     footer(d, dark, light, accent, "en", site_host)
     return im
 
+def draw_tool(x, lang, cats, site_host):
+    from PIL import Image, ImageDraw
+    dark, light, accent = COLORS.get("t-" + x["cat"], COLORS["t-everyday"])
+    t = x[lang]; im = Image.new("RGB", (W, H), light); d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 20], fill=dark)
+    y = chip(d, 70, 80, TXT[lang]["tool"], dark, light)
+    cat = cats.get(x["cat"], ("", ""))[0 if lang == "en" else 1]
+    if cat:
+        cw = d.textlength(TXT[lang]["tool"], font=font("bold", 30)) + 48
+        chip(d, 70 + cw + 16, 80, cat, accent, dark, size=30)
+    y += 40
+    f, ls = fit_headline(d, t["h1"], W - 140, 3, start=136)
+    for l in ls: d.text((70, y), l, font=f, fill=dark); y += int(f.size * 1.12)
+    y += 40
+    fs = font("reg", 42)
+    for l in wrap(d, t["intro"], fs, W - 140, 4): d.text((70, y), l, font=fs, fill="#3d4744"); y += 54
+    y += 40
+    # steps card
+    fst = font("reg", 34); fh = font("bold", 34)
+    def short(st):   # first sentence only, without the "(for example ...)" part, so the card stays tidy
+        st = re.sub(r"\s*\([^)]*\)", "", st).split(". ")[0].rstrip(".") + "."
+        return st.replace(" .", ".")
+    steps = [wrap(d, short(st), fst, W - 330, 2) for st in t["steps"][:3]]
+    room = H - 210 - 130 - y
+    while steps and 90 + sum(len(s_) * 44 + 34 for s_ in steps) > room: steps.pop()
+    if steps:
+        card_h = 90 + sum(len(s_) * 44 + 34 for s_ in steps)
+        d.rounded_rectangle([70, y, W - 70, y + card_h], radius=28, fill="#ffffff", outline="#e3e6e1", width=3)
+        d.text((115, y + 34), TXT[lang]["how"], font=fh, fill=dark)
+        yy = y + 90
+        for n, lines in enumerate(steps, 1):
+            d.ellipse([115, yy - 2, 167, yy + 50], fill=accent)
+            d.text((141, yy + 24), str(n), font=font("black", 30), fill=dark, anchor="mm")
+            for l in lines: d.text((190, yy + 4), l, font=fst, fill="#1c2321"); yy += 44
+            yy += 34
+        y += card_h
+    by = H - 300
+    d.rounded_rectangle([70, by, W - 70, by + 100], radius=50, fill=dark)
+    d.text((W // 2, by + 50), TXT[lang]["use"] + "  →", font=font("black", 40), fill=light, anchor="mm")
+    footer(d, dark, light, accent, lang, site_host)
+    return im
+
 # ------------------------------------------------------------------ item content
-def item_info(iid, by_id, arts, site_url):
-    """-> dict(lang, title, desc, link, draw) or None if the calculator/guide no longer exists."""
+def item_info(iid, by_id, arts, site_url, tools_by_id=None):
+    """-> dict(lang, title, desc, link, draw) or None if the calculator/guide/tool no longer exists."""
     utm = "?utm_source=pinterest&utm_medium=social&utm_campaign=%s"
+    if iid.startswith("tool-"):
+        tid, lang = iid[5:].rsplit("-", 1)
+        x = (tools_by_id or {}).get(tid)
+        if not x: return None
+        t = x[lang]
+        base = site_url + ("/tools/" if lang == "en" else "/es/herramientas/") + t["slug"] + "/"
+        return dict(lang=lang, title=t["title"][:100], desc=t["desc"][:500], link=base + utm % "pin-tool",
+                    draw=lambda h, x=x, lang=lang: draw_tool(x, lang, TOOL_CATS_REF[0], h))
     if iid.startswith("guide-"):
         a = arts.get(iid[6:])
         if not a: return None
@@ -251,6 +345,7 @@ def item_info(iid, by_id, arts, site_url):
                 draw=(lambda h, c=c, lang=lang, v=v: (draw_calc_a if v == "a" else draw_calc_b)(c, lang, CATS_REF[0], h)))
 
 CATS_REF = [{}]
+TOOL_CATS_REF = [{}]
 
 def rss(path, title, link, desc, lang, items, site_url):
     out = ['<?xml version="1.0" encoding="utf-8"?>',
@@ -270,13 +365,15 @@ def rss(path, title, link, desc, lang, items, site_url):
     with open(path, "w", encoding="utf-8") as f: f.write("\n".join(out))
 
 # ------------------------------------------------------------------ entry point
-def build(out_dir, calcs, cats, all_articles, site_url, today):
-    """Called by build.py. Returns the number of pins already out."""
+def build(out_dir, calcs, cats, all_articles, site_url, today, tools=(), tool_cats=None):
+    """Called by build.py. tools: src/tools.py TOOLS, each with "live" (date its page goes up). Returns pins already out."""
     CATS_REF[0] = cats
+    TOOL_CATS_REF[0] = tool_cats or {}
     today = dt.date.fromisoformat(today) if isinstance(today, str) else today
     site_url = site_url.rstrip("/")
     host = site_url.split("://", 1)[-1]
-    items = update_queue(os.path.join(ROOT, "pines", "calculadoras", "cola.json"), calcs, all_articles, today)
+    items = update_queue(os.path.join(ROOT, "pines", "calculadoras", "cola.json"), calcs, all_articles, today, tools)
+    tools_by_id = {x["id"]: x for x in tools}
     by_id = {c["id"]: c for c in calcs}
     arts = {a["slug"]: a for a in all_articles}
     dst = os.path.join(out_dir, "pines", "calculadoras"); img_dir = os.path.join(dst, "img")
@@ -284,7 +381,7 @@ def build(out_dir, calcs, cats, all_articles, site_url, today):
     out = []
     for it in items:
         if dt.date.fromisoformat(it["fecha"]) > today: continue
-        info = item_info(it["id"], by_id, arts, site_url)
+        info = item_info(it["id"], by_id, arts, site_url, tools_by_id)
         if not info: continue
         info.update(it); out.append(info)
         info["draw"](host).save(os.path.join(img_dir, it["id"] + ".jpg"), "JPEG", quality=82, optimize=True)
@@ -293,9 +390,9 @@ def build(out_dir, calcs, cats, all_articles, site_url, today):
     es = [i for i in out if i["lang"] == "es"][:VENTANA]
     home = site_url + "/"
     rss(os.path.join(dst, "rss-en.xml"), "Handy Calcs: Free Calculators", home,
-        "Free calculators for tips, pay, budgets, loans, health, school and recipes.", "en", en, site_url)
+        "Free calculators and online tools for tips, pay, budgets, loans, QR codes, images and text.", "en", en, site_url)
     rss(os.path.join(dst, "rss-es.xml"), "Handy Calcs: Calculadoras gratis", site_url + "/es/",
-        "Calculadoras gratis para propinas, sueldos, presupuestos, préstamos, salud, escuela y recetas.", "es", es, site_url)
+        "Calculadoras y herramientas gratis para propinas, sueldos, presupuestos, préstamos, códigos QR, imágenes y texto.", "es", es, site_url)
     rss(os.path.join(dst, "rss.xml"), "Handy Calcs pins", home, "Free calculators in English and Spanish.", "en",
         out[:VENTANA], site_url)
     pending = sum(1 for it in items if dt.date.fromisoformat(it["fecha"]) > today)
@@ -313,4 +410,8 @@ if __name__ == "__main__":   # preview: python3 tools/pines_calculadoras.py <out
         for lang in ("en", "es"):
             draw_calc_a(c, lang, CATS, "gethandycalcs.pages.dev").save(os.path.join(o, "%s-%s-a.jpg" % (c["id"], lang)), quality=86)
             draw_calc_b(c, lang, CATS, "gethandycalcs.pages.dev").save(os.path.join(o, "%s-%s-b.jpg" % (c["id"], lang)), quality=86)
+    import tools as TL
+    for x in TL.TOOLS:
+        for lang in ("en", "es"):
+            draw_tool(x, lang, TL.CATS, "gethandycalcs.pages.dev").save(os.path.join(o, "tool-%s-%s.jpg" % (x["id"], lang)), quality=86)
     print("ok", o)
