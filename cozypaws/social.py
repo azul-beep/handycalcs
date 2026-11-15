@@ -13,7 +13,8 @@ Secrets de GitHub (Settings > Secrets and variables > Actions). Si falta uno, es
   GH_SECRETS_PAT                token de GitHub con permiso "Secrets: write" en este repo, para guardar el token renovado
 
   python3 cozypaws/social.py publicar [--prueba]   # --prueba muestra qué publicaría, sin publicar
-  python3 cozypaws/social.py contenido [--prueba] # 1 post que no es de venta en IG y FB: el artículo nuevo del blog si hay
+  python3 cozypaws/social.py contenido [--prueba] # 1 post que no es de venta en IG y FB. Martes, jueves y sábado: un carrusel
+                                                  # de cozypaws/carruseles.py. Los otros días: el artículo nuevo del blog si hay
                                                   # uno sin reciclar; si no, el banco de cozypaws/contenido.py
   python3 cozypaws/social.py historia [--prueba]  # 1 historia en IG y FB (artículo nuevo, si no producto nuevo, si no tarjeta del banco)
   python3 cozypaws/social.py renovar               # renueva el token de Threads (1 vez por semana)
@@ -139,6 +140,30 @@ def fb_historia(img, page_id, token):
     return call(f'{FB}/{page_id}/photo_stories', {'photo_id': foto['id'], 'access_token': token})
 
 
+def ig_carrusel(imgs, cap, ig_user, token):
+    hijos = []
+    for img in imgs:
+        r = call(f'{FB}/{ig_user}/media', {'image_url': img, 'is_carousel_item': 'true', 'access_token': token})
+        hijos.append(r['id'])
+    for h in hijos:
+        esperar(FB, h, token)
+    r = call(f'{FB}/{ig_user}/media', {'media_type': 'CAROUSEL', 'children': ','.join(hijos), 'caption': cap, 'access_token': token})
+    esperar(FB, r['id'], token)
+    return call(f'{FB}/{ig_user}/media_publish', {'creation_id': r['id'], 'access_token': token})
+
+
+def fb_carrusel(imgs, cap, page_id, token):
+    """En Facebook el carrusel es un post con varias fotos: se suben sin publicar y se adjuntan al post."""
+    params = {'message': cap, 'access_token': token}
+    for i, img in enumerate(imgs):
+        foto = call(f'{FB}/{page_id}/photos', {'url': img, 'published': 'false', 'access_token': token})
+        params[f'attached_media[{i}]'] = json.dumps({'media_fbid': foto['id']})
+    return call(f'{FB}/{page_id}/feed', params)
+
+
+DIAS_CARRUSEL = (1, 3, 5)  # martes, jueves y sábado: el post de la 1 PM es un carrusel
+
+
 def en_web(rel):
     return os.path.exists(os.path.join(HERE, 'site', rel))
 
@@ -173,6 +198,33 @@ def correr(tipo, prueba):
                                 else (lambda img, cap: call(f"{FB}/{env('FB_PAGE_ID')}/photos", {'url': img, 'caption': cap, 'access_token': env('FB_PAGE_TOKEN')}))),
     }
     errores = 0
+    if tipo == 'contenido' and hoy.weekday() in DIAS_CARRUSEL:
+        import carruseles
+        listos = [c for c in carruseles.CARRUSELES if en_web(f"img/carrusel/{c['id']}/{carruseles.fotos(c)}.jpg")]
+        carr = {
+            'instagram': hay_ig and (lambda imgs, cap: ig_carrusel(imgs, cap, env('IG_USER_ID'), env('FB_PAGE_TOKEN'))),
+            'facebook': hay_fb and (lambda imgs, cap: fb_carrusel(imgs, cap, env('FB_PAGE_ID'), env('FB_PAGE_TOKEN'))),
+        }
+        for red, fn in carr.items():
+            clave = f'carrusel-{red}'
+            c, reinicio = siguiente(listos, set(state.get(clave, [])))
+            if not c:
+                print(f'{red}: no hay carruseles en la web todavía'); continue
+            imgs = [f"{url}/img/carrusel/{c['id']}/{n}.jpg" for n in range(1, carruseles.fotos(c) + 1)]
+            cap = carruseles.caption_de(c)
+            if prueba or not fn:
+                print(f"{red}: {'(sin token) ' if not fn else ''}carrusel: publicaría {c['id']} ({len(imgs)} fotos)\n{cap}\n---")
+                continue
+            try:
+                fn(imgs, cap)
+                state[clave] = ([] if reinicio else state.get(clave, [])) + [c['id']]
+                print(f"{red}: carrusel publicado {c['id']}")
+            except Exception as e:
+                errores += 1
+                print(f"{red}: ERROR carrusel {c['id']}: {e} {getattr(e, 'read', lambda: b'')().decode(errors='ignore')[:400]}")
+        if not prueba:
+            json.dump(state, open(STATE, 'w'), indent=1, sort_keys=True)
+        return errores
     for red, fn in redes.items():
         clave_p, clave_b = f'historia-{red}', f'{tipo}-banco-{red}'
         # reciclado de artículos: cada artículo nuevo del blog sale 1 vez como post (en el lugar del banco) y 1 vez
