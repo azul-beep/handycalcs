@@ -90,7 +90,49 @@ def affiliate_box(cat, lang):
     lis = "".join('<li>%s<a href="%s" rel="sponsored noopener" target="_blank">%s</a>: %s</li>' % ('<span class="tag">%s</span> ' % spon if a.get("paid") else "", E(l), E(a["name"]), E(a[lang])) for a, l in items)
     return '<aside class="aff"><h2>%s</h2><ul>%s</ul><p class="small">%s</p></aside>' % (u["aff_title"], lis, u["aff_note"])
 
-CSS_VER = "4"
+CSS_VER = "5"
+
+# Chrome Web Store extensions. Fill "store" with the item ID once Google publishes it; empty = not shown anywhere.
+# "pages" = calculator ids (src/calcs.py) and tool ids (src/tools.py) where the "Add to Chrome" box appears.
+CHROME_EXTS = [
+    dict(store="iiklfjekkfoobglgelabmbmkoidoloep", pages=["tip", "split", "tipout"],
+         en=("Tip & Split Calculator", "Work out the tip and split the bill from your browser toolbar."),
+         es=("Calculadora de propinas", "Calcula la propina y divide la cuenta desde la barra del navegador.")),
+    dict(store="", pages=["password"],
+         en=("Password Generator", "A strong password in one click, right in your toolbar."),
+         es=("Generador de contraseñas", "Una contraseña segura en un clic, en la barra del navegador.")),
+    dict(store="", pages=["words", "case"],
+         en=("Word Counter", "Count words, characters and reading time from your toolbar."),
+         es=("Contador de palabras", "Cuenta palabras, caracteres y tiempo de lectura desde la barra del navegador.")),
+    dict(store="", pages=["qr", "qrwifi", "qrwa"],
+         en=("QR Code Generator", "Turn the page you are on into a QR code with one click."),
+         es=("Generador de códigos QR", "Convierte la página que estás viendo en un código QR con un clic.")),
+]
+CHROME_LIVE = [x for x in CHROME_EXTS if x["store"]]
+
+def chrome_url(x, lang):
+    return "https://chrome.google.com/webstore/detail/%s?hl=%s&utm_source=handycalcs&utm_medium=site" % (x["store"], "es" if lang == "es" else "en")
+
+def chrome_box(page_id, lang):
+    """Small 'Add to Chrome' box under a calculator or tool that has a published extension."""
+    for x in CHROME_LIVE:
+        if page_id in x["pages"]:
+            name, line = x[lang]
+            return ('<aside class="chrome-ext"><div><strong>%s</strong><span>%s %s</span></div>'
+                    '<a class="btn-chrome" href="%s" target="_blank" rel="noopener">%s</a></aside>'
+                    % (("Free Chrome extension" if lang == "en" else "Extensión gratis para Chrome"), E(line),
+                       ("No sign-up, no data collected." if lang == "en" else "Sin registro y sin recolectar datos."),
+                       chrome_url(x, lang), ("Add to Chrome" if lang == "en" else "Agregar a Chrome")))
+    return ""
+
+def chrome_section(lang):
+    """List of published extensions for the home page and the tools hub."""
+    if not CHROME_LIVE: return ""
+    items = "".join('<a class="ext" href="%s" target="_blank" rel="noopener"><strong>%s</strong><span>%s</span></a>'
+                    % (chrome_url(x, lang), E(x[lang][0]), E(x[lang][1])) for x in CHROME_LIVE)
+    return '<section class="cat" id="chrome"><h2>%s</h2><div class="exts">%s</div></section>' % (
+        "Free Chrome extensions" if lang == "en" else "Extensiones gratis para Chrome", items)
+
 
 # ============================== Printable calendars ==============================
 # calendarios/calendarios-AAAA/ is made by calendarios/regenerar.py (once a year, every Oct 1).
@@ -430,6 +472,7 @@ def calc_page(c, lang):
 <h1>{E(d['h1'])}</h1>
 <p class="lead">{E(d['intro'])}</p>
 {calc_widget(c, lang)}
+{chrome_box(c['id'], lang)}
 <article class="content">{d['body']}</article>
 {guides_box(c, lang)}{affiliate_box(c['aff'] if c['aff'] != 'money' or c.get('cat') == 'money' else '', lang)}
 {newsletter(lang)}
@@ -470,6 +513,7 @@ def home_page(lang):
     if lang == "en" and ARTICLES:
         s += '<section class="cat" id="guides"><h2>Guides</h2><div class="grid">%s</div><p><a href="/guides/">All guides →</a></p></section>' % "".join(
             '<a class="tile" href="/guides/%s/"><strong>%s</strong><span>%s</span></a>' % (a["slug"], E(a["h1"]), E(a["description"])) for a in list(reversed(ARTICLES))[:6])
+    s += chrome_section(lang)
     s += newsletter(lang)
     s += ("""<script>function hcFilter(q){q=q.toLowerCase().trim();document.querySelectorAll('.tile').forEach(function(t){t.style.display=!q||t.getAttribute('data-k').indexOf(q)>-1?'':'none'});document.querySelectorAll('.cat').forEach(function(c){c.style.display=[].some.call(c.querySelectorAll('.tile'),function(t){return t.style.display!=='none'})?'':'none'})}</script>""")
     s += footer(lang) + "</body></html>\n"
@@ -665,6 +709,7 @@ def tool_page(x, lang):
 <p class="lead">{E(d['intro'])}</p>
 {TL.widget(x, lang)}
 <p class="small priv">🔒 {tu['priv']}</p>
+{chrome_box(x['id'], lang)}
 <section class="content"><h2>{tu['how']}</h2><ol class="tool-steps">{steps}</ol>{d['body']}</section>
 {newsletter(lang)}
 <section class="content"><h2>{tu['faq']}</h2>{faq}</section>
@@ -689,6 +734,7 @@ def tools_hub(lang):
     for cid, names in TL.CATS.items():
         items = [x for x in TOOLS_LIVE if x["cat"] == cid]
         if items: s += '<section class="cat"><h2>%s</h2><div class="grid">%s</div></section>' % (names[0 if lang == "en" else 1], tools_tiles(lang, items))
+    s += chrome_section(lang)
     s += footer(lang) + "</body></html>\n"
     return path, s
 
