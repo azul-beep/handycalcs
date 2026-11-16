@@ -12,6 +12,7 @@ GA4 y Píxel de Meta: cambiar `GA4_ID` y `PIXEL_ID` arriba de `index.html` cuand
 
 ## Herramientas que uso (afiliados)
 - Sección `#uso` arriba de todo. Se arma sola desde `herramientas.json` (solo las que tienen `"mostrar": true`).
-- Links cortos `/ir/<id>`: los escribe `blue/herramientas.py` en `_redirects`; la rutina "Blue (herramientas)" lo corre sola cuando cambia `herramientas.json` en main. Para poner un link de afiliada: pegarlo en `link_afiliado` y unir a main.
+- Links cortos `/ir/<id>`: los escribe `blue/herramientas.py` en `_redirects`; la rutina "Blue (web)" lo corre sola cuando cambia algo de `blue/web/` en main; Cloudflare publica solo cada commit. Para poner un link de afiliada: pegarlo en `link_afiliado` y unir a main.
 - Cada clic en "Ver" manda el evento `clic_afiliado` (parámetro `herramienta`) a GA4 y `ClicHerramienta` al Píxel, solo con cookies aceptadas.
 - Paquete completo (fichas de alta, avisos, respuesta guardada, líneas para videos): /mnt/project-files/cuenta-ia/afiliados-tecnologia/paquete-afiliados-blue.md
+
