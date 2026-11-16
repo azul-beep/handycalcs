@@ -1,4 +1,4 @@
-# Cozy Paws en redes (15 Nov 2026, 12:33 hora de Utah)
+# Cozy Paws en redes (16 Nov 2026, 16:13 hora de Utah)
 
 Lo arma solo GitHub Actions todos los días (cozypaws/estadisticas.py). "Ayer" = últimas 24 horas. "-" = sin dato.
 
@@ -29,9 +29,9 @@ Para ver estos datos hay que generar el token de la página de nuevo (pasos A de
 
 ## Respuestas de Meta que no fueron datos (para revisar)
 
-1. datos de la cuenta de Instagram: código 200 · Cannot call API for app 1109634448361462 on behalf of user 30028231003444967
-2. alcance y visitas de la cuenta de Instagram: código 200 · Cannot call API for app 1109634448361462 on behalf of user 30028231003444967
-3. posts de Instagram: código 200 · Cannot call API for app 1109634448361462 on behalf of user 30028231003444967
-4. datos de la página de Facebook: código 200 · Cannot call API for app 1109634448361462 on behalf of user 30028231003444967
-5. alcance de la página de Facebook: código 200 · Cannot call API for app 1109634448361462 on behalf of user 30028231003444967
-6. posts de Facebook: código 200 · Cannot call API for app 1109634448361462 on behalf of user 30028231003444967
+1. datos de la cuenta de Instagram: código 190 · Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.
+2. alcance y visitas de la cuenta de Instagram: código 190 · Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.
+3. posts de Instagram: código 190 · Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.
+4. datos de la página de Facebook: código 190 · Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.
+5. alcance de la página de Facebook: código 190 · Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.
+6. posts de Facebook: código 190 · Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.
