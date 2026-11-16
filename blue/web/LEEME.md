@@ -12,9 +12,7 @@ GA4 y Píxel de Meta: cambiar `GA4_ID` y `PIXEL_ID` arriba de `index.html` cuand
 
 ## Herramientas que uso (afiliados)
 - Sección `#uso` arriba de todo. Se arma sola desde `herramientas.json` (solo las que tienen `"mostrar": true`).
-- Links cortos `/ir/<id>`: los escribe `blue/herramientas.py` en `_redirects`; la rutina "Blue (web)" lo corre sola cuando cambia algo de `blue/web/` en main, y además publica la web. Para poner un link de afiliada: pegarlo en `link_afiliado` y unir a main.
+- Links cortos `/ir/<id>`: los escribe `blue/herramientas.py` en `_redirects`; la rutina "Blue (web)" lo corre sola cuando cambia algo de `blue/web/` en main; Cloudflare publica solo cada commit. Para poner un link de afiliada: pegarlo en `link_afiliado` y unir a main.
 - Cada clic en "Ver" manda el evento `clic_afiliado` (parámetro `herramienta`) a GA4 y `ClicHerramienta` al Píxel, solo con cookies aceptadas.
 - Paquete completo (fichas de alta, avisos, respuesta guardada, líneas para videos): /mnt/project-files/cuenta-ia/afiliados-tecnologia/paquete-afiliados-blue.md
 
-## Publicación automática (desde el 16 nov 2026)
-El proyecto de Cloudflare "blueautomatica" es de subida directa (no se puede conectar a Git). Por eso lo publica la rutina "Blue (web)" de GitHub con wrangler, cada vez que cambia `blue/web/` en main. Necesita el secreto `CLOUDFLARE_API_TOKEN` en el repo (token de cuenta con permiso Account > Cloudflare Pages > Edit). Sin el secreto, la rutina no publica y deja un aviso. Para publicar a mano: Actions > Blue (web) > Run workflow.

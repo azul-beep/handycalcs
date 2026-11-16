@@ -1,8 +1,5 @@
-# Publica la web de Blue (blueautomatica.pages.dev) cada vez que cambia blue/web/ en main.
-# 1) Rearma los links cortos /ir/ (blue/herramientas.py -> blue/web/_redirects) y los guarda.
-# 2) Sube blue/web al proyecto de Cloudflare Pages "blueautomatica" (subida directa, misma dirección de siempre).
-# Gratis y sin Claude. Necesita UN secreto: CLOUDFLARE_API_TOKEN (permiso Account > Cloudflare Pages > Edit).
-# Sin el secreto, solo rearma los links y no publica.
+# Rearma los links cortos de Blue (blue/web/_redirects) cuando cambia blue/web/ en main.
+# Gratis y sin Claude: el commit dispara la publicación de Cloudflare Pages (proyecto "blueautomatica", conectado al repo).
 name: Blue (web)
 on:
   push:
@@ -14,9 +11,6 @@ permissions:
 concurrency:
   group: blue-web
   cancel-in-progress: false
-env:
-  CLOUDFLARE_ACCOUNT_ID: 9c7832de69ff3188e25ceb1711b362d5
-  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 jobs:
   publicar:
     runs-on: ubuntu-latest
@@ -36,10 +30,3 @@ jobs:
             sleep 15
           done
           exit 1
-      - name: Publicar en Cloudflare Pages
-        if: env.CLOUDFLARE_API_TOKEN != ''
-        run: npx --yes wrangler@4 pages deploy blue/web --project-name=blueautomatica --branch=main --commit-dirty=true
-      - name: Aviso si falta el secreto
-        if: env.CLOUDFLARE_API_TOKEN == ''
-        run: |
-          echo "::warning::Falta el secreto CLOUDFLARE_API_TOKEN, la web de Blue no se publico (ver blue/web/LEEME.md)."
