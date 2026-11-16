@@ -1,0 +1,29 @@
+# Rearma los links cortos de Blue (blue/web/_redirects) cuando cambia herramientas.json en main.
+# Gratis y sin Claude: Python puro, commit -> Cloudflare Pages publica blueautomatica.pages.dev solo.
+name: Blue (herramientas)
+on:
+  push:
+    branches: [main]
+    paths: ["blue/web/herramientas.json", "blue/herramientas.py"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  rearmar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rearmar _redirects y publicar
+        run: |
+          git config user.name "publicacion-bot"
+          git config user.email "publicacion-bot@users.noreply.github.com"
+          for i in 1 2 3; do
+            git fetch origin main && git reset --hard origin/main
+            python3 blue/herramientas.py
+            if git diff --quiet -- blue/web/_redirects; then echo "Ya estaba al día"; exit 0; fi
+            git add blue/web/_redirects
+            git commit -m "Blue: links cortos al día $(date -u +%F)"
+            git push origin HEAD:main && exit 0
+            sleep 15
+          done
+          exit 1

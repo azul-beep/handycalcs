@@ -1,0 +1,15 @@
+{
+  "_leeme": "Herramientas de la página de Blue (sección #uso) y links cortos /ir/<id>. Para cargar un link de afiliada: pegarlo en 'link_afiliado' y unir a main; la rutina 'Blue (herramientas)' rearma blue/web/_redirects sola. 'mostrar': true solo si Blue la usa de verdad o ya la probó en un video. Sin datos personales acá.",
+  "herramientas": [
+    {"id": "elevenlabs", "nombre": "ElevenLabs", "para_que": "La voz de Blue. Escribes el texto y te lo devuelve hablado, con la voz que elijas.", "precio": "Tiene plan gratis", "web": "https://elevenlabs.io", "link_afiliado": "", "mostrar": true},
+    {"id": "make", "nombre": "Make", "para_que": "Conecta apps entre sí sin programar: cuando pasa algo en una, hace algo en otra.", "precio": "Tiene plan gratis", "web": "https://www.make.com", "link_afiliado": "", "mostrar": true},
+    {"id": "mailerlite", "nombre": "MailerLite", "para_que": "Manda mails automáticos a tu lista: bienvenida, novedades y avisos.", "precio": "Tiene plan gratis", "web": "https://www.mailerlite.com", "link_afiliado": "", "mostrar": true},
+    {"id": "printify", "nombre": "Printify", "para_que": "Productos con tu diseño que se imprimen y se envían solo cuando alguien compra. Sin stock.", "precio": "Gratis para usar", "web": "https://printify.com", "link_afiliado": "", "mostrar": true},
+    {"id": "gohighlevel", "nombre": "GoHighLevel", "para_que": "Todo en uno para negocios: contactos, mensajes, citas y automatizaciones en un solo lugar.", "precio": "Prueba gratis de 14 días", "web": "https://www.gohighlevel.com", "link_afiliado": "", "mostrar": true},
+    {"id": "systeme", "nombre": "systeme.io", "para_que": "Tienda, cursos y embudos en un solo lugar.", "precio": "Plan gratis para siempre", "web": "https://systeme.io", "link_afiliado": "", "mostrar": false},
+    {"id": "hostinger", "nombre": "Hostinger", "para_que": "Hosting y dominio para tu web propia.", "precio": "Pago", "web": "https://www.hostinger.com", "link_afiliado": "", "mostrar": false},
+    {"id": "manychat", "nombre": "ManyChat", "para_que": "Respuestas automáticas por mensaje en Instagram.", "precio": "Plan gratis hasta 1.000 contactos", "web": "https://manychat.com", "link_afiliado": "", "mostrar": false},
+    {"id": "kit", "nombre": "Kit", "para_que": "Mails para creadores.", "precio": "Plan gratis", "web": "https://kit.com", "link_afiliado": "", "mostrar": false},
+    {"id": "beehiiv", "nombre": "beehiiv", "para_que": "Newsletter con web incluida.", "precio": "Plan gratis; con el link: 14 días de prueba y 20% menos los primeros 3 meses", "web": "https://www.beehiiv.com", "link_afiliado": "", "mostrar": false}
+  ]
+}
