@@ -1,6 +1,6 @@
 """Rearma blue/web/_redirects (links cortos /ir/<id>) desde blue/web/herramientas.json.
 Si una herramienta tiene link_afiliado, /ir/<id> lleva ahí; si no, a su web oficial.
-Uso: python3 blue/herramientas.py   (lo corre solo la rutina 'Blue (herramientas)')."""
+Uso: python3 blue/herramientas.py   (lo corre solo la rutina 'Blue (web)')."""
 import json, pathlib, sys
 WEB = pathlib.Path(__file__).resolve().parent / "web"
 datos = json.loads((WEB / "herramientas.json").read_text(encoding="utf-8"))

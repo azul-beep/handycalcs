@@ -1,5 +1,5 @@
 {
-  "_leeme": "Herramientas de la página de Blue (sección #uso) y links cortos /ir/<id>. Para cargar un link de afiliada: pegarlo en 'link_afiliado' y unir a main; la rutina 'Blue (herramientas)' rearma blue/web/_redirects sola. 'mostrar': true solo si Blue la usa de verdad o ya la probó en un video. Sin datos personales acá.",
+  "_leeme": "Herramientas de la página de Blue (sección #uso) y links cortos /ir/<id>. Para cargar un link de afiliada: pegarlo en 'link_afiliado' y unir a main; la rutina 'Blue (web)' rearma blue/web/_redirects sola. 'mostrar': true solo si Blue la usa de verdad o ya la probó en un video. Sin datos personales acá.",
   "herramientas": [
     {"id": "elevenlabs", "nombre": "ElevenLabs", "para_que": "La voz de Blue. Escribes el texto y te lo devuelve hablado, con la voz que elijas.", "precio": "Tiene plan gratis", "web": "https://elevenlabs.io", "link_afiliado": "", "mostrar": true},
     {"id": "make", "nombre": "Make", "para_que": "Conecta apps entre sí sin programar: cuando pasa algo en una, hace algo en otra.", "precio": "Tiene plan gratis", "web": "https://www.make.com", "link_afiliado": "", "mostrar": true},
