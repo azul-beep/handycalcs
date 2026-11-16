@@ -45,6 +45,11 @@ button.copiar{position:absolute;top:8px;right:8px;border:0;border-radius:8px;bac
 table{width:100%;border-collapse:collapse;font-size:15px}
 td{padding:8px 4px;border-bottom:1px solid #eee}
 td:last-child{text-align:right;font-weight:800;color:var(--verde)}
+.app{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #eee}
+.app:last-child{border-bottom:0}
+.app b{font-size:16px}.app p{margin:2px 0 4px;font-size:14px}.app small{color:#7a8091;font-size:13px}
+.app a.ir{flex:none;margin-left:auto;align-self:center;background:var(--azul);color:#fff;text-decoration:none;font-weight:800;border-radius:10px;padding:9px 14px;font-size:14px}
+.aviso{background:#EAF0FF;border-radius:12px;padding:10px 14px;font-size:14px;margin-top:12px}
 footer{max-width:640px;margin:0 auto;padding:0 20px 120px;font-size:13px;color:#7a8091}
 footer h2{font-size:15px;color:var(--tinta)}
 #cookies{position:fixed;left:12px;right:12px;bottom:12px;max-width:620px;margin:0 auto;background:var(--tinta);color:#fff;border-radius:16px;padding:14px 16px;font-size:14px;display:none;box-shadow:0 10px 30px rgba(0,0,0,.25)}
@@ -61,6 +66,14 @@ footer h2{font-size:15px;color:var(--tinta)}
   <span class="ia">Personaje y voz hechos con IA</span>
 </header>
 <main>
+
+<details id="uso"><summary><span class="n">★</span><span>Herramientas que uso<small>Las apps que aparecen en mis videos, con su link</small></span></summary><div class="cuerpo">
+<p class="aviso">Algunos links son de afiliado: si te suscribes, recibo una comisión sin costo extra para ti. Solo pongo aquí lo que uso de verdad.</p>
+<div id="apps"><p>Cargando…</p></div>
+<noscript><p>Activa JavaScript para ver la lista.</p></noscript>
+<p class="nota">Empieza siempre por el plan gratis: casi todas lo tienen. Ninguna herramienta te hace ganar dinero sola; lo que muestran los videos es cómo las uso yo.</p>
+</div></details>
+
 
 <details id="instagram"><summary><span class="n">1</span><span>Instagram que publica solo<small>La plantilla del video "Mi Instagram publica solo"</small></span></summary><div class="cuerpo">
 <p>Una lista de publicaciones, una rutina gratis de GitHub que la lee todos los días y la API oficial de Meta. Sin programas pagos.</p>
@@ -238,7 +251,8 @@ Dime qué herramienta gratis usar (Google Apps Script, GitHub Actions, Zapier gr
 </main>
 <footer>
 <h2>Privacidad y cookies</h2>
-<p>Esta página no pide datos personales. Si aceptas cookies, usa Google Analytics y el Píxel de Meta para contar visitas y saber qué videos traen gente. Puedes cambiar de opinión borrando los datos del sitio en tu navegador. Contenido educativo: no es asesoramiento financiero ni promete ingresos.</p>
+<p>Esta página no pide datos personales. Si aceptas cookies, usa Google Analytics y el Píxel de Meta para contar visitas, saber qué videos traen gente y cuántos clics recibe cada herramienta. Puedes cambiar de opinión borrando los datos del sitio en tu navegador. Contenido educativo: no es asesoramiento financiero ni promete ingresos.</p>
+<p>Links de afiliado: algunos botones de “Herramientas que uso” son links de afiliado. Si te suscribes con ellos, recibo una comisión sin costo extra para ti.</p>
 <p>Blue es un personaje animado; su voz y sus videos se hacen con inteligencia artificial.</p>
 </footer>
 <div id="cookies">Uso cookies para contar visitas (Google Analytics y Píxel de Meta). ¿Las aceptas?<br>
@@ -248,6 +262,21 @@ function decidir(v){ localStorage.setItem('cookies', v); document.getElementById
 const c = localStorage.getItem('cookies'); if (c === 'si') activarMedicion(); else if (!c) document.getElementById('cookies').style.display = 'block';
 document.querySelectorAll('pre').forEach(p => { const b = document.createElement('button'); b.className = 'copiar'; b.textContent = 'Copiar';
   b.onclick = () => { navigator.clipboard.writeText(p.innerText.replace(/Copiar$|¡Copiado!$/, '').trim()); b.textContent = '¡Copiado!'; setTimeout(() => b.textContent = 'Copiar', 1500); }; p.appendChild(b); });
+function clicHerramienta(id){ try { if (window.gtag) gtag('event', 'clic_afiliado', { herramienta: id, transport_type: 'beacon' }); if (window.fbq) fbq('trackCustom', 'ClicHerramienta', { herramienta: id }); } catch (e) {} }
+fetch('herramientas.json').then(r => r.json()).then(d => {
+  const caja = document.getElementById('apps'); caja.innerHTML = '';
+  d.herramientas.filter(x => x.mostrar).forEach(x => {
+    const div = document.createElement('div'); div.className = 'app';
+    const txt = document.createElement('div');
+    const b = document.createElement('b'); b.textContent = x.nombre;
+    const p = document.createElement('p'); p.textContent = x.para_que;
+    const s = document.createElement('small'); s.textContent = x.precio;
+    txt.append(b, p, s);
+    const a = document.createElement('a'); a.className = 'ir'; a.href = '/ir/' + x.id; a.target = '_blank'; a.rel = 'sponsored nofollow noopener'; a.textContent = 'Ver';
+    a.addEventListener('click', () => clicHerramienta(x.id));
+    div.append(txt, a); caja.appendChild(div);
+  });
+}).catch(() => { document.getElementById('apps').textContent = 'No se pudo cargar la lista. Recarga la página.'; });
 if (location.hash) { const d = document.querySelector(location.hash); if (d && d.tagName === 'DETAILS') d.open = true; }
 </script>
 </body>
