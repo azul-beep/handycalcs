@@ -857,6 +857,12 @@ def build(today):
     contenido.render(OUT, prods)
     import carruseles  # carruseles de Instagram y Facebook (cozypaws/carruseles.py)
     carruseles.render(OUT)
+    try:  # carrusel por cada artículo del blog ya publicado (cozypaws/carruseles_blog.py)
+        import carruseles_blog
+        vivos = [a for a in carruseles_blog._articulos() if a['live'] <= today]
+        carruseles_blog.render(os.path.join(OUT, 'img', 'carrusel-blog'), vivos)
+    except Exception as e:
+        print('carruseles del blog:', e)
     urls = []
 
     # inicio
