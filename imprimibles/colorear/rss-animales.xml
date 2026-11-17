@@ -6,5 +6,14 @@
 <description>Dibujos de animales para colorear para niños de 2 a 7 años: gato, perro, búho, león y más. PDF gratis para imprimir.</description>
 <language>es</language>
 <atom:link href="https://SITE_URL/rss-animales.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>Dibujo de gato para colorear (PDF gratis)</title>
+<link>https://SITE_URL/animales/gato-para-colorear.html</link>
+<guid isPermaLink="false">colorear-gato-para-colorear</guid>
+<pubDate>Tue, 17 Nov 2026 12:00:00 +0000</pubDate>
+<description><![CDATA[<img src="https://SITE_URL/archivos/gato-para-colorear.png" alt="Dibujo de gato para colorear (PDF gratis)"/><p>Dibujo de gato para colorear para niños, con líneas gruesas y el nombre en letras grandes. Gratis en PDF para imprimir en casa o en el preescolar.</p>]]></description>
+<enclosure url="https://SITE_URL/archivos/gato-para-colorear.png" type="image/png" length="0"/>
+<media:content url="https://SITE_URL/archivos/gato-para-colorear.png" medium="image" type="image/png"/>
+</item>
 </channel>
 </rss>

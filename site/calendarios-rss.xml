@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<rss xmlns:ns0="http://www.w3.org/2005/Atom" version="2.0">
+<rss xmlns:ns0="http://www.w3.org/2005/Atom" xmlns:ns1="http://search.yahoo.com/mrss/" version="2.0">
 <channel>
   <title>Calendarios 2027 para imprimir gratis / Free Printable 2027 Calendars</title>
   <link>https://gethandycalcs.pages.dev/calendarios-2027/</link>
@@ -7,5 +7,23 @@
   <description>Calendarios 2027 gratis en PDF (A4 y Carta) / Free printable 2027 calendars (Letter and A4).</description>
   <language>es</language>
   <lastBuildDate>Sat, 14 Nov 2026 19:38:35 +0000</lastBuildDate>
+  <item>
+    <title>Calendario anual 2027 para imprimir gratis - Minimal negro</title>
+    <link>https://gethandycalcs.pages.dev/calendarios-2027/#minimal-anual</link>
+    <guid isPermaLink="false">calendarios-2027-es-minimal-anual</guid>
+    <pubDate>Tue, 17 Nov 2026 15:00:00 +0000</pubDate>
+    <description>&lt;img src="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/es-calendario-2027-anual-minimal.png" alt="Calendario anual 2027"/&gt;&lt;p&gt;Los 12 meses en una sola hoja. Ideal para la heladera o el escritorio. PDF gratis en A4 y Carta.&lt;/p&gt;</description>
+    <enclosure url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/es-calendario-2027-anual-minimal.png" length="192414" type="image/png" />
+    <ns1:content url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/es-calendario-2027-anual-minimal.png" medium="image" type="image/png" width="1000" height="1500" />
+  </item>
+  <item>
+    <title>Calendario mensual 2027 para imprimir gratis - Minimal negro</title>
+    <link>https://gethandycalcs.pages.dev/calendarios-2027/#minimal-mensual</link>
+    <guid isPermaLink="false">calendarios-2027-es-minimal-mensual</guid>
+    <pubDate>Tue, 17 Nov 2026 15:00:00 +0000</pubDate>
+    <description>&lt;img src="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/es-calendario-2027-mensual-minimal.png" alt="Calendario mensual 2027"/&gt;&lt;p&gt;12 páginas, una por mes, con espacio para notas. PDF gratis en A4 y Carta.&lt;/p&gt;</description>
+    <enclosure url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/es-calendario-2027-mensual-minimal.png" length="89342" type="image/png" />
+    <ns1:content url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/es-calendario-2027-mensual-minimal.png" medium="image" type="image/png" width="1000" height="1500" />
+  </item>
   </channel>
 </rss>
