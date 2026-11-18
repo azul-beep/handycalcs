@@ -1,0 +1,13 @@
+name: Prueba RSS de Etsy (temporal)
+on:
+  push:
+    branches: [claude/project-thread-6tuhdu]
+    paths: ['.github/workflows/prueba-etsy-rss.yml']
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for u in "https://www.etsy.com/shop/ShopCozyPaws/rss" "https://www.etsy.com/shop/ShopCozyPaws" "https://www.etsy.com/listing/4618517389"; do
+            echo "== $u"; curl -sS -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36" -o out.html -w "%{http_code} %{size_download}\n" "$u"; head -c 600 out.html; echo; grep -o '<item>' out.html | wc -l
+          done
