@@ -6,6 +6,24 @@
   <description>Free calculators in English and Spanish.</description>
   <language>en</language>
   <item>
+    <title>Compress Image to 100KB, 50KB or Any Size (Free, Private)</title>
+    <link>https://gethandycalcs.pages.dev/tools/compress-image/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
+    <description>Make JPG, PNG and WebP photos smaller in seconds. Set a target like 100KB or 50KB. Free, no upload: your photos never leave your device.</description>
+    <guid isPermaLink="false">handycalcs-tool-compress-en</guid>
+    <pubDate>Wed, 18 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-compress-en.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-compress-en.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
+    <title>How to Scale a Recipe Up or Down (Without Ruining It)</title>
+    <link>https://gethandycalcs.pages.dev/guides/how-to-scale-a-recipe/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
+    <description>How to double, halve or scale any recipe: the scaling factor, cups to tablespoons, eggs, pan sizes, baking times and oven temperature conversions. Free guide with a calculator, no sign-up.</description>
+    <guid isPermaLink="false">handycalcs-guide-how-to-scale-a-recipe</guid>
+    <pubDate>Wed, 18 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-scale-a-recipe.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-scale-a-recipe.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
     <title>Generador de códigos QR gratis (sin registro y no vence)</title>
     <link>https://gethandycalcs.pages.dev/es/herramientas/generador-codigo-qr/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
     <description>Crea un código QR para cualquier enlace o texto en un segundo. Gratis, sin registro, sin marca de agua y no vence nunca. Descárgalo en PNG o SVG.</description>
@@ -40,24 +58,6 @@
     <pubDate>Mon, 16 Nov 2026 15:00:00 +0000</pubDate>
     <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-much-to-tip.jpg" type="image/jpeg" length="0"/>
     <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-much-to-tip.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>Calculadora de propinas: cuánto dejar (15%, 18%, 20%)</title>
-    <link>https://gethandycalcs.pages.dev/es/calculadora-de-propinas/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-calc-a</link>
-    <description>Calculadora de propinas gratis. Pon el total, elige 15%, 18%, 20% o el porcentaje que quieras y divídelo entre varias personas.</description>
-    <guid isPermaLink="false">handycalcs-calc-tip-es-a</guid>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-es-a.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-es-a.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>Tip Calculator: How Much to Tip (15%, 18%, 20%)</title>
-    <link>https://gethandycalcs.pages.dev/tip-calculator/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-calc-a</link>
-    <description>Free tip calculator. Enter the bill, pick 15%, 18%, 20% or any tip and split it between people. Instant, no sign-up.</description>
-    <guid isPermaLink="false">handycalcs-calc-tip-en-a</guid>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-en-a.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-en-a.jpg" medium="image" type="image/jpeg"/>
   </item>
 </channel>
 </rss>

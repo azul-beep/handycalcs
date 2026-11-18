@@ -6,5 +6,14 @@
 <description>Patrones geométricos para colorear: hexágonos, mosaicos, ondas y escamas. Láminas antiestrés gratis en PDF.</description>
 <language>es</language>
 <atom:link href="https://SITE_URL/rss-geometricos.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>Patrón geométrico para colorear: Hexágonos (1) (PDF gratis)</title>
+<link>https://SITE_URL/geometricos/patron-geometrico-001.html</link>
+<guid isPermaLink="false">colorear-patron-geometrico-001</guid>
+<pubDate>Wed, 18 Nov 2026 12:00:00 +0000</pubDate>
+<description><![CDATA[<img src="https://SITE_URL/archivos/patron-geometrico-001.png" alt="Patrón geométrico para colorear: Hexágonos (1) (PDF gratis)"/><p>Lámina de patrón geométrico para colorear, gratis en PDF. Perfecta para colorear antiestrés, probar paletas de colores o practicar degradés.</p>]]></description>
+<enclosure url="https://SITE_URL/archivos/patron-geometrico-001.png" type="image/png" length="0"/>
+<media:content url="https://SITE_URL/archivos/patron-geometrico-001.png" medium="image" type="image/png"/>
+</item>
 </channel>
 </rss>
