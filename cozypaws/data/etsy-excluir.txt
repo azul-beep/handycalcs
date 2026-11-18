@@ -1,0 +1,12 @@
+# Listados de Etsy que NO van a Pinterest (desactivados o por desactivar). Un id por línea, comentario después.
+4620353567 Dog Memorial ornament (o03), desactivado 18 nov
+4618662469 Cat Dad mug (se agrupa en la taza personalizable)
+4617327114 Cat Mom mug (se agrupa)
+4618669662 Dachshund mug (se agrupa)
+4618662595 Doodle mug (se agrupa)
+4618061727 Frenchie mug (se agrupa)
+4618069062 German Shepherd mug (se agrupa)
+4617314977 Golden Retriever mug (se agrupa)
+4617316609 Labrador mug (se agrupa)
+4617322589 Cat Mom ornament (se agrupa en el adorno personalizable)
+4617329944 Dog Mom ornament (se agrupa)

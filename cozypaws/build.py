@@ -712,6 +712,67 @@ def trust_pages(today, prods):
 
 
 # ---------------------------------------------------------------- imágenes
+ETSY_RSS = 'https://www.etsy.com/shop/ShopCozyPaws/rss'
+
+
+def etsy_activos(today):
+    """Productos reales de la tienda de Etsy para los pines (link directo a cada listado).
+
+    El RSS de Etsy trae los 10 listados activos más nuevos; se van sumando a data/etsy-activos.json
+    con la fecha en que aparecieron. Los ids de data/etsy-excluir.txt (desactivados o por desactivar) no van.
+    Si Etsy no responde, se usa lo guardado.
+    """
+    import urllib.request, xml.etree.ElementTree as ET
+    ruta = os.path.join(DATA, 'etsy-activos.json')
+    guardado = json.load(open(ruta)) if os.path.exists(ruta) else {}
+    try:
+        rq = urllib.request.Request(ETSY_RSS, headers={'User-Agent': 'Mozilla/5.0 (compatible; CozyPawsSite/1.0)'})
+        raiz = ET.fromstring(urllib.request.urlopen(rq, timeout=30).read())
+        for it in raiz.iter('item'):
+            link = (it.findtext('link') or '').split('?')[0]
+            m = re.search(r'/listing/(\d+)', link)
+            desc = html.unescape(it.findtext('description') or '')
+            img = re.search(r'<img[^>]+src="([^"]+)"', desc)
+            if not m or not img:
+                continue
+            lid = m.group(1)
+            titulo = html.unescape(html.unescape(it.findtext('title') or '')).replace(' by ShopCozyPaws', '').strip()
+            precio = re.search(r'(\d+\.\d\d)\s*USD', desc)
+            x = guardado.setdefault(lid, {'desde': today.isoformat()})
+            x.update(titulo=titulo, url=f'https://www.etsy.com/listing/{lid}', img=img.group(1),
+                     precio=precio.group(1) if precio else x.get('precio', ''), visto=today.isoformat())
+    except Exception as e:  # noqa: BLE001
+        print('RSS de Etsy no disponible hoy, uso lo guardado:', e)
+    json.dump(guardado, open(ruta, 'w'), indent=1, ensure_ascii=False, sort_keys=True)
+    lx = os.path.join(DATA, 'etsy-excluir.txt')
+    excluir = set(re.findall(r'^(\d+)', open(lx).read(), re.M)) if os.path.exists(lx) else set()
+    out = []
+    for lid, x in guardado.items():
+        if lid in excluir:
+            continue
+        foto = os.path.join(DATA, 'etsy-img', lid + '.jpg')
+        if not os.path.exists(foto):
+            os.makedirs(os.path.dirname(foto), exist_ok=True)
+            for u in (x['img'].replace('il_570xN', 'il_fullxfull'), x['img']):
+                try:
+                    rq = urllib.request.Request(u, headers={'User-Agent': 'Mozilla/5.0'})
+                    data = urllib.request.urlopen(rq, timeout=30).read()
+                    from PIL import Image
+                    import io
+                    im = Image.open(io.BytesIO(data)).convert('RGB')
+                    im.thumbnail((1000, 1000))
+                    im.save(foto, 'JPEG', quality=88)
+                    break
+                except Exception as e:  # noqa: BLE001
+                    print('no pude bajar la foto de', lid, e)
+        if os.path.exists(foto):
+            out.append(dict(x, id=lid, foto=foto, live=dt.date.fromisoformat(x['desde'])))
+    return out
+
+
+ETSY = []
+
+
 def make_images(all_prods, guides_live, tools_live):
     from PIL import Image, ImageDraw, ImageFont
     for sub in ('img/p', 'img/pin', 'fonts'):
@@ -790,6 +851,10 @@ def make_images(all_prods, guides_live, tools_live):
         src = os.path.join(DATA, 'img', p['imagen'])
         shutil.copy(src, os.path.join(OUT, 'img', 'p', p['sku'] + '.jpg'))
         pin(os.path.join(pins_cache, p['sku'] + '.jpg'), p['short'], f"{p['kind']} · Shop on Etsy", [src])
+    for e in ETSY:  # pines de los productos reales de Etsy: foto cuadrada arriba, nombre corto abajo
+        corto = e['titulo'].split(',')[0]
+        sub = (f"${float(e['precio']):g} · Shop on Etsy" if e.get('precio') else 'Shop on Etsy')
+        pin(os.path.join(pins_cache, 'e-' + e['id'] + '.jpg'), corto, sub, [e['foto']])
     for g, ps in guides_live:
         pin(os.path.join(pins_cache, 'g-' + g['id'] + '.jpg'), g['h1'], 'Original gift ideas, printed in the USA',
             [os.path.join(DATA, 'img', p['imagen']) for p in ps[:4]])
@@ -852,6 +917,7 @@ def build(today):
         g['live'] = sched.get(g['id'])
     guides_live = [(g, guide_products(g, prods)) for g in GUIDES if g['live'] and g['live'] <= today]
     tools_live = [t for t in TOOLS if t['live'] <= today]
+    ETSY[:] = etsy_activos(today)
     make_images(all_prods, guides_live, tools_live)
     import contenido  # posts que no son de venta e historias para redes (cozypaws/contenido.py)
     contenido.render(OUT, prods)
@@ -1019,9 +1085,10 @@ def build(today):
     open(os.path.join(OUT, '_headers'), 'w').write('/img/*\n  Cache-Control: public, max-age=604800\n/fun/sw.js\n  Cache-Control: no-cache\n/diary/sw.js\n  Cache-Control: no-cache\n/*.webmanifest\n  Content-Type: application/manifest+json\n')
 
     items = []
-    for p in prods:
-        items.append((p['live'], f'{p["short"]}', f'/p/{p["slug"]}/', f'/img/pin/{p["sku"]}.jpg',
-                      f'{p["texto"]} {p["kind"]} from ${p["precio"]}. Shop Cozy Paws on Etsy.', p['sku']))
+    for e in ETSY:  # pin por producto real de Etsy, con link directo al listado (los del calendario ya no van al feed)
+        items.append((e['live'], e['titulo'][:100].rsplit(',', 1)[0] if len(e['titulo']) > 100 else e['titulo'], e['url'],
+                      f'/img/pin/e-{e["id"]}.jpg',
+                      f'{e["titulo"]}. A Cozy Paws gift for dog and cat lovers. Shop it on Etsy.', 'e-' + e['id']))
     for g, ps in guides_live:
         items.append((g['live'], f'{g["h1"]}: {len(ps)} gift ideas', f'/gifts/{g["id"]}/', f'/img/pin/g-{g["id"]}.jpg', g['intro'][:300], 'g-' + g['id']))
     if feat:
@@ -1033,7 +1100,7 @@ def build(today):
     xi = ''
     for d, title, path, img, desc, gid in items[:60]:
         pub = format_datetime(dt.datetime(d.year, d.month, d.day, 15, 30, tzinfo=dt.timezone.utc))
-        xi += (f'<item><title>{E(title)}</title><link>{CONFIG["url"]}{path}</link><guid isPermaLink="false">ww-{gid}</guid><pubDate>{pub}</pubDate>'
+        xi += (f'<item><title>{E(title)}</title><link>{path if path.startswith("http") else CONFIG["url"] + path}</link><guid isPermaLink="false">ww-{gid}</guid><pubDate>{pub}</pubDate>'
                f'<description>{E(desc)}</description><enclosure url="{CONFIG["url"]}{img}" type="image/jpeg" length="0"/>'
                f'<media:content url="{CONFIG["url"]}{img}" medium="image" type="image/jpeg"/></item>')
     open(os.path.join(OUT, 'feed.xml'), 'w', encoding='utf-8').write(
