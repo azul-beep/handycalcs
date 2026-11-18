@@ -1,4 +1,4 @@
-# Cozy Paws en redes (17 Nov 2026, 15:02 hora de Utah)
+# Cozy Paws en redes (18 Nov 2026, 14:42 hora de Utah)
 
 Lo arma solo GitHub Actions todos los días (cozypaws/estadisticas.py). "Ayer" = últimas 24 horas. "-" = sin dato.
 
