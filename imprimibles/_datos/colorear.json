@@ -236,6 +236,29 @@
    "alt": "Mandala para colorear número 7, dibujo de líneas en blanco y negro para imprimir",
    "n": 21,
    "fecha": "2026-11-18"
+  },
+  {
+   "cat": "animales",
+   "k": 7,
+   "seed": 174231,
+   "tipo": "animal",
+   "clave": "elefante",
+   "titulo": "Dibujo de elefante para colorear",
+   "slug": "elefante-para-colorear",
+   "alt": "Dibujo de el elefante para colorear para niños, con el nombre en letras grandes",
+   "n": 22,
+   "fecha": "2026-11-19"
+  },
+  {
+   "cat": "geometricos",
+   "k": 5,
+   "seed": 182150,
+   "tipo": "geo_escamas",
+   "titulo": "Patrón geométrico para colorear: Escamas (5)",
+   "slug": "patron-geometrico-005",
+   "alt": "Patrón geométrico de escamas para colorear, lámina antiestrés en blanco y negro",
+   "n": 23,
+   "fecha": "2026-11-19"
   }
  ]
 }

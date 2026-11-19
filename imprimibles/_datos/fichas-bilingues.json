@@ -167,6 +167,22 @@
    "slug": "color-morado-purple",
    "alt": "Ficha para colorear y repasar el color morado / purple en español e inglés, con dibujo de las uvas",
    "fecha": "2026-11-18"
+  },
+  {
+   "n": 23,
+   "tipo": "animal",
+   "titulo": "Oso en inglés: bear – ficha para colorear y repasar",
+   "slug": "animal-oso-bear",
+   "alt": "Ficha bilingüe: dibujo de el oso (bear) para colorear y palabras para repasar",
+   "fecha": "2026-11-19"
+  },
+  {
+   "n": 22,
+   "tipo": "numero",
+   "titulo": "Número 6 para repasar: seis / six (ficha bilingüe)",
+   "slug": "numero-6-seis-six",
+   "alt": "Ficha para repasar el número 6, contar estrellas y escribir seis y six",
+   "fecha": "2026-11-19"
   }
  ]
 }

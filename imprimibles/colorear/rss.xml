@@ -51,5 +51,23 @@
 <enclosure url="https://SITE_URL/archivos/paisaje-montana-001.png" type="image/png" length="0" />
 <media:content url="https://SITE_URL/archivos/paisaje-montana-001.png" medium="image" type="image/png" />
 </item>
+<item>
+<title>Dibujo de búho para colorear (PDF gratis)</title>
+<link>https://SITE_URL/animales/buho-para-colorear.html</link>
+<guid isPermaLink="false">colorear-buho-para-colorear</guid>
+<pubDate>Thu, 19 Nov 2026 15:00:00 +0000</pubDate>
+<description>&lt;img src="https://SITE_URL/archivos/buho-para-colorear.png" alt="Dibujo de búho para colorear (PDF gratis)"/&gt;&lt;p&gt;Dibujo de búho para colorear para niños, con líneas gruesas y el nombre en letras grandes. Gratis en PDF para imprimir en casa o en el preescolar.&lt;/p&gt;</description>
+<enclosure url="https://SITE_URL/archivos/buho-para-colorear.png" type="image/png" length="0" />
+<media:content url="https://SITE_URL/archivos/buho-para-colorear.png" medium="image" type="image/png" />
+</item>
+<item>
+<title>Patrón geométrico para colorear: Flor de la vida (2) (PDF gratis)</title>
+<link>https://SITE_URL/geometricos/patron-geometrico-002.html</link>
+<guid isPermaLink="false">colorear-patron-geometrico-002</guid>
+<pubDate>Thu, 19 Nov 2026 15:00:00 +0000</pubDate>
+<description>&lt;img src="https://SITE_URL/archivos/patron-geometrico-002.png" alt="Patrón geométrico para colorear: Flor de la vida (2) (PDF gratis)"/&gt;&lt;p&gt;Lámina de patrón geométrico para colorear, gratis en PDF. Perfecta para colorear antiestrés, probar paletas de colores o practicar degradés.&lt;/p&gt;</description>
+<enclosure url="https://SITE_URL/archivos/patron-geometrico-002.png" type="image/png" length="0" />
+<media:content url="https://SITE_URL/archivos/patron-geometrico-002.png" medium="image" type="image/png" />
+</item>
 </channel>
 </rss>
