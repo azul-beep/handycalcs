@@ -1,0 +1,11 @@
+name: Prueba Canva (temporal)
+on:
+  push:
+    branches: [claude/project-thread-6tuhdu]
+    paths: ['.github/workflows/prueba-canva.yml']
+jobs:
+  p:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for u in 'https://media.canva.com/v2/image-resize/format:PNG/height:200/quality:100/uri:ifs%3A%2F%2FM%2F5adeb1de-25a6-40ed-88ae-70d31908d3f8/watermark:F/width:200?csig=AAAAAAAAAAAAAAAAAAAAAHxd8IWFNubMlj0oLbHOfxoN1yv-lqESoj3w4gpWW80k&exp=1795127943&osig=AAAAAAAAAAAAAAAAAAAAAE7RNyskP2PtwdiCjQ5S4YtVKb2rKcLizDOijWQm3325&signer=media-rpc&token=AAIAAU0AJDVhZGViMWRlLTI1YTYtNDBlZC04OGFlLTcwZDMxOTA4ZDNmOAAAAAABofX2n1j9Kr2eMU6nVVEiTgAV2V7X1wV1bfuFx8aXUlBnyKoKDg&x-canva-quality=thumbnail' 'https://media.canva.com/v2/image-resize/format:PNG/height:2048/quality:100/uri:ifs%3A%2F%2FM%2F5adeb1de-25a6-40ed-88ae-70d31908d3f8/watermark:F/width:2048?csig=AAAAAAAAAAAAAAAAAAAAAHxd8IWFNubMlj0oLbHOfxoN1yv-lqESoj3w4gpWW80k&exp=1795127943&osig=AAAAAAAAAAAAAAAAAAAAAE7RNyskP2PtwdiCjQ5S4YtVKb2rKcLizDOijWQm3325&signer=media-rpc&token=AAIAAU0AJDVhZGViMWRlLTI1YTYtNDBlZC04OGFlLTcwZDMxOTA4ZDNmOAAAAAABofX2n1j9Kr2eMU6nVVEiTgAV2V7X1wV1bfuFx8aXUlBnyKoKDg&x-canva-quality=thumbnail' 'https://media.canva.com/v2/image-resize/format:PNG/height:2048/quality:100/uri:ifs%3A%2F%2FM%2F5adeb1de-25a6-40ed-88ae-70d31908d3f8/watermark:F/width:2048?csig=AAAAAAAAAAAAAAAAAAAAAHxd8IWFNubMlj0oLbHOfxoN1yv-lqESoj3w4gpWW80k&exp=1795127943&osig=AAAAAAAAAAAAAAAAAAAAAE7RNyskP2PtwdiCjQ5S4YtVKb2rKcLizDOijWQm3325&signer=media-rpc&token=AAIAAU0AJDVhZGViMWRlLTI1YTYtNDBlZC04OGFlLTcwZDMxOTA4ZDNmOAAAAAABofX2n1j9Kr2eMU6nVVEiTgAV2V7X1wV1bfuFx8aXUlBnyKoKDg'; do curl -sS -o x.png -w "%{http_code} %{size_download}\n" "$u"; file x.png; done
