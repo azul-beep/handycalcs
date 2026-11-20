@@ -773,6 +773,25 @@ def etsy_activos(today):
 ETSY = []
 
 
+def productos_etsy(etsy, today):
+    """Los productos que muestra la web: los listados ACTIVOS de Etsy (data/etsy-activos.json, sin los excluidos),
+    con su foto y link reales. Así la web nunca muestra diseños que ya no están en la tienda y suma sola lo nuevo."""
+    out = []
+    for e in sorted(etsy, key=lambda e: (e['desde'], e['id']), reverse=True):
+        st = short_title(e['titulo'])
+        partes = [x.strip().lower() for x in e['titulo'].split(',')[1:] if x.strip()]
+        p = dict(sku='e-' + e['id'], dia=e['desde'], precio=(f"{float(e['precio']):g}" if e.get('precio') else ''),
+                 titulo=e['titulo'], etiquetas=', '.join(partes), imagen=os.path.relpath(e['foto'], os.path.join(DATA, 'img')),
+                 tinta='', live=min(e['live'], today), short=st, kind=kind_of(e['titulo']), slug=slug(st) + '-' + e['id'],
+                 tags=partes, etsy=e['url'])
+        p['hay'] = (p['titulo'] + ' ' + p['etiquetas']).lower()
+        p['titulo_lower'] = p['titulo'].lower()
+        p['texto'] = (f"An original Cozy Paws design on a {p['kind'].lower()}, made to order by our print partner. "
+                      "A cozy gift for people who love their pets like family, and an easy pick for Christmas, birthdays and new pet parents.")
+        out.append(p)
+    return out
+
+
 def make_images(all_prods, guides_live, tools_live):
     from PIL import Image, ImageDraw, ImageFont
     for sub in ('img/p', 'img/pin', 'fonts'):
@@ -915,10 +934,14 @@ def build(today):
         used.add(d); sched[g['id']] = d
     for g in GUIDES:
         g['live'] = sched.get(g['id'])
-    guides_live = [(g, guide_products(g, prods)) for g in GUIDES if g['live'] and g['live'] <= today]
-    tools_live = [t for t in TOOLS if t['live'] <= today]
     ETSY[:] = etsy_activos(today)
-    make_images(all_prods, guides_live, tools_live)
+    reales = productos_etsy(ETSY, today)
+    if reales:  # la web muestra lo que está activo en Etsy hoy (el calendario viejo tenía diseños que se sacaron)
+        prods = reales
+    guides_live = [(g, guide_products(g, prods)) for g in GUIDES if g['live'] and g['live'] <= today]
+    guides_live = [(g, ps) for g, ps in guides_live if ps]
+    tools_live = [t for t in TOOLS if t['live'] <= today]
+    make_images(all_prods + [p for p in prods if p['sku'].startswith('e-')], guides_live, tools_live)
     import contenido  # posts que no son de venta e historias para redes (cozypaws/contenido.py)
     contenido.render(OUT, prods)
     import carruseles  # carruseles de Instagram y Facebook (cozypaws/carruseles.py)
@@ -934,7 +957,7 @@ def build(today):
     # inicio
     stamps = ''.join(f'<a class="stamp" href="/gifts/{g["id"]}/"><img src="/img/p/{ps[0]["sku"]}.jpg" alt="" loading="lazy" width="78" height="78"><span><b>{E(g["h1"])}</b><small>{len(ps)} gift ideas</small></span></a>' for g, ps in guides_live)
     tl = FUN_TILE + ''.join(f'<a class="tool" href="/tools/{t["id"]}/"><b>{E(t["h1"].split(":")[0])}</b><span>{E(t["desc"])}</span></a>' for t in tools_live)
-    upcoming = [p for p in sorted(all_prods, key=lambda p: (p['live'], p['sku'])) if p['live'] > today][:8]
+    upcoming = [] if reales else [p for p in sorted(all_prods, key=lambda p: (p['live'], p['sku'])) if p['live'] > today][:8]
     if prods:
         shop = f'<h2>New in the shop</h2>{grid(prods[:12])}'
     else:
