@@ -6,6 +6,24 @@
   <description>Free calculators and online tools for tips, pay, budgets, loans, QR codes, images and text.</description>
   <language>en</language>
   <item>
+    <title>Word Counter and Character Counter (Free, Live)</title>
+    <link>https://gethandycalcs.pages.dev/tools/word-counter/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
+    <description>Count words, characters (with and without spaces), sentences and paragraphs as you type, plus reading time and most used words. Free.</description>
+    <guid isPermaLink="false">handycalcs-tool-words-en</guid>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-words-en.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-words-en.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
+    <title>How to Convert an Hourly Wage to a Yearly Salary (and Back)</title>
+    <link>https://gethandycalcs.pages.dev/guides/hourly-to-salary/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
+    <description>How to turn hourly pay into a yearly, monthly and weekly salary, why 2,080 hours is the standard, and what changes with part-time, overtime and unpaid time off. Free guide with a calculator, no sign-up.</description>
+    <guid isPermaLink="false">handycalcs-guide-hourly-to-salary</guid>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-hourly-to-salary.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-hourly-to-salary.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
     <title>How to Split a Restaurant Bill Fairly With Friends</title>
     <link>https://gethandycalcs.pages.dev/guides/how-to-split-a-bill-fairly/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
     <description>Fair ways to split a check: even split, pay for what you ordered, shared plates, drinks, tax and tip, plus tips to avoid awkward moments at the table. Free guide with a calculator, no sign-up.</description>
@@ -40,24 +58,6 @@
     <pubDate>Tue, 17 Nov 2026 15:00:00 +0000</pubDate>
     <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-discount-and-sales-tax-math.jpg" type="image/jpeg" length="0"/>
     <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-discount-and-sales-tax-math.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>Free QR Code Generator (No Sign-Up, Never Expires)</title>
-    <link>https://gethandycalcs.pages.dev/tools/qr-code-generator/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
-    <description>Make a QR code for any link or text in one second. Free, no sign-up, no watermark, and it never expires. Download as PNG or SVG.</description>
-    <guid isPermaLink="false">handycalcs-tool-qr-en</guid>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-qr-en.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-qr-en.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>How Much to Tip in the US: A Simple Guide for 2026</title>
-    <link>https://gethandycalcs.pages.dev/guides/how-much-to-tip/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
-    <description>How much to tip at restaurants, bars, delivery, takeout, salons, rideshares and hotels in the US, whether to tip on tax, and quick ways to do the math. Free guide with a calculator, no sign-up.</description>
-    <guid isPermaLink="false">handycalcs-guide-how-much-to-tip</guid>
-    <pubDate>Mon, 16 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-much-to-tip.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-much-to-tip.jpg" medium="image" type="image/jpeg"/>
   </item>
 </channel>
 </rss>

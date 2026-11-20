@@ -6,6 +6,24 @@
   <description>Free calculators in English and Spanish.</description>
   <language>en</language>
   <item>
+    <title>Word Counter and Character Counter (Free, Live)</title>
+    <link>https://gethandycalcs.pages.dev/tools/word-counter/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
+    <description>Count words, characters (with and without spaces), sentences and paragraphs as you type, plus reading time and most used words. Free.</description>
+    <guid isPermaLink="false">handycalcs-tool-words-en</guid>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-words-en.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-words-en.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
+    <title>How to Convert an Hourly Wage to a Yearly Salary (and Back)</title>
+    <link>https://gethandycalcs.pages.dev/guides/hourly-to-salary/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
+    <description>How to turn hourly pay into a yearly, monthly and weekly salary, why 2,080 hours is the standard, and what changes with part-time, overtime and unpaid time off. Free guide with a calculator, no sign-up.</description>
+    <guid isPermaLink="false">handycalcs-guide-hourly-to-salary</guid>
+    <pubDate>Fri, 20 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-hourly-to-salary.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-hourly-to-salary.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
     <title>Comprimir imagen a 100 KB, 50 KB o el peso que quieras (gratis y privado)</title>
     <link>https://gethandycalcs.pages.dev/es/herramientas/comprimir-imagen/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
     <description>Reduce el peso de fotos JPG, PNG y WebP en segundos. Pon un límite como 100 KB o 50 KB. Gratis y sin subir nada: tus fotos no salen de tu dispositivo.</description>
@@ -40,24 +58,6 @@
     <pubDate>Wed, 18 Nov 2026 15:00:00 +0000</pubDate>
     <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-scale-a-recipe.jpg" type="image/jpeg" length="0"/>
     <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-scale-a-recipe.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>Generador de códigos QR gratis (sin registro y no vence)</title>
-    <link>https://gethandycalcs.pages.dev/es/herramientas/generador-codigo-qr/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
-    <description>Crea un código QR para cualquier enlace o texto en un segundo. Gratis, sin registro, sin marca de agua y no vence nunca. Descárgalo en PNG o SVG.</description>
-    <guid isPermaLink="false">handycalcs-tool-qr-es</guid>
-    <pubDate>Tue, 17 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-qr-es.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-qr-es.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>How to Calculate a Discount and Sales Tax (Black Friday Math)</title>
-    <link>https://gethandycalcs.pages.dev/guides/discount-and-sales-tax-math/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
-    <description>How to work out a sale price, "extra 20% off" stacked discounts, percent saved and sales tax, with simple examples and formulas. Free guide with a calculator, no sign-up.</description>
-    <guid isPermaLink="false">handycalcs-guide-discount-and-sales-tax-math</guid>
-    <pubDate>Tue, 17 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-discount-and-sales-tax-math.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-discount-and-sales-tax-math.jpg" medium="image" type="image/jpeg"/>
   </item>
 </channel>
 </rss>

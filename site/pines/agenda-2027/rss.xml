@@ -1,9 +1,25 @@
 <?xml version='1.0' encoding='utf-8'?>
-<rss version="2.0">
+<rss xmlns:ns0="http://search.yahoo.com/mrss/" version="2.0">
 <channel>
   <title>Linen &amp; Sage: Digital Planner 2027</title>
   <link>https://gethandycalcs.pages.dev/pines/agenda-2027/</link>
   <description>Linen &amp; Sage hyperlinked digital planner 2027 (English and Spanish).</description>
   <language>en</language>
+  <item>
+    <title>2027 Digital Planner for GoodNotes, Calm Sage Green Design</title>
+    <link>https://chalkpaperstudio.etsy.com/listing/4616948266</link>
+    <description>A soft sage and linen 2027 digital planner with tabs on every page. Daily, weekly and monthly pages, budget, habits and meal planner. Works with GoodNotes, Notability and Xodo.</description>
+    <guid isPermaLink="false">linen-sage-planner-2027-en-pin-1</guid>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/agenda-2027/pines-en/pin-1.jpg" type="image/jpeg" length="0" />
+    <ns0:content url="https://gethandycalcs.pages.dev/pines/agenda-2027/pines-en/pin-1.jpg" medium="image" type="image/jpeg" />
+  <pubDate>Fri, 20 Nov 2026 15:00:00 +0000</pubDate></item>
+  <item>
+    <title>Agenda Digital 2027 en Español para GoodNotes, Verde Salvia</title>
+    <link>https://chalkpaperstudio.etsy.com/listing/4616940347</link>
+    <description>Agenda digital 2027 en verde salvia y lino, con pestañas en todas las páginas. Páginas diarias, semanales y mensuales, presupuesto, hábitos y comidas. Para GoodNotes, Notability y Xodo.</description>
+    <guid isPermaLink="false">linen-sage-planner-2027-es-pin-1</guid>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/agenda-2027/pines-es/pin-1.jpg" type="image/jpeg" length="0" />
+    <ns0:content url="https://gethandycalcs.pages.dev/pines/agenda-2027/pines-es/pin-1.jpg" medium="image" type="image/jpeg" />
+  <pubDate>Fri, 20 Nov 2026 15:00:00 +0000</pubDate></item>
   </channel>
 </rss>

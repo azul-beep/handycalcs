@@ -183,6 +183,30 @@
    "slug": "numero-6-seis-six",
    "alt": "Ficha para repasar el número 6, contar estrellas y escribir seis y six",
    "fecha": "2026-11-19"
+  },
+  {
+   "n": 25,
+   "tipo": "color",
+   "titulo": "Ficha bilingüe del color rosa (pink) para niños",
+   "slug": "color-rosa-pink",
+   "alt": "Ficha para colorear y repasar el color rosa / pink en español e inglés, con dibujo de el cerdo",
+   "fecha": "2026-11-20"
+  },
+  {
+   "n": 24,
+   "tipo": "letra",
+   "titulo": "Letra F para repasar: F de flor / F is for fish",
+   "slug": "letra-f",
+   "alt": "Ficha de caligrafía de la letra F mayúscula y minúscula, con palabras en español e inglés",
+   "fecha": "2026-11-20"
+  },
+  {
+   "n": 26,
+   "tipo": "numero",
+   "titulo": "Número 7 para repasar: siete / seven (ficha bilingüe)",
+   "slug": "numero-7-siete-seven",
+   "alt": "Ficha para repasar el número 7, contar estrellas y escribir siete y seven",
+   "fecha": "2026-11-20"
   }
  ]
 }
