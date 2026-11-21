@@ -10,3 +10,6 @@
 4617316609 Labrador mug (se agrupa)
 4617322589 Cat Mom ornament (se agrupa en el adorno personalizable)
 4617329944 Dog Mom ornament (se agrupa)
+4621518047 Naughty or Nice adorno agrupado (ya no está activo, 21 nov)
+4621522650 Naughty or Nice taza agrupada (ya no está activo, 21 nov)
+4621523578 Naughty or Nice buzo agrupado (ya no está activo, 21 nov)
