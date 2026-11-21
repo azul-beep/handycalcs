@@ -293,6 +293,28 @@
    "alt": "Paisaje de montañas con pinos y sol para colorear, número 5",
    "n": 25,
    "fecha": "2026-11-20"
+  },
+  {
+   "cat": "mandalas",
+   "k": 9,
+   "seed": 221745,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 9",
+   "slug": "mandala-para-colorear-009",
+   "alt": "Mandala para colorear número 9, dibujo de líneas en blanco y negro para imprimir",
+   "n": 28,
+   "fecha": "2026-11-21"
+  },
+  {
+   "cat": "geometricos",
+   "k": 6,
+   "seed": 213826,
+   "tipo": "geo_ondas",
+   "titulo": "Patrón geométrico para colorear: Ondas (6)",
+   "slug": "patron-geometrico-006",
+   "alt": "Patrón geométrico de ondas para colorear, lámina antiestrés en blanco y negro",
+   "n": 27,
+   "fecha": "2026-11-21"
   }
  ]
 }
