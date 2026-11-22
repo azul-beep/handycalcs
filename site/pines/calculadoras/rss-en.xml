@@ -6,6 +6,24 @@
   <description>Free calculators and online tools for tips, pay, budgets, loans, QR codes, images and text.</description>
   <language>en</language>
   <item>
+    <title>Random Name Picker Wheel: Spin to Choose (Free)</title>
+    <link>https://gethandycalcs.pages.dev/tools/random-name-picker-wheel/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
+    <description>Type names, spin the wheel and get a fair random winner. Great for classrooms, raffles, giveaways and deciding who goes first. Free.</description>
+    <guid isPermaLink="false">handycalcs-tool-wheel-en</guid>
+    <pubDate>Sun, 22 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-wheel-en.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-wheel-en.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
+    <title>The 50/30/20 Budget Rule Explained (With Real Examples)</title>
+    <link>https://gethandycalcs.pages.dev/guides/50-30-20-budget-rule/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
+    <description>How the 50/30/20 budget works: what counts as needs, wants and savings, examples at different incomes, and how to adjust it when rent takes too much. Free guide with a calculator, no sign-up.</description>
+    <guid isPermaLink="false">handycalcs-guide-50-30-20-budget-rule</guid>
+    <pubDate>Sun, 22 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-50-30-20-budget-rule.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-50-30-20-budget-rule.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
     <title>How Overtime Pay Is Calculated (Time and a Half Explained)</title>
     <link>https://gethandycalcs.pages.dev/guides/how-overtime-pay-works/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
     <description>How overtime works in the US: who gets it, the 40-hour week rule, time and a half, daily overtime in some states, and examples you can check on your paycheck. Free guide with a calculator, no sign-up.</description>
@@ -40,24 +58,6 @@
     <pubDate>Thu, 19 Nov 2026 15:00:00 +0000</pubDate>
     <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-split-a-bill-fairly.jpg" type="image/jpeg" length="0"/>
     <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-split-a-bill-fairly.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>Compress Image to 100KB, 50KB or Any Size (Free, Private)</title>
-    <link>https://gethandycalcs.pages.dev/tools/compress-image/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
-    <description>Make JPG, PNG and WebP photos smaller in seconds. Set a target like 100KB or 50KB. Free, no upload: your photos never leave your device.</description>
-    <guid isPermaLink="false">handycalcs-tool-compress-en</guid>
-    <pubDate>Wed, 18 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-compress-en.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-compress-en.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>How to Scale a Recipe Up or Down (Without Ruining It)</title>
-    <link>https://gethandycalcs.pages.dev/guides/how-to-scale-a-recipe/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
-    <description>How to double, halve or scale any recipe: the scaling factor, cups to tablespoons, eggs, pan sizes, baking times and oven temperature conversions. Free guide with a calculator, no sign-up.</description>
-    <guid isPermaLink="false">handycalcs-guide-how-to-scale-a-recipe</guid>
-    <pubDate>Wed, 18 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-scale-a-recipe.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-scale-a-recipe.jpg" medium="image" type="image/jpeg"/>
   </item>
 </channel>
 </rss>

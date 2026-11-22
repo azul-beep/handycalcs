@@ -6,6 +6,24 @@
   <description>Free calculators in English and Spanish.</description>
   <language>en</language>
   <item>
+    <title>Random Name Picker Wheel: Spin to Choose (Free)</title>
+    <link>https://gethandycalcs.pages.dev/tools/random-name-picker-wheel/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
+    <description>Type names, spin the wheel and get a fair random winner. Great for classrooms, raffles, giveaways and deciding who goes first. Free.</description>
+    <guid isPermaLink="false">handycalcs-tool-wheel-en</guid>
+    <pubDate>Sun, 22 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-wheel-en.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-wheel-en.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
+    <title>The 50/30/20 Budget Rule Explained (With Real Examples)</title>
+    <link>https://gethandycalcs.pages.dev/guides/50-30-20-budget-rule/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
+    <description>How the 50/30/20 budget works: what counts as needs, wants and savings, examples at different incomes, and how to adjust it when rent takes too much. Free guide with a calculator, no sign-up.</description>
+    <guid isPermaLink="false">handycalcs-guide-50-30-20-budget-rule</guid>
+    <pubDate>Sun, 22 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-50-30-20-budget-rule.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-50-30-20-budget-rule.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
     <title>Contador de palabras y caracteres en línea (gratis)</title>
     <link>https://gethandycalcs.pages.dev/es/herramientas/contador-de-palabras/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
     <description>Cuenta palabras, caracteres (con y sin espacios), oraciones y párrafos mientras escribes, más el tiempo de lectura y las palabras más usadas. Gratis.</description>
@@ -40,24 +58,6 @@
     <pubDate>Fri, 20 Nov 2026 15:00:00 +0000</pubDate>
     <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-hourly-to-salary.jpg" type="image/jpeg" length="0"/>
     <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-hourly-to-salary.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>Comprimir imagen a 100 KB, 50 KB o el peso que quieras (gratis y privado)</title>
-    <link>https://gethandycalcs.pages.dev/es/herramientas/comprimir-imagen/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
-    <description>Reduce el peso de fotos JPG, PNG y WebP en segundos. Pon un límite como 100 KB o 50 KB. Gratis y sin subir nada: tus fotos no salen de tu dispositivo.</description>
-    <guid isPermaLink="false">handycalcs-tool-compress-es</guid>
-    <pubDate>Thu, 19 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-compress-es.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-compress-es.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>How to Split a Restaurant Bill Fairly With Friends</title>
-    <link>https://gethandycalcs.pages.dev/guides/how-to-split-a-bill-fairly/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
-    <description>Fair ways to split a check: even split, pay for what you ordered, shared plates, drinks, tax and tip, plus tips to avoid awkward moments at the table. Free guide with a calculator, no sign-up.</description>
-    <guid isPermaLink="false">handycalcs-guide-how-to-split-a-bill-fairly</guid>
-    <pubDate>Thu, 19 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-split-a-bill-fairly.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-how-to-split-a-bill-fairly.jpg" medium="image" type="image/jpeg"/>
   </item>
 </channel>
 </rss>
