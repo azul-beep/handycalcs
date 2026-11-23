@@ -285,5 +285,23 @@
 <enclosure url="https://SITE_URL/archivos/mandala-para-colorear-010.png" type="image/png" length="0"/>
 <media:content url="https://SITE_URL/archivos/mandala-para-colorear-010.png" medium="image" type="image/png"/>
 </item>
+<item>
+<title>Dibujo de pato para colorear (PDF gratis)</title>
+<link>https://SITE_URL/animales/pato-para-colorear.html</link>
+<guid isPermaLink="false">colorear-pato-para-colorear</guid>
+<pubDate>Sun, 29 Nov 2026 12:00:00 +0000</pubDate>
+<description><![CDATA[<img src="https://SITE_URL/archivos/pato-para-colorear.png" alt="Dibujo de pato para colorear (PDF gratis)"/><p>Dibujo de pato para colorear para niños, con líneas gruesas y el nombre en letras grandes. Gratis en PDF para imprimir en casa o en el preescolar.</p>]]></description>
+<enclosure url="https://SITE_URL/archivos/pato-para-colorear.png" type="image/png" length="0"/>
+<media:content url="https://SITE_URL/archivos/pato-para-colorear.png" medium="image" type="image/png"/>
+</item>
+<item>
+<title>Patrón geométrico para colorear: Hexágonos (7) (PDF gratis)</title>
+<link>https://SITE_URL/geometricos/patron-geometrico-007.html</link>
+<guid isPermaLink="false">colorear-patron-geometrico-007</guid>
+<pubDate>Mon, 30 Nov 2026 12:00:00 +0000</pubDate>
+<description><![CDATA[<img src="https://SITE_URL/archivos/patron-geometrico-007.png" alt="Patrón geométrico para colorear: Hexágonos (7) (PDF gratis)"/><p>Lámina de patrón geométrico para colorear, gratis en PDF. Perfecta para colorear antiestrés, probar paletas de colores o practicar degradés.</p>]]></description>
+<enclosure url="https://SITE_URL/archivos/patron-geometrico-007.png" type="image/png" length="0"/>
+<media:content url="https://SITE_URL/archivos/patron-geometrico-007.png" medium="image" type="image/png"/>
+</item>
 </channel>
 </rss>

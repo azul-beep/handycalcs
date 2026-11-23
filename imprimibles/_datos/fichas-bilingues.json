@@ -247,6 +247,22 @@
    "slug": "numero-8-ocho-eight",
    "alt": "Ficha para repasar el número 8, contar estrellas y escribir ocho y eight",
    "fecha": "2026-11-22"
+  },
+  {
+   "n": 33,
+   "tipo": "color",
+   "titulo": "Ficha bilingüe del color gris (gray) para niños",
+   "slug": "color-gris-gray",
+   "alt": "Ficha para colorear y repasar el color gris / gray en español e inglés, con dibujo de el elefante",
+   "fecha": "2026-11-23"
+  },
+  {
+   "n": 32,
+   "tipo": "letra",
+   "titulo": "Letra H para repasar: H de hoja / H is for heart",
+   "slug": "letra-h",
+   "alt": "Ficha de caligrafía de la letra H mayúscula y minúscula, con palabras en español e inglés",
+   "fecha": "2026-11-23"
   }
  ]
 }

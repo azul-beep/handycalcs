@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8.5in" height="11in" viewBox="0 0 850 1100">
+<rect width="850" height="1100" fill="#fff"/>
+<defs><clipPath id="m253421"><rect x="60" y="70" width="730" height="960" rx="28"/></clipPath></defs>
+<g clip-path="url(#m253421)">
+<circle cx="150.0" cy="330.0" r="40.0" fill="#fff" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="202.0" y1="330.0" x2="220.0" y2="330.0" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="195.0" y1="356.0" x2="210.6" y2="365.0" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="176.0" y1="375.0" x2="185.0" y2="390.6" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="150.0" y1="382.0" x2="150.0" y2="400.0" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="124.0" y1="375.0" x2="115.0" y2="390.6" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="105.0" y1="356.0" x2="89.4" y2="365.0" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="98.0" y1="330.0" x2="80.0" y2="330.0" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="105.0" y1="304.0" x2="89.4" y2="295.0" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="124.0" y1="285.0" x2="115.0" y2="269.4" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="150.0" y1="278.0" x2="150.0" y2="260.0" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="176.0" y1="285.0" x2="185.0" y2="269.4" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="195.0" y1="304.0" x2="210.6" y2="295.0" fill="none" stroke="#000" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M646.0,320.0 A19.8,19.8 0 0 1 673.0,298.4 A27.0,27.0 0 0 1 716.2,289.4 A23.4,23.4 0 0 1 752.2,312.8 A12.6,12.6 0 0 1 754.0,320.0 Z" fill="#fff" stroke="#000" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M60,930 Q250,900 425,930 T800,925 L800,1040 L60,1040 Z" fill="#fff" stroke="#000" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="669.2" y1="992.5" x2="726.0" y2="992.5" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="314.4" y1="976.1" x2="370.5" y2="976.1" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="239.3" y1="997.5" x2="297.9" y2="997.5" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="429.4" y1="979.7" x2="519.1" y2="979.7" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="572.2" y1="999.4" x2="648.7" y2="999.4" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="435.6" y1="964.0" x2="520.6" y2="964.0" fill="none" stroke="#000" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<g transform="translate(155.0,370.0) scale(2.7000)"><path d="M20,170 Q60,160 100,170 T180,170" fill="none" stroke="#000" stroke-width="1.4814814814814814" stroke-linejoin="round" stroke-linecap="round"/><path d="M40,120 C40,170 160,176 172,120 L190,96 L160,104 C150,90 60,92 40,120Z" fill="#fff" stroke="#000" stroke-width="1.4814814814814814" stroke-linejoin="round" stroke-linecap="round"/><path d="M80,124 Q110,104 146,118 Q128,150 92,144 Q98,134 80,124Z" fill="#fff" stroke="#000" stroke-width="1.4814814814814814" stroke-linejoin="round" stroke-linecap="round"/><circle cx="62.0" cy="74.0" r="32.0" fill="#fff" stroke="#000" stroke-width="1.4814814814814814" stroke-linejoin="round" stroke-linecap="round"/><path d="M34,80 L6,86 Q4,96 18,98 L36,94 Z" fill="#fff" stroke="#000" stroke-width="1.4814814814814814" stroke-linejoin="round" stroke-linecap="round"/><path d="M8,92 L34,90" fill="none" stroke="#000" stroke-width="1.1851851851851851" stroke-linejoin="round" stroke-linecap="round"/><circle cx="62.0" cy="66.0" r="8.0" fill="#fff" stroke="#000" stroke-width="1.4814814814814814" stroke-linejoin="round" stroke-linecap="round"/><circle cx="62.0" cy="66.8" r="4.4" fill="#000"/><circle cx="63.6" cy="64.8" r="1.4" fill="#fff"/></g>
+<text x="425" y="224.4" text-anchor="middle" font-family="Inter" font-weight="900" font-size="120.0" fill="#fff" stroke="#000" stroke-width="3.5" stroke-linejoin="round" letter-spacing="6">PATO</text>
+</g>
+<rect x="60" y="70" width="730" height="960" rx="28" fill="none" stroke="#000" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="425" y="1072" text-anchor="middle" font-family="Inter" font-size="13" fill="#888">SITE_NAME · gratis para uso personal</text>
+</svg>

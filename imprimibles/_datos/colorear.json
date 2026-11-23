@@ -349,6 +349,29 @@
    "alt": "Paisaje de montañas con pinos y sol para colorear, número 6",
    "n": 30,
    "fecha": "2026-11-22"
+  },
+  {
+   "cat": "animales",
+   "k": 10,
+   "seed": 253421,
+   "tipo": "animal",
+   "clave": "pato",
+   "titulo": "Dibujo de pato para colorear",
+   "slug": "pato-para-colorear",
+   "alt": "Dibujo de el pato para colorear para niños, con el nombre en letras grandes",
+   "n": 32,
+   "fecha": "2026-11-23"
+  },
+  {
+   "cat": "geometricos",
+   "k": 7,
+   "seed": 261340,
+   "tipo": "geo_hexagonos",
+   "titulo": "Patrón geométrico para colorear: Hexágonos (7)",
+   "slug": "patron-geometrico-007",
+   "alt": "Patrón geométrico de hexágonos para colorear, lámina antiestrés en blanco y negro",
+   "n": 33,
+   "fecha": "2026-11-23"
   }
  ]
 }
