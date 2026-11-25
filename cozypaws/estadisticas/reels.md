@@ -1,4 +1,4 @@
-# Reels de Cozy Paws: qué funciona (24 Nov 2026)
+# Reels de Cozy Paws: qué funciona (25 Nov 2026)
 
 Lo arma GitHub solo todos los días (cozypaws/reels.py). Leer ANTES de escribir el próximo guion.
 
