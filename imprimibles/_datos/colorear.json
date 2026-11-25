@@ -372,6 +372,62 @@
    "alt": "Patrón geométrico de hexágonos para colorear, lámina antiestrés en blanco y negro",
    "n": 33,
    "fecha": "2026-11-23"
+  },
+  {
+   "cat": "animales",
+   "k": 11,
+   "seed": 285097,
+   "tipo": "animal",
+   "clave": "caracol",
+   "titulo": "Dibujo de caracol para colorear",
+   "slug": "caracol-para-colorear",
+   "alt": "Dibujo de el caracol para colorear para niños, con el nombre en letras grandes",
+   "n": 36,
+   "fecha": "2026-11-25"
+  },
+  {
+   "cat": "mandalas",
+   "k": 11,
+   "seed": 269259,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 11",
+   "slug": "mandala-para-colorear-011",
+   "alt": "Mandala para colorear número 11, dibujo de líneas en blanco y negro para imprimir",
+   "n": 34,
+   "fecha": "2026-11-25"
+  },
+  {
+   "cat": "mandalas",
+   "k": 12,
+   "seed": 300935,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 12",
+   "slug": "mandala-para-colorear-012",
+   "alt": "Mandala para colorear número 12, dibujo de líneas en blanco y negro para imprimir",
+   "n": 38,
+   "fecha": "2026-11-25"
+  },
+  {
+   "cat": "paisajes",
+   "k": 7,
+   "seed": 277178,
+   "tipo": "paisaje",
+   "titulo": "Paisaje de montaña para colorear n.º 7",
+   "slug": "paisaje-montana-007",
+   "alt": "Paisaje de montañas con pinos y sol para colorear, número 7",
+   "n": 35,
+   "fecha": "2026-11-25"
+  },
+  {
+   "cat": "geometricos",
+   "k": 8,
+   "seed": 293016,
+   "tipo": "geo_flor_de_vida",
+   "titulo": "Patrón geométrico para colorear: Flor de la vida (8)",
+   "slug": "patron-geometrico-008",
+   "alt": "Patrón geométrico de flor de la vida para colorear, lámina antiestrés en blanco y negro",
+   "n": 37,
+   "fecha": "2026-11-25"
   }
  ]
 }

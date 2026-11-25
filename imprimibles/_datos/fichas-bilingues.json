@@ -263,6 +263,46 @@
    "slug": "letra-h",
    "alt": "Ficha de caligrafía de la letra H mayúscula y minúscula, con palabras en español e inglés",
    "fecha": "2026-11-23"
+  },
+  {
+   "n": 35,
+   "tipo": "animal",
+   "titulo": "Rana en inglés: frog – ficha para colorear y repasar",
+   "slug": "animal-rana-frog",
+   "alt": "Ficha bilingüe: dibujo de la rana (frog) para colorear y palabras para repasar",
+   "fecha": "2026-11-25"
+  },
+  {
+   "n": 37,
+   "tipo": "color",
+   "titulo": "Ficha bilingüe del color negro (black) para niños",
+   "slug": "color-negro-black",
+   "alt": "Ficha para colorear y repasar el color negro / black en español e inglés, con dibujo de el gato",
+   "fecha": "2026-11-25"
+  },
+  {
+   "n": 36,
+   "tipo": "letra",
+   "titulo": "Letra I para repasar: I de isla / I is for ice",
+   "slug": "letra-i",
+   "alt": "Ficha de caligrafía de la letra I mayúscula y minúscula, con palabras en español e inglés",
+   "fecha": "2026-11-25"
+  },
+  {
+   "n": 38,
+   "tipo": "numero",
+   "titulo": "Número 10 para repasar: diez / ten (ficha bilingüe)",
+   "slug": "numero-10-diez-ten",
+   "alt": "Ficha para repasar el número 10, contar estrellas y escribir diez y ten",
+   "fecha": "2026-11-25"
+  },
+  {
+   "n": 34,
+   "tipo": "numero",
+   "titulo": "Número 9 para repasar: nueve / nine (ficha bilingüe)",
+   "slug": "numero-9-nueve-nine",
+   "alt": "Ficha para repasar el número 9, contar estrellas y escribir nueve y nine",
+   "fecha": "2026-11-25"
   }
  ]
 }
