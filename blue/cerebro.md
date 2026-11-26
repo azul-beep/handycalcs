@@ -26,8 +26,21 @@ Sin contraseñas, tokens ni datos personales.
 | 24 nov | Efectos virales con IA (18 s) | Cambios pedidos por Azu |
 | 24 nov | Claude #3 "Claude dirige mis videos" | Aprobado |
 | 25 nov | Claude #4 "Claude Code sin programar" | Aprobado, programado sáb 28 7:30 PM |
-| 26 nov | Claude #5 "Claude trabaja mientras duermo" (Cowork) | Espera OK de Azu |
+| 26 nov | Claude #5 "Claude trabaja mientras duermo" (Cowork) | v3 con estudio de mercado, espera OK de Azu |
 | 26 nov | Web del perfil nueva con menú (handycalcs #70) | Hecho |
+
+## Programación
+- Esquema semanal: Bitácora a las 7:30 PM. A las 12 PM rotan: Must know (lun y jue), Blue explica (mar y vie), Cómo lo hice (mié y sáb), Blue prueba (dom).
+- Claude #4 programado sáb 28, 7:30 PM.
+- Bitácora Día 11 (dom 29, 7:30 PM): NO está hecha todavía.
+
+## Afiliados
+- Con link activo: ElevenLabs, GoHighLevel, systeme.io. Printify aprobado.
+- El perfil de Instagram tiene un solo link (la web), verificado el 26 nov.
+
+## Créditos gastados
+- ElevenLabs: Claude #4 345, Claude #5 408 + 139 (frase del estudio de mercado, 26 nov, con el sí de Azu).
+- Flow: 10 (escena de la laptop de Claude #4).
 
 ## Pendiente
 1. OK de Azu a Claude #5 y a Claude #1 ("Claude edita tus videos").
