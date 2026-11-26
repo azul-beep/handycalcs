@@ -26,7 +26,7 @@ Sin contraseñas, tokens ni datos personales.
 | 24 nov | Efectos virales con IA (18 s) | Cambios pedidos por Azu |
 | 24 nov | Claude #3 "Claude dirige mis videos" | Aprobado |
 | 25 nov | Claude #4 "Claude Code sin programar" | Aprobado, programado sáb 28 7:30 PM |
-| 26 nov | Claude #5 "Claude trabaja mientras duermo" (Cowork) | v3 con estudio de mercado, espera OK de Azu |
+| 26 nov | Claude #5 "Claude trabaja mientras duermo" (Cowork) | v3 con estudio de mercado, aprobado 26 nov |
 | 26 nov | Web del perfil nueva con menú (handycalcs #70) | Hecho |
 
 ## Programación
@@ -43,7 +43,7 @@ Sin contraseñas, tokens ni datos personales.
 - Flow: 10 (escena de la laptop de Claude #4).
 
 ## Pendiente
-1. OK de Azu a Claude #5 y a Claude #1 ("Claude edita tus videos").
+1. OK de Azu a Claude #1 ("Claude edita tus videos"). Programar #5.
 2. Bitácora Día 11 (dom 29, 7:30 PM): Azu cuenta qué pasó de verdad esta semana.
 3. Links de afiliada en descripciones (Printify, ElevenLabs, HighLevel): falta que Azu acepte términos en PartnerStack y entre al portal de HighLevel.
 4. Revisión semanal de los mejores reels.
