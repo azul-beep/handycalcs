@@ -16,7 +16,8 @@ Sin contraseñas, tokens ni datos personales.
 4. Gratis primero (Gemini). Flow o ElevenLabs solo con su sí escrito al gasto.
 5. Etiqueta "Info de IA" en cada reel. Ningún reel solo de afiliados; nombrar las plataformas usadas sin decir "afiliada".
 6. Nada de material de Cozy en Blue. Videos dinámicos, sin planos quietos, con ejemplo real y escenas nuevas (no repetir El duelo).
-7. 2 reels por día rotando series. Investigación de tendencias con Gemini Deep Research.
+7. 2 reels por día rotando series.
+9. Cierres sin "¿Me sigues?" (Azu 26 nov): adelanto concreto de lo que viene. Investigación de tendencias con Gemini Deep Research.
 8. Una vez por semana: ver qué reels anduvieron mejor y hacer más de eso.
 
 ## Hecho
