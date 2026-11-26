@@ -18,6 +18,7 @@ Sin contraseñas, tokens ni datos personales.
 6. Nada de material de Cozy en Blue. Videos dinámicos, sin planos quietos, con ejemplo real y escenas nuevas (no repetir El duelo).
 7. 2 reels por día rotando series. Investigación de tendencias con Gemini Deep Research.
 8. Una vez por semana: ver qué reels anduvieron mejor y hacer más de eso.
+9. Cierres sin "¿Me sigues?" (Azu 26 nov): adelanto concreto de lo que viene.
 
 ## Hecho
 | Fecha | Qué | Estado |
@@ -26,13 +27,13 @@ Sin contraseñas, tokens ni datos personales.
 | 24 nov | Efectos virales con IA (18 s) | Cambios pedidos por Azu |
 | 24 nov | Claude #3 "Claude dirige mis videos" | Aprobado |
 | 25 nov | Claude #4 "Claude Code sin programar" | Aprobado, programado sáb 28 7:30 PM |
-| 26 nov | Claude #5 "Claude trabaja mientras duermo" (Cowork) | v3 con estudio de mercado, espera OK de Azu |
+| 26 nov | Claude #5 "Claude trabaja mientras duermo" (Cowork) | v3 con estudio de mercado, aprobado 26 nov |
 | 26 nov | Web del perfil nueva con menú (handycalcs #70) | Hecho |
 
 ## Programación
 - Esquema semanal: Bitácora a las 7:30 PM. A las 12 PM rotan: Must know (lun y jue), Blue explica (mar y vie), Cómo lo hice (mié y sáb), Blue prueba (dom).
 - Claude #4 programado sáb 28, 7:30 PM.
-- Bitácora Día 11 (dom 29, 7:30 PM): NO está hecha todavía.
+- Bitácora Día 11 (dom 29, 7:30 PM): tema = el cliente (club de deporte, sin nombrarlo) firmó por 1.200 USD de setup + 1.500 USD por mes. El Día 9 ya contó el contrato y los 1.200; el mensual va en el Día 11. Texto propuesto, espera OK. Contador "ganado" = solo lo cobrado.
 
 ## Afiliados
 - Con link activo: ElevenLabs, GoHighLevel, systeme.io. Printify aprobado.
@@ -43,7 +44,7 @@ Sin contraseñas, tokens ni datos personales.
 - Flow: 10 (escena de la laptop de Claude #4).
 
 ## Pendiente
-1. OK de Azu a Claude #5 y a Claude #1 ("Claude edita tus videos").
+1. OK de Azu a Claude #1 ("Claude edita tus videos"). Programar #5.
 2. Bitácora Día 11 (dom 29, 7:30 PM): Azu cuenta qué pasó de verdad esta semana.
 3. Links de afiliada en descripciones (Printify, ElevenLabs, HighLevel): falta que Azu acepte términos en PartnerStack y entre al portal de HighLevel.
 4. Revisión semanal de los mejores reels.
