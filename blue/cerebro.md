@@ -32,7 +32,7 @@ Sin contraseñas, tokens ni datos personales.
 ## Programación
 - Esquema semanal: Bitácora a las 7:30 PM. A las 12 PM rotan: Must know (lun y jue), Blue explica (mar y vie), Cómo lo hice (mié y sáb), Blue prueba (dom).
 - Claude #4 programado sáb 28, 7:30 PM.
-- Bitácora Día 11 (dom 29, 7:30 PM): NO está hecha todavía.
+- Bitácora Día 11 (dom 29, 7:30 PM): tema = el cliente (club de deporte, sin nombrarlo) firmó por 1.200 USD de setup + 1.500 USD por mes. El Día 9 ya contó el contrato y los 1.200; el mensual va en el Día 11. Texto propuesto, espera OK. Contador "ganado" = solo lo cobrado.
 
 ## Afiliados
 - Con link activo: ElevenLabs, GoHighLevel, systeme.io. Printify aprobado.
