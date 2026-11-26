@@ -6,6 +6,24 @@
   <description>Free calculators in English and Spanish.</description>
   <language>en</language>
   <item>
+    <title>Split the Bill Calculator with Tax and Tip</title>
+    <link>https://gethandycalcs.pages.dev/split-the-bill-calculator/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-calc-a</link>
+    <description>Split a restaurant bill evenly with tax and tip included. Shows what each person pays, rounded up so nobody comes up short.</description>
+    <guid isPermaLink="false">handycalcs-calc-split-en-a</guid>
+    <pubDate>Thu, 26 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-split-en-a.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-split-en-a.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
+    <title>Instagram Giveaway Comment Picker (Free, No Login)</title>
+    <link>https://gethandycalcs.pages.dev/tools/instagram-giveaway-picker/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
+    <description>Pick a fair random winner from Instagram, TikTok or Facebook comments. Paste the comments, remove duplicates, require tagged friends. No login needed.</description>
+    <guid isPermaLink="false">handycalcs-tool-giveaway-en</guid>
+    <pubDate>Thu, 26 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-giveaway-en.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-giveaway-en.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
     <title>Generador de contraseñas seguras (al azar, gratis y privado)</title>
     <link>https://gethandycalcs.pages.dev/es/herramientas/generador-de-contrasenas/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
     <description>Crea contraseñas seguras al azar con letras, números y símbolos. Elige el largo, evita caracteres parecidos y mira qué tan segura es. No se envía ni se guarda nada.</description>
@@ -40,24 +58,6 @@
     <pubDate>Tue, 24 Nov 2026 15:00:00 +0000</pubDate>
     <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-compound-interest-explained.jpg" type="image/jpeg" length="0"/>
     <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-compound-interest-explained.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>Ruleta de nombres: gira y elige al azar (gratis)</title>
-    <link>https://gethandycalcs.pages.dev/es/herramientas/ruleta-de-nombres/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
-    <description>Escribe nombres, gira la ruleta y obtén un ganador al azar y justo. Ideal para clases, rifas, sorteos y decidir quién empieza. Gratis.</description>
-    <guid isPermaLink="false">handycalcs-tool-wheel-es</guid>
-    <pubDate>Mon, 23 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-wheel-es.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-wheel-es.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>How to Pay Off Credit Card Debt Faster: Avalanche vs. Snowball</title>
-    <link>https://gethandycalcs.pages.dev/guides/pay-off-credit-card-debt/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-guide</link>
-    <description>Why minimum payments take so long, how much interest you really pay, and two proven ways to pay off credit cards faster: the avalanche and snowball methods. Free guide with a calculator, no sign-up.</description>
-    <guid isPermaLink="false">handycalcs-guide-pay-off-credit-card-debt</guid>
-    <pubDate>Mon, 23 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-pay-off-credit-card-debt.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/guide-pay-off-credit-card-debt.jpg" medium="image" type="image/jpeg"/>
   </item>
 </channel>
 </rss>

@@ -205,5 +205,23 @@
     <enclosure url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/en-2027-monthly-calendar-mountain.png" length="91247" type="image/png" />
     <ns1:content url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/en-2027-monthly-calendar-mountain.png" medium="image" type="image/png" width="1000" height="1500" />
   </item>
-  </channel>
+  <item>
+    <title>Free Printable Blank Monthly Calendar - Mountain</title>
+    <link>https://gethandycalcs.pages.dev/calendarios-2027/free-printable-2027-calendars.html#mountain-blanco</link>
+    <guid isPermaLink="false">calendarios-2027-en-montana-blanco</guid>
+    <pubDate>Thu, 26 Nov 2026 15:00:00 +0000</pubDate>
+    <description>&lt;img src="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/en-blank-monthly-calendar-mountain.png" alt="Blank Monthly Calendar"/&gt;&lt;p&gt;Undated: fill in the month and numbers. Works for any year. Free PDF in US Letter and A4.&lt;/p&gt;</description>
+    <enclosure url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/en-blank-monthly-calendar-mountain.png" length="74282" type="image/png" />
+    <ns1:content url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/en-blank-monthly-calendar-mountain.png" medium="image" type="image/png" width="1000" height="1500" />
+  </item>
+  <item>
+    <title>Free Printable Weekly Planner - Mountain</title>
+    <link>https://gethandycalcs.pages.dev/calendarios-2027/free-printable-2027-calendars.html#mountain-semanal</link>
+    <guid isPermaLink="false">calendarios-2027-en-montana-semanal</guid>
+    <pubDate>Thu, 26 Nov 2026 15:00:00 +0000</pubDate>
+    <description>&lt;img src="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/en-weekly-planner-mountain.png" alt="Weekly Planner"/&gt;&lt;p&gt;All 7 days plus priorities, to-do list and notes on one page. Free PDF in US Letter and A4.&lt;/p&gt;</description>
+    <enclosure url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/en-weekly-planner-mountain.png" length="84379" type="image/png" />
+    <ns1:content url="https://gethandycalcs.pages.dev/calendarios-2027/img/pins/en-weekly-planner-mountain.png" medium="image" type="image/png" width="1000" height="1500" />
+  </item>
+</channel>
 </rss>

@@ -428,6 +428,40 @@
    "alt": "Patrón geométrico de flor de la vida para colorear, lámina antiestrés en blanco y negro",
    "n": 37,
    "fecha": "2026-11-25"
+  },
+  {
+   "cat": "mandalas",
+   "k": 13,
+   "seed": 324692,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 13",
+   "slug": "mandala-para-colorear-013",
+   "alt": "Mandala para colorear número 13, dibujo de líneas en blanco y negro para imprimir",
+   "n": 41,
+   "fecha": "2026-11-26"
+  },
+  {
+   "cat": "paisajes",
+   "k": 8,
+   "seed": 316773,
+   "tipo": "paisaje",
+   "titulo": "Paisaje de montaña para colorear n.º 8",
+   "slug": "paisaje-montana-008",
+   "alt": "Paisaje de montañas con pinos y sol para colorear, número 8",
+   "n": 40,
+   "fecha": "2026-11-26"
+  },
+  {
+   "cat": "animales",
+   "k": 12,
+   "seed": 308854,
+   "tipo": "animal",
+   "clave": "rana",
+   "titulo": "Dibujo de rana para colorear",
+   "slug": "rana-para-colorear",
+   "alt": "Dibujo de la rana para colorear para niños, con el nombre en letras grandes",
+   "n": 39,
+   "fecha": "2026-11-26"
   }
  ]
 }
