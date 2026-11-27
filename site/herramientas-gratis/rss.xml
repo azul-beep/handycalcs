@@ -1,11 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
-<rss xmlns:ns0="http://www.w3.org/2005/Atom" version="2.0">
+<rss xmlns:ns0="http://www.w3.org/2005/Atom" xmlns:ns1="http://search.yahoo.com/mrss/" version="2.0">
 <channel>
   <title>Herramientas gratis para emprender online</title>
   <link>https://gethandycalcs.pages.dev/herramientas-gratis/</link>
   <ns0:link href="https://gethandycalcs.pages.dev/herramientas-gratis/rss.xml" rel="self" type="application/rss+xml" />
   <description>Guías en español de herramientas gratis para vender productos digitales y emprender online.</description>
   <language>es</language>
-  <lastBuildDate>Thu, 26 Nov 2026 15:01:03 +0000</lastBuildDate>
+  <lastBuildDate>Fri, 27 Nov 2026 04:49:25 +0000</lastBuildDate>
+  <item>
+    <title>Herramientas gratis para emprender online (guía en español)</title>
+    <link>https://gethandycalcs.pages.dev/herramientas-gratis/</link>
+    <guid isPermaLink="true">https://gethandycalcs.pages.dev/herramientas-gratis/</guid>
+    <description>Guía en español de herramientas gratis para vender productos digitales desde EE.UU.: Payhip, MailerLite, Canva, Pinterest, Printify, Etsy, KDP y más.</description>
+    <enclosure url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/index.png" type="image/png" length="0" />
+    <ns1:content url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/index.png" type="image/png" medium="image" width="1000" height="1500" />
+  <pubDate>Fri, 27 Nov 2026 15:00:00 +0000</pubDate></item>
+  <item>
+    <title>Las mejores herramientas gratis para vender productos digitales en 2027</title>
+    <link>https://gethandycalcs.pages.dev/herramientas-gratis/mejores-herramientas-gratis-vender-productos-digitales-2027.html</link>
+    <guid isPermaLink="true">https://gethandycalcs.pages.dev/herramientas-gratis/mejores-herramientas-gratis-vender-productos-digitales-2027.html</guid>
+    <description>Comparativa honesta de Payhip, Etsy, MailerLite, Canva, Printify, KDP y hosting gratis: qué cobra cada una, límites del plan gratis y cuándo pagar.</description>
+    <enclosure url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/mejores-herramientas-gratis-vender-productos-digitales-2027.png" type="image/png" length="0" />
+    <ns1:content url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/mejores-herramientas-gratis-vender-productos-digitales-2027.png" type="image/png" medium="image" width="1000" height="1500" />
+  <pubDate>Fri, 27 Nov 2026 15:00:00 +0000</pubDate></item>
   </channel>
 </rss>

@@ -6,6 +6,24 @@
   <description>Calculadoras y herramientas gratis para propinas, sueldos, presupuestos, préstamos, códigos QR, imágenes y texto.</description>
   <language>es</language>
   <item>
+    <title>Calculadora para dividir la cuenta con impuesto y propina</title>
+    <link>https://gethandycalcs.pages.dev/es/calculadora-dividir-la-cuenta/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-calc-a</link>
+    <description>Divide la cuenta del restaurante en partes iguales con impuesto y propina. Muestra cuánto paga cada uno, redondeado para pagar en efectivo.</description>
+    <guid isPermaLink="false">handycalcs-calc-split-es-a</guid>
+    <pubDate>Fri, 27 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-split-es-a.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-split-es-a.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
+    <title>Sorteo de Instagram por comentarios (gratis y sin iniciar sesión)</title>
+    <link>https://gethandycalcs.pages.dev/es/herramientas/sorteo-instagram/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
+    <description>Elige un ganador al azar y justo entre los comentarios de Instagram, TikTok o Facebook. Pega los comentarios, quita repetidos y pide amigos etiquetados. Sin iniciar sesión.</description>
+    <guid isPermaLink="false">handycalcs-tool-giveaway-es</guid>
+    <pubDate>Fri, 27 Nov 2026 15:00:00 +0000</pubDate>
+    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-giveaway-es.jpg" type="image/jpeg" length="0"/>
+    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-giveaway-es.jpg" medium="image" type="image/jpeg"/>
+  </item>
+  <item>
     <title>Generador de contraseñas seguras (al azar, gratis y privado)</title>
     <link>https://gethandycalcs.pages.dev/es/herramientas/generador-de-contrasenas/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
     <description>Crea contraseñas seguras al azar con letras, números y símbolos. Elige el largo, evita caracteres parecidos y mira qué tan segura es. No se envía ni se guarda nada.</description>
@@ -40,24 +58,6 @@
     <pubDate>Thu, 19 Nov 2026 15:00:00 +0000</pubDate>
     <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-compress-es.jpg" type="image/jpeg" length="0"/>
     <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-compress-es.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>Generador de códigos QR gratis (sin registro y no vence)</title>
-    <link>https://gethandycalcs.pages.dev/es/herramientas/generador-codigo-qr/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-tool</link>
-    <description>Crea un código QR para cualquier enlace o texto en un segundo. Gratis, sin registro, sin marca de agua y no vence nunca. Descárgalo en PNG o SVG.</description>
-    <guid isPermaLink="false">handycalcs-tool-qr-es</guid>
-    <pubDate>Tue, 17 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-qr-es.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/tool-qr-es.jpg" medium="image" type="image/jpeg"/>
-  </item>
-  <item>
-    <title>Calculadora de propinas: cuánto dejar (15%, 18%, 20%)</title>
-    <link>https://gethandycalcs.pages.dev/es/calculadora-de-propinas/?utm_source=pinterest&amp;utm_medium=social&amp;utm_campaign=pin-calc-a</link>
-    <description>Calculadora de propinas gratis. Pon el total, elige 15%, 18%, 20% o el porcentaje que quieras y divídelo entre varias personas.</description>
-    <guid isPermaLink="false">handycalcs-calc-tip-es-a</guid>
-    <pubDate>Sun, 15 Nov 2026 15:00:00 +0000</pubDate>
-    <enclosure url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-es-a.jpg" type="image/jpeg" length="0"/>
-    <media:content url="https://gethandycalcs.pages.dev/pines/calculadoras/img/calc-tip-es-a.jpg" medium="image" type="image/jpeg"/>
   </item>
 </channel>
 </rss>
