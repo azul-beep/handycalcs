@@ -90,7 +90,7 @@ def affiliate_box(cat, lang):
     lis = "".join('<li>%s<a href="%s" rel="sponsored noopener" target="_blank">%s</a>: %s</li>' % ('<span class="tag">%s</span> ' % spon if a.get("paid") else "", E(l), E(a["name"]), E(a[lang])) for a, l in items)
     return '<aside class="aff"><h2>%s</h2><ul>%s</ul><p class="small">%s</p></aside>' % (u["aff_title"], lis, u["aff_note"])
 
-CSS_VER = "5"
+CSS_VER = "6"
 
 # Chrome Web Store extensions. Fill "store" with the item ID once Google publishes it; empty = not shown anywhere.
 # "pages" = calculator ids (src/calcs.py) and tool ids (src/tools.py) where the "Add to Chrome" box appears.
