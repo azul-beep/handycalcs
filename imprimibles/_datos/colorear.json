@@ -462,6 +462,29 @@
    "alt": "Dibujo de la rana para colorear para niños, con el nombre en letras grandes",
    "n": 39,
    "fecha": "2026-11-26"
+  },
+  {
+   "cat": "geometricos",
+   "k": 9,
+   "seed": 340530,
+   "tipo": "geo_truchet",
+   "titulo": "Patrón geométrico para colorear: Laberinto de curvas (9)",
+   "slug": "patron-geometrico-009",
+   "alt": "Patrón geométrico de laberinto de curvas para colorear, lámina antiestrés en blanco y negro",
+   "n": 43,
+   "fecha": "2026-11-27"
+  },
+  {
+   "cat": "animales",
+   "k": 13,
+   "seed": 332611,
+   "tipo": "animal",
+   "clave": "perro",
+   "titulo": "Dibujo de perro para colorear",
+   "slug": "perro-para-colorear",
+   "alt": "Dibujo de el perro para colorear para niños, con el nombre en letras grandes",
+   "n": 42,
+   "fecha": "2026-11-27"
   }
  ]
 }

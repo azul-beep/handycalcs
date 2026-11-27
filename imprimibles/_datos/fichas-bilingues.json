@@ -327,6 +327,22 @@
    "slug": "numero-11-once-eleven",
    "alt": "Ficha para repasar el número 11, contar estrellas y escribir once y eleven",
    "fecha": "2026-11-26"
+  },
+  {
+   "n": 42,
+   "tipo": "animal",
+   "titulo": "Cerdo en inglés: pig – ficha para colorear y repasar",
+   "slug": "animal-cerdo-pig",
+   "alt": "Ficha bilingüe: dibujo de el cerdo (pig) para colorear y palabras para repasar",
+   "fecha": "2026-11-27"
+  },
+  {
+   "n": 43,
+   "tipo": "letra",
+   "titulo": "Letra K para repasar: K de koala / K is for kite",
+   "slug": "letra-k",
+   "alt": "Ficha de caligrafía de la letra K mayúscula y minúscula, con palabras en español e inglés",
+   "fecha": "2026-11-27"
   }
  ]
 }
