@@ -1,0 +1,51 @@
+# Informe semanal "qué anduvo mejor" (Cozy y Blue por separado), gratis y sin Claude.
+# - Todos los días 7:30 AM de Utah: junta los números de los reels de Blue (los de Cozy ya los junta "Cozy Paws (estadísticas de redes)").
+# - Los lunes 8 AM de Utah: escribe informes/semana-AAAA-MM-DD.md y lo manda por mail (issue "Informe semanal de redes").
+# Usa BLUE_IG_USER_ID y BLUE_FB_TOKEN (Blue). Sin esos secretos, el paso de Blue no hace nada.
+name: Informe semanal de redes
+on:
+  schedule:
+    - cron: '30 14 * * *'
+    - cron: '0 15 * * 1'
+  workflow_dispatch:
+    inputs:
+      informe:
+        description: 'si = armar el informe ahora'
+        default: 'si'
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: informe-semanal
+  cancel-in-progress: false
+jobs:
+  informe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Números de los reels de Blue
+        env:
+          IG_USER_ID: ${{ secrets.BLUE_IG_USER_ID }}
+          FB_PAGE_TOKEN: ${{ secrets.BLUE_FB_TOKEN }}
+          STATS_DIR: blue/estadisticas
+          CUENTA: Blue en Automático
+          SIN_IDEAS: '1'
+        run: |
+          [ -z "$IG_USER_ID" ] || [ -z "$FB_PAGE_TOKEN" ] && { echo "Sin permiso de Meta para Blue todavía"; exit 0; }
+          python3 cozypaws/reels.py || echo "reels de Blue sin datos hoy"
+      - name: Armar el informe (lunes o a mano)
+        if: github.event.schedule == '0 15 * * 1' || github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 tools/informe_semanal.py > /tmp/informe.md
+          gh issue create --title "Informe semanal de redes ($(date +%d/%m))" --body-file /tmp/informe.md || true
+      - name: Guardar
+        run: |
+          [ -z "$(git status --porcelain -- blue/estadisticas informes)" ] && exit 0
+          git config user.name "informe-bot"
+          git config user.email "informe-bot@users.noreply.github.com"
+          git add blue/estadisticas informes
+          git commit -qm "Informe semanal de redes $(date -u +%F)"
+          for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 10; done; exit 1
