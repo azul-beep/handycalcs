@@ -19,6 +19,8 @@ Sin contraseñas, tokens ni datos personales.
 7. 2 reels por día rotando series. Investigación de tendencias con Gemini Deep Research.
 8. Una vez por semana: ver qué reels anduvieron mejor y hacer más de eso.
 9. Cierres sin "¿Me sigues?" (Azu 26 nov): adelanto concreto de lo que viene.
+10. Todo reel sale YA con música puesta en CapCut, sin preguntar (Azu 27 nov). Sirven temas de uso personal o comercial. Música baja bajo la voz, con fundidos.
+11. Serie de Claude: se recrean Shorts virales que ya funcionaron (mismos planos, tiempos, gancho y cierre), con palabras propias de Blue y solo hechos reales.
 
 ## Hecho
 | Fecha | Qué | Estado |
@@ -44,8 +46,9 @@ Sin contraseñas, tokens ni datos personales.
 - Flow: 10 (escena de la laptop de Claude #4).
 
 ## Pendiente
-1. OK de Azu a Claude #1 ("Claude edita tus videos"). Programar #5.
-2. Bitácora Día 11 (dom 29, 7:30 PM): Azu cuenta qué pasó de verdad esta semana.
+1. OK de Azu a Claude #1 ("Claude edita tus videos").
+2. Poner música en CapCut a #4 (sáb 28), Día 11 (dom 29), #5 (lun 30) y reel #6 "Claude Code en 60 segundos"; reemplazar los programados.
+3. Reel #9 "Por qué todos se van de ChatGPT a Claude": tira aprobada, falta su decisión sobre el texto antes de grabar.
 3. Links de afiliada en descripciones (Printify, ElevenLabs, HighLevel): falta que Azu acepte términos en PartnerStack y entre al portal de HighLevel.
 4. Revisión semanal de los mejores reels.
 
