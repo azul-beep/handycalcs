@@ -6,7 +6,7 @@
   <ns0:link href="https://gethandycalcs.pages.dev/herramientas-gratis/rss.xml" rel="self" type="application/rss+xml" />
   <description>Guías en español de herramientas gratis para vender productos digitales y emprender online.</description>
   <language>es</language>
-  <lastBuildDate>Fri, 27 Nov 2026 15:00:50 +0000</lastBuildDate>
+  <lastBuildDate>Sat, 28 Nov 2026 15:01:16 +0000</lastBuildDate>
   <item>
     <title>Herramientas gratis para emprender online (guía en español)</title>
     <link>https://gethandycalcs.pages.dev/herramientas-gratis/</link>
@@ -23,5 +23,29 @@
     <enclosure url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/mejores-herramientas-gratis-vender-productos-digitales-2027.png" type="image/png" length="0" />
     <ns1:content url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/mejores-herramientas-gratis-vender-productos-digitales-2027.png" type="image/png" medium="image" width="1000" height="1500" />
   <pubDate>Fri, 27 Nov 2026 15:00:00 +0000</pubDate></item>
+  <item>
+    <title>Cómo uso Payhip gratis para vender productos digitales</title>
+    <link>https://gethandycalcs.pages.dev/herramientas-gratis/payhip-gratis.html</link>
+    <guid isPermaLink="true">https://gethandycalcs.pages.dev/herramientas-gratis/payhip-gratis.html</guid>
+    <description>Guía de Payhip en español: plan gratis (5 % por venta), cómo crear tu tienda, cobrar con PayPal o Stripe y cuándo conviene el plan Plus o Pro.</description>
+    <enclosure url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/payhip-gratis.png" type="image/png" length="0" />
+    <ns1:content url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/payhip-gratis.png" type="image/png" medium="image" width="1000" height="1500" />
+  <pubDate>Sat, 28 Nov 2026 15:00:00 +0000</pubDate></item>
+  <item>
+    <title>Cómo uso MailerLite gratis para crear mi lista de correo</title>
+    <link>https://gethandycalcs.pages.dev/herramientas-gratis/mailerlite-gratis.html</link>
+    <guid isPermaLink="true">https://gethandycalcs.pages.dev/herramientas-gratis/mailerlite-gratis.html</guid>
+    <description>MailerLite gratis en 2026: 500 suscriptores y 12 000 correos al mes. Cómo armar tu lista, un regalo de bienvenida y una automatización paso a paso.</description>
+    <enclosure url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/mailerlite-gratis.png" type="image/png" length="0" />
+    <ns1:content url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/mailerlite-gratis.png" type="image/png" medium="image" width="1000" height="1500" />
+  <pubDate>Sat, 28 Nov 2026 15:00:00 +0000</pubDate></item>
+  <item>
+    <title>Cómo uso Canva gratis para diseñar productos y pines</title>
+    <link>https://gethandycalcs.pages.dev/herramientas-gratis/canva-gratis.html</link>
+    <guid isPermaLink="true">https://gethandycalcs.pages.dev/herramientas-gratis/canva-gratis.html</guid>
+    <description>Canva gratis en 2026: 5 GB, más de 1.6 millones de plantillas. Qué puedes hacer sin pagar, qué es solo de Pro y cuidado con la licencia al vender.</description>
+    <enclosure url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/canva-gratis.png" type="image/png" length="0" />
+    <ns1:content url="https://gethandycalcs.pages.dev/herramientas-gratis/img/pins/canva-gratis.png" type="image/png" medium="image" width="1000" height="1500" />
+  <pubDate>Sat, 28 Nov 2026 15:00:00 +0000</pubDate></item>
   </channel>
 </rss>

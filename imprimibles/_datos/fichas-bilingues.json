@@ -343,6 +343,30 @@
    "slug": "letra-k",
    "alt": "Ficha de caligrafía de la letra K mayúscula y minúscula, con palabras en español e inglés",
    "fecha": "2026-11-27"
+  },
+  {
+   "n": 45,
+   "tipo": "animal",
+   "titulo": "Mariposa en inglés: butterfly – ficha para colorear y repasar",
+   "slug": "animal-mariposa-butterfly",
+   "alt": "Ficha bilingüe: dibujo de la mariposa (butterfly) para colorear y palabras para repasar",
+   "fecha": "2026-11-28"
+  },
+  {
+   "n": 46,
+   "tipo": "letra",
+   "titulo": "Letra L para repasar: L de león / L is for leaf",
+   "slug": "letra-l",
+   "alt": "Ficha de caligrafía de la letra L mayúscula y minúscula, con palabras en español e inglés",
+   "fecha": "2026-11-28"
+  },
+  {
+   "n": 44,
+   "tipo": "numero",
+   "titulo": "Número 12 para repasar: doce / twelve (ficha bilingüe)",
+   "slug": "numero-12-doce-twelve",
+   "alt": "Ficha para repasar el número 12, contar estrellas y escribir doce y twelve",
+   "fecha": "2026-11-28"
   }
  ]
 }

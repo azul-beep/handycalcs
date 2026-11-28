@@ -485,6 +485,40 @@
    "alt": "Dibujo de el perro para colorear para niños, con el nombre en letras grandes",
    "n": 42,
    "fecha": "2026-11-27"
+  },
+  {
+   "cat": "animales",
+   "k": 14,
+   "seed": 364287,
+   "tipo": "animal",
+   "clave": "abeja",
+   "titulo": "Dibujo de abeja para colorear",
+   "slug": "abeja-para-colorear",
+   "alt": "Dibujo de la abeja para colorear para niños, con el nombre en letras grandes",
+   "n": 46,
+   "fecha": "2026-11-28"
+  },
+  {
+   "cat": "mandalas",
+   "k": 14,
+   "seed": 348449,
+   "tipo": "mandala",
+   "titulo": "Mandala para colorear n.º 14",
+   "slug": "mandala-para-colorear-014",
+   "alt": "Mandala para colorear número 14, dibujo de líneas en blanco y negro para imprimir",
+   "n": 44,
+   "fecha": "2026-11-28"
+  },
+  {
+   "cat": "paisajes",
+   "k": 9,
+   "seed": 356368,
+   "tipo": "paisaje",
+   "titulo": "Paisaje de montaña para colorear n.º 9",
+   "slug": "paisaje-montana-009",
+   "alt": "Paisaje de montañas con pinos y sol para colorear, número 9",
+   "n": 45,
+   "fecha": "2026-11-28"
   }
  ]
 }
