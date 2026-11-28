@@ -32,9 +32,11 @@ import urllib.request
 
 FB = 'https://graph.facebook.com/v21.0'
 RUPLOAD = 'https://rupload.facebook.com/ig-api-upload/v21.0'
-RAMA = 'blue-videos'
+RAMA = os.environ.get('COLA_RAMA', 'blue-videos')  # Cozy Paws usa 'cozy-videos' (mismo programa)
+NOMBRE = os.environ.get('COLA_NOMBRE', 'Blue')
+ETIQUETA = os.environ.get('COLA_ETIQUETA', 'blue')
 AVISAR_SI_QUEDAN = 4  # menos de esto en cola -> issue "Blue: quedan pocos videos"
-PIE_IA = '\n\n🤖 Personaje y voz hechos con IA.'
+PIE_IA = os.environ.get('COLA_PIE', '\n\n🤖 Personaje y voz hechos con IA.')
 PRUEBA = '--prueba' in sys.argv
 
 
@@ -131,20 +133,20 @@ def subir_reel(ruta, texto, ig_user, token):
 def avisar_pocos(quedan):
     if PRUEBA or quedan >= AVISAR_SI_QUEDAN or not os.environ.get('GH_TOKEN'):
         return
-    abiertos = subprocess.run(['gh', 'issue', 'list', '--label', 'blue', '--state', 'open', '--json', 'number', '--jq', 'length'],
+    abiertos = subprocess.run(['gh', 'issue', 'list', '--label', ETIQUETA, '--state', 'open', '--json', 'number', '--jq', 'length'],
                               capture_output=True, text=True).stdout.strip()
     if abiertos and abiertos != '0':
         return
-    subprocess.run(['gh', 'label', 'create', 'blue', '--color', '1d76db', '--force'], capture_output=True)
-    subprocess.run(['gh', 'issue', 'create', '--label', 'blue', '--title', f'🎬 Blue: quedan {quedan} videos en la cola',
-                    '--body', 'La cuenta de Blue publica 2 videos por día. Hace falta una tanda nueva '
-                              '(pedirla en el hilo de Blue). Este aviso se cierra solo cuando la cola vuelve a tener videos.'])
+    subprocess.run(['gh', 'label', 'create', ETIQUETA, '--color', '1d76db', '--force'], capture_output=True)
+    subprocess.run(['gh', 'issue', 'create', '--label', ETIQUETA, '--title', f'🎬 {NOMBRE}: quedan {quedan} videos en la cola',
+                    '--body', f'La cuenta de {NOMBRE} publica 2 videos por día. Hace falta una tanda nueva '
+                              f'(pedirla al Agente {NOMBRE}). Este aviso se cierra solo cuando la cola vuelve a tener videos.'])
 
 
 def cerrar_aviso():
     if PRUEBA or not os.environ.get('GH_TOKEN'):
         return
-    nums = subprocess.run(['gh', 'issue', 'list', '--label', 'blue', '--state', 'open', '--json', 'number', '--jq', '.[].number'],
+    nums = subprocess.run(['gh', 'issue', 'list', '--label', ETIQUETA, '--state', 'open', '--json', 'number', '--jq', '.[].number'],
                           capture_output=True, text=True).stdout.split()
     for n in nums:
         subprocess.run(['gh', 'issue', 'close', n, '--comment', 'La cola volvió a tener videos.'], capture_output=True)

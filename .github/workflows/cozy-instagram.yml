@@ -1,0 +1,36 @@
+# Cozy Paws: publica sola los reels aprobados en Instagram (API oficial de Meta, gratis, sin Claude ni Chrome).
+# Mismo programa que Blue (blue/videos.py) con otra cola: la rama "cozy-videos" (cola.json + .mp4).
+# 11 AM de Utah (18:00 UTC): sale el primer video cuya fecha ya llegó. Regla de Azu: máximo 2 posts por día en IG.
+# Mientras no estén los secretos IG_USER_ID y FB_PAGE_TOKEN (permiso de Meta: meta/LEEME.md), termina en verde sin publicar.
+# Para que también salga en Facebook: en la app de Instagram, Configuración > Compartir en otras apps > Facebook (una vez).
+# Sumar videos: COLA_RAMA=cozy-videos COLA_NOMBRE="Cozy" python3 blue/videos.py agregar CARPETA (ver blue/LEEME.md).
+name: Cozy Paws (reels a Instagram)
+on:
+  schedule:
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+    inputs:
+      accion: { description: "publicar o revisar", default: "publicar" }
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: cozy-instagram
+  cancel-in-progress: false
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      BLUE_IG_USER_ID: ${{ secrets.IG_USER_ID }}
+      BLUE_FB_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+      COLA_RAMA: cozy-videos
+      COLA_NOMBRE: Cozy
+      COLA_ETIQUETA: cozypaws
+      COLA_PIE: "\n\n🤖 Animation made with AI."
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python3 blue/videos.py ${{ inputs.accion || 'publicar' }}

@@ -141,7 +141,7 @@ def lecciones(filas):
 
 
 def escribir_reels(filas):
-    lineas = [f"# Reels de Cozy Paws: qué funciona ({dt.datetime.now(UTAH):%d %b %Y})", "",
+    lineas = [f"# Reels de {os.environ.get('CUENTA', 'Cozy Paws')}: qué funciona ({dt.datetime.now(UTAH):%d %b %Y})", "",
               "Lo arma GitHub solo todos los días (cozypaws/reels.py). Leer ANTES de escribir el próximo guion.", "",
               "## Lecciones", ""] + [f"{i}. {l}" for i, l in enumerate(lecciones(filas), 1)] + [
               "", "## Cada reel", "",
@@ -198,5 +198,5 @@ if __name__ == '__main__':
     if not es.env('IG_USER_ID') or not es.env('FB_PAGE_TOKEN'):
         sys.exit('Faltan IG_USER_ID / FB_PAGE_TOKEN')
     escribir_reels(reels())
-    if '--ideas' in sys.argv or dt.datetime.now(UTAH).weekday() == 6:
+    if not os.environ.get('SIN_IDEAS') and ('--ideas' in sys.argv or dt.datetime.now(UTAH).weekday() == 6):
         ideas()

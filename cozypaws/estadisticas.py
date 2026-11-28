@@ -12,7 +12,7 @@ Si al token le falta un permiso, el dato se saltea y el archivo dice qué permis
 import csv, datetime as dt, io, json, os, urllib.error, urllib.parse, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, 'estadisticas')
+OUT = os.environ.get('STATS_DIR') or os.path.join(HERE, 'estadisticas')  # Blue usa blue/estadisticas
 FB = 'https://graph.facebook.com/v21.0'
 env = os.environ.get
 faltan = {}  # permiso -> qué dato necesita
